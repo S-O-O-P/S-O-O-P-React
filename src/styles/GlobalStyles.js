@@ -6,6 +6,12 @@ const GlobalStyle = createGlobalStyle
 --main-color: #FFb755;
     --text-color: #282A29;
     --point-color: #EB844A;
+    
+    // font-weight
+    --regular : 500;
+    --medium : 600;
+    --semiBold : 700;
+    --bold : 800;
 }
 * { margin: 0; padding:0; box-sizing: border-box; font-family: 'SUIT', sans-serif;}
 header, main, section, article, aside, div {margin:0; padding:0;}
