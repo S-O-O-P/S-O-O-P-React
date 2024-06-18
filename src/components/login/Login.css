@@ -20,12 +20,15 @@ body {
   width: 100px;
 }
 .logo-content{
-  margin-bottom: 60px;
+  margin-bottom: 40px;
+  padding: 20px;
 }
 .logo-text{
   margin: 0;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
+  color: #EB844A;
+
 }
 nav {
   flex-grow: 1;
@@ -90,34 +93,45 @@ nav {
 .text{
   color: #7A7777;
   font-size: 20px !important;
-  margin-bottom: 70px !important;
+  margin-bottom: 60px !important;
 }
-
 
 
 .naver-login {
   background-color: #27D34B !important;
   color: white;
-  border: none;
+} 
+.naver-login:hover {
+  background-color: #27D34B !important;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
 } 
 
 .kakao-login {
   background-color: #FFEB00 !important;
-  color: black;
-  border: none;
-}
 
+}
+.kakao-login:hover {
+  background-color: #FFEB00 !important;
+  font-weight: bold;
+  font-size: 18px;
+}
 .google-login {
   background-color: #ffffff !important;
-  /* color: black; */
+}
+.google-login:hover {
+  background-color: #ffffff !important;
+  font-weight: bold;
+  font-size: 18px;
 }
 
 .naver-login {
-  background: url('/public/images/login/Naver.png') no-repeat -5px -1px;
+  background: url('/public/images/login/Naver.png') no-repeat -4.5px -0.5px;
   padding-left: 25px;
 }
 .kakao-login {
-  background: url('/public/images/login/Kakao.png') no-repeat -5px -1px;
+  background: url('/public/images/login/Kakao.png') no-repeat -4.5px -0.5px;
   padding-left: 25px;
 }
 .google-login {
