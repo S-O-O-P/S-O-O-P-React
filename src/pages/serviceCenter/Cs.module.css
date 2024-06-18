@@ -1,0 +1,120 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.contentBox {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+.pageTitle {
+    font-size: 28px;
+    font-weight: var(--semiBold);
+    margin: 60px 0px;
+    display: flex;
+    justify-content: center;
+}
+
+.listBoxAll {
+    display: flex;
+}
+
+.box {
+    width: 570px;
+    height: 300px;
+
+    margin-right: 20px;
+}
+
+.beeImg {
+    width: 20px;
+}
+
+.subTitleBox {
+    display: flex;
+    width: 570px;
+    margin-bottom: 6px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.subTitle {
+    font-size: 20px;
+    font-weight: var(--semiBold);
+}
+
+.linkButton {
+    font-size: 14px;
+    font-weight: var(--regular);
+}
+
+.listBox {
+    width: 570px;
+    height: 270px;
+    border: 1px solid var(--main-color);
+    border-radius: 20px;
+}
+
+.helpMessage {
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+
+    font-size: 18px;
+    font-weight: var(--semiBold);
+}
+
+.inquiryBoxAll{
+    display: flex;
+    align-items: center;
+}
+
+.call {
+    width: 384px;
+    height: 150px;
+    border: 1px solid var(--main-color);
+    border-radius: 20px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.callIcon {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+}
+
+.iquiryTitle {
+    font-size: 18px;
+    font-weight: var(--semiBold);
+    
+    display: block;
+}
+
+.number {
+    font-size: 20px;
+    font-weight: var(--semiBold);
+    padding: 20px 0;
+
+}
+
+.iquiryText{
+    font-size: 12px;
+    font-weight: var(--regular);
+}
+
+.inquiry {
+    width: 384px;
+    height: 150px;
+    border: 1px solid var(--main-color);
+    border-radius: 20px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
