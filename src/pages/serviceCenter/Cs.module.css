@@ -56,6 +56,29 @@
     height: 270px;
     border: 1px solid var(--main-color);
     border-radius: 20px;
+    padding: 20px;
+}
+
+.faq {
+    display: flex;
+    align-items: center;
+}
+
+.faqContent {
+    padding: 0 4px;
+    display: inline;
+}
+
+.faqBeeImg {
+    width: 20px;
+    height: 20px;
+}
+
+hr {
+    margin: 15px 0;
+    height: 1px;
+    border: 0px;
+    background-color: var(--main-color);
 }
 
 .helpMessage {
@@ -67,9 +90,9 @@
     font-weight: var(--semiBold);
 }
 
-.inquiryBoxAll{
+.inquiryBoxAll {
     display: flex;
-    align-items: center;
+    justify-content: center;
 }
 
 .call {
@@ -81,18 +104,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-right: 20px;
 }
 
-.callIcon {
+.inquiryIcon {
     width: 100px;
     height: 100px;
     margin-right: 20px;
 }
 
-.iquiryTitle {
+.phoneInquiryTitle {
     font-size: 18px;
     font-weight: var(--semiBold);
-    
+
     display: block;
 }
 
@@ -103,7 +127,7 @@
 
 }
 
-.iquiryText{
+.phoneInquiryText {
     font-size: 12px;
     font-weight: var(--regular);
 }
@@ -117,4 +141,26 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.inquiryIinkButton {
+    display: flex;
+    margin-bottom: 12px;
+}
+
+.inquiryTitle {
+    font-size: 18px;
+    font-weight: var(--semiBold);
+    margin-right: 20px;
+
+}
+
+.arrowIcon {
+    width: 20px;
+    height: 20px;
+}
+
+.inquiryText {
+    font-size: 12px;
+    font-weight: var(--regular);
 }
