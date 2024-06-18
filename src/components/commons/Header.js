@@ -14,7 +14,9 @@ function Header() {
           <nav>
             <ul>
               <li>오픈공지</li>
-              <li>열린팟</li>
+              <NavLink to='/honey'>
+                <li>열린팟</li>
+              </NavLink>
               <li>고객센터</li>
             </ul>
           </nav>
