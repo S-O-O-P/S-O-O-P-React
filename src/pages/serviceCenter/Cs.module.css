@@ -74,17 +74,19 @@
     height: 20px;
 }
 
-hr {
+.hrLine {
     margin: 15px 0;
     height: 1px;
     border: 0px;
     background-color: var(--main-color);
 }
 
+/* ---- 문의하기 ---- */
+
 .helpMessage {
     display: flex;
     justify-content: center;
-    padding: 40px;
+    padding: 40px 0;
 
     font-size: 18px;
     font-weight: var(--semiBold);

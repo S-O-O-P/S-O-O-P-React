@@ -5,6 +5,8 @@ import LoginPage from './pages/login/LoginPage';
 import SignUpPage from './pages/login/SignUp';
 import Cs from './pages/serviceCenter/Cs';
 import Faq from './pages/serviceCenter/Faq';
+import Notice from './pages/serviceCenter/Notice';
+import Inquiry from './pages/serviceCenter/Inquiry';
 
 export default function App() {
 
@@ -19,6 +21,8 @@ export default function App() {
                         <Route path='/signup' element={<SignUpPage />} />
                         <Route path='/help' element={<Cs />} />
                         <Route path='/faq' element={<Faq />} />
+                        <Route path='/notice' element={<Notice />} />
+                        <Route path='/inquiry' element={<Inquiry />} />
                     </Route>
                 </Routes>
             </BrowserRouter>
