@@ -28,14 +28,14 @@
     background-color: var(--text-color);
 }
 
-.inqyiryCategoryBox {
+.inquiryCategoryBox {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-top: 60px;
 }
 
-.inqyiryCategory {
+.inquiryCategory {
     display: flex;
     font-size: 18px;
     font-weight: var(--medium);
@@ -53,9 +53,9 @@
     padding: 0 23px;
     font-size: 16px;
     font-weight: var(--regular);
-    
+
     -webkit-appearance: none;
-    background: #fff calc(100% - 5px) center no-repeat url('/public/images/commons/icon_arrow_bottom_main_color.png');
+    background: #fff calc(100% - 10px) center no-repeat url('/public/images/commons/icon_arrow_bottom_main_color.png');
     background-size: 25px;
 }
 
@@ -81,6 +81,12 @@
     font-weight: var(--regular);
 }
 
+.customInput:focus {
+    border: 1px solid var(--point-color);
+    outline: none;
+}
+
+
 .inqyiryContentBox {
     display: flex;
     justify-content: space-between;
@@ -94,11 +100,54 @@
     padding: 15px 23px;
     font-size: 16px;
     font-weight: var(--regular);
+    resize: none;
 }
 
-.inqyiryCategoryContent {
+.customContentInput:focus {
+    border: 1px solid var(--point-color);
+    outline: none;
+}
+
+.inquiryCategoryContent {
     display: flex;
     font-size: 18px;
-    font-weight: var(--medium);
+    font: var(--medium);
     padding-top: 10px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: end;
+
+    padding-top: 20px;
+}
+
+.cancelButton {
+    width: 96px;
+    height: 48px;
+    background-color: #fff;
+    border: 1px solid var(--main-color);
+    border-radius: 48px;
+    font: var(--main-color) var(--semiBold) 16px;
+    margin-right: 20px;
+}
+
+.cancelButton:active {
+    border-color: var(--point-color);
+    transition: 50ms;
+}
+
+.submitButton {
+    width: 96px;
+    height: 48px;
+    background-color: var(--main-color);
+    border: 0px;
+    border-radius: 48px;
+    font: var(--semiBold) 16px;
+    color: #fff;
+}
+
+.submitButton:active {
+    background-color: var(--point-color);
+    transition: 50ms;
 }

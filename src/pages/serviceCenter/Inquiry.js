@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import style from './Inquiry.module.css';
+import { NavLink } from 'react-router-dom';
 
 function InquiryPage() {
 
@@ -8,7 +9,21 @@ function InquiryPage() {
         setSelected(e.target.value);
     };
 
-    const [inquiryTitle, setInquiryTitle] = useState('');
+    const [title, setTitle] = useState("");
+    const handleTitleChange = (e) => {
+        setTitle(e.target.value);
+    };
+
+    const [content, setContent] = useState("");
+    const handleContentChange = (e) => {
+        setContent(e.target.value);
+    };
+
+    const handleSubmit = () => {
+        console.log("유형:", selected);
+        console.log("제목:", title);
+        console.log("내용:", content);
+    };
 
     return (
         <div className={style.wrapper}>
@@ -22,8 +37,8 @@ function InquiryPage() {
                 <hr className={style.hrLine} />
 
                 <div>
-                    <div className={style.inqyiryCategoryBox}>
-                        <div className={style.inqyiryCategory}>
+                    <div className={style.inquiryCategoryBox}>
+                        <div className={style.inquiryCategory}>
                             <p>유형</p>
                             <p className={style.point}>*</p>
                         </div>
@@ -35,18 +50,24 @@ function InquiryPage() {
                         </select>
                     </div>
                     <div className={style.inqyiryTitleBox}>
-                        <div className={style.inqyiryCategory}>
+                        <div className={style.inquiryCategory}>
                             <p>제목</p>
                             <p className={style.point}>*</p>
                         </div>
-                        <input className={style.customInput} type='text' placeholder='제목을 입력해주세요.'></input>
+                        <input className={style.customInput} type='text' name="title" placeholder='제목을 입력해주세요.' value={title} onChange={handleTitleChange} />
                     </div>
                     <div className={style.inqyiryContentBox}>
-                        <div className={style.inqyiryCategoryContent}>
-                            <p>내용</p>
+                        <div className={style.inquiryCategoryContent}>
+                            <p className={style.inquiryCategory}>내용</p>
                             <p className={style.point}>*</p>
                         </div>
-                        <textarea className={style.customContentInput} type='text' placeholder='내용을 입력해주세요.'></textarea>
+                        <textarea className={style.customContentInput} name="content" placeholder='내용을 입력해주세요.' value={content} onChange={handleContentChange}></textarea>
+                    </div>
+                    <div className={style.buttons}>
+                        <button type='button' className={style.cancelButton}>취소</button>
+                        <NavLink to="/help">
+                            <button type='submit' className={style.submitButton} onClick={handleSubmit}>등록</button>
+                        </NavLink>
                     </div>
                 </div>
             </div>
