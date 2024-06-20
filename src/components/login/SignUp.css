@@ -1,6 +1,17 @@
-.App{
-    overflow-y: auto;
+body{
+    /* overflow-x: hidden; */
 }
+.App{
+    margin-top: 84px;
+}
+.login-container {
+    display: flex;
+    flex-direction: column;
+    /* text-align: center; */
+    align-items: center;
+    margin: 50px 0;
+    margin-top: 2%;
+  }
 
 .title{
     font-size: 24px;
@@ -15,6 +26,7 @@
     width: 160px;
     justify-content: center;
     align-items: center;
+    color: white;
 }
 .NickName{
     border: 1px solid #FFB755;
@@ -23,7 +35,10 @@
     width: 520px;
     padding-right: 15px;
     font-size: 18px;
-    padding-top: 9px;
+    border-left: 3px dashed #FFB755;
+    margin-left: -5px;
+    padding-left: 15px;
+
 }
 .NickBox{
     display: flex;
@@ -35,27 +50,30 @@
     display: flex;
     margin: 0 auto;
     background-color: #FFB755;
-    border-radius: 8px;
+    border-radius: 12px;
     width: 160px;
     justify-content: center;
     align-items: center;
+    color: white;
 }
 .AboutMe{
     border: 1px solid #FFB755;
-    border-radius: 20px;
+    border-radius: 15px;
     height: 259px;
     width: 520px;
     padding: 15px;
-
-    padding-right: 15px;
     font-size: 18px;
     line-height: 20px;
     letter-spacing: 1px;
     padding-top: 15px;
-    
+    border-left: 5px dashed #FFB755;
+    margin-left: -5px;
+    resize: none;
+    outline-style: none;
+    outline-color: #FFB755
 }
 .AboutBox{
-    margin-top: 20px;
+    margin-top: 40px;
     display: flex;
     flex-direction: row;
 }
@@ -70,3 +88,75 @@
 .InterestTitle{
     margin-top: 50px;
 }
+.logo-content{
+    margin-bottom: 30px;
+    padding: 20px;
+  }
+  .InterestButton{
+    margin-top: 25px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 48px;
+    font-size: 16px;
+    background-color: #ffffff;
+    color: #FFB755;
+    width: 117px;
+    height: 48px;
+    border: 1px solid #FFB755;
+  }
+  .InterestButtonOn{
+    margin-top: 25px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 48px;
+    font-size: 16px;
+    background-color: #EB844A;
+    color: #ffffff;
+    width: 117px;
+    height: 48px;
+    border: 1px solid #EB844A;
+  }
+
+.btns{
+    margin-top: 100px;
+    margin-bottom: 80px;
+}
+
+  .btn1{
+    width: 242px;
+    height: 48px;
+    margin-right: 10px;
+    border: 1px solid #FFB755;
+    border-radius: 48px;
+    background-color: #ffffff;
+    color: #FFB755;
+  }
+
+  .btn1:hover{
+    width: 242px;
+    height: 48px;
+    margin-right: 10px;
+    border: 2px solid #FFB755;
+    border-radius: 48px;
+    background-color: #ffffff;
+    color: #FFB755;
+  }
+
+  .btn2{
+    width: 242px;
+    height: 48px;
+    margin-left: 10px;
+    border: 1px solid #DCE5D7 ;
+    border-radius: 48px;
+    background-color: #ffffff;
+    color: #DCE5D7;
+  }
+  .btn2:hover{
+    width: 242px;
+    height: 48px;
+    margin-left: 10px;
+    border: 2px solid #DCE5D7 ;
+    border-radius: 48px;
+    background-color: #ffffff;
+    color: #DCE5D7;
+  }
