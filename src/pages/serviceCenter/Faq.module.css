@@ -82,6 +82,8 @@
     border: 0px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
 }
 
 .faqTitle {
@@ -91,45 +93,45 @@
 }
 
 .faqBody {
-    height: 0px;
-    border-top: 1px solid #ffffff;
-    transition: height 200ms ease-in-out, border-top 200ms ease-in-out;
-}
-
-.faqBody p,
-.faqBody .hrLine {
-    display: none;
+    max-height: 0px;
+    height: 200px;
+    overflow: hidden;
+    transition: max-height 300ms ease-in-out;
+    border-radius: 5px;
 }
 
 .faqBody.active {
-    height: 100px;
-    border-top: 1px solid var(--main-color);
-}
-
-.faqBody.active p {
-    display: block;
-}
-
-.faqBody.acitve .hrLine {
-    display: block;
+    max-height: 400px;
 }
 
 .arrowOpen {
     transform: rotate(90deg);
-    transition: transform 0.3s;
+    transition: transform 300ms;
 }
 
 .arrowClosed {
     transform: rotate(0deg);
-    transition: transform 0.3s;
+    transition: transform 300ms;
 }
 
 .hrLine {
-    margin: 15px 0;
+    margin: 5px 0;
     height: 1px;
     border: 0px;
     background-color: var(--main-color);
     width: 100%;
+}
+
+.content {
+    padding-top: 16px;
+}
+
+.contentLine {
+    border: 0px;
+    height: 1px;
+    background-color: var(--main-color);
+    width: 100%;
+    transition: 300ms;
 }
 
 /* ---- 문의하기 ---- */
@@ -169,7 +171,6 @@
 .phoneInquiryTitle {
     font-size: 18px;
     font-weight: var(--semiBold);
-
     display: block;
 }
 
@@ -177,7 +178,6 @@
     font-size: 20px;
     font-weight: var(--semiBold);
     padding: 20px 0;
-
 }
 
 .phoneInquiryText {
@@ -205,7 +205,6 @@
     font-size: 18px;
     font-weight: var(--semiBold);
     margin-right: 20px;
-
 }
 
 .arrowIcon {
@@ -216,4 +215,32 @@
 .inquiryText {
     font-size: 12px;
     font-weight: var(--regular);
+}
+
+/* ----- 페이지 네이션 ----- */
+
+.pagination {
+    margin-top: 20px;
+}
+
+.paginationList {
+    display: flex;
+    justify-content: center;
+}
+
+.paginationList li {
+    margin: 10px 10px;
+}
+
+.paginationList li button {
+    background-color: #fff;
+    color: var(--main-color);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 50px;
+}
+
+.paginationList li.activePage button {
+    background-color: var(--main-color);
+    color: #fff;
 }
