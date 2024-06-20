@@ -2,7 +2,20 @@
 import { useEffect, useState } from 'react'
 import './SubCategory.css'
 
-function SubCategory({subCategoryStatus,setSubCategoryStatus,setCopyList,tempList,setIsChange,setPage,setSubKeyword}){
+function SubCategory(
+    {
+        tempList,
+        setCopyList,
+        setIsChange,
+        subCategoryStatus,
+        setSubCategoryStatus,
+        setSubKeyword,
+        setPage,
+        exhibitionCnt,
+        performanceCnt,
+        musicalCnt,
+        festivalCnt,
+        popupCnt }){
 
     function totalHandler() {
         setSubCategoryStatus(1)
@@ -80,19 +93,19 @@ function SubCategory({subCategoryStatus,setSubCategoryStatus,setCopyList,tempLis
                     전체보기<span className={subCategoryStatus === 1? 'selected-count':'list-count'}>{tempList.length}</span>
                 </div>
                 <div className={subCategoryStatus === 2 ? 'selected-sub': 'sub-category'} onClick={exhibitionHandler}>
-                    전시회<span className={subCategoryStatus === 2? 'selected-count':'list-count'}>{tempList.length}</span>
+                    전시회<span className={subCategoryStatus === 2? 'selected-count':'list-count'}>{exhibitionCnt}</span>
                 </div>
                 <div className={subCategoryStatus === 3 ? 'selected-sub': 'sub-category'} onClick={performanceHandler}>
-                    공 연<span className={subCategoryStatus === 3? 'selected-count':'list-count'}>{tempList.length}</span>
+                    공 연<span className={subCategoryStatus === 3? 'selected-count':'list-count'}>{performanceCnt}</span>
                 </div>
                 <div className={subCategoryStatus === 4 ? 'selected-sub': 'sub-category'} onClick={musicalHandler}>
-                    뮤지컬<span className={subCategoryStatus === 4? 'selected-count':'list-count'}>{tempList.length}</span>
+                    뮤지컬<span className={subCategoryStatus === 4? 'selected-count':'list-count'}>{musicalCnt}</span>
                 </div>
                 <div className={subCategoryStatus === 5 ? 'selected-sub': 'sub-category'} onClick={festivalHandler}>
-                    행사/축제<span className={subCategoryStatus === 5? 'selected-count':'list-count'}>{tempList.length}</span>
+                    행사/축제<span className={subCategoryStatus === 5? 'selected-count':'list-count'}>{festivalCnt}</span>
                 </div>
                 <div className={subCategoryStatus === 6 ? 'selected-sub': 'sub-category'} onClick={popupHandler}>
-                    팝 업<span className={subCategoryStatus === 6? 'selected-count':'list-count'}>{tempList.length}</span>
+                    팝 업<span className={subCategoryStatus === 6? 'selected-count':'list-count'}>{popupCnt}</span>
                 </div>
 
                 

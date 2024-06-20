@@ -99,10 +99,41 @@
     transform: rotate(180deg);
 }
 
-.pagination {
+.paginationOn {
     width:58px;
     height:43px;
     display: flex;
     justify-content: center;
     line-height: 43px;
+    cursor: pointer;
+}
+
+.paginationOff {
+    width:58px;
+    height:43px;
+    display: flex;
+    justify-content: center;
+    line-height: 43px;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.arrowOff {
+    width:58px;
+    height:43px;
+    display: flex;
+    justify-content: center;
+    line-height: 43px;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.paginationOff:hover {
+    width:58px;
+    height:43px;
+    display: flex;
+    justify-content: center;
+    line-height: 43px;
+    cursor: pointer;
+    opacity: 1;
 }

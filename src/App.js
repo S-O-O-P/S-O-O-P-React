@@ -12,6 +12,7 @@ import Main from './pages/main/samaple';
 import Honey from './pages/socializing/Honey';
 import CultureInfo from './pages/cultureInfo/CultureInfo';
 import CompletedPage from './pages/login/CompletedPage'
+import Detail from './pages/socializing/Detail';
 
 
 export default function App() {
@@ -33,6 +34,7 @@ export default function App() {
               <Route path='/notice' element={<Notice />} />
               <Route path='/inquiry' element={<Inquiry />} />
               <Route path='/honey' element={<Honey/>}/>
+              <Route path='/detail' element={<Detail/>}/> 
             </Route>                
           </Routes>
       </BrowserRouter>
