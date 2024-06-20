@@ -1,8 +1,8 @@
-function Main(){
+function Empty() {
     return(
         <>
         </>
     )
 }
 
-export default Main
+export default Empty
