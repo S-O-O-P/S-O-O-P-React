@@ -1,5 +1,5 @@
 import React from 'react';
-import './Completed.css';
+import './SignUpCompleted.css';
 import { NavLink } from 'react-router-dom';
 
 
