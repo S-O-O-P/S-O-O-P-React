@@ -35,7 +35,6 @@ function MainCategory(
         let festivalCount = 0;
         let popupCount = 0;
     
-        // tempList를 순회하며 각 honeyGenre 값에 따라 카운터 증가
         tempList.forEach(item => {
           switch (item.honeyGenre) {
             case '전시회':
@@ -58,7 +57,6 @@ function MainCategory(
           }
         });
     
-        // 각 카운터 상태 업데이트
         setExhibitionCnt(exhibitionCount);
         setPerformanceCnt(performanceCount);
         setMusicalCnt(musicalCount);

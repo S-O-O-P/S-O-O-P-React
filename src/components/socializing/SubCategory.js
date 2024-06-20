@@ -88,7 +88,6 @@ function SubCategory(
     return(
         <>
             <div className='sub-category-box'>
-                {/* 각 서브카테고리 클릭 시, filter() 함수 이용해 장르 키워드를 비교한다 */}
                 <div className={subCategoryStatus === 1 ? 'selected-sub': 'sub-category'} onClick={totalHandler}>
                     전체보기<span className={subCategoryStatus === 1? 'selected-count':'list-count'}>{tempList.length}</span>
                 </div>
@@ -107,8 +106,6 @@ function SubCategory(
                 <div className={subCategoryStatus === 6 ? 'selected-sub': 'sub-category'} onClick={popupHandler}>
                     팝 업<span className={subCategoryStatus === 6? 'selected-count':'list-count'}>{popupCnt}</span>
                 </div>
-
-                
             </div>
         </>
     )
