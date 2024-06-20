@@ -15,6 +15,7 @@ import Genre from './pages/socializing/Genre';
 import Date from './pages/socializing/Date';
 import CultureInfo from './pages/cultureInfo/CultureInfo';
 import CompletedPage from './pages/login/CompletedPage'
+import NoticeDetailPage from './pages/serviceCenter/NoticeDetail';
 
 
 export default function App() {
@@ -35,6 +36,7 @@ export default function App() {
               <Route path='/faq' element={<Faq />} />
               <Route path='/notice' element={<Notice />} />
               <Route path='/inquiry' element={<Inquiry />} />
+              <Route path='/noticedetail' element={<NoticeDetailPage />} />
               <Route path='/honey' element={<HoneyLayout/>}>
                 <Route index element={<Today/>}/>
                 <Route path='genre' element={<Genre/>}/>

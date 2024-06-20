@@ -18,8 +18,8 @@ function FaqPage() {
 
     const toggleFAQ = (index) => {
         setIsOpen(prev => prev.map((item, i) => i === index ? !item : item));
+        console.log(isOpen[index]);
     };
-
 
     return (
         <div className={style.wrapper}>
@@ -48,12 +48,16 @@ function FaqPage() {
                                 <p className={style.faqTitle}>링크비(LINKBEE)는 어떤 서비스인가요?</p>
                                 <img className={isOpen[0] ? style.arrowOpen : style.arrowClosed} src='./images/serviceCenter/icon_arrow_right.png' alt="arrow" width={25} />
                             </label>
-                            {isOpen[0] && (
-                                <div className={style.faqBody}>
+                            <div className={isOpen[0] == true ? `${style.faqBody} ${style.active}` : style.faqBody}>
+                                {/* <hr className={style.hrLine} /> */}
+                                <p>링크비는 공연 및 전시 티켓 정보를 제공하고, 이를 통해 사용자들이 다른 사람들과 모임(허니팟)을 만들어 활동할 수 있는 매칭 서비스를 제공하는 플랫폼입니다.</p>
+                            </div>
+                            {/* {isOpen[0] && (
+                                <div className={isOpen==true ? `${style.faqBody}.active`: style.faqBody}>
                                     <hr className={style.hrLine} />
                                     <p>링크비는 공연 및 전시 티켓 정보를 제공하고, 이를 통해 사용자들이 다른 사람들과 모임(허니팟)을 만들어 활동할 수 있는 매칭 서비스를 제공하는 플랫폼입니다.</p>
                                 </div>
-                            )}
+                            )} */}
                         </li>
                         <hr className={style.hrLine} />
                         <li>
