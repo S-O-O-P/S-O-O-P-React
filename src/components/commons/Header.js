@@ -13,9 +13,8 @@ function Header() {
           </div>
           <nav>
             <ul>
-              <li>오픈공지</li>
-              <li>열린팟</li>
-              <li>고객센터</li>
+              <li><NavLink to={'/cultureinfo'}>전시/공연정보</NavLink></li>
+              <li><NavLink to='/honey'>허니팟</NavLink></li>
             </ul>
           </nav>
           <NavLink to='/login'>
