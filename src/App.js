@@ -9,10 +9,7 @@ import Faq from './pages/serviceCenter/Faq';
 import Notice from './pages/serviceCenter/Notice';
 import Inquiry from './pages/serviceCenter/Inquiry';
 import Main from './pages/main/samaple';
-import HoneyLayout from './layouts/HoneyLayout';
-import Today from './pages/socializing/Today';
-import Genre from './pages/socializing/Genre';
-import Date from './pages/socializing/Date';
+import Honey from './pages/socializing/Honey';
 import CultureInfo from './pages/cultureInfo/CultureInfo';
 import CompletedPage from './pages/login/CompletedPage'
 
@@ -35,11 +32,7 @@ export default function App() {
               <Route path='/faq' element={<Faq />} />
               <Route path='/notice' element={<Notice />} />
               <Route path='/inquiry' element={<Inquiry />} />
-              <Route path='/honey' element={<HoneyLayout/>}>
-                <Route index element={<Today/>}/>
-                <Route path='genre' element={<Genre/>}/>
-                <Route path='date' element={<Date/>}/>
-               </Route>
+              <Route path='/honey' element={<Honey/>}/>
             </Route>                
           </Routes>
       </BrowserRouter>
