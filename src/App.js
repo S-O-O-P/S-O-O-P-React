@@ -3,6 +3,7 @@ import Layout from './layouts/Layout';
 import GlobalStyles from './styles/GlobalStyles';
 import LoginPage from './pages/login/LoginPage';
 import SignUpPage from './pages/login/SignUp';
+import MyPage from './pages/mypage/MyPage';
 import Cs from './pages/serviceCenter/Cs';
 import Faq from './pages/serviceCenter/Faq';
 import Notice from './pages/serviceCenter/Notice';
@@ -29,6 +30,7 @@ export default function App() {
               <Route path='/signup' element={<SignUpPage/>}/>
               <Route path="/cultureinfo" element={<CultureInfo/>}/> {/* 전시/공연 정보 */}
               <Route path='/completed' element={<CompletedPage/>}/>
+              <Route path='/mypage' element={<MyPage/>}/>
               <Route path='/help' element={<Cs />} />
               <Route path='/faq' element={<Faq />} />
               <Route path='/notice' element={<Notice />} />
