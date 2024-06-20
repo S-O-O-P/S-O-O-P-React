@@ -3,6 +3,7 @@ import Layout from './layouts/Layout';
 import GlobalStyles from './styles/GlobalStyles';
 import LoginPage from './pages/login/LoginPage';
 import SignUpPage from './pages/login/SignUp';
+import CompletedPage from './pages/login/CompletedPage'
 
 
 export default function App() {
@@ -14,8 +15,10 @@ export default function App() {
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<Layout/>}>
+            <Route index element={<LoginPage/>}/>
             <Route path='/login' element={<LoginPage/>}/>
             <Route path='/signup' element={<SignUpPage/>}/>
+            <Route path='/completed' element={<CompletedPage/>}/>
             </Route>                
         </Routes>
     </BrowserRouter>
