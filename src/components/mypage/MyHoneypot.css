@@ -1,0 +1,20 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    --main-color: #FBB755;
+    --text-color: #282A29;
+    color: var(--text-color);
+}
+
+.honeypot-disable {
+    width: 890px;
+    height: 617px;
+    background-color: white;
+    border: 2px solid var(--main-color);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
