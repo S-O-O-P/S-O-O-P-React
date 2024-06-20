@@ -1,13 +1,15 @@
 body {
   display: flex;
   justify-content: center;
-  height: 100vh;
+  /* height: 100vh; */
   margin: 0;
+  overflow-x: hidden;
 }
 
 .App {
   text-align: center;
   width: 100vw;
+  min-height: 82vh;
 }
 
 .logo { 
@@ -37,11 +39,12 @@ nav {
 }
 
 
-.main {
+main {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 50px;
+  /* height: 91.5vh; */
 }
 
 .login-container {
