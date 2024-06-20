@@ -14,7 +14,7 @@ function Header() {
           <nav>
             <ul>
               <li><NavLink to={'/cultureinfo'}>전시/공연정보</NavLink></li>
-              <li>허니팟</li>
+              <li><NavLink to='/honey'>허니팟</NavLink></li>
             </ul>
           </nav>
           <NavLink to='/login'>
