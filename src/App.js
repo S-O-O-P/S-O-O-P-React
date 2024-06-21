@@ -15,6 +15,7 @@ import Genre from './pages/socializing/Genre';
 import Date from './pages/socializing/Date';
 import CultureInfo from './pages/cultureInfo/CultureInfo';
 import CompletedPage from './pages/login/CompletedPage'
+import NoticeDetailPage from './pages/serviceCenter/NoticeDetail';
 
 
 export default function App() {
@@ -35,6 +36,7 @@ export default function App() {
               <Route path='/faq' element={<Faq />} /> {/* 자주 찾는 질문 */}
               <Route path='/notice' element={<Notice />} /> {/* 공지사항 */}
               <Route path='/inquiry' element={<Inquiry />} /> {/* 1:1문의 */}
+              <Route path='/noticedetail' element={<NoticeDetailPage />} /> {/*공지사항 상세페이지*/}
               <Route path='/honey' element={<HoneyLayout/>}> {/* 허니팟 */}
                 <Route index element={<Today/>}/> {/* 투데이 리스트 오픈 */}
                 <Route path='genre' element={<Genre/>}/> {/* 장르별 리스트 */}
