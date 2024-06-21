@@ -4,6 +4,7 @@ import ParticipatingHoneypot from '../../components/mypage/ParticipatingHoneypot
 import MyHoneypot from '../../components/mypage/MyHoneypot';
 import MyComments from '../../components/mypage/MyComments';
 import Review from '../../components/mypage/Review';
+import EditProfile from '../../components/mypage/EditProfile';
 import './MyPage.css';
 
 
@@ -11,6 +12,17 @@ const MyPage = () => {
 
     const [selectedMenu, setSelectedMenu] = useState('participatingHoneypot')
     const [showMannerStarModal, setShowMannerStarModal] = useState(false);
+
+        // 기존 이름 더미데이터
+  const [nickName, setNickName] = useState('전소민');
+  const [introduce, setIntroduce] = useState('반복되는 일상을 특별하게 만들어 보고 싶어요.')
+  const [interest, setInterest] = useState('');
+
+     // 프로필 변경
+     const profileUpdate = (newNickName, newIntroduce) => {
+        setNickName(newNickName);
+        setIntroduce(newIntroduce);
+      };
   
     const mannerStarClick = () => {
     setShowMannerStarModal(true);
@@ -42,9 +54,9 @@ const MyPage = () => {
                 </div>
             </div>
             <div className='profile-text'>
-                <div className='profile-nickname'>전소민</div>
+                <div className='profile-nickname'>{nickName}</div>
                 <div className='profile-intro'>
-                    반복되는 일상을 특별하게 만들어 보고 싶어요.
+                {introduce}
                 </div>
             </div>
             <div className='manner-box' onClick={mannerStarClick}>
@@ -65,7 +77,7 @@ const MyPage = () => {
                 <p onClick={() => { setSelectedMenu('myComments')}} className='category-sub'>내가 쓴 댓글</p>
                 <p onClick={() => { setSelectedMenu('review')}} className='category-main'>멤버 평가</p>
                 <p className='category-main'>문의 내역</p>
-                <p className='category-main'>프로필 수정</p>
+                <p onClick={() => { setSelectedMenu('editProfile')}} className='category-main'>프로필 수정</p>
             </div>
 
             
@@ -79,6 +91,7 @@ const MyPage = () => {
             {selectedMenu === 'myHoneypot' && <MyHoneypot/>}
             {selectedMenu === 'myComments' && <MyComments/>}
             {selectedMenu === 'review' && <Review />}
+            {selectedMenu === 'editProfile' && <EditProfile nickName = {nickName} introduce = {introduce} profileUpdate={profileUpdate} /> }
 
             {/* 마이페이지 메인 - 고정 디테일 */}
         </div>
