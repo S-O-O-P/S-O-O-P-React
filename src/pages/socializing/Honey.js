@@ -34,6 +34,8 @@ export default function Honey(){
     const [city,setCity] = useState('');
     const [region,setRegion] = useState('');
     const [current,setCurrent] = useState([]);
+    const [filteredTempCnt,setFilteredTempCnt] = useState(0);
+    const [filteredCopyCnt,setFilteredCopyCnt] = useState(0);
 
     
     // BE 작업용 실제 데이터 api state
@@ -530,26 +532,41 @@ export default function Honey(){
     ]);
     
     
-    // 최초 mount시, 최초에 가져온 원본 데이터 보관 & 가공할 카피 데이터 setState
+    // 최초 mount시, 최초에 가져온 원본 데이터 보관 & 가공할 카피 데이터 state 초기화
     useEffect(
         ()=>{
             setCopyList(tempList)
+            setCurrent(getPagingPosts())
+            isChange ? setFilteredCopyCnt(copyList.length) : setFilteredTempCnt(tempList.length);
         }
         ,[]
     )
-
-    // 정렬 기준 바뀔때마다 state 초기화
+   
     useEffect(
         ()=>{
-            setPage(1)
-            setCity('서울')
-            setRegion('강서구')
-        },[select]
+            setCurrent(getPagingPosts())
+            setFilteredCopyCnt(copyList.length)
+            setFilteredTempCnt(tempList.length)
+        },[copyList]
+    )
+    
+    // 정렬 기준 update시, state 초기화
+    useEffect(
+        ()=>{
+            setPage(1);
+            setCity('서울');
+            setRegion('강서구');
+            setCurrent(getPagingPosts());
+            console.log(current);
+            (select === 'Y' || select === 'N') ? setCurrent(getPagingPosts()) : (isChange ? setCurrent(copyList) : setCurrent(tempList));
+            isChange ? setFilteredCopyCnt(getFilteredList().length) : setFilteredTempCnt(getFilteredList().length);
+        },[select,searchVal]
     )
     
     useEffect(
         ()=>{
             setSelect('')
+            setCurrent(tempList)
         },[categoryStatus]
     )
 
@@ -561,28 +578,36 @@ export default function Honey(){
     //     },[copyList]
     // )
     
-    // 페이지네이션 & 제목검색 결과 필터링 함수
-    function getPagingAndSearchPosts() {
-        const filteredTempList = tempList.filter(honey => 
-            honey.honeyTitle.includes(searchVal) 
-            && 
-            (( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select) : honey.honeyFullStatus.includes('')));
-        const filteredCopyList = copyList.filter(honey => 
-            honey.honeyTitle.includes(searchVal) 
-            && 
-            (( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select) : honey.honeyFullStatus.includes('')));
+    // 페이지네이션 함수
+    function getPagingPosts() {
         const startIndex = (page - 1) * 10
         const endIndex = startIndex + 10
-        const currentPosts = isChange? filteredCopyList.slice(startIndex, endIndex) : filteredTempList.slice(startIndex,endIndex)
+        const currentPosts = isChange? getFilteredList().slice(startIndex, endIndex) : getFilteredList().slice(startIndex,endIndex)
         if (currentPosts.length === 0) {
             return [];
         }
+        
         return currentPosts
     }
+    
+    // 정렬 & 제목검색 결과 필터링 함수
+    function getFilteredList() {
+        const filteredTempList = tempList.filter(honey => 
+            
+            (honey.honeyTitle.includes(searchVal))
+            && 
+            (( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select) : honey.honeyFullStatus.includes('')));
+        const filteredCopyList = copyList.filter(honey => 
+            (honey.honeyTitle.includes(searchVal))
+            && 
+            (( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select) : honey.honeyFullStatus.includes('')));
 
-    // 상세페이지로 값과 함께 route로 이동
+        return isChange ? filteredCopyList : filteredTempList
+    }
+
+    // 상세페이지 : 값과 함께 route로 이동
     const navigate = useNavigate();
-    const detailHandler = (honey) => {
+    const postDetailHandler = (honey) => {
         navigate('/detail', { state: { honey } });
     };
 
@@ -590,7 +615,7 @@ export default function Honey(){
     function scrollToTop() {
         window.scrollTo({
           top: 0,
-          behavior: 'smooth' 
+          behavior: 'instant' 
         });
       }
 
@@ -607,7 +632,7 @@ export default function Honey(){
         scrollToTop()
         return page < Math.ceil(copyList.length / 10) ? setPage(page+1): setPage(Math.ceil(copyList.length / 10))
     }
-    
+
     // 본문
     return(
         <>
@@ -627,8 +652,9 @@ export default function Honey(){
             <div className='sub-category-padding'>
                 {categoryStatus === 2 && <SubCategory subCategoryStatus={subCategoryStatus} 
                                                         setSubCategoryStatus={setSubCategoryStatus} 
-                                                        setCopyList={setCopyList} 
                                                         tempList={tempList}
+                                                        setCopyList={setCopyList} 
+                                                        setCurrent={setCurrent}
                                                         setIsChange={setIsChange} 
                                                         setPage={setPage}
                                                         setSubKeyword={setSubKeyword}
@@ -680,8 +706,8 @@ export default function Honey(){
                         (<></>)}
                 </div>
                 <div className='main-contents'>
-                    {getPagingAndSearchPosts().map((honey) => (
-                        <div className='honey-list' key={honey.honeyId} onClick={() => detailHandler(honey)}>
+                    {getPagingPosts().map((honey) => (
+                        <div className='honey-list' key={honey.honeyId} onClick={() => postDetailHandler(honey)}>
                         {honey.empty ? (
                             <div>게시물이 없습니다.</div>
                         ) : (
@@ -725,13 +751,13 @@ export default function Honey(){
                 </div>
             </div>
             <div className='pagination-box'>
-                {Math.ceil(copyList.length / 10) > 1 ? 
+                {Math.ceil(isChange ? filteredCopyCnt / 10 : filteredTempCnt / 10) > 1 ? 
                 <div className={page === 1 ? 'arrowOff' : 'paginationOn' }
                     onClick={leftArrowHandler}>
                     <img className='arrow-left' src={getImage('icon_arrow_right.png')}/>
                 </div> 
                 : <></>}
-                {Array.from({ length: Math.ceil(copyList.length / 10) }, (_, index) => (
+                {Array.from({ length: Math.ceil(isChange ? filteredCopyCnt / 10 : filteredTempCnt / 10) }, (_, index) => (
                     <div key={index}
                         className={page === index+1 ? 'paginationOn' : 'paginationOff' }
                         onClick={numberHandler(index)}>
@@ -740,8 +766,8 @@ export default function Honey(){
                             </p>
                     </div>
                 ))}
-                {Math.ceil(copyList.length / 10) > 1 ? 
-                <div className={page === Math.ceil(copyList.length / 10) ? 'arrowOff' : 'paginationOn' }
+                {Math.ceil(isChange ? filteredCopyCnt / 10 : filteredTempCnt / 10) > 1 ? 
+                <div className={page === Math.ceil(isChange ? filteredCopyCnt / 10 : filteredTempCnt / 10) ? 'arrowOff' : 'paginationOn' }
                     onClick={rightArrowHandler}>
                     <img src={getImage('icon_arrow_right.png')}/>
                 </div > 

@@ -4,11 +4,12 @@ import './SubCategory.css'
 
 function SubCategory(
     {
-        tempList,
-        setCopyList,
-        setIsChange,
         subCategoryStatus,
         setSubCategoryStatus,
+        tempList,
+        setCopyList,
+        setCurrent,
+        setIsChange,
         setSubKeyword,
         setPage,
         exhibitionCnt,
@@ -19,7 +20,7 @@ function SubCategory(
 
     function totalHandler() {
         setSubCategoryStatus(1)
-        setCopyList(tempList)
+        setCurrent(tempList)
         setIsChange(false)
         setPage(1)
         setSubKeyword('전 체')
