@@ -41,7 +41,7 @@ function NoticePage() {
                             </div>
                         </div>
                         <div className={style.inquiry}>
-                            <img className={style.inquiryIcon} src="./images/commons/icon_inquiry_main_color.png" alt="1:1문의하기"></img>
+                            <img className={style.inquiryIcon} src="./images/commons/icon_inquiry_main_color.png" alt="1:1문의하기"/>
                             <div>
                                 <Link to="/inquiry" className={style.inquiryIinkButton}>
                                     <p className={style.inquiryTitle}>1:1 문의하기</p>

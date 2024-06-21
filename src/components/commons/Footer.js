@@ -44,7 +44,7 @@ function Footer() {
             <NavLink to='/help'>
             <a>고객센터</a>
             </NavLink>
-            <NavLink to='/main'>
+            <NavLink to='/notice'>
             <a>공지사항</a>
             </NavLink>
             <NavLink to='/main'>
