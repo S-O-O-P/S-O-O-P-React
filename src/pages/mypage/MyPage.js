@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import ParticipatingHoneypot from '../../components/mypage/ParticipatingHoneypot';
 import MyHoneypot from '../../components/mypage/MyHoneypot';
 import MyComments from '../../components/mypage/MyComments';
@@ -12,6 +12,40 @@ const MyPage = () => {
 
     const [selectedMenu, setSelectedMenu] = useState('participatingHoneypot')
     const [showMannerStarModal, setShowMannerStarModal] = useState(false);
+
+    // 프로필 사진 변경
+    const [profileImage, setProfileImage] = useState(`${process.env.PUBLIC_URL}/images/commons/logo.png`);
+    const fileInput = useRef(null)
+    const [imageURL, setImageURL] = useState(profileImage);
+
+    const onChangeProfilePic = (e) => {
+        if (e.target.files[0]) {
+            const file = e.target.files[0];
+            setProfileImage(file);
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                if (reader.readyState === 2) {
+                    setImageURL(reader.result);
+                }
+            };
+            reader.readAsDataURL(file);
+        } else {
+            setProfileImage(`${process.env.PUBLIC_URL}/images/commons/logo.png`);
+            setImageURL(`${process.env.PUBLIC_URL}/images/commons/logo.png`);
+        }
+    };
+
+    useEffect(() => {
+        if (typeof profileImage === 'string') {
+            setImageURL(profileImage);
+        } else {
+            const objectURL = URL.createObjectURL(profileImage);
+            setImageURL(objectURL);
+
+            return () => URL.revokeObjectURL(objectURL);
+        }
+    }, [profileImage]);
 
         // 기존 이름 더미데이터
   const [nickName, setNickName] = useState('전소민');
@@ -48,9 +82,11 @@ const MyPage = () => {
         {/* 프로필 상부 */}
         <div className="profile-top">
             <div className="profile-box">
-                <div className="profile-pic">IMAGE</div>
-                <div className="profile-pic-update-btn">
-                   <img src={`${process.env.PUBLIC_URL}/images/commons/icon_edit_profile.png`} alt="사진변경아이콘" />
+                <img src={imageURL} className="profile-pic" alt="프로필사진" />
+                
+                <div className="profile-pic-update-btn" onClick={()=>{fileInput.current.click()}}>
+                    <img src={`${process.env.PUBLIC_URL}/images/commons/icon_edit_profile.png`} alt="사진변경아이콘" />
+                    <input type='file' style={{ display: 'none' }} ref={fileInput} accept='image/jpg, image/png, image/jpeg' name='profile_img' onChange={onChangeProfilePic}/>
                 </div>
             </div>
             <div className='profile-text'>
