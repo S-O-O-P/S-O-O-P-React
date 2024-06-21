@@ -25,24 +25,24 @@ export default function App() {
     <GlobalStyles/>
       <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Layout/>}>
-              <Route path='/main' element={<Main/>}/>
-              <Route path='/login' element={<LoginPage/>}/>
-              <Route path='/signup' element={<SignUpPage/>}/>
+            <Route path="/" element={<Layout/>}> {/* 레이아웃 오픈*/}
+              <Route path='/main' element={<Main/>}/> {/* 메인 */}
+              <Route path='/login' element={<LoginPage/>}/> {/* 로그인 */}
+              <Route path='/signup' element={<SignUpPage/>}/> {/* 추가 정보 입력 */}
               <Route path="/cultureinfo" element={<CultureInfo/>}/> {/* 전시/공연 정보 */}
-              <Route path='/completed' element={<CompletedPage/>}/>
-              <Route path='/mypage' element={<MyPage/>}/>
-              <Route path='/help' element={<Cs />} />
-              <Route path='/faq' element={<Faq />} />
-              <Route path='/notice' element={<Notice />} />
-              <Route path='/inquiry' element={<Inquiry />} />
-              <Route path='/noticedetail' element={<NoticeDetailPage />} />
-              <Route path='/honey' element={<HoneyLayout/>}>
-                <Route index element={<Today/>}/>
-                <Route path='genre' element={<Genre/>}/>
-                <Route path='date' element={<Date/>}/>
-               </Route>
-            </Route>                
+              <Route path='/completed' element={<CompletedPage/>}/> {/* 회원 가입 완료 */}
+              <Route path='/mypage' element={<MyPage/>}/> {/* 마이 페이지 */}
+              <Route path='/help' element={<Cs />} /> {/* 고객 센터 */}
+              <Route path='/faq' element={<Faq />} /> {/* 자주 찾는 질문 */}
+              <Route path='/notice' element={<Notice />} /> {/* 공지사항 */}
+              <Route path='/inquiry' element={<Inquiry />} /> {/* 1:1문의 */}
+              <Route path='/noticedetail' element={<NoticeDetailPage />} /> {/*공지사항 상세페이지*/}
+              <Route path='/honey' element={<HoneyLayout/>}> {/* 허니팟 */}
+                <Route index element={<Today/>}/> {/* 투데이 리스트 오픈 */}
+                <Route path='genre' element={<Genre/>}/> {/* 장르별 리스트 */}
+                <Route path='date' element={<Date/>}/> {/* 일정별 리스트 */}
+               </Route> {/* 투데이 리스트 클로즈 */}
+            </Route> {/* 레이아웃 클로즈 */}              
           </Routes>
       </BrowserRouter>
      </>
