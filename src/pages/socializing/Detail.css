@@ -1,0 +1,48 @@
+.honey-detail-body {
+    width: 800px;
+    height: 1253px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 80px auto;
+    background-image: url('../../../public/images/socializing/Background_Effect.png'); /* 이미지 경로 설정 */
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+}
+
+.detail-content-box {
+    width: 800px;
+    height: 1020px;
+    padding: 80px;
+    background-color: #ffffff;
+    border: 1px solid;
+    border-radius: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 307px auto;
+}
+
+.detail-content-box div {
+    width: 640px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.decide-button {
+    border: 1px solid;
+    border-radius: 40px;
+    border-color: #FBB755;
+}
+
+.content-box-detail {
+    display: flex;
+    height: 210px;
+    border: 1px solid black;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    word-break: break-all;
+}

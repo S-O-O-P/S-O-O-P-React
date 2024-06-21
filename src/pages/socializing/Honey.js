@@ -20,22 +20,22 @@ export default function Honey(){
 
     const [categoryStatus, setCategoryStatus] = useState(1);
     const [subCategoryStatus, setSubCategoryStatus] = useState(1);
+    const [subKeyword,setSubKeyword] = useState('전체');
     const [copyList,setCopyList] = useState([]);
+    const [current,setCurrent] = useState([]);
+    const [filteredTempCnt,setFilteredTempCnt] = useState(0);
+    const [filteredCopyCnt,setFilteredCopyCnt] = useState(0);
     const [page, setPage] = useState(1);
     const [isChange,setIsChange] = useState(false);
     const [searchVal,setSearchVal] = useState('');
-    const [subKeyword,setSubKeyword] = useState('전체');
     const [exhibitionCnt,setExhibitionCnt] = useState(0);
     const [performanceCnt,setPerformanceCnt] = useState(0);
     const [musicalCnt,setMusicalCnt] = useState(0);
     const [festivalCnt,setFestivalCnt] = useState(0);
     const [popupCnt,setPopupCnt] = useState(0);
-    const [select,setSelect] = useState('');
+    const [select,setSelect] = useState('최신순');
     const [city,setCity] = useState('');
     const [region,setRegion] = useState('');
-    const [current,setCurrent] = useState([]);
-    const [filteredTempCnt,setFilteredTempCnt] = useState(0);
-    const [filteredCopyCnt,setFilteredCopyCnt] = useState(0);
 
     
     // BE 작업용 실제 데이터 api state
@@ -53,6 +53,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트1',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강서구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -69,6 +71,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트2',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강동구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -85,6 +89,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트3',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강남구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -101,6 +107,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트4',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '중구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -117,6 +125,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트5',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강서구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -133,6 +143,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트6',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '인천',
+            honeyRegion: '강남구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -149,6 +161,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트7',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '경기',
+            honeyRegion: '강서구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'Y',
@@ -165,6 +179,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트8',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강남구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'Y',
@@ -180,6 +196,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트9',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '경기',
+            honeyRegion: '중구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -195,6 +213,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트10',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '인천',
+            honeyRegion: '강서구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -210,6 +230,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트11',
             honeyContent: '내용입니다. 내가 가장 좋아하는 음식은 김치찌개이고',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강서구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -225,6 +247,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트1',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '중구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -241,6 +265,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트2',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '경기',
+            honeyRegion: '강동구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -257,6 +283,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트3',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '인천',
+            honeyRegion: '강남구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -273,6 +301,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트4',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '인천',
+            honeyRegion: '강남구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -289,6 +319,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트5',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강서구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -305,6 +337,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트6',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강서구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -321,6 +355,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트7',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '인천',
+            honeyRegion: '강남구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'Y',
@@ -337,6 +373,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트8',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '경기',
+            honeyRegion: '강동구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'Y',
@@ -352,6 +390,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트9',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '중구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -367,6 +407,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트10',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '중구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -382,6 +424,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트11',
             honeyContent: '내용입니다. 내가 가장 좋아하는 음식은 김치찌개이고',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '중구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -397,6 +441,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트2',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '인천',
+            honeyRegion: '강남구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -429,6 +475,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트4',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강서구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -445,6 +493,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트5',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '경기',
+            honeyRegion: '강동구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -461,6 +511,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트6',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '중구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -477,6 +529,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트7',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '경기',
+            honeyRegion: '강동구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'Y',
@@ -493,6 +547,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트8',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '인천',
+            honeyRegion: '강남구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'Y',
@@ -508,6 +564,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트9',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강서구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -523,6 +581,8 @@ export default function Honey(){
             honeyTitle: '허니팟 테스트10',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강서구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -555,13 +615,11 @@ export default function Honey(){
     useEffect(
         ()=>{
             setPage(1);
-            setCity('서울');
-            setRegion('강서구');
             setCurrent(getPagingPosts());
             console.log(current);
             (select === 'Y' || select === 'N') ? setCurrent(getPagingPosts()) : (isChange ? setCurrent(copyList) : setCurrent(tempList));
             isChange ? setFilteredCopyCnt(getFilteredList().length) : setFilteredTempCnt(getFilteredList().length);
-        },[select,searchVal]
+        },[select,searchVal,city,region]
     )
     
     // 메인카테고리 관련 state update될 때, state상태값 초기화
@@ -601,13 +659,17 @@ export default function Honey(){
     function getFilteredList() {
         const filteredTempList = tempList.filter(honey => 
             
-            (honey.honeyTitle.includes(searchVal))
+            honey.honeyTitle.includes(searchVal)
             && 
-            (( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select) : honey.honeyFullStatus.includes('')));
-        const filteredCopyList = copyList.filter(honey => 
-            (honey.honeyTitle.includes(searchVal))
+                (( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select): true)
+        )
+
+        const filteredCopyList = copyList.filter(honey =>
+
+            honey.honeyTitle.includes(searchVal)
             && 
-            (( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select) : honey.honeyFullStatus.includes('')));
+                (( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select) : true)
+        )
 
         return isChange ? filteredCopyList : filteredTempList
     }
@@ -683,28 +745,29 @@ export default function Honey(){
                     }
                     {categoryStatus === 3 && <h2>일정별 허니팟</h2>}
                 </div>
-                <div>
+                <div className='select-box'>
                     <select value={select} onChange={(e) => setSelect(e.target.value)}>
-                        <option value={''}>정렬</option>
                         <option value={'최신순'}>최신순</option>
                         <option value={'지역별'}>지역별</option>
                         <option value={'N'}>모집중</option>
                         <option value={'Y'}>모집완료</option>
                     </select>
                     {select === '지역별' ? 
-                        (<div>
-                            <select value={city} onChange={(e) => setCity(e.target.value)}>
+                        <>
+                            <select style={{marginLeft:'10px'}} value={city} onChange={(e) => setCity(e.target.value)}>
+                                <option value={''}>--</option>
                                 <option value={'서울'}>서울</option>
                                 <option value={'경기'}>경기</option>
                                 <option value={'인천'}>인천</option>
                             </select>
-                            <select value={region} onChange={(e) => setRegion(e.target.value)}>
+                            <select style={{marginLeft:'10px'}} value={region} onChange={(e) => setRegion(e.target.value)}>
+                                <option value={''}>--</option>
                                 <option value={'강서구'}>강서구</option>
                                 <option value={'강남구'}>강남구</option>
                                 <option value={'강동구'}>강동구</option>
                                 <option value={'중구'}>중구</option>
                             </select>
-                        </div> )
+                        </>
                         : 
                         (<></>)}
                 </div>

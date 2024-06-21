@@ -23,7 +23,7 @@ function MainCategory(
         let musicalCount = 0;
         let festivalCount = 0;
         let popupCount = 0;
-    
+
         tempList.forEach(item => {
           switch (item.honeyGenre) {
             case '전시회':
