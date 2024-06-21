@@ -31,8 +31,8 @@ const MyPage = () => {
             };
             reader.readAsDataURL(file);
         } else {
-            setProfileImage(`${process.env.PUBLIC_URL}/images/commons/logo.png`);
-            setImageURL(`${process.env.PUBLIC_URL}/images/commons/logo.png`);
+            setProfileImage(imageURL);
+            setImageURL(profileImage);
         }
     };
 
