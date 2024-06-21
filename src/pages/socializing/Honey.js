@@ -566,11 +566,11 @@ export default function Honey(){
         const filteredTempList = tempList.filter(honey => 
             honey.honeyTitle.includes(searchVal) 
             && 
-            ( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select) : honey.honeyFullStatus.includes(''));
+            (( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select) : honey.honeyFullStatus.includes('')));
         const filteredCopyList = copyList.filter(honey => 
             honey.honeyTitle.includes(searchVal) 
             && 
-            ( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select) : honey.honeyFullStatus.includes(''));
+            (( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select) : honey.honeyFullStatus.includes('')));
         const startIndex = (page - 1) * 10
         const endIndex = startIndex + 10
         const currentPosts = isChange? filteredCopyList.slice(startIndex, endIndex) : filteredTempList.slice(startIndex,endIndex)
