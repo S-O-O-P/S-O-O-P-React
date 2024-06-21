@@ -14,6 +14,7 @@ import CultureInfo from './pages/cultureInfo/CultureInfo';
 import CompletedPage from './pages/login/CompletedPage'
 import Detail from './pages/socializing/Detail';
 import NoticeDetailPage from './pages/serviceCenter/NoticeDetail';
+import CultureDetail from './pages/cultureInfo/CultureDetail';
 
 export default function App() {
 
@@ -27,6 +28,7 @@ export default function App() {
               <Route path='/login' element={<LoginPage/>}/> {/* 로그인 */}
               <Route path='/signup' element={<SignUpPage/>}/> {/* 추가 정보 입력 */}
               <Route path="/cultureinfo" element={<CultureInfo/>}/> {/* 전시/공연 정보 */}
+              <Route path="/culturedetail" element={<CultureDetail/>}/> {/* 전시/공연 상세페이지*/}
               <Route path='/completed' element={<CompletedPage/>}/> {/* 회원 가입 완료 */}
               <Route path='/mypage' element={<MyPage/>}/> {/* 마이 페이지 */}
               <Route path='/help' element={<Cs />} /> {/* 고객 센터 */}
