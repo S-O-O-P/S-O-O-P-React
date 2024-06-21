@@ -9,13 +9,11 @@ import Faq from './pages/serviceCenter/Faq';
 import Notice from './pages/serviceCenter/Notice';
 import Inquiry from './pages/serviceCenter/Inquiry';
 import Main from './pages/main/samaple';
-import HoneyLayout from './layouts/HoneyLayout';
-import Today from './pages/socializing/Today';
-import Genre from './pages/socializing/Genre';
-import Date from './pages/socializing/Date';
+import Honey from './pages/socializing/Honey';
 import CultureInfo from './pages/cultureInfo/CultureInfo';
 import CompletedPage from './pages/login/CompletedPage'
-
+import Detail from './pages/socializing/Detail';
+import NoticeDetailPage from './pages/serviceCenter/NoticeDetail';
 
 export default function App() {
 
@@ -24,23 +22,22 @@ export default function App() {
     <GlobalStyles/>
       <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Layout/>}>
-              <Route path='/main' element={<Main/>}/>
-              <Route path='/login' element={<LoginPage/>}/>
-              <Route path='/signup' element={<SignUpPage/>}/>
+            <Route path="/" element={<Layout/>}> {/* 레이아웃 오픈*/}
+              <Route path='/main' element={<Main/>}/> {/* 메인 */}
+              <Route path='/login' element={<LoginPage/>}/> {/* 로그인 */}
+              <Route path='/signup' element={<SignUpPage/>}/> {/* 추가 정보 입력 */}
               <Route path="/cultureinfo" element={<CultureInfo/>}/> {/* 전시/공연 정보 */}
-              <Route path='/completed' element={<CompletedPage/>}/>
-              <Route path='/mypage' element={<MyPage/>}/>
-              <Route path='/help' element={<Cs />} />
-              <Route path='/faq' element={<Faq />} />
-              <Route path='/notice' element={<Notice />} />
-              <Route path='/inquiry' element={<Inquiry />} />
-              <Route path='/honey' element={<HoneyLayout/>}>
-                <Route index element={<Today/>}/>
-                <Route path='genre' element={<Genre/>}/>
-                <Route path='date' element={<Date/>}/>
-               </Route>
-            </Route>                
+              <Route path='/completed' element={<CompletedPage/>}/> {/* 회원 가입 완료 */}
+              <Route path='/mypage' element={<MyPage/>}/> {/* 마이 페이지 */}
+              <Route path='/help' element={<Cs />} /> {/* 고객 센터 */}
+              <Route path='/faq' element={<Faq />} /> {/* 자주 찾는 질문 */}
+              <Route path='/notice' element={<Notice />} /> {/* 공지사항 */}
+              <Route path='/inquiry' element={<Inquiry />} /> {/* 1:1문의 */}
+              <Route path='/noticedetail' element={<NoticeDetailPage />} /> {/*공지사항 상세페이지*/}
+              <Route path='/honey' element={<Honey/>}/> {/* 허니팟 */}
+              <Route path='/detail' element={<Detail/>}/> {/*허니팟 상세페이지*/}
+            </Route> 
+            {/* 레이아웃 클로즈 */}              
           </Routes>
       </BrowserRouter>
      </>

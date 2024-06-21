@@ -342,3 +342,129 @@ td {
     width: 63px;
     margin-right: 20px;
 }
+
+/* 유저평가 모달 CSS*/
+.manner-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.manner-modal-content {
+    width: 400px;
+    height: 595px;
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    font-family: 'SUIT Semibold', sans-serif;
+
+}
+
+.manner-modal-header {
+    height: 60px;
+    border-bottom: 1px solid var(--main-color);
+    display: flex;
+    align-items: center;
+    
+}
+
+.manner-modal-header img {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+}
+
+.manner-modal-header p {
+    flex: 1;
+    margin-right: 40px;
+    font-family: 'SUIT Semibold', sans-serif;
+
+    font-size: 20px;
+}
+
+.manner-modal-middle {
+    height: 180px;
+    border-bottom: 2px solid var(--main-color);
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 40px;
+}
+
+.middle-title,
+.bottom-title {
+    font-family: 'SUIT Semibold', sans-serif;
+    font-size: 18px;
+}
+
+.star-point-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.star-point-container img {
+    width: 70px;
+    height: 70px;
+}
+
+.star-point-container p {
+    font-family: 'SUIT Semibold', sans-serif;
+    font-size: 24px;
+    margin-left: 10px;
+}
+
+.people-count-container {
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.people-count-container img {
+    width: 20px;
+    height: 20px;
+}
+
+.people-count-container p {
+    font-family: 'SUIT Regular', sans-serif;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.manner-modal-bottom {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.bottom-review-container {
+    margin-top: 20px;
+    width: 100%;
+    height: 230px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--main-color) white;
+}
+
+.bottom-review-text {
+    width: 100%;
+    height: 30px;
+    border-radius: 15px;
+    background-color: var(--main-color);
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    margin-bottom: 20px;
+    font-family: 'SUIT Regular', sans-serif;
+    font-size: 12px;
+}
