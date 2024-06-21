@@ -1,14 +1,7 @@
-import { useState } from "react"
 import style from './Cs.module.css';
 import { Link } from "react-router-dom";
 
 function CsPage() {
-
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggle = () => {
-        setIsOpen(!isOpen);
-    }
 
     return (
         <div className={style.wrapper}>

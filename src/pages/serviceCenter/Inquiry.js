@@ -51,7 +51,6 @@ function InquiryPage() {
         }
     }
 
-
     return (
         <>
             <div className={style.wrapper}>
