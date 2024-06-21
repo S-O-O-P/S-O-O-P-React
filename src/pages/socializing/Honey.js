@@ -550,7 +550,7 @@ export default function Honey(){
     useEffect(
         ()=>{
             setSelect('')
-        },[categoryStatus,subCategoryStatus]
+        },[categoryStatus]
     )
 
     // [state] update시, 카테고리 변경시 목록 확인 로깅
