@@ -541,7 +541,8 @@ export default function Honey(){
         }
         ,[]
     )
-   
+
+    // 서브카테고리 별로 state update될 때, state상태값 초기화
     useEffect(
         ()=>{
             setCurrent(getPagingPosts())
@@ -563,10 +564,16 @@ export default function Honey(){
         },[select,searchVal]
     )
     
+    // 메인카테고리 관련 state update될 때, state상태값 초기화
     useEffect(
         ()=>{
+            setCopyList(tempList)
+            setSubCategoryStatus(1)
+            setIsChange(false)
+            setPage(1)
             setSelect('')
             setCurrent(tempList)
+            setSearchVal('')
         },[categoryStatus]
     )
 
@@ -619,7 +626,7 @@ export default function Honey(){
         });
       }
 
-    // 페이지네이션 핸들러 로직 분리
+    // 페이지네이션 핸들러 함수 분리
     const leftArrowHandler = () => {
         scrollToTop()
         return page > 1 ? setPage(page-1): setPage(1)
@@ -638,12 +645,8 @@ export default function Honey(){
         <>
         <div className='honey-body'>
             <MainCategory tempList={tempList} 
-                            setCopyList={setCopyList} 
-                            setIsChange={setIsChange} 
-                            setPage={setPage} 
                             categoryStatus={categoryStatus} 
                             setCategoryStatus={setCategoryStatus}
-                            setSearchVal={setSearchVal}
                             setExhibitionCnt={setExhibitionCnt}
                             setPerformanceCnt={setPerformanceCnt}
                             setMusicalCnt={setMusicalCnt}

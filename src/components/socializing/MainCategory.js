@@ -3,12 +3,8 @@ import './MainCategory.css'
 function MainCategory(
     {
         tempList,
-        setCopyList,
-        setIsChange,
         categoryStatus,
         setCategoryStatus,
-        setSearchVal,
-        setPage,
         setExhibitionCnt,
         setPerformanceCnt,
         setMusicalCnt,
@@ -17,17 +13,10 @@ function MainCategory(
 
     function todayHandler(){
         setCategoryStatus(1)
-        setCopyList(tempList)
-        setIsChange(false)
-        setPage(1)
-        setSearchVal('')
     }
 
     function genreHandler(){
         setCategoryStatus(2)
-        setCopyList(tempList)
-        setIsChange(false)
-        setPage(1)
 
         let exhibitionCount = 0;
         let performanceCount = 0;
@@ -66,10 +55,6 @@ function MainCategory(
 
     function dateHandler(){
         setCategoryStatus(3)
-        setCopyList(tempList)
-        setIsChange(false)
-        setPage(1)
-        setSearchVal('')
     }
 
 
