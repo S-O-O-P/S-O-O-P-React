@@ -15,6 +15,7 @@ footer {
   flex-direction: row;
   align-items:center;
   width: 1200px;
+  padding: 0 20px;
 }
 
 .footer-links {
@@ -25,9 +26,15 @@ footer {
   
 .footer-links a {
   color: white;
+  font-size: 14px;
   margin-left: 26px;
   text-decoration: none;
+  transition: color 200ms ease-in-out;
 }
+
+.footer-links a:hover {
+  color: #EB844A;
+} 
 
 .footer-facebook{
   height: 30px;
@@ -47,23 +54,16 @@ footer {
 }
 
 .footer-icons{
-  margin-left: 500px;
+  flex: none;
+  margin-left: auto;
 }
+
 .footer-logo { 
   height: 60px;
   width: 60px;
   cursor: pointer;
 }
 
-a{
-  font-size: 14px;
-  margin-left: 10px !important;
-}
-
-a:hover{
-  font-size: 14px;
-  color: #EB844A;
-}
 .test{
   margin-left: 14px;
 }
