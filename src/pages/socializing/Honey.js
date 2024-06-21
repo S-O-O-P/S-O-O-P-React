@@ -546,6 +546,12 @@ export default function Honey(){
             setRegion('강서구')
         },[select]
     )
+    
+    useEffect(
+        ()=>{
+            setSelect('')
+        },[categoryStatus,subCategoryStatus]
+    )
 
     // [state] update시, 카테고리 변경시 목록 확인 로깅
     // useEffect(
@@ -560,11 +566,11 @@ export default function Honey(){
         const filteredTempList = tempList.filter(honey => 
             honey.honeyTitle.includes(searchVal) 
             && 
-            ( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select) : <></>);
+            ( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select) : honey.honeyFullStatus.includes(''));
         const filteredCopyList = copyList.filter(honey => 
             honey.honeyTitle.includes(searchVal) 
             && 
-            ( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select) : <></>);
+            ( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select) : honey.honeyFullStatus.includes(''));
         const startIndex = (page - 1) * 10
         const endIndex = startIndex + 10
         const currentPosts = isChange? filteredCopyList.slice(startIndex, endIndex) : filteredTempList.slice(startIndex,endIndex)
