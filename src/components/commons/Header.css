@@ -7,7 +7,7 @@
   width: 100vw;
   justify-content: center;
   z-index: 500;
-  
+  transition: all 200ms ease-in-out;
 }
 
 .top-bar {
@@ -25,6 +25,7 @@
   padding: 10px 20px;
   cursor: pointer;
   color: white;
+  transition: all 200ms ease-in-out;
 }
 .login-btn:hover {
   background-color: #EB844A;
@@ -50,11 +51,15 @@ nav ul {
 }
 
 nav ul li {
-  cursor: pointer;
   font-size: 14px;
+  cursor: pointer;
 } 
 nav ul li:hover{
-  cursor: pointer;
-  font-size: 14px;
   color: #ffaa00;
 } 
+
+/* 24/06/23 main페이지 header 색상에 따른 설정 추가 */
+.header.main {background-color: var(--main-color); box-shadow: none; }
+.header.main a {color: #ffffff;}
+.header.main .login-btn {background-color: #ffffff; color:var(--main-color);}
+.header.main .login-btn:hover {background-color: #EB844A; color: white;}
