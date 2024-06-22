@@ -12,7 +12,7 @@
     padding: 0 20px;
     border: 1px solid;
     border-radius: 40px;
-    border-color: #FBB755;
+    border-color: var(--main-color);
     display: flex;
     justify-content: center;
     cursor: pointer;
@@ -25,7 +25,7 @@
     font-weight: bold;
     color: #ffffff;
     border-radius: 40px;
-    background-color: #FBB755;
+    background-color: var(--main-color);
     display: flex;
     justify-content: center;
     padding: 0 20px;
@@ -38,7 +38,7 @@
     line-height: 24px;
     border: 1px solid;
     border-radius: 25px;
-    color: #FBB755;
+    color: var(--main-color);
     background-color: #ffffff;
     display: flex;
     justify-content: center;
@@ -53,9 +53,9 @@
     font-weight: bold;
     padding: 0 20px;
     color: #ffffff;
-    border: 1px solid #FBB755;
+    border: 1px solid var(--main-color);
     border-radius: 40px;
-    background-color: #FBB755;
+    background-color: var(--main-color);
     display: flex;
     justify-content: center;
     cursor: pointer;
@@ -69,7 +69,7 @@
     border: 1px solid;
     border-radius: 25px;
     color: #ffffff;
-    background-color: #FBB755;
+    background-color: var(--main-color);
     display: flex;
     justify-content: center;
     margin-top: 7px;
@@ -83,7 +83,7 @@
     font-size: 15px;
     border: 1px solid;
     border-radius: 25px;
-    color: #FBB755;
+    color: var(--main-color);
     background-color: #ffffff;
     display: flex;
     justify-content: center;

@@ -3,7 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import MainCategory from '../../components/socializing/MainCategory';
 import Search from '../../components/socializing/Search';
 import SubCategory from '../../components/socializing/SubCategory';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 import './Honey.css';
+import './CustomCalendar.css';
 
 
 export default function Honey(){
@@ -36,6 +39,9 @@ export default function Honey(){
     const [select,setSelect] = useState('최신순');
     const [city,setCity] = useState('');
     const [region,setRegion] = useState('');
+    
+    const [date,setDate] = useState(new Date);
+    const [showMannerDateModal, setShowMannerDateModal] = useState(false);
 
     
     // BE 작업용 실제 데이터 api state
@@ -661,7 +667,7 @@ export default function Honey(){
             
             honey.honeyTitle.includes(searchVal)
             && 
-                (( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select): true)
+            (( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select): true)
         )
 
         const filteredCopyList = copyList.filter(honey =>
@@ -678,6 +684,7 @@ export default function Honey(){
     const navigate = useNavigate();
     const postDetailHandler = (honey) => {
         navigate('/detail', { state: { honey } });
+        scrollToTop();
     };
 
     // js 라이브러리 스크롤 애니메이션 함수
@@ -702,6 +709,16 @@ export default function Honey(){
         return page < Math.ceil(copyList.length / 10) ? setPage(page+1): setPage(Math.ceil(copyList.length / 10))
     }
 
+    // 일정 조회 모달창 뒤로가기
+    const backBtn = () => {
+        setShowMannerDateModal(false)
+    }
+
+    const dateHandler = (newDate) => {
+        setDate(newDate)
+        setShowMannerDateModal(false)
+    }
+
     // 본문
     return(
         <>
@@ -713,7 +730,10 @@ export default function Honey(){
                             setPerformanceCnt={setPerformanceCnt}
                             setMusicalCnt={setMusicalCnt}
                             setFestivalCnt={setFestivalCnt}
-                            setPopupCnt={setPopupCnt}/>
+                            setPopupCnt={setPopupCnt}
+                            setDate={setDate}
+                            setShowMannerDateModal={setShowMannerDateModal}
+                            />
             <div className='sub-category-padding'>
                 {categoryStatus === 2 && <SubCategory subCategoryStatus={subCategoryStatus} 
                                                         setSubCategoryStatus={setSubCategoryStatus} 
@@ -730,7 +750,7 @@ export default function Honey(){
                                                         popupCnt={popupCnt}/>}
             </div>
             <div className='honey-body2'>
-                <Search searchVal={searchVal} 
+                <Search searchVal={searchVal}
                         setSearchVal={setSearchVal}/>
                 <div className='main-category-title'>
                     {categoryStatus === 1 && <h2>투데이 허니팟</h2>}
@@ -772,42 +792,42 @@ export default function Honey(){
                         (<></>)}
                 </div>
                 <div className='main-contents'>
-                    {getPagingPosts().map((honey) => (
-                        <div className='honey-list' key={honey.honeyId} onClick={() => postDetailHandler(honey)}>
-                        {honey.empty ? (
+                    {getPagingPosts().map((honey,index) => (
+                        <div className='honey-list' key={index} onClick={() => postDetailHandler(honey)}>
+                        {honey.empty 
+                        ? (
                             <div>게시물이 없습니다.</div>
-                        ) : (
+                        ) 
+                        : (
                             <>
                                 <div className='img-box'>
                                     <img src={getImage(honey.ticket.ticketPoster)} alt='티켓 포스터' />
                                 </div>
                                 <div className='content-box'>
                                     <div style={{ paddingBottom: '0px', marginTop: '10px' }}>
-                                        <span style={{ height: '50px' }}>#{honey.honeyGenre}</span>
+                                        <span>#{honey.honeyGenre}</span>
                                         <span>모집일자 &nbsp;&nbsp;{honey.honeyAt}</span>
                                     </div>
-                                    <div style={{ paddingTop: '0px' }}>
-                                        <span>{honey.honeyTitle}</span>
-                                        {honey.honeyFullStatus === 'N' ? (
-                                            <span style={{ marginLeft: '-90px', backgroundColor: 'green', borderRadius: '20px', width: '55px', textAlign: 'center', color: '#ffffff', fontSize: '12px' }}>
-                                            모집중
-                                            </span>
-                                        ) : (
-                                            <span style={{ marginLeft: '-90px', backgroundColor: 'red', borderRadius: '20px', width: '55px', textAlign: 'center', color: '#ffffff', fontSize: '12px' }}>
-                                            모집완료
-                                            </span>
-                                        )}
+                                    <div style={{ paddingTop: '0px',paddingBottom:'0px' }}>
+                                        <span style={{fontSize:'20px'}}>{honey.honeyTitle}</span>
+                                        {/* <span style={{marginTop:'30px'}}>참여인원 &nbsp;{honey.participant.length}/{honey.totalPeople}</span> */}
                                         <span>참여인원 &nbsp;{honey.participant.length}/{honey.totalPeople}</span>
                                     </div>
-                                    <div style={{ paddingTop: '0px' }}>
-                                        <span style={{ width: '200px', height: '30px', display: 'flex',paddingTop: '0px', paddingBottom: '0px',overflow:'hidden' }}>{honey.honeyContent}asdf aasdf asdfa sdf asdfasdfasdf asdf</span>
-                                        
+                                    <div style={{ paddingTop: '0px'}}>
+                                        {honey.honeyFullStatus === 'N' 
+                                        ? <span className='recruit-status' style={{ backgroundColor: 'green' }}>모집중</span>
+                                         : <span className='recruit-status' style={{ backgroundColor: 'red' }}>모집완료</span>
+                                        }
                                         {/* 참여자 프로필 사진 리스트 */}
-                                        {honey.participant.map((user) => (
-                                            <span key={user.member.memberId} style={{ width: '50px', display: 'flex', justifyContent: 'end', paddingRight: '0px', paddingTop: '0px', lineHeight: '30px'}}>
-                                                {user.member.nickname}
-                                            </span>
-                                        ))}
+                                        <div style={{ width:'200px',justifyContent:'end',margin:'0px',padding:'0px' }}>
+                                            {honey.participant.map((user,index) => (
+                                                <>
+                                                {user.member.profile === null || user.member.profile === undefined 
+                                                ? <div key={index} className='participant-profile-pic' style={{width:'30px',margin:'0px'}}></div>
+                                                :<div key={index} className='participant-profile-pic' style={{backgroundImage:`url(${getImage(user.member.profile)})`}}></div>}
+                                                </>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>  
                             </>
@@ -840,6 +860,21 @@ export default function Honey(){
                 : <></>}
             </div>
         </div>
+        
+        {/* 일정 조회 모달창 */}
+        {showMannerDateModal && (
+            <div className='manner-modal-container'>
+                <div className='manner-modal-content' style={{ height:'480px',backgroundSize:'cover',backgroundPosition:'center',backgroundRepeat:'no-repeat',backgroundImage: `url(${getImage('Background_Effect.png')})`}}>
+                    <div className='manner-modal-header' style={{backgroundColor:'white'}}>
+                        <img onClick={ backBtn } src={'images/commons/icon_arrow_back_main_color.png'} alt="뒤로가기아이콘" />
+                        <p> 일정 조회 </p>
+                    </div>
+                    <div className='manner-modal-middle' style={{ height:'500px',marginTop:'20px'}}>
+                        <Calendar onChange={dateHandler} value={date} className='custom-calendar'/>
+                    </div>
+                </div>
+            </div>    
+        )}
     </>
     );
 }

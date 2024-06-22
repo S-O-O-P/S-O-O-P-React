@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import './Detail.css'
 
 const Detail = () => {
@@ -15,58 +15,87 @@ const Detail = () => {
     const location = useLocation()
     const { honey } = location.state
 
+    const navigate = useNavigate();
+
+    function goBackHandler() {
+        navigate(-1);
+    }
+
+    const userInfoHandler = () => {
+        // 참가자 프로필 클릭 시, 해당 유저정보창으로
+    }
+
+    const ticketInfoHandler = () => {
+        // 티켓 정보 클릭 시, 티켓정보창으로
+    }
+
     return (
         // <div className='honey-detail-body' style={{backgroundImage:`url(${getImage(honey.ticket.ticketPoster)})`}}>
         <div className='honey-detail-body'>
             <div className='detail-content-box'>
+                <div style={{ justifyContent:'center', marginTop:'-200px', position:'relative' }}>
+                    {honey.member.profile === null || honey.member.profile === undefined 
+                    ? <div className='writer-profile-pic' style={{ width:'180px' }}></div>
+                    :<div className='writer-profile-pic' style={{ width:'180px', backgroundImage:`url(${getImage(honey.member.profile)})`}}></div>
+                    }
+                    <div className='writer-profile' style={{width:'150px'}}></div>
+                </div>
                 <div style={{height:'390px',flexDirection:'column'}}>
                     <div style={{justifyContent:'space-between' }}>
                         <span>#{honey.honeyGenre}</span>
                         <span>모집일자 &nbsp;&nbsp;{honey.honeyAt}</span>
                     </div>
-                    <div style={{justifyContent:'end'}}>
-                        {/* 참여자 프로필 사진 리스트 */}
-                        {honey.participant.map((user) => (
-                            <span key={user.member.memberId} style={{ width: '50px', display: 'flex', justifyContent: 'end'}}>
-                                {user.member.nickname}
-                            </span>
-                        ))}
+                    <div style={{padding:'0 20px'}}>
+                        <span>{honey.honeyTitle}asdfasdfasdfasdf</span>
+                        <span>참여인원 &nbsp;{honey.participant.length}/{honey.totalPeople}</span>
                     </div>
-                    <div style={{justifyContent:'space-between' }}>
-                        <span>{honey.honeyTitle}</span>
+                    <div>
+                        {/* 참여자 프로필 사진 리스트 */}
                         {honey.honeyFullStatus === 'N' ? (
-                            <span style={{ marginLeft:'-300px', backgroundColor: 'green', borderRadius: '20px', width: '55px',height:'25px',lineHeight:'25px', textAlign: 'center', color: '#ffffff', fontSize: '12px' }}>
+                            <span className='detail-recruit-status' style={{backgroundColor:'green'}}>
                             모집중
                             </span>
                         ) : (
-                            <span style={{ backgroundColor: 'red', borderRadius: '20px', width: '55px', textAlign: 'center', color: '#ffffff', fontSize: '12px' }}>
+                            <span className='detail-recruit-status' style={{backgroundColor:'red'}}>
                             모집완료
                             </span>
                         )}
-                        <span>참여인원 &nbsp;{honey.participant.length}/{honey.totalPeople}</span>
+                        {/* 참여자 프로필 사진 리스트 */}
+                        <div style={{ width:'200px', justifyContent:'end', padding:'0px' }}>
+                            {honey.participant.map((user,index) => (
+                                <>
+                                {( user.member.profile === null || user.member.profile === undefined )
+                                ? <div key={index} className='participant-profile-pic' onClick={userInfoHandler} style={{ width:'30px', margin:'0px', cursor:'pointer' }}></div>
+                                :<div key={index} className='participant-profile-pic' onClick={userInfoHandler} style={{ width:'30px', margin:'0px', cursor:'pointer', backgroundImage:`url(${getImage(user.member.profile)})` }}></div>}
+                                </>
+                            ))}
+                        </div>
                     </div>
                     <div className='content-box-detail'>
                         {honey.honeyContent}asdf aasdf asdfasdfasdfasdfasdfasdfsdfkasdhflkasdaasdf;ajsdf;adf;asdijf;alsdifja;sdlfhalsdkfughaskldfugahsldkfuhasdlfkuahlsdkfhasdlasdfadsfasdfasdfsadfadfasdfasdfasdfasdfasdffk uahsdflasdhflakdsufhalsdkfhasldkfhasdlfkhasdflkashdflaksdfhasdfadsflaisdhfklasdfhlasdkfuhadfslkh
                     </div>
                 </div>
-                <div style={{width:'450px',marginBottom:'30px'}}>
-                    <div className='decide-button'>
-                        <NavLink to='/honey'>
-                            <p>목록으로</p>
-                        </NavLink>
+                <div style={{ width: honey.honeyFullStatus === 'N' ? '450px' : '200px', marginBottom:'30px' }}>
+                    <div className='decide-button' onClick={goBackHandler}>
+                        <p>목록으로</p>
                     </div>
-                    <div className='decide-button' style={{marginLeft:'80px'}}>같이봐요</div>
+                    {honey.honeyFullStatus === 'N' 
+                    ? <div className='decide-button' style={{ backgroundColor:'var(--main-color)',marginLeft:'80px' }}><p>같이봐요</p></div> 
+                    : <></>}
                 </div>
-                <div style={{height:'70px',justifyContent:'center'}}>
+                <div style={{ height:'70px', justifyContent:'center' }}>
                     <h2>티켓정보</h2>
                 </div>
-                <div style={{height:'288px'}}>
-                    <div style={{width:'282px',height:'288px',display:'flex',justifyContent:'center'}} >
-                        <img style={{height:'100%'}} src={getImage(honey.ticket.ticketPoster)} alt='티켓 포스터' />
-                    </div>
-                    <div style={{border:'1px solid',width:'282px',height:'288px',display:'flex',justifyContent:'center'}}>
-                        티켓정보
-                    </div>
+                <div style={{ height:'288px', justifyContent:'start',cursor:'pointer' }} onClick={ticketInfoHandler}>
+                    {/* 티켓 구매 링크 */}
+                    {/* <a href=''> */}
+                        <div className='detail-img-box' style={{ width:'200px', height:'100%', padding:'0px' }}>
+                            <img src={getImage(honey.ticket.ticketPoster)} alt='티켓 포스터' />
+                        </div>
+                        <div className='detail-ticket-contents' style={{ width:'400px' }}>
+                            티켓정보
+                        </div>
+                    {/* </a> */}
                 </div>
             </div>  
         </div>

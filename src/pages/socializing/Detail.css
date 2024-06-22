@@ -1,8 +1,7 @@
 .honey-detail-body {
     width: 800px;
-    height: 1253px;
+    height: 1300px;
     display: flex;
-    justify-content: center;
     flex-direction: column;
     margin: 80px auto;
     background-image: url('../../../public/images/socializing/Background_Effect.png'); /* 이미지 경로 설정 */
@@ -21,21 +20,67 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin: 307px auto;
+    margin-top: 200px;
 }
 
 .detail-content-box div {
     width: 640px;
     padding: 20px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    font-size: 18px;
+}
+
+.writer-profile {
+    height: 150px;
+    border: 7px solid;
+    border-color: var(--main-color);
+    border-radius: 50%;
+    color: white;
+    font-size: 24px;
+    font-family: 'SUIT Regular', sans-serif;
+    position: absolute;
+}
+
+.writer-profile-pic {
+    height: 150px;
+    background-image: url('../../../public/images/commons/icon_mypage_colored.png'); /* 이미지 경로 설정 */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    cursor: pointer;
+}
+
+.detail-recruit-status {
+    border-radius: 20px;
+    width: 58px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: #ffffff;
+    font-size: 12px;
+    /* margin-left: -150px; */
 }
 
 .decide-button {
     border: 1px solid;
     border-radius: 40px;
-    border-color: #FBB755;
+    border-color: var(--main-color);
+    cursor: pointer;
+}
+
+.decide-button:hover {
+    background-color: var(--main-color);
+    border: 1px solid;
+    border-radius: 40px;
+    border-color: var(--main-color);
+    cursor: pointer;
+}
+
+.decide-button p {
+    margin-left: 28px;
 }
 
 .content-box-detail {
@@ -45,4 +90,22 @@
     overflow-wrap: break-word;
     white-space: pre-wrap;
     word-break: break-all;
+}
+
+.detail-img-box {
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+}
+
+.detail-img-box img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.detail-ticket-contents {
+    height:100%;
+    border:1px solid;
+    border-radius: 10px;
 }

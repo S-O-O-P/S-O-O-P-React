@@ -9,10 +9,15 @@ function MainCategory(
         setPerformanceCnt,
         setMusicalCnt,
         setFestivalCnt,
-        setPopupCnt }) {
+        setPopupCnt,
+        setDate,
+        setShowMannerDateModal
+      }) {
 
     function todayHandler(){
-        setCategoryStatus(1)
+        setCategoryStatus(1);
+        setDate(new Date);
+        setShowMannerDateModal(false);
     }
 
     function genreHandler(){
@@ -51,10 +56,13 @@ function MainCategory(
         setMusicalCnt(musicalCount);
         setFestivalCnt(festivalCount);
         setPopupCnt(popupCount);
+        setDate(new Date);
+        setShowMannerDateModal(false);
       }
 
     function dateHandler(){
-        setCategoryStatus(3)
+        setCategoryStatus(3);
+        setShowMannerDateModal(true);
     }
 
 

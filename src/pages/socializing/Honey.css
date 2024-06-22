@@ -8,7 +8,7 @@
 
 .honey-body2 {
     width: 1200px;
-    background-image: url('../../../public/images/socializing/Background_Effect.png'); /* 이미지 경로 설정 */
+    background-image: url('../../../public/images/socializing/Background_Effect.png');
     background-size: cover ;
     background-position: top;
     background-repeat: no-repeat;
@@ -31,13 +31,18 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    margin-left: 10px;
     margin-top: 50px;
+    margin-left: 10px;
+    cursor: pointer;
 }
 
 .honey-list  {
     padding: 10px;
     display: flex;
+}
+
+.honey-list:hover {
+    transform: scale(1.03);
 }
 
 .honey-list div img {
@@ -62,8 +67,9 @@
     background-color: #ffffff;
     box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
     display: flex;
-    flex-wrap: wrap;
-    
+    /* flex-wrap: wrap; */
+    flex-direction: column;
+    gap: 10px
 }
 
 .content-box div {
@@ -74,7 +80,23 @@
     padding: 20px;
     display: flex;
     justify-content: space-between;
-    overflow: hidden;
+    align-items: center;
+}
+
+.recruit-status {
+    width: 60px;
+    height: 30px;
+    border-radius: 20px;
+    color: #ffffff;
+    font-size: 12px;
+    text-align: center;
+}
+
+.participant-profile-pic {
+    background-image: url('../../../public/images/commons/icon_mypage_colored.png'); /* 이미지 경로 설정 */
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .pagination-box {
@@ -92,7 +114,7 @@
 }
 
 .pagination-box div p {
-    color: #FBB755;
+    color: var(--main-color);
 }
 
 .arrow-left {
@@ -146,10 +168,10 @@
 }
 
 .select-box select{
-    width: 80px;
+    width: 85px;
     height: 30px;
     padding-left: 10px;
     border: 2px solid;
     border-radius: 30px;
-    border-color: #FBB755;
+    border-color: var(--main-color);
 }
