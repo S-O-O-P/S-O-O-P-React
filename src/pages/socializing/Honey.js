@@ -871,7 +871,7 @@ export default function Honey(){
         
         {/* 일정 조회 모달창 */}
         {showMannerDateModal && (
-            <div className='manner-modal-container'>
+            <div className='manner-modal-container' onClick={()=>{setShowMannerDateModal(false)}}>
                 <div className='manner-modal-content' style={{ height:'480px',backgroundSize:'cover',backgroundPosition:'center',backgroundRepeat:'no-repeat',backgroundImage: `url(${getImage('Background_Effect.png')})`}}>
                     <div className='manner-modal-header' style={{backgroundColor:'white'}}>
                         <img onClick={ backBtn } src={'images/commons/icon_arrow_back_main_color.png'} alt="뒤로가기아이콘" />
