@@ -1,3 +1,5 @@
+import EarlySlide from "../../components/cultureInfo/EarlySlide";
+import HotSlide from "../../components/cultureInfo/HotSlide";
 import styles from "./CultureInfo.module.css";
 
 export default function CultureInfo() {
@@ -24,44 +26,7 @@ export default function CultureInfo() {
                 <li></li>
                 <li></li>
               </ul>
-              <div className={styles.right_shape}>
-                <span className={`${styles.prev_btn} ${styles.flex_center}`}><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_left_white.png`} 
-                  alt="previous slide button" /></span>
-                <ul className={`${styles.hot_list} ${styles.flex_between}`}>
-                  <li>
-                    <a href="./detail.html">
-                      {/* <img src={`${process.env.PUBLIC_URL}/img/logo.svg`} */}
-                      <img src={`${process.env.PUBLIC_URL}/images/cultureInfo/KakaoTalk_20240524_000933916_07.gif`}  alt="performance poster" />
-                      <div className={styles.hot_txt_box}>
-                        <p className={styles.hot_tit}>춘식이 별빛 팝업스토어</p>
-                        <p className={styles.hot_date}>2024.07.10<span>(수)</span><span>17:00</span></p>
-                        <span className={styles.early_mark}>얼리버드 티켓 판매중</span>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <img src={`${process.env.PUBLIC_URL}/images/cultureInfo/KakaoTalk_20240524_000933916_10.gif`} alt="performance poster" />
-                      <div className={styles.hot_txt_box}>
-                        <p className={styles.hot_tit}>춘식이 먹방 팝업스토어</p>
-                        <p>2024.08.22<span>(목)</span><span>12:00</span></p>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <img src={`${process.env.PUBLIC_URL}/images/cultureInfo/KakaoTalk_20240524_000933916_09.gif`} alt="performance poster" />
-                      <div className={styles.hot_txt_box}>
-                        <p className={styles.hot_tit}>춘식이 팝업스토어</p>
-                        <p>2024.10.10<span>(목)</span><span>13:00</span></p>
-                        <span className={styles.early_mark}>얼리버드 티켓 판매중</span>
-                      </div>
-                    </a>
-                  </li>
-                </ul>
-                <span className={`${styles.next_btn} ${styles.flex_center}`}><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_white.png`}
-                  alt="next slide button" /></span>
-              </div>
+              {HotSlide()}
             </div>
           </div>
         </div>
@@ -72,42 +37,7 @@ export default function CultureInfo() {
           <div className={styles.early_sec}>
             <p className={styles.sec_tit}>얼리버드</p>
             <div className={styles.early_slide_box}>
-              <span className={`${styles.prev_btn} ${styles.flex_center}`}><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_left_white.png`}
-                alt="performance poster" /></span>
-              <ul className={`${styles.flex_between} ${styles.early_slide_list}`}>
-                <li>
-                  <a href="#" className={styles.flex_start}>
-                    <div className={styles.early_img}>
-                      <img src={`${process.env.PUBLIC_URL}/images/cultureInfo/KakaoTalk_20240524_000933916_10.gif`} alt="early bird info" />
-                    </div>
-                    <div className={styles.early_txt_box}>
-                      <p className={styles.early_tit}>서양 미술 800년展</p>
-                      <p className={styles.early_date}>2024.08.05&nbsp;~&nbsp;2024.10.31</p>
-                      <p className={styles.early_place}>더현대서울 6층 ALT.1</p>
-                      <span className={styles.left_time_mark}>남은시간</span>
-                      <p className={styles.time_left}><span>1일</span>&nbsp;<span>5시간</span>&nbsp;<span>36분</span>&nbsp;<span>12초</span></p>
-                      <p className={styles.early_end_date}>얼리버드 : 07.19&nbsp;<span>24:00</span>까지</p>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className={styles.flex_start}>
-                    <div className={styles.early_img}>
-                      <img src={`${process.env.PUBLIC_URL}/images/cultureInfo/KakaoTalk_20240524_000933916_06.gif`} alt="early bird info" />
-                    </div>
-                    <div className={styles.early_txt_box}>
-                      <p className={styles.early_tit}>서양 미술 800년展타이틀이 길어지는 경우에는</p>
-                      <p className={styles.early_date}>2024.08.05&nbsp;~&nbsp;2024.10.31</p>
-                      <p className={styles.early_place}>더현대서울 6층 ALT.1</p>
-                      <span className={styles.left_time_mark}>남은시간</span>
-                      <p className={styles.time_left}><span>1일</span>&nbsp;<span>5시간</span>&nbsp;<span>36분</span>&nbsp;<span>12초</span></p>
-                      <p className={styles.early_end_date}>얼리버드 : 07.19&nbsp;<span>24:00</span>까지</p>
-                    </div>
-                  </a>
-                </li>
-              </ul>
-              <span className={`${styles.next_btn} ${styles.flex_center}`}><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_white.png`}
-                alt="next btn" /></span>
+              {EarlySlide()}
             </div>
           </div>
         </div>

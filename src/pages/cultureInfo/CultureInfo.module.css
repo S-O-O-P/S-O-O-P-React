@@ -5,11 +5,21 @@
 .flex_between {display: flex; justify-content: space-between; align-items: center;}
 .flex_end {display: flex; justify-content: flex-end; align-items: center;}
 
-.wrapper{display: flex;flex-direction: column;align-items: center; width: 100%; background-color: #fff;}
 .contents_cont {width: 100%; min-height: calc(100vh - 180px); padding-top: 120px;}
 .hot_sec_box, .early_sec_box, .culture_sec_box, .detail_sec_box {width: 100%; display: flex; flex-direction: column; align-items: center;}
 .hot_sec, .early_sec, .culture_sec, .detail_sec {width: 100%; max-width: 1200px; padding: 0 20px;}
 .sec_tit {font-size: 24px; font-weight: var(--semiBold); text-align: center;}
+
+/* 슬라이드 prev / next 버튼 기본 설정 */
+.common_slide .prev_btn {left: -40px;}
+.common_slide .next_btn {right: -40px;}
+.common_slide .prev_btn, .common_slide .next_btn {display: flex; justify-content: center; align-items: center;z-index: 10; width: 40px; height: 40px; background-color: rgba(255, 183, 85, 0.7); border-radius:50%; cursor: pointer;}
+.common_slide .prev_btn, .common_slide .next_btn{transition: background-color 200ms ease-in-out;}
+.common_slide .prev_btn::before, .common_slide .next_btn::before{display: none;}
+.common_slide .prev_btn:focus, .common_slide .next_btn:focus, .common_slide .prev_btn:hover, .common_slide .next_btn:hover{background: var(--point-color);}
+.common_slide .prev_btn img, .common_slide .next_btn img {width: 34px; height: 34px;}
+.common_slide .prev_btn img{margin-left: -5px;}
+.common_slide .next_btn img {margin-right: -5px;}
 
 /* HOT 전시/공연 정보 */
 .ticket_shape_cont {align-items: stretch; width: 100%; }
@@ -19,13 +29,12 @@
 .cutting_line { margin-left: -10px; z-index: 10;}
 .cutting_line li {width: 10px; height: calc(100% / 8 - 16px); background-color: var(--main-color); border-radius:10px; margin-top: 10px;}
 .ticket_shape_cont .right_shape {position: relative; width: 74%; margin-left:-4px; background-color: #fff; border: 1px solid var(--main-color); border-radius:20px; overflow: hidden;}
-.hot_list {width: 100%; padding: 20px; }
-.hot_list li {width: calc(100% / 3 - 20px); align-self: stretch;}
-.hot_list li a {display: block; height: 100%; border-radius:20px; border: 1px solid var(--main-color); overflow: hidden;}
-.hot_list img {width: 100%; height: 150px; object-fit: cover;}
+.right_shape .hot_list {}
+.right_shape .hot_list a {display: block; height: 320px; margin: 0 10px; border-radius:20px; border: 1px solid var(--main-color); }
+.right_shape .hot_list img {width: 100%; height: 150px; object-fit: cover; object-position: top; border-radius: 19px 19px 0 0 ;}
 .right_shape .prev_btn, .right_shape .next_btn, .early_slide_box .prev_btn, .early_slide_box .next_btn {position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; width: 40px; height: 40px; background-color: rgba(255, 183, 85, 0.7); border-radius:50%; cursor: pointer;}
-.right_shape .prev_btn, .early_slide_box .prev_btn{left: 10px; }
-.right_shape .next_btn, .early_slide_box .next_btn {right: 10px;}
+.right_shape .prev_btn, .early_slide_box .prev_btn{left: -14px; }
+.right_shape .next_btn, .early_slide_box .next_btn {right: -14px;}
 .right_shape .prev_btn img, .right_shape .next_btn img, .early_slide_box .prev_btn img, .early_slide_box .next_btn img {width: 34px; height: 34px;}
 .right_shape .prev_btn img{margin-left: -5px;}
 .right_shape .next_btn img {margin-right: -5px;}
@@ -33,16 +42,15 @@
 .hot_txt_box p{padding-bottom: 5px; }
 .hot_tit {font-weight: var(--semiBold); font-size: 20px;}
 .hot_date {font-weight: var(--regular); font-size: 16px;}
-.early_mark {display: inline-block; height: 30px; padding:0 10px; font-size: 18px; font-weight: var(--semiBold);color: #ffffff; background-color: var(--main-color); border-radius: 30px; line-height: 30px;}
+.early_mark {display: inline-block; height: 30px; padding:0 10px; margin-top: 10px; font-size: 18px; font-weight: var(--semiBold);color: #ffffff; background-color: var(--main-color); border-radius: 30px; line-height: 30px;}
 
 /* 얼리버드 전시/공연 정보 */
 .early_sec {padding-top: 60px;}
 .early_slide_box {position: relative; width: 100%;margin-top: 40px; padding: 40px 20px;background-color: #14dfa4; border-radius:20px;}
 .early_slide_list {align-items: stretch;}
-.early_slide_list li {display: flex; width: calc(50% - 20px);}
-.early_slide_list li a{align-items: flex-start; width: 100%; background-color: #fff; border-radius: 20px;}
+.early_slide_box .early_slide_list a {align-items: flex-start; height: 300px; margin: 0 10px; background-color: #fff; border-radius: 20px; opacity: 1;}
 .early_img {width: 50%; height: 100%;}
-.early_img img {width: 100%; height: 100%; object-fit: cover; border-radius:20px 0  0 20px;}
+.early_img img {width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius:20px 0 0 20px;}
 .early_txt_box {padding: 20px;}
 .early_tit {padding-bottom: 10px; font-size: 20px; font-weight: var(--bold);}
 .early_date {padding-bottom: 10px; font-size: 16px; font-weight: var(--regular);}
@@ -51,6 +59,7 @@
 .time_left {padding-bottom: 20px; padding-top: 6px; font-size: 18px; font-weight: var(--semiBold); color: #D83030;}
 /* #c25451 */
 .early_end_date {font-weight: var(--medium);}
+
 
 /* 전시/공연 둘러보기 */
 .culture_sec {padding-top: 80px;}
