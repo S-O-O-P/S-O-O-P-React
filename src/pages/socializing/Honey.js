@@ -90,7 +90,7 @@ export default function Honey(){
             member: {memberId:33,nickname:'test333'},
             ticket: {ticketId:3,ticketPoster:'poster3.png',price: 15000},
             participant: [{participantId:3,member:{memberId:33,nickname:'test333'}}],
-            comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
+            comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'},{commentId:2,member:{memberId:2,nickname:'test2'},commentContents:'댓글입니다.2',commentAt:'2024-06-20'}],
             honeyGenre: '뮤지컬',
             honeyTitle: '허니팟 테스트3',
             honeyContent: '내용입니다.',
