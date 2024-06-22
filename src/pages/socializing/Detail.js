@@ -101,7 +101,7 @@ const Detail = () => {
                     댛글
                 </div>
                 {honey.comment.map((comments,index)=> (
-                    <div key={index} style={{justifyContent:'flex-start'}}>
+                    <div key={index} style={{justifyContent:'flex-start',fontSize:'15px'}}>
                         <span>{comments.member.nickname}</span>
                         {comments.member.nickname === honey.member.nickname ? <span>(작성자)</span> : <></>}
                         <span className='comment-box'>{comments.commentContents}asdfasdfasdfaasdklsdfluasdfkluasdfkluasdflkuhasdflkhsadflkuhasfljahsdflkjsadfklhjasdflkjsadhfljkasdhflkjasd[fasdflsdfklasdfkljasdflasdfkasdfklasdfljkahsdflksadfljksadfsdfasdfasdf</span>
