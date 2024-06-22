@@ -8,7 +8,7 @@ import Cs from './pages/serviceCenter/Cs';
 import Faq from './pages/serviceCenter/Faq';
 import Notice from './pages/serviceCenter/Notice';
 import Inquiry from './pages/serviceCenter/Inquiry';
-import Main from './pages/main/samaple';
+import Main from './pages/main/Main';
 import Honey from './pages/socializing/Honey';
 import CultureInfo from './pages/cultureInfo/CultureInfo';
 import CompletedPage from './pages/login/CompletedPage'
