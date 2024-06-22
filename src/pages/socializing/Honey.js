@@ -641,6 +641,14 @@ export default function Honey(){
         },[categoryStatus]
     )
 
+    useEffect(
+        ()=>{
+            showMannerDateModal 
+            ? document.body.style.overflow = 'hidden'
+            : document.body.style.overflow = 'auto'
+        },[showMannerDateModal]
+    )
+
     // [state] update시, 카테고리 변경시 목록 확인 로깅
     // useEffect(
     //     ()=>{
@@ -869,7 +877,7 @@ export default function Honey(){
                         <img onClick={ backBtn } src={'images/commons/icon_arrow_back_main_color.png'} alt="뒤로가기아이콘" />
                         <p> 일정 조회 </p>
                     </div>
-                    <div className='manner-modal-middle' style={{ height:'500px',marginTop:'20px'}}>
+                    <div className='manner-modal-middle' style={{ height:'380px',marginTop:'20px',borderBottom:'0px'}}>
                         <Calendar onChange={dateHandler} value={date} className='custom-calendar'/>
                     </div>
                 </div>
