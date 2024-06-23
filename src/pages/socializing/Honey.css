@@ -1,3 +1,7 @@
+body::-webkit-scrollbar {
+    display: none;
+}
+
 .honey-body {
     width: 1200px;
     margin: 144px auto;
@@ -69,7 +73,7 @@
     display: flex;
     /* flex-wrap: wrap; */
     flex-direction: column;
-    gap: 10px
+    gap: 5px
 }
 
 .content-box div {
@@ -174,4 +178,5 @@
     border: 2px solid;
     border-radius: 30px;
     border-color: var(--main-color);
+    outline: none;
 }

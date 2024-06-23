@@ -30,11 +30,12 @@
     font-size: 18px;
 }
 
-.writer-profile {
-    height: 150px;
-    border: 7px solid;
+.writer-profile-border {
+    height: 170px;
+    border: 6px solid;
     border-color: var(--main-color);
     border-radius: 50%;
+    background-color: #ffffff;
     color: white;
     font-size: 24px;
     font-family: 'SUIT Regular', sans-serif;
@@ -42,7 +43,8 @@
 }
 
 .writer-profile-pic {
-    height: 150px;
+    height: 170px;
+    border-radius: 50%;
     background-image: url('../../../public/images/commons/icon_mypage_colored.png'); /* 이미지 경로 설정 */
     background-size: cover;
     background-position: center;
@@ -59,7 +61,6 @@
     text-align: center;
     color: #ffffff;
     font-size: 12px;
-    /* margin-left: -150px; */
 }
 
 .decide-button {
@@ -111,9 +112,37 @@
 }
 
 .comment-box {
-    margin-left: 20px;
+    padding: 10px 20px;
+    border-top: 1px solid;
+    border-top-color: var(--main-color);
+    justify-content: flex-start;
+}
+
+.comment-textarea {
+    width: 100%;
+    height: 100px;
+    resize: none;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--main-color);
+    outline: none;
+}
+
+.submit-button {
+    width: 50px;
+    height: 28px;
+    font-size: 15px;
+    background-color: var(--main-color);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.comment-contents {
+    font-size: 15px;
     border: 1px solid black;
     overflow-wrap: break-word;
     white-space: pre-wrap;
     word-break: break-all;
+    margin-left: 15px;
 }
