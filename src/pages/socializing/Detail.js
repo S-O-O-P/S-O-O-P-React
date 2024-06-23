@@ -126,7 +126,12 @@ const Detail = () => {
                             <span>{honey.member.reviewScore.toFixed(1)}</span>
                           </>}
                     </>
-                    : <span>신규 호스트</span>
+                    : <>
+                        <span>신규 호스트</span>
+                        {honey.member.reviewScore === 0 
+                        ? <></> 
+                        : <span>{honey.member.reviewScore.toFixed(1)}</span>}
+                    </>
                     }
                 </div>
                 <div style={{ height:'390px', flexDirection:'column', marginTop:'-10px' }}>

@@ -57,7 +57,7 @@ export default function Honey(){
     const [tempList,setTempList] = useState([
         {
             honeyId: 1,
-            member: {memberId:31,nickname:'test111',reviewScore:0,hostCnt:1},
+            member: {memberId:31,nickname:'test111',reviewScore:4.8,hostCnt:1},
             ticket: {ticketId:3,ticketPoster:'poster1.png',price: 15000},
             participant: [{participantId:1,member:{memberId:31,nickname:'test111'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
@@ -420,7 +420,7 @@ export default function Honey(){
         },
         {
             honeyId: 17,
-            member: {memberId:36,nickname:'test666',reviewScore:5.0,hostCnt:1},
+            member: {memberId:36,nickname:'test666',reviewScore:0,hostCnt:1},
             ticket: {ticketId:3,ticketPoster:'poster3.png',price: 15000},
             participant: [{participantId:6,member:{memberId:36,nickname:'test666'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
