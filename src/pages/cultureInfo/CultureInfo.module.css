@@ -165,8 +165,10 @@
 .detail_tab_list li {width: calc(50% - 20px); height: 48px; border-radius:48px; background-color: #fff; color: var(--main-color); font-size: 24px; font-weight: var(--semibold); border: 1px solid var(--main-color); text-align: center; line-height: 48px; cursor: pointer; transition: background-color 200ms ease-in-out, color 200ms ease-in-out;}
 .detail_tab_list li.active {background-color: var(--main-color); color: #ffffff;}
 .detail_tab_list li:hover {background-color: var(--point-color); color: #ffffff;}
+.detail_tab_list li.left {}
+.detail_tab_list li.right {}
 
-.detail_info_list {align-items: flex-start; width: 200%; padding-top: 60px; transition: margin-left 200ms ease-in-out;}
+.detail_info_list {align-items: flex-start; width: 200%; padding-top: 60px; transition: margin-left 300ms ease-in-out;}
 .detail_info_list.active {margin-left: -100%;}
 .detail_info_list li {width: 100%; height: auto;}
 .detail_info_list.active li {height: 562px;}
