@@ -28,7 +28,7 @@
 /* .cutting_line {height: 100%; margin-left: -5px; background-color: var(--main-color); border-left: 10px dashed #ffffff;} */
 .cutting_line { margin-left: -10px; z-index: 10;}
 .cutting_line li {width: 10px; height: calc(100% / 8 - 16px); background-color: var(--main-color); border-radius:10px; margin-top: 10px;}
-.ticket_shape_cont .right_shape {position: relative; width: 74%; margin-left:-4px; background-color: #fff; border: 1px solid var(--main-color); border-radius:20px; overflow: hidden;}
+.ticket_shape_cont .right_shape {position: relative; width: 74%; padding: 20px; margin-left:-4px; background-color: #fff; border: 1px solid var(--main-color); border-radius:20px; overflow: hidden;}
 .right_shape .hot_list {}
 .right_shape .hot_list a {display: block; height: 320px; margin: 0 10px; border-radius:20px; border: 1px solid var(--main-color); }
 .right_shape .hot_list img {width: 100%; height: 150px; object-fit: cover; object-position: top; border-radius: 19px 19px 0 0 ;}
@@ -65,15 +65,18 @@
 .culture_sec {padding-top: 80px;}
 
 /* 전시/공연 필터링 리스트 */
-.filter_genre {padding-top: 40px;}
-.filter_genre li {height: 48px; margin-right: 20px; padding:0 20px; border: 1px solid var(--main-color); border-radius: 48px; background-color: #fff; cursor: pointer;}
-.filter_genre li p {font-size: 1.125rem; font-weight: var(--medium); white-space: nowrap; padding-right: 6px;}
-.filter_count {display: inline-block; width: 28px; height: 28px; border-radius:50%; background-color: var(--main-color); color: #ffffff; font-size: 16px; font-weight: var(--medium); line-height: 28px; text-align: center;}
-.filter_genre li img {width: 20px; height: 20px;}
-.filter_genre li.active {background-color: var(--main-color);}
-.filter_genre li.active p{color: #ffffff;}
-.filter_genre li.active .filter_count{background-color: #ffffff; color: var(--main-color);}
-.filter_genre li:last-child {margin-right: 0px;}
+.filter_genre_list {padding-top: 40px;}
+.filter_genre_list li {height: 48px; margin-right: 20px; padding:0 40px 0 20px; border: 1px solid var(--main-color); border-radius: 48px; background: center right 20px / 20px no-repeat url('../../../public/images/commons/icon_arrow_right_main_color.png'), #fff; cursor: pointer; transition: background 200ms ease-in-out, color 200ms ease-in-out;} 
+.filter_genre_list li p {font-size: 1.125rem; font-weight: var(--medium); white-space: nowrap; padding-right: 6px;}
+.filter_count {display: inline-block; width: 28px; height: 28px; border-radius:50%; background-color: var(--main-color); color: #ffffff; font-size: 16px; font-weight: var(--medium); line-height: 28px; text-align: center; transition: background-color 200ms ease-in-out, color 200ms ease-in-out;}
+.filter_genre_list li img {width: 20px; height: 20px;}
+.filter_genre_list li.active {background: center right 20px / 20px no-repeat url('../../../public/images/commons/icon_arrow_right_white.png'), var(--main-color);}
+.filter_genre_list li:hover {background: center right 20px / 20px no-repeat url('../../../public/images/commons/icon_arrow_right_white.png'), var(--main-color);}
+.filter_genre_list li.active p{color: #ffffff;}
+.filter_genre_list li:hover p{color: #ffffff;}
+.filter_genre_list li.active .filter_count{background-color: #ffffff; color: var(--main-color);}
+.filter_genre_list li:hover .filter_count{background-color: #ffffff; color: var(--main-color);}
+.filter_genre_list li:last-child {margin-right: 0px;}
 .divide_line {display: block; margin-top: 20px; padding-bottom: 20px; border-top: 1px solid var(--main-color);}
 
 /* 전시/공연 세부 필터링 리스트 */
@@ -81,11 +84,15 @@
 .detail_filter_list > li {position: relative;}
 .detail_filter_list > li.left_filter {margin-right: 20px;}
 .selected_filter {position: relative; height: 48px; padding:0 20px; border-radius:48px; border: 1px solid var(--main-color); font-size: 16px; font-weight: var(--regular); line-height: 48px; transition: margin-bottom 200ms ease-in-out; cursor: pointer;}
+li.left_filter .selected_filter {width: 156px;}
+li.right_filter .selected_filter {width: 128px;}
 .selected_option { font-size: 16px; font-weight: var(--regular);}
+.detail_filter_list > li .selected_filter img {transform: rotate(0); transition: transform 200ms ease-in-out;}
+.detail_filter_list > li.active .selected_filter img {transform: rotate(180deg); transition: transform 200ms ease-in-out;}
 .filter_arrow_icon {margin-left: 6px; width: 20px; height: 20px;}
-.detail_filter_list > li > ul {position: absolute; width: 100%; padding:20px; top: 88px; border-radius: 20px; border: 1px solid var(--main-color); background-color: #fff; opacity: 0; visibility: hidden; transition: top 200ms ease-in-out, opacity 200ms ease-in-out, visibility 200ms ease-in-out; z-index: -1;}
+.detail_filter_list > li > ul {position: absolute; width: 100%; padding:20px; top: 88px; border-radius: 20px; border: 1px solid var(--main-color); background-color: #fff; opacity: 0; visibility: hidden;z-index: -1; transition: top 200ms ease-in-out, opacity 200ms ease-in-out, visibility 200ms ease-in-out, z-index 200ms ease-in-out; }
 .detail_filter_list > li > ul.active { top: 58px; opacity: 1; visibility: visible; z-index: 10;} 
-.detail_filter_list > li > ul > li {margin-bottom: 6px; font-size: 14px; font-weight: var(--regular); transition: color 200ms ease-in-out; cursor: pointer;}
+.detail_filter_list > li > ul > li {margin-bottom: 10px; font-size: 16px; font-weight: var(--regular); transition: color 200ms ease-in-out; cursor: pointer;}
 .detail_filter_list > li > ul > li:hover {color: var(--main-color);}
 .detail_filter_list > li > ul > li:last-child {margin-bottom: 0; }
 .view_filter_list {height: 48px; border-radius:48px; background-color: #ffffff; border:1px solid var(--main-color);}
@@ -98,7 +105,8 @@
 
 /* 전시/공연 리스트 */
 /* 카드 형식 */
-.culture_list_box{display: flex; flex-direction: column; align-items: center;}
+.culture_list_box.active {display: flex;}
+.culture_list_box{display: none; flex-direction: column; align-items: center;}
 .culture_list {align-items: flex-start; flex-wrap: wrap;}
 .culture_list li {width: calc((100% - 60px) / 4); margin-right: 20px; margin-bottom: 40px;}
 .culture_list li:nth-child(4n) {margin-right: 0px;}
@@ -117,6 +125,8 @@
 .view_more_btn:hover {background-color: var(--point-color);}
 
 /* 테이블 형식 */
+.culture_table {display: none;} 
+.culture_table.active {display: block;}
 .culture_table table {width: 100%; border-collapse: collapse; table-layout: fixed;}
 .culture_table table thead {background-color: var(--main-color);}
 .culture_table table thead th{padding: 10px 0;  font-size: 18px; font-weight: var(--semiBold); color:#ffffff; background-color: var(--main-color); text-align: center; border-right: 1px solid #ffffff; white-space: nowrap;}

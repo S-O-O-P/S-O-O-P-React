@@ -1,8 +1,95 @@
+import { useEffect } from "react";
+import CardType from "../../components/cultureInfo/CardType";
 import EarlySlide from "../../components/cultureInfo/EarlySlide";
 import HotSlide from "../../components/cultureInfo/HotSlide";
 import styles from "./CultureInfo.module.css";
+import { useState } from "react";
 
 export default function CultureInfo() {
+
+  //State 설정
+  const [category, setCategory] = useState('all') // 선택한 카테고리 - 초기값은 전체
+  const [count, setCount] = useState('0'); // 카테고리 별 공연/전시 갯수
+
+
+  useEffect(
+    () => { 
+      
+      //공연/전시 대분류 카테고리 버튼
+      const genreFilterList = document.querySelectorAll(`.${styles.filter_genre_list} li`);
+
+      genreFilterList.forEach( genreBtn => { // 공연/전시 대분류 카테고리 버튼 각각에
+        genreBtn.addEventListener('click', (e)=>{ //클릭 이벤트 추가
+          genreFilterList.forEach(item => {
+            item.classList.remove(`${styles.active}`);
+          });
+          console.log(e.currentTarget.innerText);
+          e.currentTarget.classList.add(`${styles.active}`);
+        })
+      });
+
+      // 공연/전시 세부 필터
+      const detailFilter = document.querySelectorAll(`.${styles.detail_filter_list} > li`);
+
+      // 공연/전시 세부 필터링 리스트 아이템
+      const detailFilterItem = document.querySelectorAll(`.${styles.detail_filter_list} > li > ul > li`);
+      
+      // 선택한 공연/전시 세부 필터링 리스트 아이템 텍스트
+      // 왼쪽 필터링 리스트 선택 필터
+      const selectedLeftOption = document.querySelectorAll(`.${styles.left_detail_selected}`);
+
+      // 오른쪽 필터링 리스트 선택 필터
+      const selectedRightOption = document.querySelectorAll(`.${styles.right_detail_selected}`);
+
+
+      detailFilter.forEach( detailBtn => { //디테일 필터 각각에
+        detailBtn.addEventListener('click', (e)=>{ // 클릭 이벤트 추가
+          e.currentTarget.classList.contains(`${styles.active}`) ? e.currentTarget.classList.remove(`${styles.active}`) : e.currentTarget.classList.add(`${styles.active}`); // 클릭한 버튼의 활성화 여부에 따라 active 클래스 추가 또는 삭제
+          e.currentTarget.childNodes[1].classList.contains(`${styles.active}`) ? e.currentTarget.childNodes[1].classList.remove(`${styles.active}`) : e.currentTarget.childNodes[1].classList.add(`${styles.active}`); // 클릭한 버튼 > 필터링 리스트의 active 클래스 추가 또는 삭제
+        })
+      });
+
+      detailFilterItem.forEach(detailItem => { // 디테일 필터링 리스트 아이템 각각에
+        detailItem.addEventListener('click', (e)=>{ // 클릭 이벤트 추가
+          e.currentTarget.closest("ul").classList.remove(`.${styles.active}`); // 디테일 필터링 리스트 비활성화
+          e.currentTarget.closest("ul").previousElementSibling.childNodes[0].innerText = e.currentTarget.innerText;
+        })
+      });
+
+      // 공연/전시 카드/테이블 타입 보기 필터
+      const viewFilter = document.querySelectorAll(`.${styles.view_filter_list} > li`);
+      const viewCardType = document.querySelector(`.${styles.culture_list_box}`); // 카드 타입 영역
+      const viewTableType = document.querySelector(`.${styles.culture_table}`); // 테이블 타입 영역
+
+      viewFilter.forEach( viewBtn => { // 보기 필터 각각에 
+        viewBtn.addEventListener('click',(e)=>{ // 클릭 이벤트 추가
+          if(e.currentTarget.classList.contains(`${styles.active}`)){ //클릭한 버튼이 이미 활성화된 상태라면
+            return false;
+          }else{ // 클릭한 버튼이 비활성화된 상태라면
+            e.currentTarget.classList.add(`${styles.active}`); // 활성화 상태로 전환
+            console.log('현재 클릭한 버튼 :' + e.currentTarget.classList);
+            if(e.currentTarget.classList.contains(`${styles.left_filter}`)){ // 카드 형식 버튼이 활성화라면              
+              e.currentTarget.nextElementSibling.classList.remove(`${styles.active}`);
+              e.currentTarget.childNodes[0].setAttribute('src',`/images/cultureInfo/icon_home_white.png`);// 버튼 아이콘 활성화 이미지 변경
+              e.currentTarget.nextElementSibling.childNodes[0].setAttribute('src',`/images/commons/icon_list_colored.png`);// 버튼 아이콘 비활성화 이미지 변경
+              viewCardType.classList.add(`${styles.active}`);
+              viewTableType.classList.remove(`${styles.active}`);
+            }else{ // 테이블 형식 버튼이 활성화라면
+              e.currentTarget.previousElementSibling.classList.remove(`${styles.active}`);
+              e.currentTarget.childNodes[0].setAttribute('src',`/images/commons/icon_list_white.png`);// 버튼 아이콘 활성화 이미지 변경
+              e.currentTarget.previousElementSibling.childNodes[0].setAttribute('src',`/images/cultureInfo/icon_home_colored.png`);// 버튼 아이콘 비활성화 이미지 변경
+              viewTableType.classList.add(`${styles.active}`);
+              viewCardType.classList.remove(`${styles.active}`);
+            }
+          }
+        })
+      })
+
+      return () => {
+      }
+    },[]
+  );
+
 
   return (
     <>
@@ -47,46 +134,40 @@ export default function CultureInfo() {
         <div className={styles.culture_sec_box}>
           <div className={styles.culture_sec}>
             <p className={styles.sec_tit}>공연/전시 둘러보기</p>
-            <ul className={`${styles.filter_genre} ${styles.flex_center}`}>
+            <ul className={`${styles.filter_genre_list} ${styles.flex_center}`}>
               <li className={`${styles.flex_center} ${styles.active}`}>
                 <p>전시/행사 전체보기</p>
                 <span className={styles.filter_count}>56</span>
-                <img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="arrow left direction icon" />
               </li>
               <li className={styles.flex_center}>
                 <p>전시회</p>
                 <span className={styles.filter_count}>18</span>
-                <img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="arrow left direction icon" />
               </li>
               <li className={styles.flex_center}>
                 <p>공연</p>
                 <span className={styles.filter_count}>10</span>
-                <img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="arrow left direction icon" />
               </li>
               <li className={styles.flex_center}>
                 <p>뮤지컬</p>
                 <span className={styles.filter_count}>12</span>
-                <img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="arrow left direction icon" />
               </li>
               <li className={styles.flex_center}>
                 <p>행사/축제</p>
                 <span className={styles.filter_count}>7</span>
-                <img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="arrow left direction icon" />
               </li>
               <li className={styles.flex_center}>
                 <p>팝업</p>
                 <span className={styles.filter_count}>9</span>
-                <img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="arrow left direction icon" />
               </li>
             </ul>
             {/* // 공연/전시 필터링 버튼 리스트*/}
             <span className={styles.divide_line}></span>
 
             {/* 해당 공연/전시 세부 필터링 버튼 리스트 */}
-            <div className={`${styles.detail_filter_list} ${styles.flex_between}`}>
-              <ul className={styles.flex_start}>
+            <div className={`${styles.filter_box} ${styles.flex_between}`}>
+              <ul className={`${styles.detail_filter_list} ${styles.flex_start}`}>
                 <li className={styles.left_filter}>
-                  <span className={`${styles.selected_filter} ${styles.left} ${styles.flex_center}`}><span className={styles.selected_option}>최신등록순</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_bottom_main_color.png`} alt="arrow direction bottom icon" className={styles.filter_arrow_icon} /></span>
+                  <span className={`${styles.selected_filter} ${styles.left} ${styles.flex_between}`}><span className={`${styles.selected_option} ${styles.left_detail_selected}`}>최신등록순</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_bottom_main_color.png`} alt="arrow direction bottom icon" className={styles.filter_arrow_icon} /></span>
                   <ul>
                     <li>최신등록순</li>
                     <li>가격높은순</li>
@@ -96,7 +177,7 @@ export default function CultureInfo() {
                   </ul>
                 </li>
                 <li className={`${styles.right_filter} ${styles.region_filter}`}>
-                  <span className={`${styles.selected_filter} ${styles.right} ${styles.flex_center}`}><span className={styles.selected_option}>전체 지역</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_bottom_main_color.png`} alt="arrow direction bottom icon" className={styles.filter_arrow_icon} /></span>
+                  <span className={`${styles.selected_filter} ${styles.right} ${styles.flex_between}`}><span className={`${styles.selected_option} ${styles.right_detail_selected}`}>전체 지역</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_bottom_main_color.png`} alt="arrow direction bottom icon" className={styles.filter_arrow_icon} /></span>
                   <ul>
                     <li>전체 지역</li>
                     <li>서울</li>
@@ -109,7 +190,7 @@ export default function CultureInfo() {
 
               <ul className={`${styles.view_filter_list} ${styles.flex_start}`}>
                 <li className={`${styles.left_filter} ${styles.active} ${styles.flex_center}`}>
-                  <img src={`${process.env.PUBLIC_URL}/images/commons/icon_list_white.png`} alt="view card pattern icon" />
+                  <img src={`${process.env.PUBLIC_URL}/images/cultureInfo/icon_home_white.png`} alt="view card pattern icon" />
                 </li>
                 <li className={`${styles.right_filter} ${styles.flex_center}`}>
                   <img src={`${process.env.PUBLIC_URL}/images/commons/icon_list_colored.png`} alt="view table pattern icon" />
@@ -121,89 +202,9 @@ export default function CultureInfo() {
 
             {/* 공연/전시 리스트 */}
             {/* 카드 형식 */}
-            <div className={styles.culture_list_box}>
+            <div className={`${styles.culture_list_box} ${styles.active}`}>
               <ul className={`${styles.culture_list} ${styles.flex_start}`}>
-                <li>
-                  <a href="#">
-                    <div className={styles.culture_img}>
-                      <img src={`${process.env.PUBLIC_URL}/images/cultureInfo/KakaoTalk_20240524_000933916_04.png`} alt="culture poster" />
-                      <span className={styles.culture_mark}>마감임박</span>
-                    </div>
-                    <div className={styles.culture_item_txt}>
-                      <p className={styles.culture_tit}>서양 미술 800년展</p>
-                      <p className={styles.culture_date}>2024.08.05 ~ 2024.10.31</p>
-                      <p className={styles.early_end}></p>
-                      <p className={styles.culture_price}><span className={styles.sale_rate}>30%</span> 84,700원</p>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <div className={styles.culture_img}>
-                      <img src={`${process.env.PUBLIC_URL}/images/cultureInfo/KakaoTalk_20240524_000933916_07.gif`} alt="culture poster" />
-                    </div>
-                    <div className={styles.culture_item_txt}>
-                      <p className={styles.culture_tit}>2024 윤하 소극장 콘서트［潤夏]</p>
-                      <p className={styles.culture_date}>2024.08.05 ~ 2024.10.31</p>
-                      <p className={styles.early_end}></p>
-                      <p className={styles.culture_price}><span className={styles.sale_rate}>30%</span> 84,700원</p>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <div className={styles.culture_img}>
-                      {/* `${process.env.PUBLIC_URL} */}
-                      <img src={`${process.env.PUBLIC_URL}/images/cultureInfo/KakaoTalk_20240524_000933916_06.gif`} alt="culture poster" />
-                      <span className={styles.culture_mark}>얼리버드</span>
-                    </div>
-                    <div className={styles.culture_item_txt}>
-                      <p className={styles.culture_tit}>뮤지컬 [어쩌면 해피엔딩]</p>
-                      <p className={styles.culture_date}>2024.08.05 ~ 2024.10.31</p>
-                      <p className={styles.early_end}>얼리버드 : 07.19 24:00 까지</p>
-                      <p className={styles.culture_price}><span className={styles.sale_rate}>30%</span> 84,700원</p>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <div className={styles.culture_img}>
-                      <img src={`${process.env.PUBLIC_URL}/images/cultureInfo/KakaoTalk_20240524_000933916_02.jpg`} alt="culture poster" />
-                      <span className={styles.culture_mark}>마감임박</span>
-                    </div>
-                    <div className={styles.culture_item_txt}>
-                      <p className={styles.culture_tit}>서양 미술 800년展</p>
-                      <p className={styles.culture_date}>2024.08.05 ~ 2024.10.31</p>
-                      <p className={styles.culture_price}><span className={styles.sale_rate}>30%</span> 84,700원</p>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <div className={styles.culture_img}>
-                      <img src={`${process.env.PUBLIC_URL}/images/cultureInfo/KakaoTalk_20240524_000933916_04.png`} alt="culture poster" />
-                    </div>
-                    <div className={styles.culture_item_txt}>
-                      <p className={styles.culture_tit}>2024 윤하 소극장 콘서트［潤夏]</p>
-                      <p className={styles.culture_date}>2024.08.05 ~ 2024.10.31</p>
-                      <p className={styles.culture_price}><span className={styles.sale_rate}>30%</span> 84,700원</p>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <div className={styles.culture_img}>
-                      <img src={`${process.env.PUBLIC_URL}/images/cultureInfo/KakaoTalk_20240524_000933916_06.gif`} alt="culture poster" />
-                      <span className={styles.culture_mark}>얼리버드</span>
-                    </div>
-                    <div className={styles.culture_item_txt}>
-                      <p className={styles.culture_tit}>뮤지컬 [어쩌면 해피엔딩]</p>
-                      <p className={styles.culture_date}>2024.08.05 ~ 2024.10.31</p>
-                      <p className={styles.early_end}>얼리버드 : 07.19 24:00 까지</p>
-                      <p className={styles.culture_price}><span className={styles.sale_rate}>30%</span> 84,700원</p>
-                    </div>
-                  </a>
-                </li>
+                {CardType()}
               </ul>
               <span className={styles.view_more_btn}>더보기</span>
             </div>
