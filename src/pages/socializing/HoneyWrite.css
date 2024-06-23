@@ -1,0 +1,194 @@
+.write-body {
+    width: 800px;
+    height: 1100px;
+    margin: 0px auto;
+    background-image: url('../../../public/images/socializing/Background_Effect.png');
+    background-size: cover ;
+    background-position: top;
+    background-repeat: no-repeat;
+}
+
+.write-contents {
+    margin-top: 86px;
+}
+
+.write-header {
+    width: 800px;
+    height: 60px;
+    background-color: white;
+    border-bottom: 1px solid;
+    border-bottom-color: var(--main-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+
+.write-header div span {
+    color: var(--main-color);
+}
+
+.write-header img {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+}
+
+.write-middle {
+    height: 600px;
+    align-items: center;
+}
+
+.write-middle-title {
+    width: 800px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: var(--main-color);
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.write-middle-title p {
+    font-size: 18px;
+    margin-left: 20px;
+}
+
+.select-location {
+    width: 500px;
+    height: 260px;
+    border: 2px solid;
+    border-color: var(--main-color);
+    border-radius: 20px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-left: 150px;
+}
+
+.select-location div {
+    width: 300px;
+    height: 200px;
+    border-radius: 20px;
+    padding: 0px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+}
+
+.select-location div span:hover {
+    border-radius: 10px;
+    background-color: var(--main-color);
+    cursor: pointer;
+}
+
+.unselected-location {
+    width: 100%;
+    height: 50px;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.selected-location {
+    width: 100%;
+    height: 50px;
+    font-size: 15px;
+    border-radius: 10px;
+    color: white;
+    background-color: var(--main-color);
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.select-total {
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.select-total label {
+    height: 40px;
+    font-size: 18px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.select-total label:hover {
+    background-color: var(--main-color);
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.select-total label input[type="radio"] {
+    display: none;
+  }
+  
+.custom-radio-checkmark {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    border: 2px solid #ccc;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .select-total label input[type="radio"]:checked + .custom-radio-checkmark {
+    border-color: var(--main-color);
+  }
+  
+  .select-total label input[type="radio"]:checked + .custom-radio-checkmark::after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--main-color);
+  }
+
+  .write-bottom {
+    width: 800px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px auto;
+}
+
+.write-bottom div {
+    width: 150px;
+    height: 50px;
+    background-color: #ffffff;
+    border: 1px solid;
+    border-radius: 30px;
+    border-color: var(--main-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.write-bottom div:hover {
+    width: 150px;
+    height: 50px;
+    border: 2px solid;
+    border-radius: 30px;
+    border-color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}

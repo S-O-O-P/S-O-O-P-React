@@ -686,6 +686,8 @@ export default function Honey(){
     // 최초 mount시, 최초에 가져온 원본 데이터 보관 & 가공할 카피 데이터 state 초기화
     useEffect(
         ()=>{
+            // 허니팟 목록 정보 api 호출
+            // setLoginInfo(인증정보)
             setCopyList(tempList)
             setCurrent(getPagingPosts())
             isChange ? setFilteredCopyCnt(copyList.length) : setFilteredTempCnt(tempList.length);
@@ -823,6 +825,10 @@ export default function Honey(){
         }
     };
 
+    const writeHandler = () => {
+        navigate('/write-honey/step1')
+    }
+
     // 본문
     return(
         <>
@@ -870,41 +876,46 @@ export default function Honey(){
                     }
                     {categoryStatus === 3 && <h2>일정별 허니팟</h2>}
                 </div>
-                <div className='select-box'>
-                    <select value={select} onChange={(e) => setSelect(e.target.value)}>
-                        <option value={'최신순'}>최신순</option>
-                        <option value={'지역별'}>지역별</option>
-                        <option value={'N'}>모집중</option>
-                        <option value={'Y'}>모집완료</option>
-                    </select>
-                    {select === '지역별' 
-                    ? 
-                    <>
-                        <select style={{marginLeft:'10px'}} 
-                                value={city} 
-                                onChange={(e) => setCity(e.target.value)}>
-                            <option value={''}>--</option>
-                            <option value={'서울'}>서울</option>
-                            <option value={'경기'}>경기</option>
-                            <option value={'인천'}>인천</option>
+                <div style={{ display:'flex', justifyContent:'space-between' }}>
+                    <div className='select-box'>
+                        <select value={select} onChange={(e) => setSelect(e.target.value)}>
+                            <option value={'최신순'}>최신순</option>
+                            <option value={'지역별'}>지역별</option>
+                            <option value={'N'}>모집중</option>
+                            <option value={'Y'}>모집완료</option>
                         </select>
-                        <select style={{marginLeft:'10px'}} 
-                                value={region} 
-                                onChange={(e) => setRegion(e.target.value)}>
-                            <option value={''}>--</option>
-                            <option value={'강서구'}>강서구</option>
-                            <option value={'강남구'}>강남구</option>
-                            <option value={'강동구'}>강동구</option>
-                            <option value={'중구'}>중구</option>
-                        </select>
-                    </>
-                    : (<></>)}
+                        {select === '지역별' 
+                        ? 
+                        <>
+                            <select style={{marginLeft:'10px'}} 
+                                    value={city} 
+                                    onChange={(e) => setCity(e.target.value)}>
+                                <option value={''}>--</option>
+                                <option value={'서울'}>서울</option>
+                                <option value={'경기'}>경기</option>
+                                <option value={'인천'}>인천</option>
+                            </select>
+                            <select style={{marginLeft:'10px'}} 
+                                    value={region} 
+                                    onChange={(e) => setRegion(e.target.value)}>
+                                <option value={''}>--</option>
+                                <option value={'강서구'}>강서구</option>
+                                <option value={'강남구'}>강남구</option>
+                                <option value={'강동구'}>강동구</option>
+                                <option value={'중구'}>중구</option>
+                            </select>
+                        </>
+                        : (<></>)}
+                    </div>
+                    <div className='write-button' onClick={writeHandler}>
+                        <p>글쓰기</p>
+                    </div>
                 </div>
                 <div className='main-contents'>
                     {getPagingPosts().map((honey,index) => (
                         <div key={index} 
-                            className='honey-list' 
-                            onClick={() => postDetailHandler(honey)}>
+                        className='honey-list' 
+                        onClick={() => postDetailHandler(honey)}>
                         {honey.empty 
                         ? (
                             <div>게시물이 없습니다.</div>
@@ -990,7 +1001,7 @@ export default function Honey(){
             <div className='manner-modal-container' onClick={modalOverlayHandler}>
                 <div className='manner-modal-content' style={{ backgroundImage: `url(${getImage('Background_Effect.png')})`, height:'480px', backgroundSize:'cover', backgroundPosition:'center', backgroundRepeat:'no-repeat' }}>
                     <div className='manner-modal-header' style={{ backgroundColor:'white', borderTopLeftRadius:'10px', borderTopRightRadius:'10px'}}>
-                        <img onClick={ backBtn } src={'images/commons/icon_arrow_back_main_color.png'} alt="뒤로가기아이콘" />
+                        <img style={{cursor:'pointer'}} onClick={ backBtn } src={'images/commons/icon_arrow_back_main_color.png'} alt="뒤로가기아이콘" />
                         <p> 모집일자 조회 </p>
                     </div>
                     <div className='manner-modal-middle' style={{ height:'380px', marginTop:'20px', borderBottom:'0px'}}>

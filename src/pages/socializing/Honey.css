@@ -180,3 +180,15 @@ body::-webkit-scrollbar {
     border-color: var(--main-color);
     outline: none;
 }
+
+.write-button {
+    width: 80px;
+    height: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 30px;
+    cursor: pointer;
+}

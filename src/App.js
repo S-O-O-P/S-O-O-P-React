@@ -14,6 +14,8 @@ import CultureInfo from './pages/cultureInfo/CultureInfo';
 import CompletedPage from './pages/login/CompletedPage'
 import Detail from './pages/socializing/Detail';
 import NoticeDetailPage from './pages/serviceCenter/NoticeDetail';
+import HoneyWrite from './pages/socializing/HoneyWrite';
+import HoneyWrite2 from './pages/socializing/HoneyWrite2';
 
 export default function App() {
 
@@ -36,6 +38,8 @@ export default function App() {
               <Route path='/noticedetail' element={<NoticeDetailPage />} /> {/*공지사항 상세페이지*/}
               <Route path='/honey' element={<Honey/>}/> {/* 허니팟 */}
               <Route path='/detail' element={<Detail/>}/> {/*허니팟 상세페이지*/}
+              <Route path='/write-honey/step1' element={<HoneyWrite/>}/> {/* 허니팟 글쓰기페이지*/}
+              <Route path='/write-honey/step2' element={<HoneyWrite2/>}/> {/* 허니팟 글쓰기페이지*/}
             </Route> 
             {/* 레이아웃 클로즈 */}              
           </Routes>
