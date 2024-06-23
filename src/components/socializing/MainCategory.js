@@ -3,38 +3,32 @@ import './MainCategory.css'
 function MainCategory(
     {
         tempList,
-        setCopyList,
-        setIsChange,
         categoryStatus,
         setCategoryStatus,
-        setSearchVal,
-        setPage,
         setExhibitionCnt,
         setPerformanceCnt,
         setMusicalCnt,
         setFestivalCnt,
-        setPopupCnt }) {
+        setPopupCnt,
+        setDate,
+        setShowMannerDateModal
+      }) {
 
     function todayHandler(){
-        setCategoryStatus(1)
-        setCopyList(tempList)
-        setIsChange(false)
-        setPage(1)
-        setSearchVal('')
+        setCategoryStatus(1);
+        setDate(new Date);
+        setShowMannerDateModal(false);
     }
 
     function genreHandler(){
         setCategoryStatus(2)
-        setCopyList(tempList)
-        setIsChange(false)
-        setPage(1)
 
         let exhibitionCount = 0;
         let performanceCount = 0;
         let musicalCount = 0;
         let festivalCount = 0;
         let popupCount = 0;
-    
+
         tempList.forEach(item => {
           switch (item.honeyGenre) {
             case '전시회':
@@ -62,14 +56,13 @@ function MainCategory(
         setMusicalCnt(musicalCount);
         setFestivalCnt(festivalCount);
         setPopupCnt(popupCount);
+        setDate(new Date);
+        setShowMannerDateModal(false);
       }
 
     function dateHandler(){
-        setCategoryStatus(3)
-        setCopyList(tempList)
-        setIsChange(false)
-        setPage(1)
-        setSearchVal('')
+        setCategoryStatus(3);
+        setShowMannerDateModal(true);
     }
 
 
