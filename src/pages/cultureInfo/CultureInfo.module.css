@@ -106,7 +106,7 @@ li.right_filter .selected_filter {width: 128px;}
 /* 전시/공연 리스트 */
 /* 카드 형식 */
 .culture_list_box.active {display: flex;}
-.culture_list_box{display: none; flex-direction: column; align-items: center;}
+.culture_list_box{display: none; flex-direction: column; align-items: center; padding-bottom: 100px;}
 .culture_list {align-items: flex-start; flex-wrap: wrap;}
 .culture_list li {width: calc((100% - 60px) / 4); margin-right: 20px; margin-bottom: 40px;}
 .culture_list li:nth-child(4n) {margin-right: 0px;}
@@ -125,7 +125,7 @@ li.right_filter .selected_filter {width: 128px;}
 .view_more_btn:hover {background-color: var(--point-color);}
 
 /* 테이블 형식 */
-.culture_table {display: none;} 
+.culture_table {display: none; padding-bottom: 100px;} 
 .culture_table.active {display: block;}
 .culture_table table {width: 100%; border-collapse: collapse; table-layout: fixed;}
 .culture_table table thead {background-color: var(--main-color);}
