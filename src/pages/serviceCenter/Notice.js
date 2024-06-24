@@ -4,40 +4,40 @@ import { Link } from 'react-router-dom';
 
 function NoticePage() {
 
-    const currentFaqs = [
-        { title: "FAQ 제목 1", writer: "관리자 1", date: "2024-01-01", category: "notice" },
-        { title: "FAQ 제목 2", writer: "관리자 2", date: "2024-02-01", category: "event" },
-        { title: "FAQ 제목 3", writer: "관리자 3", date: "2024-03-01", category: "notice" },
-        { title: "FAQ 제목 4", writer: "관리자 4", date: "2024-04-01", category: "event" },
-        { title: "FAQ 제목 5", writer: "관리자 5", date: "2024-05-01", category: "notice" },
-        { title: "FAQ 제목 6", writer: "관리자 6", date: "2024-05-01", category: "event" },
-        { title: "FAQ 제목 7", writer: "관리자 7", date: "2024-05-01", category: "notice" },
-        { title: "FAQ 제목 8", writer: "관리자 8", date: "2024-05-01", category: "event" },
-        { title: "FAQ 제목 9", writer: "관리자 9", date: "2024-05-01", category: "notice" },
-        { title: "FAQ 제목 10", writer: "관리자 10", date: "2024-05-01", category: "event" },
-        { title: "FAQ 제목 11", writer: "관리자 11", date: "2024-05-01", category: "notice" },
-        { title: "FAQ 제목 12", writer: "관리자 12", date: "2024-05-01", category: "event" },
-        { title: "FAQ 제목 13", writer: "관리자 13", date: "2024-05-01", category: "notice" }
+    const currentNotices = [
+        { title: "notice 제목 1", writer: "관리자 1", date: "2024-01-01", category: "notice" },
+        { title: "notice 제목 2", writer: "관리자 2", date: "2024-02-01", category: "event" },
+        { title: "notice 제목 3", writer: "관리자 3", date: "2024-03-01", category: "notice" },
+        { title: "notice 제목 4", writer: "관리자 4", date: "2024-04-01", category: "event" },
+        { title: "notice 제목 5", writer: "관리자 5", date: "2024-05-01", category: "notice" },
+        { title: "notice 제목 6", writer: "관리자 6", date: "2024-05-01", category: "event" },
+        { title: "notice 제목 7", writer: "관리자 7", date: "2024-05-01", category: "notice" },
+        { title: "notice 제목 8", writer: "관리자 8", date: "2024-05-01", category: "event" },
+        { title: "notice 제목 9", writer: "관리자 9", date: "2024-05-01", category: "notice" },
+        { title: "notice 제목 10", writer: "관리자 10", date: "2024-05-01", category: "event" },
+        { title: "notice 제목 11", writer: "관리자 11", date: "2024-05-01", category: "notice" },
+        { title: "notice 제목 12", writer: "관리자 12", date: "2024-05-01", category: "event" },
+        { title: "notice 제목 13", writer: "관리자 13", date: "2024-05-01", category: "notice" }
     ];
 
     const [search, setSearch] = useState("");
     const [selected, setSelected] = useState("all");
-    const [filteredFaqs, setFilteredFaqs] = useState(currentFaqs);
+    const [filterednotices, setFilterednotices] = useState(currentNotices);
     const [currentPage, setCurrentPage] = useState(1);
-    const faqsPerPage = 10;
-    const totalPages = Math.ceil(filteredFaqs.length / faqsPerPage);
+    const noticesPerPage = 10;
+    const totalPages = Math.ceil(filterednotices.length / noticesPerPage);
 
     const onChange = (e) => {
         setSearch(e.target.value);
     };
 
     const handleSubmit = () => {
-        const filtered = currentFaqs.filter(faq => {
-            const matchCategory = selected === "all" || faq.category === selected;
-            const matchSearch = search === "" || faq.title.includes(search);
+        const filtered = currentNotices.filter(notice => {
+            const matchCategory = selected === "all" || notice.category === selected;
+            const matchSearch = search === "" || notice.title.includes(search);
             return matchCategory && matchSearch;
         });
-        setFilteredFaqs(filtered);
+        setFilterednotices(filtered);
         setCurrentPage(1);
     };
 
@@ -45,9 +45,9 @@ function NoticePage() {
         setSelected(e.target.value);
     };
 
-    const indexOfLastFaq = currentPage * faqsPerPage;
-    const indexOfFirstFaq = indexOfLastFaq - faqsPerPage;
-    const currentFaq = filteredFaqs.slice(indexOfFirstFaq, indexOfLastFaq);
+    const indexOfLastnotice = currentPage * noticesPerPage;
+    const indexOfFirstnotice = indexOfLastnotice - noticesPerPage;
+    const currentNotice = filterednotices.slice(indexOfFirstnotice, indexOfLastnotice);
 
     const handlePageClick = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -84,11 +84,11 @@ function NoticePage() {
 
                     <table className={style.table}>
                         <tbody>
-                            {currentFaq.map((faq, index) => (
+                            {currentNotice.map((notice, index) => (
                                 <tr key={index}>
-                                    <td className={style.noticeTitle}><a href="/noticedetail">{faq.title}</a></td>
-                                    <td>{faq.writer}</td>
-                                    <td>{faq.date}</td>
+                                    <td className={style.noticeTitle}><a href="/noticedetail">{notice.title}</a></td>
+                                    <td>{notice.writer}</td>
+                                    <td>{notice.date}</td>
                                 </tr>
                             ))}
                         </tbody>
