@@ -1,6 +1,40 @@
+import { useEffect } from "react";
 import styles from "./CultureInfo.module.css";
 
 export default function CultureDetail() {
+
+  useEffect(
+    () => {
+      // 이용 및 상세 정보 / 허니팟 정보 탭 버튼
+      const tabBtn = document.querySelectorAll(`.${styles.detail_tab_list} li`);
+
+      // 탭 내용 영역
+      const tabCont = document.querySelector(`.${styles.detail_info_list}`);
+
+      tabBtn.forEach(tab => {
+        tab.addEventListener('click', (e) => {          
+          if(e.currentTarget.classList.contains(`${styles.active}`)){ // 활성화된 탭이라면
+            return false;
+          }else{ // 비활성화된 탭이라면
+            e.currentTarget.classList.add(`${styles.active}`);
+            console.log(e.currentTarget.classList);
+            if(e.currentTarget.classList.contains(`${styles.left}`)){ // 이용 및 상세 정보 탭 활성화라면
+              e.currentTarget.nextElementSibling.classList.remove(`${styles.active}`);  
+              tabCont.classList.remove(`${styles.active}`);            
+            }else{ // 허니팟 정보 탭 활성화라면
+              e.currentTarget.previousElementSibling.classList.remove(`${styles.active}`); 
+              tabCont.classList.add(`${styles.active}`);
+            }
+          }
+        })
+      });
+
+      return () => {
+      }
+    },
+    []
+  );
+
   return (
     <>
       {/* contents */}
@@ -9,7 +43,7 @@ export default function CultureDetail() {
           <div className={styles.detail_sec}>
             <p className={`${styles.sec_tit} ${styles.left}`}>서양 미술 800년展</p>
             <div className={`${styles.detail_summary} ${styles.flex_between}`}>
-              <div className={styles.detail_img}><img src={`${process.env.PUBLIC_URL}/images/cultureInfo/KakaoTalk_20240524_000933916_08.gif`} alt="detail page"/></div>
+              <div className={styles.detail_img}><img src="https://images.pexels.com/photos/6899764/pexels-photo-6899764.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="detail page"/></div>
               <div className={styles.summary_txt_box}>
                 <ul>
                   <li className={styles.flex_start}><p className={styles.detail_item_tit}>장소</p><p>더 현대 서울 ALT.1</p></li>
@@ -63,19 +97,18 @@ export default function CultureDetail() {
                   <p className={styles.info_description}>얼리버드 할인 티켓 이용 기간 : <span>2024.08.05 ~ 2024.09.06(금)</span></p>
                   <p className={styles.info_tit}>상세 정보</p>
                   <div className={styles.detail_info_img}>
-                    <img src={`${process.env.PUBLIC_URL}/images/cultureInfo/KakaoTalk_20240524_000933916_01.webp`} alt="detail info"/>
-                    <img src={`${process.env.PUBLIC_URL}/images/cultureInfo/detail_info_image_sample.png`} alt="detail info"/>
+                    <img src="https://images.pexels.com/photos/6899764/pexels-photo-6899764.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="detail info"/>
                   </div>
                     </li>
 
                     {/* 허니팟 정보 */}
                     <li>
                       {/* 등록된 허니팟이 없는 경우 - NULL */}
-                      <div className="detail_null_box">
-                        <img src={`${process.env.PUBLIC_URL}/images/cultureInfo/KakaoTalk_20240524_000933916.gif`} alt="null page"/>
-                          <p className="null_txt">아직 등록된 허니팟이 없어요</p>
-                          <p className="null_txt">지금 바로 허니팟 호스트가 되어 주세요</p>
-                          <span className="hosting_btn">허니팟 호스팅</span>
+                      <div className={styles.detail_null_box}>
+                        <img src={`${process.env.PUBLIC_URL}/images/commons/logo.png`} alt="null page"/>
+                          <p className={styles.null_txt}>아직 등록된 허니팟이 없어요</p>
+                          <p className={styles.null_txt}>지금 바로 허니팟 호스트가 되어 주세요</p>
+                          <span className={styles.hosting_btn}>허니팟 호스팅</span>
                       </div>
                     </li>
                   </ul>
