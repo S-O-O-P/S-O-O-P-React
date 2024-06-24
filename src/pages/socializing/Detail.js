@@ -1,8 +1,8 @@
 import { useState,useEffect } from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './Detail.css'
 
-const Detail = () => {
+function Detail() {
 
     // 비동기로 가져올 댓글 목록 : 댓글 실시간 반영
     const [comment,setComment] = useState([])
@@ -21,6 +21,8 @@ const Detail = () => {
 
     useEffect(
         ()=>{
+            // setComment([]) // 댓글 정보 api 호출
+            // setLoginInfo(인증정보)
             setJoinStatus(isJoined)
             console.log(isJoined)
             setJoinText('호스트는 신청할 수 없습니다')
