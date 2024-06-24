@@ -4,6 +4,7 @@ import ParticipatingHoneypot from '../../components/mypage/ParticipatingHoneypot
 import MyHoneypot from '../../components/mypage/MyHoneypot';
 import MyComments from '../../components/mypage/MyComments';
 import Review from '../../components/mypage/Review';
+import MyInquiry from '../../components/mypage/MyInquiry';
 import './MyPage.css';
 
 
@@ -64,7 +65,7 @@ const MyPage = () => {
                 <p onClick={() => { setSelectedMenu('myHoneypot')}} className='category-sub'>내가 만든 허니팟</p>
                 <p onClick={() => { setSelectedMenu('myComments')}} className='category-sub'>내가 쓴 댓글</p>
                 <p onClick={() => { setSelectedMenu('review')}} className='category-main'>멤버 평가</p>
-                <p className='category-main'>문의 내역</p>
+                <p onClick={() => { setSelectedMenu('myInquiry')}} className='category-main'>문의 내역</p>
                 <p className='category-main'>프로필 수정</p>
             </div>
 
@@ -79,6 +80,8 @@ const MyPage = () => {
             {selectedMenu === 'myHoneypot' && <MyHoneypot/>}
             {selectedMenu === 'myComments' && <MyComments/>}
             {selectedMenu === 'review' && <Review />}
+            {selectedMenu === 'myInquiry' && <MyInquiry />}
+
 
             {/* 마이페이지 메인 - 고정 디테일 */}
         </div>
