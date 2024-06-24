@@ -4,30 +4,41 @@ import { Link } from 'react-router-dom';
 
 function NoticePage() {
 
+    const currentFaqs = [
+        { title: "FAQ 제목 1", writer: "관리자 1", date: "2024-01-01", category: "notice" },
+        { title: "FAQ 제목 2", writer: "관리자 2", date: "2024-02-01", category: "event" },
+        { title: "FAQ 제목 3", writer: "관리자 3", date: "2024-03-01", category: "notice" },
+        { title: "FAQ 제목 4", writer: "관리자 4", date: "2024-04-01", category: "event" },
+        { title: "FAQ 제목 5", writer: "관리자 5", date: "2024-05-01", category: "notice" },
+        { title: "FAQ 제목 6", writer: "관리자 6", date: "2024-05-01", category: "event" },
+        { title: "FAQ 제목 7", writer: "관리자 7", date: "2024-05-01", category: "notice" },
+        { title: "FAQ 제목 8", writer: "관리자 8", date: "2024-05-01", category: "event" },
+        { title: "FAQ 제목 9", writer: "관리자 9", date: "2024-05-01", category: "notice" },
+        { title: "FAQ 제목 10", writer: "관리자 10", date: "2024-05-01", category: "event" },
+        { title: "FAQ 제목 11", writer: "관리자 11", date: "2024-05-01", category: "notice" },
+        { title: "FAQ 제목 12", writer: "관리자 12", date: "2024-05-01", category: "event" },
+        { title: "FAQ 제목 13", writer: "관리자 13", date: "2024-05-01", category: "notice" }
+    ];
+
     const [search, setSearch] = useState("");
-    const [searchValue, setSearchValue] = useState("");
-    const [selected, setSelected] = useState("전체");
-    // const [filteredFaqs, setFilteredFaqs] = useState(faqList);
+    const [selected, setSelected] = useState("all");
+    const [filteredFaqs, setFilteredFaqs] = useState(currentFaqs);
     const [currentPage, setCurrentPage] = useState(1);
     const faqsPerPage = 10;
-    // const totalPages = Math.ceil(filteredFaqs.length / faqsPerPage);
+    const totalPages = Math.ceil(filteredFaqs.length / faqsPerPage);
 
     const onChange = (e) => {
         setSearch(e.target.value);
-        console.log(search);
     };
 
     const handleSubmit = () => {
-        setSearchValue(search);
-        // const filtered = faqList.filter(faq => {
-        //     const matchCategory = selected === "전체" || faq.category === selected;
-        //     const matchSearch = search === "" || faq.question.includes(search) || faq.answer.includes(search);
-        //     return matchCategory && matchSearch;
-        // });
-        // setFilteredFaqs(filtered);
+        const filtered = currentFaqs.filter(faq => {
+            const matchCategory = selected === "all" || faq.category === selected;
+            const matchSearch = search === "" || faq.title.includes(search);
+            return matchCategory && matchSearch;
+        });
+        setFilteredFaqs(filtered);
         setCurrentPage(1);
-        console.log(selected);
-        console.log(searchValue);
     };
 
     const handleSelect = (e) => {
@@ -36,20 +47,21 @@ function NoticePage() {
 
     const indexOfLastFaq = currentPage * faqsPerPage;
     const indexOfFirstFaq = indexOfLastFaq - faqsPerPage;
-    // const currentFaqs = filteredFaqs.slice(indexOfFirstFaq, indexOfLastFaq);
+    const currentFaq = filteredFaqs.slice(indexOfFirstFaq, indexOfLastFaq);
 
     const handlePageClick = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
     const pagination = [];
-    // for (let i = 1; i <= totalPages; i++) {
-    //     pagination.push(
-    //         <li key={i} className={currentPage === i ? style.activePage : null}>
-    //             <button onClick={() => handlePageClick(i)}>{i}</button>
-    //         </li>
-    //     );
-    // }
+    for (let i = 1; i <= totalPages; i++) {
+        pagination.push(
+            <li key={i} className={currentPage === i ? style.activePage : null}>
+                <button onClick={() => handlePageClick(i)}>{i}</button>
+            </li>
+        );
+    }
+
     return (
         <>
             <div className={style.wrapper}>
@@ -68,15 +80,24 @@ function NoticePage() {
                         </button>
                     </div>
 
-                    <p className={style.helpMessage}>찾는 내용이 없을 경우 전화나 1:1문의 바랍니다.</p>
+                    <p className={style.notice}>공지사항</p>
 
-                    {/* {currentFaqs.map((faq, index) => (
-                        <li key={index}>
-                                <hr className={style.contentLine} />
-                                <p className={style.content}>{faq.answer}</p>
-                            <hr className={style.hrLine} />
-                        </li>
-                    ))} */}
+                    <table className={style.table}>
+                        <tbody>
+                            {currentFaq.map((faq, index) => (
+                                <tr key={index}>
+                                    <td className={style.noticeTitle}><a href="/noticedetail">{faq.title}</a></td>
+                                    <td>{faq.writer}</td>
+                                    <td>{faq.date}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <div className={style.pagination}>
+                        <ul className={style.paginationList}>{pagination}</ul>
+                    </div>
+
+                    <p className={style.helpMessage}>찾는 내용이 없을 경우 전화나 1:1문의 바랍니다.</p>
 
                     <div className={style.inquiryBoxAll}>
                         <div className={style.call}>
@@ -99,7 +120,6 @@ function NoticePage() {
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </>

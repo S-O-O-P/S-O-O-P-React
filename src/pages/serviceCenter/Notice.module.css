@@ -3,7 +3,6 @@
     align-items: center;
     flex-direction: column;
     margin: 80px 0 60px 0;
-    height: 100vh;
 }
 
 .contentBox {
@@ -65,6 +64,48 @@
     position: absolute;
     right: 45px;
     top: 30px;
+}
+
+/* ----- 공지사항 ---- */
+
+.notice {
+    display: flex;
+    justify-content: center;
+    padding: 60px 0 40px 0;
+
+    font-size: 20px;
+    font-weight: var(--semiBold);
+
+}
+
+.table {
+    display: flex;
+    justify-content: center;
+}
+
+.table tr {
+    display: flex;
+    justify-content: space-between;
+    width: 1160px;
+    height: 44px;
+    border-bottom: 1px solid var(--main-color);
+    align-items: center;
+}
+
+.table td {
+    font-size: 16px;
+    font-weight: var(--regular);
+    padding: 0 10px;
+}
+
+.noticeTitle {
+    width: 700px;
+    display: flex;
+    justify-content: left;
+}
+
+.table th {
+    border: solid 1px var(--main-color);
 }
 
 /* ---- 문의하기 ---- */
@@ -151,4 +192,32 @@
 .inquiryText {
     font-size: 12px;
     font-weight: var(--regular);
+}
+
+/* ----- 페이지 네이션 ----- */
+
+.pagination {
+    margin-top: 20px;
+}
+
+.paginationList {
+    display: flex;
+    justify-content: center;
+}
+
+.paginationList li {
+    margin: 10px 10px;
+}
+
+.paginationList li button {
+    background-color: #fff;
+    color: var(--main-color);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 50px;
+}
+
+.paginationList li.activePage button {
+    background-color: var(--main-color);
+    color: #fff;
 }
