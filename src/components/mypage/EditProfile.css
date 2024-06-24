@@ -21,10 +21,11 @@
     font-family: 'SUIT Semibold', sans-serif;
 }
 
-.profile-container hr {
+.profile-container .divide-line {
     width: 0;
     height: 90%;
     border: 0.25px solid var(--main-color);
+    align-self: center;
 }
 
 .profile-left {
@@ -81,11 +82,26 @@
     border: 1px solid var(--main-color);
     border-radius: 10px;
     display: flex;
-    padding-left: 20px;
-    padding-top: 20px;
+    padding: 20px;
     font-family: 'SUIT Regular', sans-serif;
-
+    overflow-y: auto;
 }
+
+  /*스크롤바 수정*/
+.profile-left .intro-textarea::-webkit-scrollbar {
+    width: 10px;  
+}
+
+.profile-left .intro-textarea::-webkit-scrollbar-thumb {
+    background: var(--main-color);
+    border-radius: 10px;
+}
+
+.profile-left .intro-textarea::-webkit-scrollbar-track {
+    background: rgba(255, 183, 85, 0.4);
+}
+
+
 
 .profile-left .intro-textarea::placeholder {
     font-family: 'SUIT Regular', sans-serif;
@@ -130,6 +146,13 @@
     cursor: pointer;
 }
 
+.interest-wrapper button:hover {
+    background: #EB844A;
+    color: white;
+}
+
+
+
 .interest-wrapper button.selected {
     height: 48px;
     background: var(--main-color);
@@ -165,4 +188,8 @@
     font-family: 'SUIT Regular', sans-serif;
     font-size: 16px;
     cursor: pointer;
+}
+
+.modify-btn:hover {
+    background: #EB844A;
 }

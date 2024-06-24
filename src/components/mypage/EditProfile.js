@@ -6,7 +6,7 @@ function EditProfile( {nickName, introduce, profileUpdate}) {
     const [inputText, setInputText] = useState(nickName);
     const [textAreaText, setTextAreaText] = useState(introduce);
 
-    const maxLength = 100;
+    const maxLength = 180;
 
     const handleInputChange = (e) => {
         setInputText(e.target.value);
@@ -87,7 +87,7 @@ function EditProfile( {nickName, introduce, profileUpdate}) {
                 <p className='limit'>{textAreaText.length}/{maxLength}</p>
                 <textarea className='intro-textarea' type='text' placeholder={ '자기소개를 입력하세요.' } value={textAreaText} onChange={handleTextAreaChange} />
             </div>    
-            <hr/>
+            <hr className='divide-line'/>
             <div className='profile-right'>
                 <p>관심사</p>
                 <div className='interest-wrapper'>

@@ -122,9 +122,6 @@
 
 }
 
-
-
-
 .list-contents .button {
     width: 140px;
     display: flex;
@@ -141,6 +138,10 @@
     font-family: 'SUIT Semibold', sans-serif;
     font-size: 16px;
     cursor: pointer;
+}
+
+.list-contents button:hover {
+    background-color: #EB844A;
 }
 
 .hide-honeypot-member-list {
@@ -331,6 +332,10 @@
     cursor: pointer;
 }
 
+.send-review-btn:hover {
+    background-color: #EB844A;
+}
+
 .modal-container {
     position: fixed;
     top: 0;
@@ -391,6 +396,10 @@ font-size: 16px;
     margin-left: 10px;
 }
 
+.modal-button.yes:hover {
+    background: #EB844A;
+}
+
 .modal-button.no {
     width: 140px;
     height: 48px;
@@ -399,6 +408,11 @@ font-size: 16px;
     background-color: white;
     color: var(--main-color);
     margin-right: 10px;
+}
+
+.modal-button.no:hover {
+    background: #EB844A;
+    color: white;
 }
 
 .confirm-modal-container {
@@ -452,6 +466,10 @@ font-size: 16px;
     background-color: var(--main-color);
     color: #fff;
     margin-left: 10px;
+}
+
+.confirm-modal-button.yes:hover {
+    background: #EB844A;
 }
 
 

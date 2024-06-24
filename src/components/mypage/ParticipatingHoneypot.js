@@ -28,7 +28,7 @@ function ParticipatingHoneypot() {
                     <button className='submit-btn' type='submit'></button>
                 </div>
             </div>
-            <div>
+            <div className="mypage-table-container ">
                 <table>
                     <tr className='tr-title'>
                         <th className='th-category'>카테고리</th>
@@ -37,14 +37,14 @@ function ParticipatingHoneypot() {
                         <th className='th-region'>모임지역</th>
                         <th className='th-members'>참여인원</th>
                     </tr>
-                    <tr>
+                    <tr className="one-honeypot-info">
                         <td className='td-category'>팝업</td>
                         <td className='td-title'>대상혁 숭배하러 가실 분</td>
                         <td className='td-meetday'>6월 6일(목)</td>
                         <td className='td-region'>강남구</td>
                         <td className='td-members'>1/2</td>
                     </tr>
-                    <tr>
+                    <tr className="one-honeypot-info">
                         <td className='td-category'>전시</td>
                         <td className='td-title'>[더현대] 서양 전시 800년 展</td>
                         <td className='td-meetday'>6월 16일(일)</td>

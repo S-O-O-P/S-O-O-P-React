@@ -51,23 +51,31 @@
     font-size: 20px;
 }
 
-.comment-view {
+.mypage-table-container .comment-view {
     height: 96px;
+    cursor: pointer;
 }
 
-.th-comment,
-.td-comment {
+.mypage-table-container .comment-view:hover td,
+.mypage-table-container .comment-view:hover p {
+    color: #EB844A;
+}
+
+
+
+.mypage-table-container .th-comment,
+.mypage-table-container .td-comment {
     width: 530px;
     margin-left: 20px;
 }
 
-.td-comment {
+.mypage-table-container .td-comment {
     text-align: left;
     display: flex;
     flex-direction: column;
 }
 
-.td-comment .comment-title {
+.mypage-table-container .td-comment .comment-title {
     height: 44px;
     font-size: 18px;
     display: flex;
@@ -75,20 +83,20 @@
     justify-content: center;
 }
 
-.td-comment p {
+.mypage-table-container .td-comment p {
     height: 52px;
     font-size: 16px;
     white-space: normal;
 }
 
-.th-registration-date,
-.td-registration-date {
+.mypage-table-container .th-registration-date,
+.mypage-table-container .td-registration-date {
     width: 100px;
     margin-left: 40px;
 }
 
-.th-position,
-.td-position {
+.mypage-table-container .th-position,
+.mypage-table-container .td-position {
     width: 100px;
     margin-left: 40px;
 }
