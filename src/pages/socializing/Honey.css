@@ -1,29 +1,33 @@
+body::-webkit-scrollbar {
+    display: none;
+}
+
 .honey-body {
-    width:1200px;
-    margin:144px auto;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
+    width: 1200px;
+    margin: 144px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .honey-body2 {
-    width:1200px;
-    background-image: url('../../../public/images/socializing/Background_Effect.png'); /* 이미지 경로 설정 */
+    width: 1200px;
+    background-image: url('../../../public/images/socializing/Background_Effect.png');
     background-size: cover ;
     background-position: top;
     background-repeat: no-repeat;
 }
 
 .sub-category-padding {
-    height:60px;
+    height: 60px;
     line-height: 60px;
-    display:flex;
+    display: flex;
     justify-content: center;
 }
 
 .main-category-title {
-    display:flex;
-    justify-content:center;
+    display: flex;
+    justify-content: center;
     margin-top: 50px;
 }
 
@@ -31,13 +35,18 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    margin-left: 10px;
     margin-top: 50px;
+    margin-left: 10px;
+    cursor: pointer;
 }
 
 .honey-list  {
-    padding:10px;
+    padding: 10px;
     display: flex;
+}
+
+.honey-list:hover {
+    transform: scale(1.03);
 }
 
 .honey-list div img {
@@ -49,21 +58,22 @@
 .img-box {
     width: 139px;
     height: 200px;
-    border-radius:10px;
+    border-radius: 10px;
     background-color: #ffffff;
     box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
 }
 
 .content-box {
-    width:431px;
-    height:200px;
-    border:1px solid rgba(0, 0, 0, 0.3);
-    border-radius:10px;
+    width: 431px;
+    height: 200px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
     background-color: #ffffff;
     box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
-    display:flex;
-    flex-wrap: wrap;
-    
+    display: flex;
+    /* flex-wrap: wrap; */
+    flex-direction: column;
+    gap: 5px
 }
 
 .content-box div {
@@ -74,7 +84,23 @@
     padding: 20px;
     display: flex;
     justify-content: space-between;
-    overflow:hidden;
+    align-items: center;
+}
+
+.recruit-status {
+    width: 60px;
+    height: 30px;
+    border-radius: 20px;
+    color: #ffffff;
+    font-size: 12px;
+    text-align: center;
+}
+
+.participant-profile-pic {
+    background-image: url('../../../public/images/commons/icon_mypage_colored.png'); /* 이미지 경로 설정 */
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .pagination-box {
@@ -84,15 +110,15 @@
 }
 
 .pagination-box div img {
-    display:flex;
+    display: flex;
     justify-content: center;
-    width:50%;
+    width: 50%;
     height: 50%;
     margin-top: 11px;
 }
 
 .pagination-box div p {
-    color: #FBB755;
+    color: var(--main-color);
 }
 
 .arrow-left {
@@ -100,8 +126,8 @@
 }
 
 .paginationOn {
-    width:58px;
-    height:43px;
+    width: 58px;
+    height: 43px;
     display: flex;
     justify-content: center;
     line-height: 43px;
@@ -109,8 +135,8 @@
 }
 
 .paginationOff {
-    width:58px;
-    height:43px;
+    width: 58px;
+    height: 43px;
     display: flex;
     justify-content: center;
     line-height: 43px;
@@ -119,8 +145,8 @@
 }
 
 .arrowOff {
-    width:58px;
-    height:43px;
+    width: 58px;
+    height: 43px;
     display: flex;
     justify-content: center;
     line-height: 43px;
@@ -129,11 +155,40 @@
 }
 
 .paginationOff:hover {
-    width:58px;
-    height:43px;
+    width: 58px;
+    height: 43px;
     display: flex;
     justify-content: center;
     line-height: 43px;
     cursor: pointer;
     opacity: 1;
+}
+
+.select-box {
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 30px;
+}
+
+.select-box select{
+    width: 85px;
+    height: 30px;
+    padding-left: 10px;
+    border: 2px solid;
+    border-radius: 30px;
+    border-color: var(--main-color);
+    outline: none;
+}
+
+.write-button {
+    width: 80px;
+    height: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 30px;
+    cursor: pointer;
 }

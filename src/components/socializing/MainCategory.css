@@ -13,7 +13,7 @@
     font-size: 18px;
     border: 2px solid;
     border-radius: 48px;
-    border-color: #FBB755;
+    border-color: var(--main-color);
     display: flex;
     justify-content: center;
     cursor: pointer;
@@ -28,7 +28,7 @@
     color: #ffffff;
     border: 2px solid;
     border-radius: 48px;
-    background-color: #FBB755;
+    background-color: var(--main-color);
     display: flex;
     justify-content: center;
     cursor: pointer;
@@ -42,7 +42,7 @@
     font-weight: bold;
     color: #ffffff;
     border-radius: 48px;
-    background-color: #FBB755;
+    background-color: var(--main-color);
     display: flex;
     justify-content: center;
     cursor: pointer;

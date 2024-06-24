@@ -3,7 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import MainCategory from '../../components/socializing/MainCategory';
 import Search from '../../components/socializing/Search';
 import SubCategory from '../../components/socializing/SubCategory';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 import './Honey.css';
+import './CustomCalendar.css';
 
 
 export default function Honey(){
@@ -20,20 +23,31 @@ export default function Honey(){
 
     const [categoryStatus, setCategoryStatus] = useState(1);
     const [subCategoryStatus, setSubCategoryStatus] = useState(1);
+    const [subKeyword,setSubKeyword] = useState('전체');
     const [copyList,setCopyList] = useState([]);
+    const [current,setCurrent] = useState([]);
+    const [filteredTempCnt,setFilteredTempCnt] = useState(0);
+    const [filteredCopyCnt,setFilteredCopyCnt] = useState(0);
     const [page, setPage] = useState(1);
     const [isChange,setIsChange] = useState(false);
     const [searchVal,setSearchVal] = useState('');
-    const [subKeyword,setSubKeyword] = useState('전체');
     const [exhibitionCnt,setExhibitionCnt] = useState(0);
     const [performanceCnt,setPerformanceCnt] = useState(0);
     const [musicalCnt,setMusicalCnt] = useState(0);
     const [festivalCnt,setFestivalCnt] = useState(0);
     const [popupCnt,setPopupCnt] = useState(0);
-    const [select,setSelect] = useState('');
+    const [select,setSelect] = useState('최신순');
     const [city,setCity] = useState('');
     const [region,setRegion] = useState('');
-    const [current,setCurrent] = useState([]);
+
+    // 로그인 정보 임시 데이터
+    const [loginInfo,setLoginInfo] = useState({
+        memberId:33,
+        nickname:'test333'
+    });
+    
+    const [date,setDate] = useState(new Date);
+    const [showMannerDateModal, setShowMannerDateModal] = useState(false);
 
     
     // BE 작업용 실제 데이터 api state
@@ -43,14 +57,16 @@ export default function Honey(){
     const [tempList,setTempList] = useState([
         {
             honeyId: 1,
-            member: {memberId:31,nickname:'test111'},
+            member: {memberId:31,nickname:'test111',reviewScore:4.8,hostCnt:1},
             ticket: {ticketId:3,ticketPoster:'poster1.png',price: 15000},
-            participant: [{participantId:1,member:{memberId:31,nickname:'test111'}}],
+            participant: [{participantId:1,member:{memberId:31,nickname:'test111'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '공연',
             honeyTitle: '허니팟 테스트1',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강서구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -59,14 +75,16 @@ export default function Honey(){
         },
         {
             honeyId: 2,
-            member: {memberId:32,nickname:'test222'},
+            member: {memberId:32,nickname:'test222',reviewScore:5.0,hostCnt:2},
             ticket: {ticketId:3,ticketPoster:'poster2.png',price: 15000},
-            participant: [{participantId:2,member:{memberId:32,nickname:'test222'}}],
+            participant: [{participantId:2,member:{memberId:32,nickname:'test222'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '전시회',
             honeyTitle: '허니팟 테스트2',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강동구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -75,14 +93,95 @@ export default function Honey(){
         },
         {
             honeyId: 3,
-            member: {memberId:33,nickname:'test333'},
+            member: {memberId:33,nickname:'test333',reviewScore:0,hostCnt:2},
             ticket: {ticketId:3,ticketPoster:'poster3.png',price: 15000},
-            participant: [{participantId:3,member:{memberId:33,nickname:'test333'}}],
-            comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
+            participant: [
+                {
+                    participantId:3,
+                    member:{memberId:33,nickname:'test333'},
+                    role:'host'
+                }
+            ],
+            comment: [
+                {
+                    commentId:1,
+                    member:{memberId:1,nickname:'test1'},
+                    commentContents:'댓글입니다.1',
+                    commentAt:'2024-06-20'
+                },
+                {
+                    commentId:2,
+                    member:{memberId:33,nickname:'test333'},
+                    commentContents:'호스트 댓글입니다.1',
+                    commentAt:'2024-06-20'
+                },
+                {
+                    commentId:2,
+                    member:{memberId:2,nickname:'test2'},
+                    commentContents:'댓글입니다sadfasdfasdfasdfasdfasdfasdfasdf.2',
+                    commentAt:'2024-06-20'
+                },
+                {
+                    commentId:2,
+                    member:{memberId:2,nickname:'test2'},
+                    commentContents:'댓글입니다asdfasdfasdfasdfasdfasdfasdfasdfasdfasdf.2',
+                    commentAt:'2024-06-20'
+                },
+                {
+                    commentId:2,
+                    member:{memberId:2,nickname:'test2'},
+                    commentContents:'댓글입니다asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf.2',
+                    commentAt:'2024-06-20'
+                },
+                {
+                    commentId:2,
+                    member:{memberId:2,nickname:'test2'},
+                    commentContents:'댓글입니다asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf.2',
+                    commentAt:'2024-06-20'
+                },
+                {
+                    commentId:2,
+                    member:{memberId:2,nickname:'test2'},
+                    commentContents:'댓글입니다asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf.2',
+                    commentAt:'2024-06-20'
+                },
+                {
+                    commentId:2,
+                    member:{memberId:2,nickname:'test2'},
+                    commentContents:'댓글입니다asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf.2',
+                    commentAt:'2024-06-20'
+                },
+                {
+                    commentId:2,
+                    member:{memberId:2,nickname:'test2'},
+                    commentContents:'댓글입니다asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf.2',
+                    commentAt:'2024-06-20'
+                },
+                {
+                    commentId:2,
+                    member:{memberId:2,nickname:'test2'},
+                    commentContents:'댓글입니다asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf.2',
+                    commentAt:'2024-06-20'
+                },
+                {
+                    commentId:2,
+                    member:{memberId:2,nickname:'test2'},
+                    commentContents:'댓글입니다asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf.2',
+                    commentAt:'2024-06-20'
+                },
+                {
+                    commentId:2,
+                    member:{memberId:2,nickname:'test2'},
+                    commentContents:'댓글입니다asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf.2',
+                    commentAt:'2024-06-20'
+                }
+            ],
             honeyGenre: '뮤지컬',
             honeyTitle: '허니팟 테스트3',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강남구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -91,14 +190,16 @@ export default function Honey(){
         },
         {
             honeyId: 4,
-            member: {memberId:34,nickname:'test444'},
+            member: {memberId:34,nickname:'test444',reviewScore:5.0,hostCnt:2},
             ticket: {ticketId:4,ticketPoster:'poster1.png',price: 15000},
-            participant: [{participantId:4,member:{memberId:34,nickname:'test444'}}],
+            participant: [{participantId:4,member:{memberId:34,nickname:'test444'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '행사_축제',
             honeyTitle: '허니팟 테스트4',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '중구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -107,14 +208,16 @@ export default function Honey(){
         },
         {
             honeyId: 5,
-            member: {memberId:35,nickname:'test555'},
+            member: {memberId:35,nickname:'test555',reviewScore:0,hostCnt:2},
             ticket: {ticketId:3,ticketPoster:'poster2.png',price: 15000},
-            participant: [{participantId:5,member:{memberId:35,nickname:'test555'}}],
+            participant: [{participantId:5,member:{memberId:35,nickname:'test555'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '팝업',
             honeyTitle: '허니팟 테스트5',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강서구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -123,14 +226,16 @@ export default function Honey(){
         },
         {
             honeyId: 6,
-            member: {memberId:36,nickname:'test666'},
+            member: {memberId:36,nickname:'test666',reviewScore:5.0,hostCnt:2},
             ticket: {ticketId:3,ticketPoster:'poster3.png',price: 15000},
-            participant: [{participantId:6,member:{memberId:36,nickname:'test666'}}],
+            participant: [{participantId:6,member:{memberId:36,nickname:'test666'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '전시회',
             honeyTitle: '허니팟 테스트6',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '인천',
+            honeyRegion: '강남구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -139,14 +244,16 @@ export default function Honey(){
         },
         {
             honeyId: 7,
-            member: {memberId:37,nickname:'test777'},
+            member: {memberId:37,nickname:'test777',reviewScore:5.0,hostCnt:2},
             ticket: {ticketId:3,ticketPoster:'poster1.png',price: 15000},
-            participant: [{participantId:7,member:{memberId:37,nickname:'test777'}},{participantId:13,member:{memberId:22,nickname:'test2122'}}],
+            participant: [{participantId:7,member:{memberId:37,nickname:'test777'},role:'host'},{participantId:13,member:{memberId:33,nickname:'test333'},role:'ptcp'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '공연',
             honeyTitle: '허니팟 테스트7',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '경기',
+            honeyRegion: '강서구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'Y',
@@ -155,14 +262,16 @@ export default function Honey(){
         },
         {
             honeyId: 8,
-            member: {memberId:38,nickname:'test888'},
+            member: {memberId:38,nickname:'test888',reviewScore:0,hostCnt:1},
             ticket: {ticketId:3,ticketPoster:'poster2.png',price: 15000},
-            participant: [{participantId:8,member:{memberId:38,nickname:'test888'}},{participantId:12,member:{memberId:21,nickname:'test212'}}],
+            participant: [{participantId:8,member:{memberId:38,nickname:'test888'},role:'host'},{participantId:12,member:{memberId:21,nickname:'test212'},role:'ptcp'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '뮤지컬',
             honeyTitle: '허니팟 테스트8',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강남구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'Y',
@@ -170,14 +279,16 @@ export default function Honey(){
             honeyReportCount: 0,
         },{
             honeyId: 9,
-            member: {memberId:39,nickname:'test999'},
+            member: {memberId:39,nickname:'test999',reviewScore:5.0,hostCnt:2},
             ticket: {ticketId:3,ticketPoster:'poster3.png',price: 15000},
-            participant: [{participantId:9,member:{memberId:39,nickname:'test999'}}],
+            participant: [{participantId:9,member:{memberId:39,nickname:'test999'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '행사_축제',
             honeyTitle: '허니팟 테스트9',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '경기',
+            honeyRegion: '중구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -185,14 +296,16 @@ export default function Honey(){
             honeyReportCount: 0,
         },{
             honeyId: 10,
-            member: {memberId:40,nickname:'test1110'},
+            member: {memberId:40,nickname:'test1110',reviewScore:5.0,hostCnt:2},
             ticket: {ticketId:3,ticketPoster:'poster1.png',price: 15000},
-            participant: [{participantId:10,member:{memberId:40,nickname:'test1110'}}],
+            participant: [{participantId:10,member:{memberId:40,nickname:'test1110'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '팝업',
             honeyTitle: '허니팟 테스트10',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '인천',
+            honeyRegion: '강서구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -200,14 +313,16 @@ export default function Honey(){
             honeyReportCount: 0,
         },{
             honeyId: 11,
-            member: {memberId:41,nickname:'test1111'},
+            member: {memberId:41,nickname:'test1111',reviewScore:5.0,hostCnt:2},
             ticket: {ticketId:3,ticketPoster:'poster2.png',price: 15000},
-            participant: [{participantId:11,member:{memberId:41,nickname:'test1111'}}],
+            participant: [{participantId:11,member:{memberId:41,nickname:'test1111'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '공연',
             honeyTitle: '허니팟 테스트11',
             honeyContent: '내용입니다. 내가 가장 좋아하는 음식은 김치찌개이고',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강서구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -215,14 +330,16 @@ export default function Honey(){
             honeyReportCount: 0,
         },{
             honeyId: 12,
-            member: {memberId:31,nickname:'test111'},
+            member: {memberId:31,nickname:'test111',reviewScore:0,hostCnt:2},
             ticket: {ticketId:3,ticketPoster:'poster1.png',price: 15000},
-            participant: [{participantId:1,member:{memberId:31,nickname:'test111'}}],
+            participant: [{participantId:1,member:{memberId:31,nickname:'test111'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '공연',
             honeyTitle: '허니팟 테스트1',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '중구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -231,14 +348,16 @@ export default function Honey(){
         },
         {
             honeyId: 13,
-            member: {memberId:32,nickname:'test222'},
+            member: {memberId:32,nickname:'test222',reviewScore:5.0,hostCnt:2},
             ticket: {ticketId:3,ticketPoster:'poster2.png',price: 15000},
-            participant: [{participantId:2,member:{memberId:32,nickname:'test222'}}],
+            participant: [{participantId:2,member:{memberId:32,nickname:'test222'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '전시회',
             honeyTitle: '허니팟 테스트2',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '경기',
+            honeyRegion: '강동구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -247,14 +366,16 @@ export default function Honey(){
         },
         {
             honeyId: 14,
-            member: {memberId:33,nickname:'test333'},
+            member: {memberId:33,nickname:'test333',reviewScore:0,hostCnt:2},
             ticket: {ticketId:3,ticketPoster:'poster3.png',price: 15000},
-            participant: [{participantId:3,member:{memberId:33,nickname:'test333'}}],
+            participant: [{participantId:3,member:{memberId:33,nickname:'test333'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '뮤지컬',
             honeyTitle: '허니팟 테스트3',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '인천',
+            honeyRegion: '강남구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -263,14 +384,16 @@ export default function Honey(){
         },
         {
             honeyId: 15,
-            member: {memberId:34,nickname:'test444'},
+            member: {memberId:34,nickname:'test444',reviewScore:5.0,hostCnt:1},
             ticket: {ticketId:4,ticketPoster:'poster1.png',price: 15000},
-            participant: [{participantId:4,member:{memberId:34,nickname:'test444'}}],
+            participant: [{participantId:4,member:{memberId:34,nickname:'test444'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '행사_축제',
             honeyTitle: '허니팟 테스트4',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '인천',
+            honeyRegion: '강남구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -279,14 +402,16 @@ export default function Honey(){
         },
         {
             honeyId: 16,
-            member: {memberId:35,nickname:'test555'},
+            member: {memberId:35,nickname:'test555',reviewScore:0,hostCnt:2},
             ticket: {ticketId:3,ticketPoster:'poster2.png',price: 15000},
-            participant: [{participantId:5,member:{memberId:35,nickname:'test555'}}],
+            participant: [{participantId:5,member:{memberId:35,nickname:'test555'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '팝업',
             honeyTitle: '허니팟 테스트5',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강서구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -295,14 +420,16 @@ export default function Honey(){
         },
         {
             honeyId: 17,
-            member: {memberId:36,nickname:'test666'},
+            member: {memberId:36,nickname:'test666',reviewScore:0,hostCnt:1},
             ticket: {ticketId:3,ticketPoster:'poster3.png',price: 15000},
-            participant: [{participantId:6,member:{memberId:36,nickname:'test666'}}],
+            participant: [{participantId:6,member:{memberId:36,nickname:'test666'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '전시회',
             honeyTitle: '허니팟 테스트6',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강서구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -311,14 +438,16 @@ export default function Honey(){
         },
         {
             honeyId: 18,
-            member: {memberId:37,nickname:'test777'},
+            member: {memberId:37,nickname:'test777',reviewScore:5.0,hostCnt:1},
             ticket: {ticketId:3,ticketPoster:'poster1.png',price: 15000},
-            participant: [{participantId:7,member:{memberId:37,nickname:'test777'}},{participantId:13,member:{memberId:22,nickname:'test2122'}}],
+            participant: [{participantId:7,member:{memberId:37,nickname:'test777'},role:'host'},{participantId:13,member:{memberId:22,nickname:'test2122'},role:'ptcp'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '공연',
             honeyTitle: '허니팟 테스트7',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '인천',
+            honeyRegion: '강남구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'Y',
@@ -327,14 +456,16 @@ export default function Honey(){
         },
         {
             honeyId: 19,
-            member: {memberId:38,nickname:'test888'},
+            member: {memberId:38,nickname:'test888',reviewScore:0,hostCnt:2},
             ticket: {ticketId:3,ticketPoster:'poster2.png',price: 15000},
-            participant: [{participantId:8,member:{memberId:38,nickname:'test888'}},{participantId:12,member:{memberId:21,nickname:'test212'}}],
+            participant: [{participantId:8,member:{memberId:38,nickname:'test888'},role:'host'},{participantId:12,member:{memberId:21,nickname:'test212'},role:'ptcp'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '뮤지컬',
             honeyTitle: '허니팟 테스트8',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '경기',
+            honeyRegion: '강동구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'Y',
@@ -342,14 +473,16 @@ export default function Honey(){
             honeyReportCount: 0,
         },{
             honeyId: 20,
-            member: {memberId:39,nickname:'test999'},
+            member: {memberId:39,nickname:'test999',reviewScore:5.0,hostCnt:1},
             ticket: {ticketId:3,ticketPoster:'poster3.png',price: 15000},
-            participant: [{participantId:9,member:{memberId:39,nickname:'test999'}}],
+            participant: [{participantId:9,member:{memberId:39,nickname:'test999'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '행사_축제',
             honeyTitle: '허니팟 테스트9',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '중구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -357,14 +490,16 @@ export default function Honey(){
             honeyReportCount: 0,
         },{
             honeyId: 21,
-            member: {memberId:40,nickname:'test1110'},
+            member: {memberId:40,nickname:'test1110',reviewScore:5.0,hostCnt:1},
             ticket: {ticketId:3,ticketPoster:'poster1.png',price: 15000},
-            participant: [{participantId:10,member:{memberId:40,nickname:'test1110'}}],
+            participant: [{participantId:10,member:{memberId:40,nickname:'test1110'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '팝업',
             honeyTitle: '허니팟 테스트10',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '중구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -372,14 +507,16 @@ export default function Honey(){
             honeyReportCount: 0,
         },{
             honeyId: 22,
-            member: {memberId:41,nickname:'test1111'},
+            member: {memberId:41,nickname:'test1111',reviewScore:5.0,hostCnt:1},
             ticket: {ticketId:3,ticketPoster:'poster2.png',price: 15000},
-            participant: [{participantId:11,member:{memberId:41,nickname:'test1111'}}],
+            participant: [{participantId:11,member:{memberId:41,nickname:'test1111'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '공연',
             honeyTitle: '허니팟 테스트11',
             honeyContent: '내용입니다. 내가 가장 좋아하는 음식은 김치찌개이고',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '중구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -387,14 +524,16 @@ export default function Honey(){
             honeyReportCount: 0,
         },{
             honeyId: 23,
-            member: {memberId:32,nickname:'test222'},
+            member: {memberId:32,nickname:'test222',reviewScore:5.0,hostCnt:1},
             ticket: {ticketId:3,ticketPoster:'poster2.png',price: 15000},
-            participant: [{participantId:2,member:{memberId:32,nickname:'test222'}}],
+            participant: [{participantId:2,member:{memberId:32,nickname:'test222'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '전시회',
             honeyTitle: '허니팟 테스트2',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '인천',
+            honeyRegion: '강남구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -403,9 +542,9 @@ export default function Honey(){
         },
         {
             honeyId: 24,
-            member: {memberId:33,nickname:'test333'},
+            member: {memberId:33,nickname:'test333',reviewScore:5.0,hostCnt:1},
             ticket: {ticketId:3,ticketPoster:'poster3.png',price: 15000},
-            participant: [{participantId:3,member:{memberId:33,nickname:'test333'}}],
+            participant: [{participantId:3,member:{memberId:33,nickname:'test333'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '뮤지컬',
             honeyTitle: '허니팟 테스트3',
@@ -419,14 +558,16 @@ export default function Honey(){
         },
         {
             honeyId: 25,
-            member: {memberId:34,nickname:'test444'},
+            member: {memberId:34,nickname:'test444',reviewScore:5.0,hostCnt:1},
             ticket: {ticketId:4,ticketPoster:'poster1.png',price: 15000},
-            participant: [{participantId:4,member:{memberId:34,nickname:'test444'}}],
+            participant: [{participantId:4,member:{memberId:34,nickname:'test444'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '행사_축제',
             honeyTitle: '허니팟 테스트4',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강서구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -435,14 +576,16 @@ export default function Honey(){
         },
         {
             honeyId: 26,
-            member: {memberId:35,nickname:'test555'},
+            member: {memberId:35,nickname:'test555',reviewScore:5.0,hostCnt:1},
             ticket: {ticketId:3,ticketPoster:'poster2.png',price: 15000},
-            participant: [{participantId:5,member:{memberId:35,nickname:'test555'}}],
+            participant: [{participantId:5,member:{memberId:35,nickname:'test555'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '팝업',
             honeyTitle: '허니팟 테스트5',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '경기',
+            honeyRegion: '강동구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -451,14 +594,16 @@ export default function Honey(){
         },
         {
             honeyId: 27,
-            member: {memberId:36,nickname:'test666'},
+            member: {memberId:36,nickname:'test666',reviewScore:0,hostCnt:2},
             ticket: {ticketId:3,ticketPoster:'poster3.png',price: 15000},
-            participant: [{participantId:6,member:{memberId:36,nickname:'test666'}}],
+            participant: [{participantId:6,member:{memberId:36,nickname:'test666'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '전시회',
             honeyTitle: '허니팟 테스트6',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '중구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -467,14 +612,16 @@ export default function Honey(){
         },
         {
             honeyId: 28,
-            member: {memberId:37,nickname:'test777'},
+            member: {memberId:37,nickname:'test777',reviewScore:5.0,hostCnt:1},
             ticket: {ticketId:3,ticketPoster:'poster1.png',price: 15000},
-            participant: [{participantId:7,member:{memberId:37,nickname:'test777'}},{participantId:13,member:{memberId:22,nickname:'test2122'}}],
+            participant: [{participantId:7,member:{memberId:37,nickname:'test777'},role:'host'},{participantId:13,member:{memberId:22,nickname:'test2122'},role:'ptcp'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '공연',
             honeyTitle: '허니팟 테스트7',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '경기',
+            honeyRegion: '강동구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'Y',
@@ -483,14 +630,16 @@ export default function Honey(){
         },
         {
             honeyId: 29,
-            member: {memberId:38,nickname:'test888'},
+            member: {memberId:38,nickname:'test888',reviewScore:5.0,hostCnt:1},
             ticket: {ticketId:3,ticketPoster:'poster2.png',price: 15000},
-            participant: [{participantId:8,member:{memberId:38,nickname:'test888'}},{participantId:12,member:{memberId:21,nickname:'test212'}}],
+            participant: [{participantId:8,member:{memberId:38,nickname:'test888'},role:'host'},{participantId:12,member:{memberId:21,nickname:'test212'},role:'ptcp'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '뮤지컬',
             honeyTitle: '허니팟 테스트8',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '인천',
+            honeyRegion: '강남구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'Y',
@@ -498,14 +647,16 @@ export default function Honey(){
             honeyReportCount: 0,
         },{
             honeyId: 30,
-            member: {memberId:39,nickname:'test999'},
+            member: {memberId:39,nickname:'test999',reviewScore:5.0,hostCnt:1},
             ticket: {ticketId:3,ticketPoster:'poster3.png',price: 15000},
-            participant: [{participantId:9,member:{memberId:39,nickname:'test999'}}],
+            participant: [{participantId:9,member:{memberId:39,nickname:'test999'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '행사_축제',
             honeyTitle: '허니팟 테스트9',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강서구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -513,14 +664,16 @@ export default function Honey(){
             honeyReportCount: 0,
         },{
             honeyId: 31,
-            member: {memberId:40,nickname:'test1110'},
+            member: {memberId:40,nickname:'test1110',reviewScore:5.0,hostCnt:1},
             ticket: {ticketId:3,ticketPoster:'poster1.png',price: 15000},
-            participant: [{participantId:10,member:{memberId:40,nickname:'test1110'}}],
+            participant: [{participantId:10,member:{memberId:40,nickname:'test1110'},role:'host'}],
             comment: [{commentId:1,member:{memberId:1,nickname:'test1'},commentContents:'댓글입니다.1',commentAt:'2024-06-20'}],
             honeyGenre: '팝업',
             honeyTitle: '허니팟 테스트10',
             honeyContent: '내용입니다.',
             totalPeople: 2,
+            honeyCity: '서울',
+            honeyRegion: '강서구',
             honeyAt: '2024-06-19',
             honeyUntil: '2024-06-26',
             honeyFullStatus: 'N',
@@ -530,27 +683,57 @@ export default function Honey(){
     ]);
     
     
-    // 최초 mount시, 최초에 가져온 원본 데이터 보관 & 가공할 카피 데이터 setState
+    // 최초 mount시, 최초에 가져온 원본 데이터 보관 & 가공할 카피 데이터 state 초기화
     useEffect(
         ()=>{
+            // 허니팟 목록 정보 api 호출
+            // setLoginInfo(인증정보)
             setCopyList(tempList)
+            setCurrent(getPagingPosts())
+            isChange ? setFilteredCopyCnt(copyList.length) : setFilteredTempCnt(tempList.length);
         }
         ,[]
     )
 
-    // 정렬 기준 바뀔때마다 state 초기화
+    // 서브카테고리 별로 state update될 때, state상태값 초기화
     useEffect(
         ()=>{
-            setPage(1)
-            setCity('서울')
-            setRegion('강서구')
-        },[select]
+            setCurrent(getPagingPosts())
+            setFilteredCopyCnt(copyList.length)
+            setFilteredTempCnt(tempList.length)
+        },[copyList]
     )
     
+    // 정렬 기준 update시, state 초기화
     useEffect(
         ()=>{
+            setPage(1);
+            setCurrent(getPagingPosts());
+            console.log(current);
+            (select === 'Y' || select === 'N') ? setCurrent(getPagingPosts()) : (isChange ? setCurrent(copyList) : setCurrent(tempList));
+            isChange ? setFilteredCopyCnt(getFilteredList().length) : setFilteredTempCnt(getFilteredList().length);
+        },[select,searchVal,city,region]
+    )
+    
+    // 메인카테고리 관련 state update될 때, state상태값 초기화
+    useEffect(
+        ()=>{
+            setCopyList(tempList)
+            setSubCategoryStatus(1)
+            setIsChange(false)
+            setPage(1)
             setSelect('')
+            setCurrent(tempList)
+            setSearchVal('')
         },[categoryStatus]
+    )
+
+    useEffect(
+        ()=>{
+            showMannerDateModal 
+            ? document.body.style.overflow = 'hidden'
+            : document.body.style.overflow = 'auto'
+        },[showMannerDateModal]
     )
 
     // [state] update시, 카테고리 변경시 목록 확인 로깅
@@ -561,40 +744,57 @@ export default function Honey(){
     //     },[copyList]
     // )
     
-    // 페이지네이션 & 제목검색 결과 필터링 함수
-    function getPagingAndSearchPosts() {
-        const filteredTempList = tempList.filter(honey => 
-            honey.honeyTitle.includes(searchVal) 
-            && 
-            (( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select) : honey.honeyFullStatus.includes('')));
-        const filteredCopyList = copyList.filter(honey => 
-            honey.honeyTitle.includes(searchVal) 
-            && 
-            (( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select) : honey.honeyFullStatus.includes('')));
+    // 페이지네이션 함수
+    function getPagingPosts() {
         const startIndex = (page - 1) * 10
         const endIndex = startIndex + 10
-        const currentPosts = isChange? filteredCopyList.slice(startIndex, endIndex) : filteredTempList.slice(startIndex,endIndex)
+        const currentPosts = isChange? getFilteredList().slice(startIndex, endIndex) : getFilteredList().slice(startIndex,endIndex)
         if (currentPosts.length === 0) {
             return [];
         }
+        
         return currentPosts
     }
+    
+    // 정렬 & 제목검색 결과 필터링 함수
+    function getFilteredList() {
+        const filteredTempList = tempList.filter(honey => 
+            
+            honey.honeyTitle.includes(searchVal)
+            && 
+            (( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select): true)
+        )
 
-    // 상세페이지로 값과 함께 route로 이동
+        const filteredCopyList = copyList.filter(honey =>
+
+            honey.honeyTitle.includes(searchVal)
+            && 
+                (( select === 'N' || select === 'Y' ) ? honey.honeyFullStatus.includes(select) : true)
+        )
+
+        return isChange ? filteredCopyList : filteredTempList
+    }
+
+    // 상세페이지 : 값과 함께 route로 이동
     const navigate = useNavigate();
-    const detailHandler = (honey) => {
-        navigate('/detail', { state: { honey } });
+
+    const postDetailHandler = (honey) => {
+        const isJoined = honey.participant.some(
+            (user) => user.role !== 'host' && user.member.memberId === loginInfo.memberId
+          );
+        navigate('/detail', { state: { honey, isJoined }})
+        scrollToTop();
     };
 
-    // js 라이브러리 스크롤 애니메이션 함수
+    // 스크롤 애니메이션 함수
     function scrollToTop() {
         window.scrollTo({
           top: 0,
-          behavior: 'smooth' 
+          behavior: 'instant' 
         });
       }
 
-    // 페이지네이션 핸들러 로직 분리
+    // 페이지네이션 핸들러 함수 분리
     const leftArrowHandler = () => {
         scrollToTop()
         return page > 1 ? setPage(page-1): setPage(1)
@@ -607,28 +807,49 @@ export default function Honey(){
         scrollToTop()
         return page < Math.ceil(copyList.length / 10) ? setPage(page+1): setPage(Math.ceil(copyList.length / 10))
     }
-    
+
+    // 일정 조회 모달창 뒤로가기
+    const backBtn = () => {
+        setShowMannerDateModal(false)
+    }
+
+    const dateHandler = (newDate) => {
+        setDate(newDate)
+        setShowMannerDateModal(false)
+    }
+
+    const modalOverlayHandler = (e) => {
+        // Modal 바깥쪽을 클릭했을 때만 모달창 닫기
+        if (e.target.className === 'manner-modal-container') {
+          setShowMannerDateModal(false);
+        }
+    };
+
+    const writeHandler = () => {
+        navigate('/write-honey/step1')
+    }
+
     // 본문
     return(
         <>
         <div className='honey-body'>
             <MainCategory tempList={tempList} 
-                            setCopyList={setCopyList} 
-                            setIsChange={setIsChange} 
-                            setPage={setPage} 
                             categoryStatus={categoryStatus} 
                             setCategoryStatus={setCategoryStatus}
-                            setSearchVal={setSearchVal}
                             setExhibitionCnt={setExhibitionCnt}
                             setPerformanceCnt={setPerformanceCnt}
                             setMusicalCnt={setMusicalCnt}
                             setFestivalCnt={setFestivalCnt}
-                            setPopupCnt={setPopupCnt}/>
+                            setPopupCnt={setPopupCnt}
+                            setDate={setDate}
+                            setShowMannerDateModal={setShowMannerDateModal}
+                            />
             <div className='sub-category-padding'>
                 {categoryStatus === 2 && <SubCategory subCategoryStatus={subCategoryStatus} 
                                                         setSubCategoryStatus={setSubCategoryStatus} 
-                                                        setCopyList={setCopyList} 
                                                         tempList={tempList}
+                                                        setCopyList={setCopyList} 
+                                                        setCurrent={setCurrent}
                                                         setIsChange={setIsChange} 
                                                         setPage={setPage}
                                                         setSubKeyword={setSubKeyword}
@@ -639,7 +860,7 @@ export default function Honey(){
                                                         popupCnt={popupCnt}/>}
             </div>
             <div className='honey-body2'>
-                <Search searchVal={searchVal} 
+                <Search searchVal={searchVal}
                         setSearchVal={setSearchVal}/>
                 <div className='main-category-title'>
                     {categoryStatus === 1 && <h2>투데이 허니팟</h2>}
@@ -647,75 +868,101 @@ export default function Honey(){
                         <>
                             <h2>장르별 허니팟</h2>
                             <h2 style={{fontWeight:'bold',margin:'0 20px'}}>|</h2>
-                            {subKeyword !== '축제 및 행사' ? 
-                                <span style={{fontWeight:'bold',fontSize:'18px',marginTop:'5px'}}>{subKeyword}</span> 
-                                : <span style={{fontWeight:'bold',fontSize:'16px',marginTop:'5px'}}>{subKeyword}</span>}
+                            {subKeyword !== '축제 및 행사' 
+                            ? 
+                            <span style={{fontWeight:'bold',fontSize:'18px',marginTop:'5px'}}>{subKeyword}</span> 
+                            : <span style={{fontWeight:'bold',fontSize:'16px',marginTop:'5px'}}>{subKeyword}</span>}
                         </>
                     }
                     {categoryStatus === 3 && <h2>일정별 허니팟</h2>}
                 </div>
-                <div>
-                    <select value={select} onChange={(e) => setSelect(e.target.value)}>
-                        <option value={''}>정렬</option>
-                        <option value={'최신순'}>최신순</option>
-                        <option value={'지역별'}>지역별</option>
-                        <option value={'N'}>모집중</option>
-                        <option value={'Y'}>모집완료</option>
-                    </select>
-                    {select === '지역별' ? 
-                        (<div>
-                            <select value={city} onChange={(e) => setCity(e.target.value)}>
+                <div style={{ display:'flex', justifyContent:'space-between' }}>
+                    <div className='select-box'>
+                        <select value={select} onChange={(e) => setSelect(e.target.value)}>
+                            <option value={'최신순'}>최신순</option>
+                            <option value={'지역별'}>지역별</option>
+                            <option value={'N'}>모집중</option>
+                            <option value={'Y'}>모집완료</option>
+                        </select>
+                        {select === '지역별' 
+                        ? 
+                        <>
+                            <select style={{marginLeft:'10px'}} 
+                                    value={city} 
+                                    onChange={(e) => setCity(e.target.value)}>
+                                <option value={''}>--</option>
                                 <option value={'서울'}>서울</option>
                                 <option value={'경기'}>경기</option>
                                 <option value={'인천'}>인천</option>
                             </select>
-                            <select value={region} onChange={(e) => setRegion(e.target.value)}>
+                            <select style={{marginLeft:'10px'}} 
+                                    value={region} 
+                                    onChange={(e) => setRegion(e.target.value)}>
+                                <option value={''}>--</option>
                                 <option value={'강서구'}>강서구</option>
                                 <option value={'강남구'}>강남구</option>
                                 <option value={'강동구'}>강동구</option>
                                 <option value={'중구'}>중구</option>
                             </select>
-                        </div> )
-                        : 
-                        (<></>)}
+                        </>
+                        : (<></>)}
+                    </div>
+                    <div className='write-button' onClick={writeHandler}>
+                        <p>글쓰기</p>
+                    </div>
                 </div>
                 <div className='main-contents'>
-                    {getPagingAndSearchPosts().map((honey) => (
-                        <div className='honey-list' key={honey.honeyId} onClick={() => detailHandler(honey)}>
-                        {honey.empty ? (
+                    {getPagingPosts().map((honey,index) => (
+                        <div key={index} 
+                        className='honey-list' 
+                        onClick={() => postDetailHandler(honey)}>
+                        {honey.empty 
+                        ? (
                             <div>게시물이 없습니다.</div>
-                        ) : (
+                        ) 
+                        : (
                             <>
                                 <div className='img-box'>
                                     <img src={getImage(honey.ticket.ticketPoster)} alt='티켓 포스터' />
                                 </div>
                                 <div className='content-box'>
-                                    <div style={{ paddingBottom: '0px', marginTop: '10px' }}>
-                                        <span style={{ height: '50px' }}>#{honey.honeyGenre}</span>
+                                    <div style={{ paddingBottom: '0px' }}>
+                                        <span>#{honey.honeyGenre}</span>
                                         <span>모집일자 &nbsp;&nbsp;{honey.honeyAt}</span>
                                     </div>
-                                    <div style={{ paddingTop: '0px' }}>
-                                        <span>{honey.honeyTitle}</span>
-                                        {honey.honeyFullStatus === 'N' ? (
-                                            <span style={{ marginLeft: '-90px', backgroundColor: 'green', borderRadius: '20px', width: '55px', textAlign: 'center', color: '#ffffff', fontSize: '12px' }}>
-                                            모집중
-                                            </span>
-                                        ) : (
-                                            <span style={{ marginLeft: '-90px', backgroundColor: 'red', borderRadius: '20px', width: '55px', textAlign: 'center', color: '#ffffff', fontSize: '12px' }}>
-                                            모집완료
-                                            </span>
-                                        )}
+                                    <div style={{ paddingTop: '0px', paddingBottom:'0px', marginTop:'10px' }}>
+                                        <div style={{ height:'30px', padding: '0px', justifyContent:'flex-start'}}>
+                                            <span style={{ fontSize:'20px' }}>{honey.honeyTitle}</span>
+                                            <span style={{ marginLeft:'10px' }}>({honey.comment.length})</span>
+                                        </div>
+                                        <span style={{ width:'150px', display:'flex', justifyContent:'end' }}>{honey.honeyCity} {honey.honeyRegion}</span>
+                                    </div>
+                                    <div style={{ padding:'0 20px', marginTop:'10px', justifyContent:'end' }}>
                                         <span>참여인원 &nbsp;{honey.participant.length}/{honey.totalPeople}</span>
                                     </div>
-                                    <div style={{ paddingTop: '0px' }}>
-                                        <span style={{ width: '200px', height: '30px', display: 'flex',paddingTop: '0px', paddingBottom: '0px',overflow:'hidden' }}>{honey.honeyContent}asdf aasdf asdfa sdf asdfasdfasdf asdf</span>
-                                        
+                                    <div style={{ paddingTop: '0px'}}>
+                                        {honey.honeyFullStatus === 'N' 
+                                        ? <span className='recruit-status' 
+                                            style={{ backgroundColor: 'green' }}>모집중</span>
+                                         : <span className='recruit-status' 
+                                            style={{ backgroundColor: 'red' }}>모집완료</span>
+                                        }
                                         {/* 참여자 프로필 사진 리스트 */}
-                                        {honey.participant.map((user) => (
-                                            <span key={user.member.memberId} style={{ width: '50px', display: 'flex', justifyContent: 'end', paddingRight: '0px', paddingTop: '0px', lineHeight: '30px'}}>
-                                                {user.member.nickname}
-                                            </span>
-                                        ))}
+                                        <div style={{ width:'200px', height:'30px', justifyContent:'end', margin:'0px', padding:'0px' }}>
+                                            {honey.participant.map((user) => (
+                                                <>
+                                                    {user.member.profile === null || user.member.profile === undefined 
+                                                    ? <div key={user.member.memberId} 
+                                                        className='participant-profile-pic' 
+                                                        style={{ width:'30px', margin:'0px', padding:'0px' }}>
+                                                    </div>
+                                                    :<div key={user.member.memberId} 
+                                                        className='participant-profile-pic' 
+                                                        style={{ backgroundImage:`url(${getImage(user.member.profile)})`, width:'30px', margin:'0px', padding:'0px' }}>
+                                                    </div>}
+                                                </>
+                                            ))}
+                                        </div>
                                     </div>
                                 </div>  
                             </>
@@ -725,13 +972,13 @@ export default function Honey(){
                 </div>
             </div>
             <div className='pagination-box'>
-                {Math.ceil(copyList.length / 10) > 1 ? 
+                {Math.ceil(isChange ? filteredCopyCnt / 10 : filteredTempCnt / 10) > 1 ? 
                 <div className={page === 1 ? 'arrowOff' : 'paginationOn' }
                     onClick={leftArrowHandler}>
                     <img className='arrow-left' src={getImage('icon_arrow_right.png')}/>
                 </div> 
                 : <></>}
-                {Array.from({ length: Math.ceil(copyList.length / 10) }, (_, index) => (
+                {Array.from({ length: Math.ceil(isChange ? filteredCopyCnt / 10 : filteredTempCnt / 10) }, (_, index) => (
                     <div key={index}
                         className={page === index+1 ? 'paginationOn' : 'paginationOff' }
                         onClick={numberHandler(index)}>
@@ -740,14 +987,31 @@ export default function Honey(){
                             </p>
                     </div>
                 ))}
-                {Math.ceil(copyList.length / 10) > 1 ? 
-                <div className={page === Math.ceil(copyList.length / 10) ? 'arrowOff' : 'paginationOn' }
+                {Math.ceil(isChange ? filteredCopyCnt / 10 : filteredTempCnt / 10) > 1 ? 
+                <div className={page === Math.ceil(isChange ? filteredCopyCnt / 10 : filteredTempCnt / 10) ? 'arrowOff' : 'paginationOn' }
                     onClick={rightArrowHandler}>
                     <img src={getImage('icon_arrow_right.png')}/>
                 </div > 
                 : <></>}
             </div>
         </div>
+        
+        {/* 일정 조회 모달창 */}
+        {showMannerDateModal && (
+            <div className='manner-modal-container' onClick={modalOverlayHandler}>
+                <div className='manner-modal-content' style={{ backgroundImage: `url(${getImage('Background_Effect.png')})`, height:'480px', backgroundSize:'cover', backgroundPosition:'center', backgroundRepeat:'no-repeat' }}>
+                    <div className='manner-modal-header' style={{ backgroundColor:'white', borderTopLeftRadius:'10px', borderTopRightRadius:'10px'}}>
+                        <img style={{cursor:'pointer'}} onClick={ backBtn } src={'images/commons/icon_arrow_back_main_color.png'} alt="뒤로가기아이콘" />
+                        <p> 모집일자 조회 </p>
+                    </div>
+                    <div className='manner-modal-middle' style={{ height:'380px', marginTop:'20px', borderBottom:'0px'}}>
+                        <Calendar className='custom-calendar' 
+                                onChange={dateHandler} 
+                                value={date}/>
+                    </div>
+                </div>
+            </div>    
+        )}
     </>
     );
 }

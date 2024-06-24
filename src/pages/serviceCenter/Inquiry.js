@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import style from './Inquiry.module.css';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function InquiryPage() {
 
@@ -51,7 +51,6 @@ function InquiryPage() {
         }
     }
 
-
     return (
         <>
             <div className={style.wrapper}>
@@ -92,9 +91,9 @@ function InquiryPage() {
                             <textarea className={style.customContentInput} name="content" placeholder='내용을 입력해주세요.' value={content} onChange={handleContentChange}></textarea>
                         </div>
                         <div className={style.buttons}>
-                            <NavLink>
+                            <a>
                                 <button type='button' className={style.cancelButton} onClick={() => { handleCancel() }}>취소</button>
-                            </NavLink>
+                            </a>
                             <button type='submit' className={style.submitButton} onClick={() => { handleSubmit() }}>등록</button>
                         </div>
                     </div>
@@ -104,19 +103,19 @@ function InquiryPage() {
                 {modalOpen && (
                     <div className={style.back}>
                         <div className={style.modal}>
-                            <img src='/images/serviceCenter/check.png' alt='확인' />
+                            <img src='/images/serviceCenter/check.png' alt='확인' width={45} />
                             <p className={style.modalTitle}>1:1문의가 접수 되었습니다.</p>
                             <p className={style.modalContext}>문의 내용에 따라 답변이 늦어질 수 있습니다.</p>
-                            <NavLink to="/help">
+                            <a href="/help">
                                 <button className={style.modalButton} onClick={closeBtn}>확인</button>
-                            </NavLink>
+                            </a>
                         </div>
                     </div>
                 )}
                 {writerModal && (
                     <div className={style.back}>
                         <div className={style.modal}>
-                            <img src='/images/commons/icon_alert.png' alt='경고' />
+                            <img src='/images/commons/icon_alert.png' alt='경고' width={45} />
                             <p className={style.modalTitle}>제목과 내용을 모두 작성해주세요.</p>
                             <button className={style.modalButton} onClick={closeBtn}>확인</button>
                         </div>
@@ -125,7 +124,7 @@ function InquiryPage() {
                 {checkModal && (
                     <div className={style.back}>
                         <div className={style.modal}>
-                            <img src='/images/commons/icon_alert.png' alt='경고' width={30} />
+                            <img src='/images/commons/icon_alert.png' alt='경고' width={45} />
                             <p className={style.modalTitle}>1:1문의 작성을 취소하시겠습니까?</p>
                             <p className={style.modalContext}>작성 취소된 내용은 되돌릴 수 없습니다.</p>
                             <div className={style.modalButtonBox}>

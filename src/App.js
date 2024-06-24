@@ -8,13 +8,15 @@ import Cs from './pages/serviceCenter/Cs';
 import Faq from './pages/serviceCenter/Faq';
 import Notice from './pages/serviceCenter/Notice';
 import Inquiry from './pages/serviceCenter/Inquiry';
-import Main from './pages/main/samaple';
+import Main from './pages/main/Main';
 import Honey from './pages/socializing/Honey';
 import CultureInfo from './pages/cultureInfo/CultureInfo';
 import CompletedPage from './pages/login/CompletedPage'
 import Detail from './pages/socializing/Detail';
 import NoticeDetailPage from './pages/serviceCenter/NoticeDetail';
 import CultureDetail from './pages/cultureInfo/CultureDetail';
+import HoneyWrite from './pages/socializing/HoneyWrite';
+import HoneyWrite2 from './pages/socializing/HoneyWrite2';
 
 export default function App() {
 
@@ -38,6 +40,8 @@ export default function App() {
               <Route path='/noticedetail' element={<NoticeDetailPage />} /> {/*공지사항 상세페이지*/}
               <Route path='/honey' element={<Honey/>}/> {/* 허니팟 */}
               <Route path='/detail' element={<Detail/>}/> {/*허니팟 상세페이지*/}
+              <Route path='/write-honey/step1' element={<HoneyWrite/>}/> {/* 허니팟 글쓰기페이지*/}
+              <Route path='/write-honey/step2' element={<HoneyWrite2/>}/> {/* 허니팟 글쓰기페이지*/}
             </Route> 
             {/* 레이아웃 클로즈 */}              
           </Routes>
