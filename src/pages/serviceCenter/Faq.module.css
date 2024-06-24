@@ -29,6 +29,7 @@
     padding: 20px;
     display: flex;
     justify-content: space-around;
+    position: relative;
 }
 
 .customSelect {
@@ -53,6 +54,16 @@
     border: 0px;
     border-radius: 48px;
     padding: 15px 20px;
+}
+
+.submitBtn {
+    border: 0px;
+    background-color: #fff;
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    right: 45px;
+    top: 30px;
 }
 
 /* ----- 자주 묻는 질문 ----- */

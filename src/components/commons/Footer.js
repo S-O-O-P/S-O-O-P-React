@@ -29,32 +29,22 @@ function Footer() {
 
   return (
     <footer>
-        <div class="footer-content">
+        <div className="footer-content">
           <div>
           <NavLink to='/main'>
-            <img class="footer-logo" src="images/commons/logo_white.png" alt="LOGO"
+            <img className="footer-logo" src="images/commons/logo_white.png" alt="LOGO"
             href='/main'/>
             </NavLink>
           </div>
-          <div class="footer-links">
+          <div className="footer-links">
             <div className='test'>
-            <NavLink to='/main'>
-            <a>About us</a>
-            </NavLink>
-            <NavLink to='/help'>
-            <a>고객센터</a>
-            </NavLink>
-            <NavLink to='/notice'>
-            <a>공지사항</a>
-            </NavLink>
-            <NavLink to='/main'>
-            <a>개인정보처리방침</a>
-            </NavLink>
-            <NavLink to='/main'>
-            <a>이용약관</a>
-            </NavLink>
+              <NavLink to='/main'>About us</NavLink>
+              <NavLink to='/help'>고객센터</NavLink>
+              <NavLink to='/notice'>공지사항</NavLink>
+              <NavLink to='/main'>개인정보처리방침</NavLink>
+              <NavLink to='/main'>이용약관</NavLink>
             </div>
-            <p class="text2">©2024 SOOP. ALL RIGHTS RESERVED.</p>
+            <p className="text2">©2024 SOOP. ALL RIGHTS RESERVED.</p>
           </div>
           <div className='footer-icons'>
           <a href='http://www.facebook.com'>

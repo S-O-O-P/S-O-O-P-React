@@ -1,9 +1,11 @@
 import React from 'react';
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import ParticipatingHoneypot from '../../components/mypage/ParticipatingHoneypot';
 import MyHoneypot from '../../components/mypage/MyHoneypot';
 import MyComments from '../../components/mypage/MyComments';
 import Review from '../../components/mypage/Review';
+import EditProfile from '../../components/mypage/EditProfile';
+import MyInquiry from '../../components/mypage/MyInquiry';
 import './MyPage.css';
 
 
@@ -11,6 +13,51 @@ const MyPage = () => {
 
     const [selectedMenu, setSelectedMenu] = useState('participatingHoneypot')
     const [showMannerStarModal, setShowMannerStarModal] = useState(false);
+
+    // 프로필 사진 변경
+    const [profileImage, setProfileImage] = useState(`${process.env.PUBLIC_URL}/images/commons/logo.png`);
+    const fileInput = useRef(null)
+    const [imageURL, setImageURL] = useState(profileImage);
+
+    const onChangeProfilePic = (e) => {
+        if (e.target.files[0]) {
+            const file = e.target.files[0];
+            setProfileImage(file);
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                if (reader.readyState === 2) {
+                    setImageURL(reader.result);
+                }
+            };
+            reader.readAsDataURL(file);
+        } else {
+            setProfileImage(imageURL);
+            setImageURL(profileImage);
+        }
+    };
+
+    useEffect(() => {
+        if (typeof profileImage === 'string') {
+            setImageURL(profileImage);
+        } else {
+            const objectURL = URL.createObjectURL(profileImage);
+            setImageURL(objectURL);
+
+            return () => URL.revokeObjectURL(objectURL);
+        }
+    }, [profileImage]);
+
+        // 기존 이름 더미데이터
+  const [nickName, setNickName] = useState('전소민');
+  const [introduce, setIntroduce] = useState('반복되는 일상을 특별하게 만들어 보고 싶어요.')
+  const [interest, setInterest] = useState('');
+
+     // 프로필 변경
+     const profileUpdate = (newNickName, newIntroduce) => {
+        setNickName(newNickName);
+        setIntroduce(newIntroduce);
+      };
   
     const mannerStarClick = () => {
     setShowMannerStarModal(true);
@@ -36,15 +83,17 @@ const MyPage = () => {
         {/* 프로필 상부 */}
         <div className="profile-top">
             <div className="profile-box">
-                <div className="profile-pic">IMAGE</div>
-                <div className="profile-pic-update-btn">
-                   <img src={`${process.env.PUBLIC_URL}/images/commons/icon_edit_profile.png`} alt="사진변경아이콘" />
+                <img src={imageURL} className="profile-pic" alt="프로필사진" />
+                
+                <div className="profile-pic-update-btn" onClick={()=>{fileInput.current.click()}}>
+                    <img src={`${process.env.PUBLIC_URL}/images/commons/icon_edit_profile.png`} alt="사진변경아이콘" />
+                    <input type='file' style={{ display: 'none' }} ref={fileInput} accept='image/jpg, image/png, image/jpeg' name='profile_img' onChange={onChangeProfilePic}/>
                 </div>
             </div>
             <div className='profile-text'>
-                <div className='profile-nickname'>전소민</div>
+                <div className='profile-nickname'>{nickName}</div>
                 <div className='profile-intro'>
-                    반복되는 일상을 특별하게 만들어 보고 싶어요.
+                {introduce}
                 </div>
             </div>
             <div className='manner-box' onClick={mannerStarClick}>
@@ -64,8 +113,8 @@ const MyPage = () => {
                 <p onClick={() => { setSelectedMenu('myHoneypot')}} className='category-sub'>내가 만든 허니팟</p>
                 <p onClick={() => { setSelectedMenu('myComments')}} className='category-sub'>내가 쓴 댓글</p>
                 <p onClick={() => { setSelectedMenu('review')}} className='category-main'>멤버 평가</p>
-                <p className='category-main'>문의 내역</p>
-                <p className='category-main'>프로필 수정</p>
+                <p onClick={() => { setSelectedMenu('myInquiry')}} className='category-main'>문의 내역</p>
+                <p onClick={() => { setSelectedMenu('editProfile')}} className='category-main'>프로필 수정</p>
             </div>
 
             
@@ -79,7 +128,9 @@ const MyPage = () => {
             {selectedMenu === 'myHoneypot' && <MyHoneypot/>}
             {selectedMenu === 'myComments' && <MyComments/>}
             {selectedMenu === 'review' && <Review />}
-
+            {selectedMenu === 'myInquiry' && <MyInquiry />}
+            {selectedMenu === 'editProfile' && <EditProfile nickName = {nickName} introduce = {introduce} profileUpdate={profileUpdate} /> }
+          
             {/* 마이페이지 메인 - 고정 디테일 */}
         </div>
     

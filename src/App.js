@@ -8,12 +8,13 @@ import Cs from './pages/serviceCenter/Cs';
 import Faq from './pages/serviceCenter/Faq';
 import Notice from './pages/serviceCenter/Notice';
 import Inquiry from './pages/serviceCenter/Inquiry';
-import Main from './pages/main/samaple';
+import Main from './pages/main/Main';
 import Honey from './pages/socializing/Honey';
 import CultureInfo from './pages/cultureInfo/CultureInfo';
 import CompletedPage from './pages/login/CompletedPage'
 import Detail from './pages/socializing/Detail';
 import NoticeDetailPage from './pages/serviceCenter/NoticeDetail';
+import CultureDetail from './pages/cultureInfo/CultureDetail';
 import HoneyWrite from './pages/socializing/HoneyWrite';
 import HoneyWrite2 from './pages/socializing/HoneyWrite2';
 
@@ -24,11 +25,13 @@ export default function App() {
     <GlobalStyles/>
       <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Layout/>}> {/* 레이아웃 오픈*/}
+            <Route element={<Layout/>}> {/* 레이아웃 오픈*/}
               <Route path='/main' element={<Main/>}/> {/* 메인 */}
+              <Route index element={<Main/>}/> {/* 메인 */}
               <Route path='/login' element={<LoginPage/>}/> {/* 로그인 */}
               <Route path='/signup' element={<SignUpPage/>}/> {/* 추가 정보 입력 */}
               <Route path="/cultureinfo" element={<CultureInfo/>}/> {/* 전시/공연 정보 */}
+              <Route path="/cultureinfo/detail" element={<CultureDetail/>}/> {/* 전시/공연 상세페이지*/}
               <Route path='/completed' element={<CompletedPage/>}/> {/* 회원 가입 완료 */}
               <Route path='/mypage' element={<MyPage/>}/> {/* 마이 페이지 */}
               <Route path='/help' element={<Cs />} /> {/* 고객 센터 */}

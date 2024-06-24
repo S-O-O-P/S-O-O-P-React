@@ -3,6 +3,7 @@
     align-items: center;
     flex-direction: column;
     margin: 80px 0 60px 0;
+    height: 100vh;
 }
 
 .contentBox {
@@ -29,6 +30,7 @@
     padding: 20px;
     display: flex;
     justify-content: space-around;
+    position: relative;
 }
 
 .customSelect {
@@ -43,12 +45,26 @@
     background-size: 25px;
 }
 
+.customSelect:focus {
+    outline: none;
+}
+
 .customInput {
     width: 924px;
     height: 48px;
     border: 0px;
     border-radius: 48px;
     padding: 15px 20px;
+}
+
+.submitBtn {
+    border: 0px;
+    background-color: #fff;
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    right: 45px;
+    top: 30px;
 }
 
 /* ---- 문의하기 ---- */

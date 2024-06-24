@@ -13,8 +13,8 @@ function Header() {
           </div>
           <nav>
             <ul>
-              <li><NavLink to={'/cultureinfo'}>전시/공연정보</NavLink></li>
-              <li><NavLink to='/honey'>허니팟</NavLink></li>
+              <li><NavLink to={'/cultureinfo'}>공연/전시 정보<span></span></NavLink></li>
+              <li><NavLink to='/honey'>허니팟<span></span></NavLink></li>
             </ul>
           </nav>
           <NavLink to='/login'>
