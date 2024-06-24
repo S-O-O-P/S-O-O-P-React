@@ -25,8 +25,9 @@ export default function App() {
     <GlobalStyles/>
       <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Layout/>}> {/* 레이아웃 오픈*/}
+            <Route element={<Layout/>}> {/* 레이아웃 오픈*/}
               <Route path='/main' element={<Main/>}/> {/* 메인 */}
+              <Route index element={<Main/>}/> {/* 메인 */}
               <Route path='/login' element={<LoginPage/>}/> {/* 로그인 */}
               <Route path='/signup' element={<SignUpPage/>}/> {/* 추가 정보 입력 */}
               <Route path="/cultureinfo" element={<CultureInfo/>}/> {/* 전시/공연 정보 */}
