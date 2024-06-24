@@ -40,7 +40,7 @@ export default function HotSlide() {
     <div className={`slider-container ${styles.right_shape} ${styles.common_slide}`}>
       <Slider {...settings}>
         <div className={styles.hot_list}>
-          <Link to="./detail">
+          <Link to="/cultureinfo/detail">
             <img src="https://images.unsplash.com/photo-1516307365426-bea591f05011?q=80&w=3518&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="performance poster" />
             <div className={styles.hot_txt_box}>
               <p className={styles.hot_tit}>숲카이브 - 동숲의 습격 뮤지컬</p>
@@ -50,7 +50,7 @@ export default function HotSlide() {
           </Link>
         </div>
         <div className={styles.hot_list}>
-          <Link to="./detail">
+          <Link to="/cultureinfo/detail">
             <img src="https://images.unsplash.com/photo-1499364615650-ec38552f4f34?q=80&w=2804&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="performance poster" />
             <div className={styles.hot_txt_box}>
               <p className={styles.hot_tit}>숲카이브 - 동숲의 습격 뮤지컬</p>
@@ -59,7 +59,7 @@ export default function HotSlide() {
           </Link>
         </div>
         <div className={styles.hot_list}>
-          <Link to="./detail">
+          <Link to="/cultureinfo/detail">
             <img src="https://plus.unsplash.com/premium_photo-1684831693175-f9df1f106f2b?w=1200&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cGxheSUyMHBlcmZvcm1hbmNlfGVufDB8fDB8fHww" alt="performance poster" />
             <div className={styles.hot_txt_box}>
               <p className={styles.hot_tit}>숲카이브 - 동숲의 습격 뮤지컬</p>
