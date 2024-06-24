@@ -221,3 +221,7 @@
     background-color: var(--main-color);
     color: #fff;
 }
+
+.disabled {
+    opacity: 0.5;
+}

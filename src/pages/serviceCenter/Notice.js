@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import style from './Notice.module.css';
-import { Link } from 'react-router-dom';
 
 function NoticePage() {
 
@@ -17,15 +16,15 @@ function NoticePage() {
         { title: "notice 제목 10", writer: "관리자 10", date: "2024-05-01", category: "event" },
         { title: "notice 제목 11", writer: "관리자 11", date: "2024-05-01", category: "notice" },
         { title: "notice 제목 12", writer: "관리자 12", date: "2024-05-01", category: "event" },
-        { title: "notice 제목 13", writer: "관리자 13", date: "2024-05-01", category: "notice" }
+        { title: "notice 제목 1", writer: "관리자 1", date: "2024-05-01", category: "notice" },
     ];
 
     const [search, setSearch] = useState("");
-    const [selected, setSelected] = useState("all");
-    const [filterednotices, setFilterednotices] = useState(currentNotices);
+    const [select, setSelect] = useState("all");
+    const [filterNotice, setFilterNotice] = useState(currentNotices);
     const [currentPage, setCurrentPage] = useState(1);
-    const noticesPerPage = 10;
-    const totalPages = Math.ceil(filterednotices.length / noticesPerPage);
+    const noticePerPage = 10;
+    const totalPages = Math.ceil(filterNotice.length / noticePerPage);
 
     const onChange = (e) => {
         setSearch(e.target.value);
@@ -33,28 +32,47 @@ function NoticePage() {
 
     const handleSubmit = () => {
         const filtered = currentNotices.filter(notice => {
-            const matchCategory = selected === "all" || notice.category === selected;
+            const matchCategory = select === "all" || notice.category === select;
             const matchSearch = search === "" || notice.title.includes(search);
             return matchCategory && matchSearch;
         });
-        setFilterednotices(filtered);
+        setFilterNotice(filtered);
         setCurrentPage(1);
     };
 
     const handleSelect = (e) => {
-        setSelected(e.target.value);
+        setSelect(e.target.value);
     };
 
-    const indexOfLastnotice = currentPage * noticesPerPage;
-    const indexOfFirstnotice = indexOfLastnotice - noticesPerPage;
-    const currentNotice = filterednotices.slice(indexOfFirstnotice, indexOfLastnotice);
+    const lastNotice = currentPage * noticePerPage;
+    const firstNotice = lastNotice - noticePerPage;
+    const currentNotice = filterNotice.slice(firstNotice, lastNotice);
 
     const handlePageClick = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
+    const handlePrevGroup = () => {
+        const firstGroup = Math.floor((currentPage - 1) / maxPageNumbers) * maxPageNumbers + 1;
+        if (firstGroup > 1) {
+            setCurrentPage(firstGroup - 1);
+        }
+    };
+
+    const handleNextGroup = () => {
+        const nextGroup = Math.floor((currentPage - 1) / maxPageNumbers) * maxPageNumbers + maxPageNumbers + 1;
+        if (nextGroup <= totalPages) {
+            setCurrentPage(nextGroup);
+        }
+    };
+
+    const maxPageNumbers = 5;
+    const currentGroup = Math.floor((currentPage - 1) / maxPageNumbers);
+    const startPage = currentGroup * maxPageNumbers + 1;
+    const endPage = Math.min(totalPages, (currentGroup + 1) * maxPageNumbers);
+
     const pagination = [];
-    for (let i = 1; i <= totalPages; i++) {
+    for (let i = startPage; i <= endPage; i++) {
         pagination.push(
             <li key={i} className={currentPage === i ? style.activePage : null}>
                 <button onClick={() => handlePageClick(i)}>{i}</button>
@@ -69,7 +87,7 @@ function NoticePage() {
                     <p className={style.pageTitle}>링크비 고객센터</p>
 
                     <div className={style.inputBox}>
-                        <select className={style.customSelect} onChange={handleSelect} value={selected}>
+                        <select className={style.customSelect} onChange={handleSelect} value={select}>
                             <option value="all">전체</option>
                             <option value="notice">공지사항</option>
                             <option value="event">이벤트</option>
@@ -94,7 +112,15 @@ function NoticePage() {
                         </tbody>
                     </table>
                     <div className={style.pagination}>
-                        <ul className={style.paginationList}>{pagination}</ul>
+                        <ul className={style.paginationList}>
+                            <li>
+                                <button onClick={handlePrevGroup} disabled={startPage === 1} className={startPage === 1 ? style.disabled : ''}>&lt;</button>
+                            </li>
+                            {pagination}
+                            <li>
+                                <button onClick={handleNextGroup} disabled={endPage === totalPages} className={endPage === totalPages ? style.disabled : ''}>&gt;</button>
+                            </li>
+                        </ul>
                     </div>
 
                     <p className={style.helpMessage}>찾는 내용이 없을 경우 전화나 1:1문의 바랍니다.</p>
