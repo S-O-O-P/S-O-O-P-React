@@ -51,23 +51,29 @@
     font-size: 20px;
 }
 
-.inquiry-view {
+.mypage-table-container .inquiry-view {
     height: 96px;
+    cursor: pointer;
 }
 
-.th-inquiry,
-.td-inquiry {
+.mypage-table-container .inquiry-view:hover td,
+.mypage-table-container .inquiry-view:hover p {
+    color: #EB844A;
+}
+
+.mypage-table-container .th-inquiry,
+.mypage-table-container .td-inquiry {
     width: 530px;
     margin-left: 20px;
 }
 
-.td-inquiry {
+.mypage-table-container .td-inquiry {
     text-align: left;
     display: flex;
     flex-direction: column;
 }
 
-.td-inquiry .inquiry-title {
+.mypage-table-container .td-inquiry .inquiry-title {
     height: 44px;
     font-size: 18px;
     display: flex;
@@ -77,20 +83,20 @@
 
 }
 
-.td-inquiry p {
+.mypage-table-container .td-inquiry p {
     height: 52px;
     font-size: 16px;
     white-space: normal;
 }
 
-.th-registration-date,
-.td-registration-date {
+.mypage-table-container .th-registration-date,
+.mypage-table-container .td-registration-date {
     width: 100px;
     margin-left: 40px;
 }
 
-.th-responsestatus,
-.td-responsestatus {
+.mypage-table-container .th-responsestatus,
+.mypage-table-container .td-responsestatus {
     width: 100px;
     margin-left: 40px;
 }
