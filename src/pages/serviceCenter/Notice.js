@@ -1,55 +1,85 @@
 import { useState } from 'react';
 import style from './Notice.module.css';
-import { Link } from 'react-router-dom';
 
 function NoticePage() {
 
+    const currentNotices = [
+        { title: "notice 제목 1", writer: "관리자 1", date: "2024-01-01", category: "notice" },
+        { title: "notice 제목 2", writer: "관리자 2", date: "2024-02-01", category: "event" },
+        { title: "notice 제목 3", writer: "관리자 3", date: "2024-03-01", category: "notice" },
+        { title: "notice 제목 4", writer: "관리자 4", date: "2024-04-01", category: "event" },
+        { title: "notice 제목 5", writer: "관리자 5", date: "2024-05-01", category: "notice" },
+        { title: "notice 제목 6", writer: "관리자 6", date: "2024-05-01", category: "event" },
+        { title: "notice 제목 7", writer: "관리자 7", date: "2024-05-01", category: "notice" },
+        { title: "notice 제목 8", writer: "관리자 8", date: "2024-05-01", category: "event" },
+        { title: "notice 제목 9", writer: "관리자 9", date: "2024-05-01", category: "notice" },
+        { title: "notice 제목 10", writer: "관리자 10", date: "2024-05-01", category: "event" },
+        { title: "notice 제목 11", writer: "관리자 11", date: "2024-05-01", category: "notice" },
+        { title: "notice 제목 12", writer: "관리자 12", date: "2024-05-01", category: "event" },
+        { title: "notice 제목 1", writer: "관리자 1", date: "2024-05-01", category: "notice" },
+    ];
+
     const [search, setSearch] = useState("");
-    const [searchValue, setSearchValue] = useState("");
-    const [selected, setSelected] = useState("전체");
-    // const [filteredFaqs, setFilteredFaqs] = useState(faqList);
+    const [select, setSelect] = useState("all");
+    const [filterNotice, setFilterNotice] = useState(currentNotices);
     const [currentPage, setCurrentPage] = useState(1);
-    const faqsPerPage = 10;
-    // const totalPages = Math.ceil(filteredFaqs.length / faqsPerPage);
+    const noticePerPage = 10;
+    const totalPages = Math.ceil(filterNotice.length / noticePerPage);
 
     const onChange = (e) => {
         setSearch(e.target.value);
-        console.log(search);
     };
 
     const handleSubmit = () => {
-        setSearchValue(search);
-        // const filtered = faqList.filter(faq => {
-        //     const matchCategory = selected === "전체" || faq.category === selected;
-        //     const matchSearch = search === "" || faq.question.includes(search) || faq.answer.includes(search);
-        //     return matchCategory && matchSearch;
-        // });
-        // setFilteredFaqs(filtered);
+        const filtered = currentNotices.filter(notice => {
+            const matchCategory = select === "all" || notice.category === select;
+            const matchSearch = search === "" || notice.title.includes(search);
+            return matchCategory && matchSearch;
+        });
+        setFilterNotice(filtered);
         setCurrentPage(1);
-        console.log(selected);
-        console.log(searchValue);
     };
 
     const handleSelect = (e) => {
-        setSelected(e.target.value);
+        setSelect(e.target.value);
     };
 
-    const indexOfLastFaq = currentPage * faqsPerPage;
-    const indexOfFirstFaq = indexOfLastFaq - faqsPerPage;
-    // const currentFaqs = filteredFaqs.slice(indexOfFirstFaq, indexOfLastFaq);
+    const lastNotice = currentPage * noticePerPage;
+    const firstNotice = lastNotice - noticePerPage;
+    const currentNotice = filterNotice.slice(firstNotice, lastNotice);
 
     const handlePageClick = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
+    const handlePrevGroup = () => {
+        const firstGroup = Math.floor((currentPage - 1) / maxPageNumbers) * maxPageNumbers + 1;
+        if (firstGroup > 1) {
+            setCurrentPage(firstGroup - 1);
+        }
+    };
+
+    const handleNextGroup = () => {
+        const nextGroup = Math.floor((currentPage - 1) / maxPageNumbers) * maxPageNumbers + maxPageNumbers + 1;
+        if (nextGroup <= totalPages) {
+            setCurrentPage(nextGroup);
+        }
+    };
+
+    const maxPageNumbers = 5;
+    const currentGroup = Math.floor((currentPage - 1) / maxPageNumbers);
+    const startPage = currentGroup * maxPageNumbers + 1;
+    const endPage = Math.min(totalPages, (currentGroup + 1) * maxPageNumbers);
+
     const pagination = [];
-    // for (let i = 1; i <= totalPages; i++) {
-    //     pagination.push(
-    //         <li key={i} className={currentPage === i ? style.activePage : null}>
-    //             <button onClick={() => handlePageClick(i)}>{i}</button>
-    //         </li>
-    //     );
-    // }
+    for (let i = startPage; i <= endPage; i++) {
+        pagination.push(
+            <li key={i} className={currentPage === i ? style.activePage : null}>
+                <button onClick={() => handlePageClick(i)}>{i}</button>
+            </li>
+        );
+    }
+
     return (
         <>
             <div className={style.wrapper}>
@@ -57,7 +87,7 @@ function NoticePage() {
                     <p className={style.pageTitle}>링크비 고객센터</p>
 
                     <div className={style.inputBox}>
-                        <select className={style.customSelect} onChange={handleSelect} value={selected}>
+                        <select className={style.customSelect} onChange={handleSelect} value={select}>
                             <option value="all">전체</option>
                             <option value="notice">공지사항</option>
                             <option value="event">이벤트</option>
@@ -68,15 +98,32 @@ function NoticePage() {
                         </button>
                     </div>
 
-                    <p className={style.helpMessage}>찾는 내용이 없을 경우 전화나 1:1문의 바랍니다.</p>
+                    <p className={style.notice}>공지사항</p>
 
-                    {/* {currentFaqs.map((faq, index) => (
-                        <li key={index}>
-                                <hr className={style.contentLine} />
-                                <p className={style.content}>{faq.answer}</p>
-                            <hr className={style.hrLine} />
-                        </li>
-                    ))} */}
+                    <table className={style.table}>
+                        <tbody>
+                            {currentNotice.map((notice, index) => (
+                                <tr key={index}>
+                                    <td className={style.noticeTitle}><a href="/noticedetail">{notice.title}</a></td>
+                                    <td>{notice.writer}</td>
+                                    <td>{notice.date}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <div className={style.pagination}>
+                        <ul className={style.paginationList}>
+                            <li>
+                                <button onClick={handlePrevGroup} disabled={startPage === 1} className={startPage === 1 ? style.disabled : ''}>&lt;</button>
+                            </li>
+                            {pagination}
+                            <li>
+                                <button onClick={handleNextGroup} disabled={endPage === totalPages} className={endPage === totalPages ? style.disabled : ''}>&gt;</button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <p className={style.helpMessage}>찾는 내용이 없을 경우 전화나 1:1문의 바랍니다.</p>
 
                     <div className={style.inquiryBoxAll}>
                         <div className={style.call}>
@@ -99,7 +146,6 @@ function NoticePage() {
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </>
