@@ -158,7 +158,7 @@ li.right_filter .selected_filter {width: 128px;}
 .end_page, .next_page {margin-left: 10px;}
 
 /* detail - 전시/공연 상세 페이지 */
-.detail_sec {padding-top: 60px;}
+.detail_sec {padding-top: 20px;}
 .sec_tit.left {text-align: left;}
 .detail_summary {align-items: stretch; padding-top: 20px; padding-bottom: 40px;}
 .detail_img {width: calc(50% - 30px); max-height: 432px; border-radius: 20px;}
@@ -180,7 +180,7 @@ li.right_filter .selected_filter {width: 128px;}
 .detail_tab_list li.left {}
 .detail_tab_list li.right {}
 
-.detail_info_list {align-items: flex-start; width: 200%; padding-top: 60px; transition: margin-left 300ms ease-in-out;}
+.detail_info_list {align-items: flex-start; width: 200%; padding: 60px 0; transition: margin-left 300ms ease-in-out;}
 .detail_info_list.active {margin-left: -100%;}
 .detail_info_list li {width: 100%; height: auto;}
 .detail_info_list.active li {height: 562px;}
