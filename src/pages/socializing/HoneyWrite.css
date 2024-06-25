@@ -3,13 +3,13 @@
     height: 1100px;
     margin: 0px auto;
     background-image: url('../../../public/images/socializing/Background_Effect.png');
-    background-size: cover ;
-    background-position: top;
+    background-position: 10%;
+    background-size: cover;
     background-repeat: no-repeat;
 }
 
 .write-contents {
-    margin-top: 86px;
+    margin-top: 80px;
 }
 
 .write-header {
@@ -36,12 +36,11 @@
 
 .write-middle {
     height: 600px;
-    align-items: center;
 }
 
 .write-middle-title {
     width: 800px;
-    height: 40px;
+    height: 45px;
     border-radius: 20px;
     background-color: var(--main-color);
     display: flex;
@@ -116,7 +115,7 @@
 .select-total label {
     height: 40px;
     font-size: 18px;
-    border-radius: 20px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -125,10 +124,6 @@
 
 .select-total label:hover {
     background-color: var(--main-color);
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
 }
 
 .select-total label input[type="radio"] {
@@ -171,6 +166,8 @@
 .write-bottom div {
     width: 150px;
     height: 50px;
+    font-size: 18px;
+    font-weight: bold;
     background-color: #ffffff;
     border: 1px solid;
     border-radius: 30px;
@@ -182,13 +179,6 @@
 }
 
 .write-bottom div:hover {
-    width: 150px;
-    height: 50px;
     border: 2px solid;
-    border-radius: 30px;
     border-color: var(--text-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
 }

@@ -107,7 +107,7 @@ function HoneyWrite() {
                         <img style={{cursor:'pointer'}} onClick={backBtn} src={getImage('icon_arrow_back_main_color.png')} alt="뒤로가기아이콘" />
                         <h3> 허니팟 모집하기 </h3>
                         <div style={{ marginRight: '30px', fontSize: '20px' }}>
-                            <span>1 / 2</span>
+                            <span>1 / 3</span>
                         </div>
                     </div>
                     <div className='write-middle'>

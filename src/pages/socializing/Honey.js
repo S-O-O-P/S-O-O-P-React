@@ -712,7 +712,7 @@ export default function Honey(){
             console.log(current);
             (select === 'Y' || select === 'N') ? setCurrent(getPagingPosts()) : (isChange ? setCurrent(copyList) : setCurrent(tempList));
             isChange ? setFilteredCopyCnt(getFilteredList().length) : setFilteredTempCnt(getFilteredList().length);
-        },[select,searchVal,city,region]
+        },[select,searchVal,city,region,subCategoryStatus]
     )
     
     // 메인카테고리 관련 state update될 때, state상태값 초기화
@@ -908,7 +908,7 @@ export default function Honey(){
                         : (<></>)}
                     </div>
                     <div className='write-button' onClick={writeHandler}>
-                        <p>글쓰기</p>
+                        <p>모집하기</p>
                     </div>
                 </div>
                 <div className='main-contents'>
@@ -999,12 +999,11 @@ export default function Honey(){
         {/* 일정 조회 모달창 */}
         {showMannerDateModal && (
             <div className='manner-modal-container' onClick={modalOverlayHandler}>
-                <div className='manner-modal-content' style={{ backgroundImage: `url(${getImage('Background_Effect.png')})`, height:'480px', backgroundSize:'cover', backgroundPosition:'center', backgroundRepeat:'no-repeat' }}>
-                    <div className='manner-modal-header' style={{ backgroundColor:'white', borderTopLeftRadius:'10px', borderTopRightRadius:'10px'}}>
-                        <img style={{cursor:'pointer'}} onClick={ backBtn } src={'images/commons/icon_arrow_back_main_color.png'} alt="뒤로가기아이콘" />
-                        <p> 모집일자 조회 </p>
+                <div className='manner-modal-content' style={{ backgroundImage: `url(${getImage('Background_Effect.png')})`, height:'550px', backgroundSize:'cover', backgroundPosition:'center', backgroundRepeat:'no-repeat' }}>
+                    <div className='manner-modal-header' style={{ display:'flex', justifyContent:'center', alignItems:'center', backgroundColor:'white', borderTopLeftRadius:'10px', borderTopRightRadius:'10px'}}>
+                        <p style={{ marginRight:'0px' }}> 모집일자 조회 </p>
                     </div>
-                    <div className='manner-modal-middle' style={{ height:'380px', marginTop:'20px', borderBottom:'0px'}}>
+                    <div className='manner-modal-middle' style={{ borderBottom:'0px'}}>
                         <Calendar className='custom-calendar' 
                                 onChange={dateHandler} 
                                 value={date}/>

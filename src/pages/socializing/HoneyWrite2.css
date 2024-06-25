@@ -1,10 +1,14 @@
 .write-middle-ticket {
-    width: 800px;
-    height: 500px;
+    width: 700px;
+    height: 480px;
+    border: 1px solid;
+    border-radius: 20px;
+    border-color: var(--main-color);
     background-color: #ffffff;
     overflow-x: hidden;
     overflow-y: scroll;
     margin-top: 20px;
+    margin-left: 50px;
     padding: 10px;
 }
 

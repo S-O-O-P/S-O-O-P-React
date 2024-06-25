@@ -5,6 +5,7 @@ import './HoneyWrite2.css'
 function HoneyWrite2() {
 
     const [ selectedTicket, setSelectedTicket ] = useState(null)
+    const [ showMannerDeniedModal, setShowMannerDeniedModal ] = useState(false);
     // BE 작업용 실제 데이터
     // const [ ticketList, setTicketList ] = useState([]);
     // FE 작업용 임시 데이터
@@ -55,9 +56,21 @@ function HoneyWrite2() {
         setSelectedTicket(ticketId === selectedTicket ? null : ticketId);
     }
 
-    const doneHandler = () => {
-        scrollToTop();
+    const modalOverlayHandler = (e) => {
+        // Modal 바깥쪽을 클릭했을 때만 모달창 닫기
+        if (e.target.className === 'manner-modal-container') {
+          setShowMannerDeniedModal(false);
+        }
+    };
+    const checkHandler = () => {
+        setShowMannerDeniedModal(false)
+    }
 
+    const stepHandler = () => {
+        scrollToTop();
+        selectedTicket === null 
+        ? setShowMannerDeniedModal(true) 
+        : navigate('/write-honey/step3', { state: { cityName, selectedRegion, total, selectedTicket }});
     }
 
     return (
@@ -68,7 +81,7 @@ function HoneyWrite2() {
                         <img style={{cursor:'pointer'}} onClick={backBtn} src={getImage('icon_arrow_back_main_color.png')} alt="뒤로가기아이콘" />
                         <h3> 허니팟 모집하기 </h3>
                         <div style={{ marginRight: '30px', fontSize: '20px' }}>
-                            <span>2 / 2</span>
+                            <span>2 / 3</span>
                         </div>
                     </div>
                     <div className='write-middle'>
@@ -78,7 +91,6 @@ function HoneyWrite2() {
                         <div className='write-middle-ticket'>
                             {ticketTempList.map((ticket)=>(
                                 <div className={selectedTicket === ticket.ticketId ? 'selected-ticket' : ''}
-                                     
                                     onClick={()=>ticketHandler(ticket.ticketId)}>
                                     <div style={{ margin: '0px', borderRadius:'10px' }}>
                                         <img style={{ borderRadius:'10px' }} src={getImage(ticket.ticketPoster)} alt='티켓 포스터' />
@@ -90,11 +102,26 @@ function HoneyWrite2() {
                             ))}
                         </div>
                     </div>
-                    <div className='write-bottom' onClick={doneHandler}>
-                        <div>모집하기</div>
+                    <div className='write-bottom' onClick={stepHandler}>
+                        <div>마지막!</div>
                     </div>
                 </div>
             </div>
+            {showMannerDeniedModal && (
+            <div className='manner-modal-container' onClick={modalOverlayHandler}>
+                <div className='manner-modal-content' style={{ height:'280px' }}>
+                    <div className='manner-modal-header' style={{ backgroundColor:'white', borderTopLeftRadius:'10px', borderTopRightRadius:'10px'}}>
+                        <p style={{ marginRight:'0px' }}> 허니팟 모집 </p>
+                    </div>
+                    <div className='manner-modal-middle' style={{ height:'130px', marginTop:'20px', borderBottom:'0px', justifyContent:'center', alignItems:'center' }}>
+                        <p style={{ fontSize:'18px' }}>얼리버드를 선택해주세요</p>
+                    </div>
+                    <div className='manner-modal-bottom' style={{ padding:'0px', marginTop:'10px', alignItems:'center' }}>
+                        <button onClick={checkHandler} className='submit-button'>확인</button>
+                    </div>
+                </div>
+            </div>   
+        )}
         </>
     );
 }

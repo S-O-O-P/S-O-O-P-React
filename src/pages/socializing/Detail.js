@@ -17,15 +17,15 @@ function Detail() {
     });
 
     const location = useLocation()
-    const { honey,isJoined } = location.state
+    const { honey,isJoined } = location.state;
 
     useEffect(
         ()=>{
             // setComment([]) // 댓글 정보 api 호출
             // setLoginInfo(인증정보)
-            setJoinStatus(isJoined)
-            console.log(isJoined)
-            setJoinText('호스트는 신청할 수 없습니다')
+            setJoinStatus(isJoined);
+            console.log(isJoined);
+            setJoinText('호스트는 신청할 수 없습니다');
         },[]
     )
 
@@ -43,28 +43,28 @@ function Detail() {
             return null
         }
     }
-    
 
     const navigate = useNavigate();
-
     const goBackHandler = () => {
         navigate(-1);
     }
-
-    const userInfoHandler = () => {
-        // 참가자 프로필 클릭 시, 해당 유저정보창으로
-    }
-
+    
     const hostInfoHandler = () => {
         // 호스트 프로필 클릭 시, 해당 유저정보창으로
+    }
+    const userInfoHandler = () => {
+        // 참가자 프로필 클릭 시, 해당 유저정보창으로
     }
 
     const joinHandler = () => {
         // 같이봐요 클릭 시, 참여자 정보와 참가 요청자 정보 비교 후 처리
         honey.participant.map((user)=>{
-            user.member.memberId === loginInfo.memberId && user.member.memberId === honey.member.memberId 
-            ? setShowMannerJoinModal(true)
-            : setShowMannerJoinModal(false)
+            if(user.member.memberId === loginInfo.memberId && user.member.memberId === honey.member.memberId){
+                setShowMannerJoinModal(true)
+            } else {
+                setShowMannerJoinModal(false)
+                navigate('/result', { state: { action:'참가 신청이 완료' } })
+            }
         })
 
         // 후에 로그인한 유저가 참여 시도시, 참여자상태도 아니면서 호스트도 아니면 완료창으로 이동
@@ -72,30 +72,21 @@ function Detail() {
 
     const cancelHandler = () => {
         // 취소 api 호출로 참여자정보 데이터 삭제
-        setShowMannerJoinModal(true)
-        setJoinText('참가신청이 취소되었습니다')
+        setShowMannerJoinModal(true);
+        setJoinText('참가신청이 취소되었습니다');
     }
 
-    const getWidth = () => {
-        if (honey.honeyFullStatus === 'N') {
-          return '450px';
-        } else {
-          return joinStatus ? '450px' : '200px';
-        }
-      };
-
-    // 모달
-    const backBtn = () => {
-        setShowMannerJoinModal(false)
-    }
     const modalOverlayHandler = (e) => {
         // Modal 바깥쪽을 클릭했을 때만 모달창 닫기
         if (e.target.className === 'manner-modal-container') {
           setShowMannerJoinModal(false);
         }
     };
-    const checkHandler = () => {
-        setShowMannerJoinModal(false)
+    const checkHandler = (text) => {
+        setShowMannerJoinModal(false);
+        if(text === '참가신청이 취소되었습니다') {
+            navigate('/honey');
+        }
     }
 
     const ticketInfoHandler = () => {
@@ -115,7 +106,7 @@ function Detail() {
                     {honey.member.profile === null || honey.member.profile === undefined 
                     ? <div className='writer-profile-pic' onClick={hostInfoHandler} style={{ width:'170px' }}></div>
                     :<div className='writer-profile-pic' onClick={hostInfoHandler} style={{ width:'170px', backgroundImage:`url(${getImage(honey.member.profile)})` }}></div>}
-                    <span style={{ marginTop:'200px' }}>{honey.member.nickname}</span>
+                    <span style={{ fontSize:'24px', marginTop:'200px' }}>{honey.member.nickname}</span>
                 </div>
                 <div style={{ justifyContent:'end', gap:'5px', padding:'0 20px' }}>
                     <img src={'images/commons/icon_star.png'} alt="유저평점아이콘" style={{ width:'30px' }}/>
@@ -175,7 +166,7 @@ function Detail() {
                     </div>
                 </div>
                 <div style={{
-                        width: honey.honeyFullStatus === 'N' ? '450px' : (joinStatus ? '450px' : '200px'),
+                        width: honey.honeyFullStatus === 'N' ? '420px' : (joinStatus ? '420px' : '190px'),
                         marginBottom: '30px'
                     }}>
                     <div className='decide-button' onClick={goBackHandler}>
@@ -189,7 +180,7 @@ function Detail() {
                         ))} */}
                         {joinStatus
                         ? <div onClick={cancelHandler} className='decide-button' style={{ backgroundColor:'red', marginLeft:'80px' }}><p style={{color:'white'}}>참가 취소</p></div>
-                        : <div onClick={joinHandler} className='decide-button' style={{ backgroundColor:'var(--main-color)', marginLeft:'80px' }}><p>같이봐요</p></div> 
+                        : <div onClick={joinHandler} className='decide-button' style={{ backgroundColor:'var(--main-color)', marginLeft:'80px' }}><p style={{color:'white'}}>같이봐요</p></div> 
                         }
                     </> 
                     : <>
@@ -238,15 +229,14 @@ function Detail() {
             {showMannerJoinModal && (
             <div className='manner-modal-container' onClick={modalOverlayHandler}>
                 <div className='manner-modal-content' style={{ height:'280px' }}>
-                    <div className='manner-modal-header' style={{ backgroundColor:'white', borderTopLeftRadius:'10px', borderTopRightRadius:'10px'}}>
-                        <img onClick={ backBtn } src={'images/commons/icon_arrow_back_main_color.png'} alt="뒤로가기아이콘" />
-                        <p> 참가 신청 </p>
+                    <div className='manner-modal-header' style={{ display:'flex', justifyContent:'center', alignItems:'center', backgroundColor:'white', borderTopLeftRadius:'10px', borderTopRightRadius:'10px'}}>
+                        <p style={{ marginRight:'0px' }}> 참가 신청 </p>
                     </div>
                     <div className='manner-modal-middle' style={{ height:'130px', marginTop:'20px', borderBottom:'0px', justifyContent:'center', alignItems:'center' }}>
                         <p style={{ fontSize:'18px' }}>{joinText}</p>
                     </div>
                     <div className='manner-modal-bottom' style={{ padding:'0px', marginTop:'10px', alignItems:'center' }}>
-                        <button onClick={checkHandler} className='submit-button'>확인</button>
+                        <button onClick={()=>checkHandler(joinText)} className='submit-button'>확인</button>
                     </div>
                 </div>
             </div>    

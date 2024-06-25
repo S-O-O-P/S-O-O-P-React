@@ -13,7 +13,7 @@
     width: 800px;
     padding: 80px;
     background-color: #ffffff;
-    border: 1px solid;
+    border: 1px solid var(--main-color);
     border-radius: 40px;
     display: flex;
     flex-wrap: wrap;
@@ -64,14 +64,8 @@
 }
 
 .decide-button {
-    border: 1px solid;
-    border-radius: 40px;
-    border-color: var(--main-color);
-    cursor: pointer;
-}
-
-.decide-button:hover {
-    background-color: var(--main-color);
+    width: 150px;
+    height: 50px;
     border: 1px solid;
     border-radius: 40px;
     border-color: var(--main-color);
@@ -79,7 +73,22 @@
 }
 
 .decide-button p {
-    margin-left: 28px;
+    color: var(--main-color);
+    margin-left: 22px;
+}
+
+.decide-button:hover {
+    color: #ffffff;
+    background-color: var(--main-color);
+    border: 1px solid;
+    border-radius: 40px;
+    border-color: var(--main-color);
+    cursor: pointer;
+}
+
+.decide-button:hover p{
+    color: #ffffff;
+    font-weight: bold;
 }
 
 .content-box-detail {
@@ -120,7 +129,7 @@
 
 .comment-textarea {
     width: 100%;
-    height: 100px;
+    height: 150px;
     resize: none;
     padding: 10px;
     border-radius: 8px;
@@ -128,10 +137,15 @@
     outline: none;
 }
 
-.submit-button {
-    width: 50px;
-    height: 28px;
+.comment-textarea::placeholder {
     font-size: 15px;
+}
+
+.submit-button {
+    width: 56px;
+    height: 34px;
+    font-size: 15px;
+    color: white;
     background-color: var(--main-color);
     border: none;
     border-radius: 8px;
