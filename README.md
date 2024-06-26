@@ -36,7 +36,6 @@
      <tr colspan="2" align="center">
       <td><i>DataBase Manager</i></td>
       <td><i>Document Manager</i></td>
-      <td><i>Test & Issue Manager</i></td>
     </tr>
   </table>
 </div>
