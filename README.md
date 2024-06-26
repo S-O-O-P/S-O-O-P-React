@@ -23,7 +23,6 @@
     <tr>
       <td></td>
       <td></td>
-      <td></td>
     </tr>
     <tr align="center">
       <td height="200px" width="200px"><img src="https://github.com/BlizzaB/.github/assets/157683242/809dec29-151a-47c6-95dc-b3c4f5d9e114" alt="image" border="0"></td>
