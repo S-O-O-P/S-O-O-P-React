@@ -130,7 +130,8 @@
     background-color: #fff;
     border: 1px solid var(--main-color);
     border-radius: 48px;
-    font: var(--main-color) var(--semiBold) 16px;
+    font: var(--semiBold) 16px;
+    color: var(--main-color);
     margin-right: 20px;
 }
 

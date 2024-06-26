@@ -3,8 +3,11 @@ import TopBanner from '../../components/main/TopBanner';
 import HotBanner from '../../components/main/HotBanner';
 import EarlyBanner from '../../components/main/EarlyBanner';
 import { useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 
 export default function Main() {
+  
+  const navigate = useNavigate();
 
   // 스크롤시 Header 색상 변경 
   useEffect(
@@ -40,7 +43,7 @@ export default function Main() {
           <div className={mainStyles.hot_prf_sec}>
             <div className={`${mainStyles.tit_view_more} ${mainStyles.flex_center}`}>
               <p className={mainStyles.sec_tit}>HOT 전시/공연 정보</p>
-              <span className={`${mainStyles.view_more_btn} ${mainStyles.flex_center}`}>더보기 <img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_white.png`} alt="arrow left direction icon"/></span>
+              <span className={`${mainStyles.view_more_btn} ${mainStyles.flex_center}`} onClick={() => navigate("/cultureinfo")}>더보기 <img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_white.png`} alt="arrow left direction icon"/></span>
             </div>
             {HotBanner()}
           </div>
@@ -50,7 +53,7 @@ export default function Main() {
             <div className={mainStyles.early_sec}>
               <div className={`${mainStyles.tit_view_more} ${mainStyles.flex_center}`}>
                 <p className={mainStyles.sec_tit}>얼리버드</p>
-                <span className={`${mainStyles.view_more_btn} ${mainStyles.flex_center}`}>더보기 <img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_white.png`} alt="arrow left direction icon"/></span>
+                <span className={`${mainStyles.view_more_btn} ${mainStyles.flex_center}`} onClick={() => navigate("/cultureinfo")}>더보기 <img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_white.png`} alt="arrow left direction icon"/></span>
               </div>
               <div className={mainStyles.early_slide_box}>
                 {EarlyBanner()}
@@ -64,7 +67,7 @@ export default function Main() {
             <div className={mainStyles.honeypot_sec}>
               <div className={`${mainStyles.tit_view_more} ${mainStyles.flex_center}`}>
                 <p className={mainStyles.sec_tit}>허니팟</p>
-                <span className={`${mainStyles.view_more_btn} ${mainStyles.flex_center}`}>더보기 <img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_white.png`} alt="arrow right direction icon"/></span>
+                <span className={`${mainStyles.view_more_btn} ${mainStyles.flex_center}`} onClick={() => navigate("/honey")}>더보기 <img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_white.png`} alt="arrow right direction icon"/></span>
               </div>
             </div>
           </div>

@@ -18,7 +18,7 @@ function MyComments() {
             <div className='participation-honeypot'>
                 <p>내가 쓴 댓글</p>
             </div>
-            <div>
+            <div className='mypage-table-container'>
                 <table>
                     <tr className='tr-title'>
                         <th className='th-comment'>댓글</th>
@@ -30,7 +30,7 @@ function MyComments() {
                         <td className='td-comment'>
                             <p className='comment-title'>[대상혁 숭배하러 가실분]</p>
                             <p>젠장 또 대상혁이야!? 강남만 가려 했는데, 대상혁을 보고 말았어, 이제 나는 숭배해야만해...그것이 대상혁을 목도한 자의 사명이다. 자 숭배를 시작하겠어.</p>
-                            </td>
+                        </td>
                         <td className='td-registration-date'>2024.06.03</td>
                         <td className='td-position'>참여자</td>
                     </tr>

@@ -19,7 +19,7 @@ function MyInquiry() {
             <div className='participation-honeypot'>
                 <p>문의 내역</p>
             </div>
-            <div>
+            <div className='mypage-table-container'>
                 <table>
                     <tr className='tr-title'>
                         <th className='th-inquiry'>문의내역</th>

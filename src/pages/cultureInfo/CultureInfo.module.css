@@ -30,7 +30,7 @@
 .cutting_line li {width: 10px; height: calc(100% / 8 - 16px); background-color: var(--main-color); border-radius:10px; margin-top: 10px;}
 .ticket_shape_cont .right_shape {position: relative; width: 74%; padding: 20px; margin-left:-4px; background-color: #fff; border: 1px solid var(--main-color); border-radius:20px; overflow: hidden;}
 .right_shape .hot_list {}
-.right_shape .hot_list a {display: block; height: 320px; margin: 0 10px; border-radius:20px; border: 1px solid var(--main-color); }
+.right_shape .hot_list a {display: block; height: 320px; margin: 0 10px; border-radius:20px; border: 1px solid var(--main-color); opacity: 1;}
 .right_shape .hot_list img {width: 100%; height: 150px; object-fit: cover; object-position: top; border-radius: 19px 19px 0 0 ;}
 .right_shape .prev_btn, .right_shape .next_btn, .early_slide_box .prev_btn, .early_slide_box .next_btn {position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; width: 40px; height: 40px; background-color: rgba(255, 183, 85, 0.7); border-radius:50%; cursor: pointer;}
 .right_shape .prev_btn, .early_slide_box .prev_btn{left: -14px; }
@@ -106,7 +106,7 @@ li.right_filter .selected_filter {width: 128px;}
 /* 전시/공연 리스트 */
 /* 카드 형식 */
 .culture_list_box.active {display: flex;}
-.culture_list_box{display: none; flex-direction: column; align-items: center;}
+.culture_list_box{display: none; flex-direction: column; align-items: center; padding-bottom: 100px;}
 .culture_list {align-items: flex-start; flex-wrap: wrap;}
 .culture_list li {width: calc((100% - 60px) / 4); margin-right: 20px; margin-bottom: 40px;}
 .culture_list li:nth-child(4n) {margin-right: 0px;}
@@ -125,14 +125,16 @@ li.right_filter .selected_filter {width: 128px;}
 .view_more_btn:hover {background-color: var(--point-color);}
 
 /* 테이블 형식 */
-.culture_table {display: none;} 
+.culture_table {display: none; padding-bottom: 100px;} 
 .culture_table.active {display: block;}
 .culture_table table {width: 100%; border-collapse: collapse; table-layout: fixed;}
 .culture_table table thead {background-color: var(--main-color);}
 .culture_table table thead th{padding: 10px 0;  font-size: 18px; font-weight: var(--semiBold); color:#ffffff; background-color: var(--main-color); text-align: center; border-right: 1px solid #ffffff; white-space: nowrap;}
 .culture_table table thead th:nth-of-type(1){width: 10%;}
 .culture_table table thead th:nth-of-type(2){width: 50%;}
-.culture_table table tbody tr td { padding: 10px; border-bottom: 1px solid var(--main-color); border-right: 1px solid var(--main-color); font-size: 16px; font-weight: var(--regular);}
+.culture_table table tbody tr {cursor: pointer;}
+.culture_table table tbody tr td { padding: 10px; border-bottom: 1px solid var(--main-color); border-right: 1px solid var(--main-color); font-size: 16px; font-weight: var(--regular); transition: background-color 200ms ease-in-out;}
+.culture_table table tbody tr:hover td{background-color: rgba(255, 183, 85, 0.3);}
 .culture_table table tbody tr td:first-child, .culture_table table tbody tr td:nth-child(n+3) { text-align: center; }
 .culture_table table tbody tr td:last-child {border-right: none;}
 .culture_table table tbody tr td:nth-child(2) p {width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
@@ -156,7 +158,7 @@ li.right_filter .selected_filter {width: 128px;}
 .end_page, .next_page {margin-left: 10px;}
 
 /* detail - 전시/공연 상세 페이지 */
-.detail_sec {padding-top: 60px;}
+.detail_sec {padding-top: 20px;}
 .sec_tit.left {text-align: left;}
 .detail_summary {align-items: stretch; padding-top: 20px; padding-bottom: 40px;}
 .detail_img {width: calc(50% - 30px); max-height: 432px; border-radius: 20px;}
@@ -178,7 +180,7 @@ li.right_filter .selected_filter {width: 128px;}
 .detail_tab_list li.left {}
 .detail_tab_list li.right {}
 
-.detail_info_list {align-items: flex-start; width: 200%; padding-top: 60px; transition: margin-left 300ms ease-in-out;}
+.detail_info_list {align-items: flex-start; width: 200%; padding: 60px 0; transition: margin-left 300ms ease-in-out;}
 .detail_info_list.active {margin-left: -100%;}
 .detail_info_list li {width: 100%; height: auto;}
 .detail_info_list.active li {height: 562px;}

@@ -140,7 +140,7 @@ const MyPage = () => {
             <div className="manner-modal-content"> 
                 <div className='manner-modal-header'>
                     <img onClick={ backBtn } src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_back_main_color.png`} alt="뒤로가기아이콘" />
-                    <p> 전소민 </p>
+                    <p> {nickName} </p>
                 </div>
 
                 <div className='manner-modal-middle'>

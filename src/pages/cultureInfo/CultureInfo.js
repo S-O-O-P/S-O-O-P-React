@@ -4,6 +4,7 @@ import EarlySlide from "../../components/cultureInfo/EarlySlide";
 import HotSlide from "../../components/cultureInfo/HotSlide";
 import styles from "./CultureInfo.module.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function CultureInfo() {
 
@@ -11,9 +12,13 @@ export default function CultureInfo() {
   const [category, setCategory] = useState('all') // 선택한 카테고리 - 초기값은 전체
   const [count, setCount] = useState('0'); // 카테고리 별 공연/전시 갯수
 
+  const navigate = useNavigate();
+
 
   useEffect(
     () => { 
+
+      window.scrollTo(0,0); //페이지 이동시, 최상단으로 스크롤 위치
       
       //공연/전시 대분류 카테고리 버튼
       const genreFilterList = document.querySelectorAll(`.${styles.filter_genre_list} li`);
@@ -222,19 +227,19 @@ export default function CultureInfo() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
+                  <tr onClick={() => navigate("/cultureinfo/detail")}>
                     <td>뮤지컬</td>
                     <td>뮤지컬 〈디어 에반 핸슨〉 - 부산 (Dear Evan Hansen)</td>
                     <td>70,000 ~ 160,000원</td>
                     <td>2024.08.20~2024.08.31</td>
                   </tr>
-                  <tr>
+                  <tr onClick={() => navigate("/cultureinfo/detail")}>
                     <td>팝업스토어</td>
                     <td>뮤지컬 〈디어 에반 핸슨〉 - 부산 (Dear Evan Hansen)</td>
                     <td>70,000 ~ 160,000원</td>
                     <td>2024.08.20~2024.08.31</td>
                   </tr>
-                  <tr>
+                  <tr onClick={() => navigate("/cultureinfo/detail")}>
                     <td>팝업스토어</td>
                     <td><p>뮤지컬 〈디어 에반 핸슨〉 - 부산 (Dear Evan Hansen)asdfasdfasdfasdfasdfagdfgsdfgsdfgsdfgsdfgsdfgdfgdfgdfgsfggsf</p></td>
                     <td>70,000 ~ 160,000원</td>

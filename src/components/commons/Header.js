@@ -8,7 +8,7 @@ function Header() {
         <div className="top-bar">
           <div>
           <NavLink to='/main'>
-            <img className='header-logo' src="images/commons/logo.png" alt="LOGO"/>
+            <img className='header-logo' src={`${process.env.PUBLIC_URL}/images/commons/logo.png`} alt="LOGO"/>
             </NavLink>
           </div>
           <nav>
