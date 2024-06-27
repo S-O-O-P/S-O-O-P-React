@@ -19,8 +19,19 @@ import HoneyWrite from './pages/socializing/HoneyWrite';
 import HoneyWrite2 from './pages/socializing/HoneyWrite2';
 import HoneyWrite3 from './pages/socializing/HoneyWrite3';
 import DoneResult from './pages/socializing/DoneResult';
+import CultureApi from './apis/CultureApi';
+import { useEffect, useState } from 'react';
 
 export default function App() {
+
+  // Api 호출시 상태 저장을 위한 설정
+  const [data, setData] = useState(null);
+
+  useEffect(
+    () => {
+      CultureApi({ setData }); // App.js의 setData함수를 객체 형태로 CultureApi 컴포넌트에 props로 전달
+    },[]
+  );
 
     return (
    <>      
@@ -29,7 +40,7 @@ export default function App() {
           <Routes>
             <Route element={<Layout/>}> {/* 레이아웃 오픈*/}
               <Route path='/main' element={<Main/>}/> {/* 메인 */}
-              <Route index element={<Main/>}/> {/* 메인 */}
+              <Route index element={<Main cultureList={JSON.stringify(data)}/>}/> {/* 메인 */}
               <Route path='/login' element={<LoginPage/>}/> {/* 로그인 */}
               <Route path='/signup' element={<SignUpPage/>}/> {/* 추가 정보 입력 */}
               <Route path="/cultureinfo" element={<CultureInfo/>}/> {/* 전시/공연 정보 */}

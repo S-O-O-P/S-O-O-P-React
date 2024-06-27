@@ -5,13 +5,14 @@ import EarlyBanner from '../../components/main/EarlyBanner';
 import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 
-export default function Main() {
+export default function Main(cultureList) {
   
   const navigate = useNavigate();
 
   // 스크롤시 Header 색상 변경 
   useEffect(
     () => {
+      console.log('api 데이터 리스트 전달 : ' + cultureList);
       const changeHeaderBgColor = () => {
         if(window.scrollY > 80){ // 스크롤 위치가 header height 80px보다 내려갔을 경우,
           document.querySelector(".header").classList.remove("main"); // header에서 main 클래스 제거
