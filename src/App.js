@@ -33,14 +33,18 @@ export default function App() {
     },[]
   );
 
+  useEffect(() => {
+    console.log(data); // 데이터가 변경될 때마다 로그를 출력
+  }, [data]);
+
     return (
    <>      
     <GlobalStyles/>
       <BrowserRouter>
           <Routes>
             <Route element={<Layout/>}> {/* 레이아웃 오픈*/}
-              <Route path='/main' element={<Main/>}/> {/* 메인 */}
-              <Route index element={<Main cultureList={JSON.stringify(data)}/>}/> {/* 메인 */}
+              <Route path='/main' element={data ? <Main cultureList={JSON.stringify(data)}/> : <div>Loading...</div>}/> {/* 메인 */}
+              <Route index element={data ? <Main cultureList={JSON.stringify(data)}/> : <div>Loading...</div>}/> {/* 메인 */}
               <Route path='/login' element={<LoginPage/>}/> {/* 로그인 */}
               <Route path='/signup' element={<SignUpPage/>}/> {/* 추가 정보 입력 */}
               <Route path="/cultureinfo" element={<CultureInfo/>}/> {/* 전시/공연 정보 */}
