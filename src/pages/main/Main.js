@@ -12,21 +12,29 @@ export default function Main() {
   // 스크롤시 Header 색상 변경 
   useEffect(
     () => {
+      window.scrollTo(0,0); //페이지 이동시, 최상단으로 스크롤 위치
+      
+      const header = document.querySelector(".header");
+      header.classList.add("main");
+      document.querySelector(".header-logo").setAttribute('src', 'images/commons/logo_white.png');
+
       const changeHeaderBgColor = () => {
-        if(window.scrollY > 80){ // 스크롤 위치가 header height 80px보다 내려갔을 경우,
-          document.querySelector(".header").classList.remove("main"); // header에서 main 클래스 제거
-          //src="images/commons/logo.png"          
-          document.querySelector(".header-logo").setAttribute('src','images/commons/logo.png'); //유색 로고로 변경      
-        } else {// 스크롤 위치가 header height 80px를 벗어나지 않은 경우,
-          document.querySelector(".header").classList.add("main");  // header에서 main 클래스 추가
-          document.querySelector(".header-logo").setAttribute('src','images/commons/logo_white.png'); //흰색 로고로 변경     
+        if (window.scrollY > 80) {
+          header.classList.remove("main");
+          document.querySelector(".header-logo").setAttribute('src', 'images/commons/logo.png');
+        } else {
+          header.classList.add("main");
+          document.querySelector(".header-logo").setAttribute('src', 'images/commons/logo_white.png');
         }
-      }
+      };
+      
       window.addEventListener("scroll", changeHeaderBgColor);
 
       return () => {
         window.removeEventListener("scroll", changeHeaderBgColor);
-      }
+        header.classList.remove("main"); // 컴포넌트가 언마운트될 때 클래스 제거
+        document.querySelector(".header-logo").setAttribute('src', 'images/commons/logo.png');
+      };
     },[]
   );
 
