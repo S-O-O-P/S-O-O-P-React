@@ -9,7 +9,11 @@
 
 .honeypot-list-container {
     padding: 20px;
-    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px 20px;
+    cursor: pointer;
 }
 
 .one-honeypot-index {
@@ -125,6 +129,61 @@
     margin-top: 19px;
     text-align: end;
 }
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.page-button {
+    padding: 5px 10px;
+    border: none;
+    color: var(--main-color);
+    font-size: 18px;
+    background: none;
+    cursor: pointer;
+}
+
+.page-button.active {
+    background-color: var(--main-color);
+    width: 36px;
+    height: 36px;
+    border-radius: 36px;
+    color: white;
+}
+
+
+.prev-btn,
+.next-btn,
+.first-btn,
+.last-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: var(--main-color);
+    border-radius: 4px;
+    margin-right: 4px;
+}
+
+.pagination button[disabled] {
+    opacity: 0.3;
+    cursor: default;
+}
+
+
 
 
 
