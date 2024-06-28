@@ -5,15 +5,15 @@ export default function CultureApi({ setData }) {
     const queryParams = new URLSearchParams({ // 조회시 요청 parameters
       serviceKey: serviceKey,
       keyword: '',
-      sortStdr: '3', // 1 : 등록일 / 2 :   / 3 : 지역
+      //sortStdr: '3', // 1 : 등록일 / 2 :   / 3 : 지역
       ComMsgHeader: '',
       RequestTime: '20240701:23003422', // 요청 기간 
       CallBackURI: '',
       MsgBody: '',
       cPage: '1',
       rows: '500', // 1페이지에 불러올 데이터 갯수
-      from: '20240701', // 시작일
-      to: '20241231' // 종료일
+      // from: '20240701', // 시작일
+      to: '202401231' // 종료일
     });
 
     xhr.open('GET', `${url}?${queryParams.toString()}`, true); // get 요청
