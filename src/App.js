@@ -16,6 +16,7 @@ import CultureDetail from './pages/cultureInfo/CultureDetail';
 import HoneypotPage from './pages/honeypot/HoneypotPage';
 import CultureApi from './apis/CultureApi';
 import { useEffect, useState } from 'react';
+import RegistHoneypotPage from './pages/honeypot/RegistHoneypotPage';
 
 export default function App() {
 
@@ -46,6 +47,7 @@ export default function App() {
               <Route path="/cultureinfo/detail" element={<CultureDetail/>}/> {/* 전시/공연 상세페이지*/}
               <Route path='/completed' element={<CompletedPage/>}/> {/* 회원 가입 완료 */}
               <Route path='/honeypot' element={<HoneypotPage/>}/> {/* 허니팟 페이지 */}
+              <Route path='/honeypot/regist' element={data ? <RegistHoneypotPage cultureList={JSON.stringify(data)}/> : <div>Loading...</div>}/> {/* 허니팟 등록 페이지 */}
               <Route path='/mypage' element={<MyPage/>}/> {/* 마이 페이지 */}
               <Route path='/help' element={<Cs />} /> {/* 고객 센터 */}
               <Route path='/faq' element={<Faq />} /> {/* 자주 찾는 질문 */}

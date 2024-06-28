@@ -184,6 +184,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+}
+
+.create-honeypot:hover {
+    background: #FE8C53;
 }
 
 .create-honeypot img {
