@@ -5,7 +5,7 @@ import EarlyBanner from '../../components/main/EarlyBanner';
 import { useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 
-export default function Main() {
+export default function Main(cultureList) {
   
   const navigate = useNavigate();
 
@@ -17,7 +17,6 @@ export default function Main() {
       const header = document.querySelector(".header");
       header.classList.add("main");
       document.querySelector(".header-logo").setAttribute('src', 'images/commons/logo_white.png');
-
       const changeHeaderBgColor = () => {
         if (window.scrollY > 80) {
           header.classList.remove("main");
