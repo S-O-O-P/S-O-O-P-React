@@ -218,7 +218,7 @@
     font-size: 20px;
 }
 
-.select_renewal {
+.mypage_select_renewal {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -250,7 +250,7 @@
   border-radius: 50%;
 }
 
-.search-wrapper {
+.mypage_search-wrapper {
     position: relative;
     display: inline-block;
     width: 311px;

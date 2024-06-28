@@ -1,0 +1,4 @@
+<!-- dashed-line.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5 200" width="5" height="200">
+  <line x1="2.5" y1="0" x2="2.5" y2="200" style="stroke:white; stroke-width:5; stroke-dasharray: 16, 16; stroke-linecap: round;" />
+</svg>
