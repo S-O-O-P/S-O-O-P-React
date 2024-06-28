@@ -23,9 +23,13 @@ function HoneypotPage() {
     const [sortKey, setSortKey] = useState('등록일순'); // 정렬 기준
     const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
     const [pageGroup, setPageGroup] = useState(0);
+    const [selectedCategory, setSelectedCategory] = useState('전체'); // 선택된 카테고리 상태 추가
 
     // 카테고리 버튼 클릭 처리 함수
     const onClickCategory = (interestCode) => {
+
+        setSelectedCategory(interestCode);
+
         let categoryFilteredData = [];
     
         if (interestCode === '전체') {
@@ -128,12 +132,24 @@ function HoneypotPage() {
                 </div>
                 <div className='honeypot-main'>
                     <div className="honeypot-category">
-                        <button onClick={() => onClickCategory('전체')}>전시/행사 전체보기<span className='count'>{count.전체}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="오른쪽컬러화살표" /></button>
-                        <button onClick={() => onClickCategory('팝업')}>팝업 <span className='count'>{count.팝업}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="오른쪽컬러화살표" /></button>
-                        <button onClick={() => onClickCategory('공연')}>공연 <span className='count'>{count.공연}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="오른쪽컬러화살표" /></button>
-                        <button onClick={() => onClickCategory('행사/축제')}>행사/축제 <span className='count'>{count.행사축제}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="오른쪽컬러화살표" /></button>
-                        <button onClick={() => onClickCategory('전시회')}>전시회 <span className='count'>{count.전시회}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="오른쪽컬러화살표" /></button>
-                        <button onClick={() => onClickCategory('뮤지컬')}>뮤지컬 <span className='count'>{count.뮤지컬}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="오른쪽컬러화살표" /></button>
+                        <button className={selectedCategory === '전체' ? 'selected' : ''} onClick={() => onClickCategory('전체')}>
+                        전시/행사 전체보기<span className='count'>{count.전체}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="오른쪽컬러화살표" />
+                        </button>
+                        <button className={selectedCategory === '팝업' ? 'selected' : ''} onClick={() => onClickCategory('팝업')}>
+                        팝업 <span className='count'>{count.팝업}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="오른쪽컬러화살표" />
+                        </button>
+                        <button className={selectedCategory === '공연' ? 'selected' : ''} onClick={() => onClickCategory('공연')}>
+                        공연 <span className='count'>{count.공연}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="오른쪽컬러화살표" />
+                        </button>
+                        <button className={selectedCategory === '행사/축제' ? 'selected' : ''} onClick={() => onClickCategory('행사/축제')}>
+                        행사/축제 <span className='count'>{count.행사축제}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="오른쪽컬러화살표" />
+                        </button>
+                        <button className={selectedCategory === '전시회' ? 'selected' : ''} onClick={() => onClickCategory('전시회')}>
+                        전시회 <span className='count'>{count.전시회}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="오른쪽컬러화살표" />
+                        </button>
+                        <button className={selectedCategory === '뮤지컬' ? 'selected' : ''} onClick={() => onClickCategory('뮤지컬')}>
+                        뮤지컬 <span className='count'>{count.뮤지컬}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="오른쪽컬러화살표" />
+                        </button>
                     </div>
                     <hr className='honeypot-hr'/>
                     <div className='honeypot-sortandsearch-container'>

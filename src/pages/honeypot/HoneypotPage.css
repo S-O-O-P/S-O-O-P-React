@@ -50,6 +50,27 @@
     display: flex;
     align-items: center;
     cursor: pointer;
+    position: relative; /* 아이콘을 버튼 내에 상대적으로 위치시킬 수 있게 설정 */
+}
+
+.honeypot-category button:hover {
+    background: var(--main-color);
+    color: white;
+}
+
+.honeypot-category button.selected {
+    background: var(--main-color);
+    color: white;
+}
+
+.honeypot-category button.selected img {
+    content: url(../../../public/images/commons/icon_arrow_right_white.png);
+    /* 이미지를 흰색 화살표로 변경 */
+}
+
+.honeypot-category button.selected span {
+    background: white;
+    color: var(--main-color);    
 }
 
 .honeypot-category .count {
@@ -63,6 +84,16 @@
     justify-content: center;
     font-size: 16px;
     color: white;    
+}
+
+.honeypot-category button:hover span {
+    background: white;
+    color: var(--main-color);    
+}
+
+.honeypot-category button:hover img {
+    content: url(../../../public/images/commons/icon_arrow_right_white.png);
+    /* 이미지를 흰색 화살표로 변경 */
 }
 
 .honeypot-category img {
