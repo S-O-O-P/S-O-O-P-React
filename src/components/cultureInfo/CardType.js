@@ -24,15 +24,18 @@ export default function CardType(cultureList){
               return dateFormat;
             }
 
-            const title = item.title.replaceAll('&lt;',`<`).replaceAll('&gt;',`>`).replaceAll("&#39;","'"); // 제목
-            // console.log("남은 공연/전시 기간 : " + parseInt(convertDateFormat(item.endDate, "rest") - today));
+            const title = item.title.replaceAll('&lt;',`<`).replaceAll('&gt;',`>`).replaceAll("&#39;","'"); // 제목          
+            if(parseInt(convertDateFormat(item.endDate, "rest") - today) < 7){
+              console.log("남은 공연/전시 기간 : " + parseInt((convertDateFormat(item.endDate, "rest") - today) / 86400000));
+              
+            }
             
             return(
               <li key={index}>
                 <Link to={`/cultureinfo/detail/${item.seq}`}>
                   <div className={styles.culture_img}>
                   <img src={item.thumbnail} alt={`${title} thumbnail`}/>
-                    {parseInt(convertDateFormat(item.endDate, "rest") - today) < 7 ? <span className={styles.culture_mark}>마감임박</span> : null}
+                    {(parseInt((convertDateFormat(item.endDate, "rest") - today) / 86400000) < 7) ? <span className={styles.culture_mark}>마감임박</span> : null}
                   </div>
                   <div className={styles.culture_item_txt}>
                     <p className={styles.culture_tit}>{title}</p>

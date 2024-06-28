@@ -1,7 +1,23 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "./CultureInfo.module.css";
+import { useParams } from "react-router-dom";
+import CultureDetailApi from "../../apis/CultureDetailApi";
 
 export default function CultureDetail() {
+  const [detailData, setDetailData] = useState(null); //상세 정보 저장
+  const {seq} = useParams({}); // seq 코드 param으로 가져오기
+
+  useEffect(() => {
+    if (seq) {
+      CultureDetailApi({ setDetailData }, seq); // 상세 정보 조회 api에 setDetailData 와 seq코드 전달
+      console.log("detailData from CultureDetail.js: " + JSON.stringify(detailData));
+    }
+  }, [seq]); // seq가 변경될 때마다 실행
+
+  useEffect(() => {
+    console.log("공연 / 전시 상세 정보 : " + JSON.stringify(detailData?.title));
+    console.log(seq);
+  }, [detailData]);
 
   useEffect(
     () => {
@@ -35,39 +51,55 @@ export default function CultureDetail() {
     []
   );
 
+  // 공연 / 전시 start/endDate
+  const convertDateFormat = (stringDate, type) => {
+    let dateFormat = "";
+    const year = stringDate?.slice(0, 4);
+    const month = stringDate?.slice(4, 6);
+    const day = stringDate?.slice(6);
+    if(type == "rest"){
+      dateFormat = new Date(year+"-"+month+"-"+day); // 날짜 표시 형식
+    } else{
+      dateFormat = year+"."+month+"."+day; // 날짜 표시 형식
+    }              
+    return dateFormat;
+  }
+
   return (
     <>
       {/* contents */}
       <div className={styles.contents_cont}>
         <div className={styles.detail_sec_box}>
           <div className={styles.detail_sec}>
-            <p className={`${styles.sec_tit} ${styles.left}`}>서양 미술 800년展</p>
+            <p className={`${styles.sec_tit} ${styles.left}`}>{detailData?.title.replaceAll('&lt;',`<`).replaceAll('&gt;',`>`).replaceAll("&#39;","'")}</p>
             <div className={`${styles.detail_summary} ${styles.flex_between}`}>
-              <div className={styles.detail_img}><img src="https://images.pexels.com/photos/6899764/pexels-photo-6899764.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="detail page"/></div>
+              <div className={styles.detail_img}><img src={detailData?.imgUrl} alt="detail page"/></div>
               <div className={styles.summary_txt_box}>
                 <ul>
-                  <li className={styles.flex_start}><p className={styles.detail_item_tit}>장소</p><p>더 현대 서울 ALT.1</p></li>
-                  <li className={styles.flex_start}><p className={styles.detail_item_tit}>기간</p><p>2024.08.05 ~ 2024.10.31</p></li>
+                  <li className={styles.flex_start}><p className={styles.detail_item_tit}>장소</p><p>{detailData?.place}</p></li>
+                  <li className={styles.flex_start}><p className={styles.detail_item_tit}>기간</p><p>{convertDateFormat(detailData?.startDate, null)} ~ {convertDateFormat(detailData?.endDate, null)}</p></li>
                   <li className={styles.flex_start}><p className={styles.detail_item_tit}>관람 연령</p><p>전체관람가</p></li>
                   <li className={styles.flex_start}>
                     <p className={styles.detail_item_tit}>일반 가격</p>
                     <div className={styles.price_list}>
-                      <p>성인<span className={`${styles.price} ${styles.adult}`}>15,000</span>원</p>
-                      <p>청소년/어린이 <span className={`${styles.price} ${styles.adult}`}>10,000</span>원</p>
+                      <p className={`${styles.price} ${styles.adult}`}>{detailData?.price}</p>
+                      {/* <p>성인<span className={`${styles.price} ${styles.adult}`}>15,000</span>원</p> */}
+                      {/* <p>청소년/어린이 <span className={`${styles.price} ${styles.adult}`}>10,000</span>원</p> */}
                     </div>
                   </li>
-                  <li className={styles.flex_start}>
+                  {/* <li className={styles.flex_start}>
                     <p className={styles.detail_item_tit}>얼리버드 가격</p>
                     <div className={styles.price_list}>
                       <p>성인<span className={`${styles.price} ${styles.adult}`}>9,900</span>원</p>
                       <p>청소년/어린이<span className={`${styles.price} ${styles.adult}`}>7,900</span>원</p>
                     </div>
-                  </li>
+                  </li> */}
                   <li className={styles.flex_start}>
                     <p className={styles.detail_item_tit}>예매처</p>
                     <div className={styles.price_list}>
-                      <p>인터파크 티켓</p>
-                      <a href="https://tickets.interpark.com/goods/24007240" target="_blank" className={styles.short_cut_btn}>바로가기</a>
+                      <p>{detailData?.place}</p>
+                      {detailData?.placeUrl !== null || detailData?.placeUrl !== "" || detailData?.placeUrl !== `[{}]` ? <a href={detailData?.placeUrl} target="_blank" className={styles.short_cut_btn}>바로가기</a> : <p>예매처 정보가 존재하지 않습니다.\n추후 업데이트 예정입니다.</p>}
+                      
                     </div>
                   </li>
                 </ul>
@@ -97,7 +129,7 @@ export default function CultureDetail() {
                   <p className={styles.info_description}>얼리버드 할인 티켓 이용 기간 : <span>2024.08.05 ~ 2024.09.06(금)</span></p>
                   <p className={styles.info_tit}>상세 정보</p>
                   <div className={styles.detail_info_img}>
-                    <img src="https://images.pexels.com/photos/6899764/pexels-photo-6899764.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="detail info"/>
+                    <img src={detailData?.imgUrl} alt={`${detailData?.title} info`}/>
                   </div>
                     </li>
 

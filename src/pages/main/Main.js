@@ -58,7 +58,7 @@ export default function Main(props) {
       return () => {
         window.removeEventListener("scroll", changeHeaderBgColor);
         header.classList.remove("main"); // 컴포넌트가 언마운트될 때 클래스 제거
-        document.querySelector(".header-logo").setAttribute('src', 'images/commons/logo.png');
+        document.querySelector(".header-logo").setAttribute('src', `${process.env.PUBLIC_URL}/images/commons/logo.png`);
       };
     },[]
   );

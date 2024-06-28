@@ -28,7 +28,7 @@ export default function TopBanner(cultureList) {
         {cultureList.cultureList && cultureList.cultureList.perforList ? [...Array(parseInt(10))].map((n, index) => {
           return(
             <div className={mainStyle.centerList} key={index}>
-              <Link to="/cultureinfo/detail">  
+              <Link to={`/cultureinfo/detail/${cultureList.cultureList.perforList[index].seq}`}>  
                 <img src={cultureList.cultureList.perforList[index].thumbnail} alt={`${cultureList.cultureList.perforList[index].title} thumbnail`}/>            
               </Link>
             </div>

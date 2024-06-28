@@ -162,7 +162,7 @@ li.right_filter .selected_filter {width: 128px;}
 .sec_tit.left {text-align: left;}
 .detail_summary {align-items: stretch; padding-top: 20px; padding-bottom: 40px;}
 .detail_img {width: calc(50% - 30px); max-height: 432px; border-radius: 20px;}
-.detail_img img {width: 100%; height: 100%; object-fit: cover; border-radius: 20px; border:  1px solid rgba(255, 183, 85,.2);}
+.detail_img img {width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 20px; border:  1px solid rgba(255, 183, 85,.2);}
 .summary_txt_box {width: calc(50% - 30px);}
 .summary_txt_box ul li {align-items: flex-start; padding-top: 20px;}
 .summary_txt_box p{font-size: 20px; font-weight: var(--regular);}

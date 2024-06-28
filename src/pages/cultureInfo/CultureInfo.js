@@ -5,6 +5,7 @@ import HotSlide from "../../components/cultureInfo/HotSlide";
 import styles from "./CultureInfo.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "../../components/commons/Loading";
 
 export default function CultureInfo(props) {
 
@@ -134,7 +135,7 @@ export default function CultureInfo(props) {
                 <li></li>
               </ul>
               {/* {HotSlide()} */}
-              {cultureList && <HotSlide cultureList={cultureList} />}        
+              {cultureList ? <HotSlide cultureList={cultureList} /> : <LoadingSpinner/>}        
             </div>
           </div>
         </div>
