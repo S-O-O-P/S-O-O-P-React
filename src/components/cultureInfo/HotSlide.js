@@ -57,7 +57,7 @@ export default function HotSlide(cultureList) {
           const endDate = new Date(year+"-"+month+"-"+day); //Date형으로 변환
           const dayName = endDate.getDay() == 0 ? '일' : endDate.getDay() == 1 ? '월' : endDate.getDay() == 2 ? '화' : endDate.getDay() == 3 ? '수' : endDate.getDay() == 4 ? '목' : endDate.getDay() == 5 ? '금' : '토'; // 요일 표시
           const endDateFormat = year+"."+month+"."+day; // 날짜 표시 형식
-          const title = cultureList.cultureList.perforList[index].title.replace('&lt;',`<`).replace('&gt;',`>`); // 제목
+          const title = cultureList.cultureList.perforList[index].title.replaceAll('&lt;',`<`).replaceAll('&gt;',`>`).replaceAll("&#39;","'"); // 제목
 
           return(
             <div className={styles.hot_list} key={index}>

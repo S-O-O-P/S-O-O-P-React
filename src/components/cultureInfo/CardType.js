@@ -24,7 +24,7 @@ export default function CardType(cultureList){
               return dateFormat;
             }
 
-            const title = item.title.replace('&lt;',`<`).replace('&gt;',`>`); // 제목
+            const title = item.title.replaceAll('&lt;',`<`).replaceAll('&gt;',`>`).replaceAll("&#39;","'"); // 제목
             // console.log("남은 공연/전시 기간 : " + parseInt(convertDateFormat(item.endDate, "rest") - today));
             
             return(
