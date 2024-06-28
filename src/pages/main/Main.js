@@ -2,12 +2,38 @@ import mainStyles from './Main.module.css';
 import TopBanner from '../../components/main/TopBanner';
 import HotBanner from '../../components/main/HotBanner';
 import EarlyBanner from '../../components/main/EarlyBanner';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
-export default function Main(cultureList) {
-  
+export default function Main(props) {
+  const [cultureList, setCultureList] = useState(null);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  //app.js에서 전달받은 api정보 state 저장
+  useEffect(
+    ()=>{
+      if (props.cultureList) { // api정보 정상적으로 불러오면
+        setCultureList(JSON.parse(props.cultureList)); // JSON형태로 cultureList 저장
+        setLoading(false);
+        // setLoading(false); // 로딩 화면 종료
+        console.log("props.cultureList in Main.js from useEffect : " + JSON.parse(props.cultureList)); // props.cultureList 출력       
+        console.log("props.cultureList in Main.js from useEffect : " + props.cultureList); // props.cultureList 출력       
+        // console.log("JSON.parse : " + JSON.parse(props.cultureList).totalCount) ;
+        // console.log("JSON.parse perforList : " + JSON.stringify(cultureList.perforList[10].title)) ;
+        console.log("JSON.parse title : " + cultureList) ;
+      }
+    },[props.cultureList]
+  );
+
+  //app.js에서 전달받은 api정보 state 저장
+  // useEffect(
+  //   ()=>{
+  //     if (props.cultureList) { // api정보 정상적으로 불러오면
+  //       setLoading(false); // 로딩 화면 종료
+  //     }
+  //   },[]
+  // );
 
   // 스크롤시 Header 색상 변경 
   useEffect(
@@ -44,8 +70,8 @@ export default function Main(cultureList) {
       <div className={mainStyles.main_sec_box}>
         <div className={mainStyles.main_sec}>
           <div className={`${mainStyles.main_tit} ${mainStyles.flex_center}`}><img src={`${process.env.PUBLIC_URL}/images/commons/logo_white.png`} alt="Link bee logo white"/><p className={`${mainStyles.sec_tit} ${mainStyles.white}`}>링크비 Picks</p></div>
-          {/* Top Banner */}
-          {TopBanner()}
+          {/* Top Banner */}          
+          {!loading && cultureList && <TopBanner cultureList={cultureList} />}
           
           <div className={mainStyles.hot_prf_sec}>
             <div className={`${mainStyles.tit_view_more} ${mainStyles.flex_center}`}>

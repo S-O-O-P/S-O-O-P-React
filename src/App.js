@@ -13,6 +13,7 @@ import CultureInfo from './pages/cultureInfo/CultureInfo';
 import CompletedPage from './pages/login/CompletedPage'
 import NoticeDetailPage from './pages/serviceCenter/NoticeDetail';
 import CultureDetail from './pages/cultureInfo/CultureDetail';
+import HoneypotPage from './pages/honeypot/HoneypotPage';
 import CultureApi from './apis/CultureApi';
 import { useEffect, useState } from 'react';
 
@@ -44,6 +45,7 @@ export default function App() {
               <Route path="/cultureinfo" element={<CultureInfo/>}/> {/* 전시/공연 정보 */}
               <Route path="/cultureinfo/detail" element={<CultureDetail/>}/> {/* 전시/공연 상세페이지*/}
               <Route path='/completed' element={<CompletedPage/>}/> {/* 회원 가입 완료 */}
+              <Route path='/honeypot' element={<HoneypotPage/>}/> {/* 허니팟 페이지 */}
               <Route path='/mypage' element={<MyPage/>}/> {/* 마이 페이지 */}
               <Route path='/help' element={<Cs />} /> {/* 고객 센터 */}
               <Route path='/faq' element={<Faq />} /> {/* 자주 찾는 질문 */}

@@ -1,0 +1,191 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    --main-color: #FBB755;
+    --text-color: #282A29;
+    color: var(--text-color);
+}
+
+.main-content {
+    padding-top: 80px; /* Header의 높이만큼 상단 여백을 줌 */
+    padding-bottom: 100px; /* Footer의 높이만큼 하단 여백을 줌 */
+    overflow-y: auto; /* 내용이 넘칠 경우 스크롤 생성 */
+}
+
+.honeypot-container {
+    width: 1200px;
+    min-height: 400px;
+    height: 100%;
+    margin:0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.honeypotpage-title {
+    font-size: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px;
+    font-weight: var(--semiBold);
+}
+
+.honeypot-category {
+    display: flex;
+    justify-content: center;
+}
+
+.honeypot-category button {
+    height: 48px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+    border: 1px solid var(--main-color);
+    background: white;
+    border-radius: 48px;
+    font-size: 18px;
+    font-weight: var(--semiBold);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative; /* 아이콘을 버튼 내에 상대적으로 위치시킬 수 있게 설정 */
+}
+
+.honeypot-category button:hover {
+    background: var(--main-color);
+    color: white;
+}
+
+.honeypot-category button.selected {
+    background: var(--main-color);
+    color: white;
+}
+
+.honeypot-category button.selected img {
+    content: url(../../../public/images/commons/icon_arrow_right_white.png);
+    /* 이미지를 흰색 화살표로 변경 */
+}
+
+.honeypot-category button.selected span {
+    background: white;
+    color: var(--main-color);    
+}
+
+.honeypot-category .count {
+    display: inline-flex;
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    background: var(--main-color);
+    margin-left: 3px;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: white;    
+}
+
+.honeypot-category button:hover span {
+    background: white;
+    color: var(--main-color);    
+}
+
+.honeypot-category button:hover img {
+    content: url(../../../public/images/commons/icon_arrow_right_white.png);
+    /* 이미지를 흰색 화살표로 변경 */
+}
+
+.honeypot-category img {
+    width: 20px;
+    height: 20px;
+    margin-left: 1px;
+}
+
+.honeypot-hr {
+    margin: 20px;
+    height: 1px;
+    background: var(--main-color);
+    border: none;
+}
+
+.honeypot-sortandsearch-container {
+    height: 88px;
+    padding: 20px;
+    display: flex;
+}
+
+.honeypot-sort {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 117px;
+    height: 48px;
+    border-radius: 48px;
+    border: 1px solid var(--main-color);
+    display: inline-block;
+    background: url(/public/images/commons/icon_arrow_bottom_main_color.png) no-repeat 90% 50%;
+    background-size: 20px 20px;
+    background-color: #FFFFFF;
+    text-align: center;
+    color: var(--main-color);
+    font-family: 'SUIT Semibold', sans-serif;
+    font-size: 16px;
+}
+
+.region {
+    width: 109px;
+    margin-left: 20px;
+}
+
+.search-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 311px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.text-search {
+    width: 100%;
+    height: 44px;
+    border-radius: 20px;
+    border: 1px solid var(--main-color);
+    padding-left: 20px;
+    padding-right: 40px;
+}
+
+.text-search::placeholder {
+    color:var(--main-color);
+}
+
+.submit-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    background: url(/public/images/mypage/search-icon.png) no-repeat center center;
+    background-size: contain;
+    border: none;
+    cursor: pointer;
+}
+
+.create-honeypot {
+    width: 115px;
+    height: 48px;
+    border: none;
+    border-radius: 48px;
+    background: var(--main-color);
+    color: white;
+    font-size: 16px;
+    font-weight: var(--semiBold);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.create-honeypot img {
+    margin-left: 5px;
+}
