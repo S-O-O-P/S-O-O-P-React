@@ -13,10 +13,6 @@ import CultureInfo from './pages/cultureInfo/CultureInfo';
 import CompletedPage from './pages/login/CompletedPage'
 import NoticeDetailPage from './pages/serviceCenter/NoticeDetail';
 import CultureDetail from './pages/cultureInfo/CultureDetail';
-import HoneyWrite from './pages/socializing/HoneyWrite';
-import HoneyWrite2 from './pages/socializing/HoneyWrite2';
-import HoneyWrite3 from './pages/socializing/HoneyWrite3';
-import DoneResult from './pages/socializing/DoneResult';
 import CultureApi from './apis/CultureApi';
 import { useEffect, useState } from 'react';
 
