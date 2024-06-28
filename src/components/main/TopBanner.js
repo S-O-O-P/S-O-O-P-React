@@ -5,10 +5,10 @@ import Slider from "react-slick";
 import { Link } from 'react-router-dom';
 
 export default function TopBanner(cultureList) {
-  if (cultureList) {
-    console.log("cultureList from TopBanner : " + cultureList.cultureList.perforList);
-    console.log("cultureList from TopBanner : " + cultureList.cultureList.perforList[0].thumbnail);
-  }
+  // if (cultureList) {
+  //   console.log("cultureList from TopBanner : " + cultureList.cultureList?.perforList);
+  //   console.log("cultureList from TopBanner : " + cultureList.cultureList?.perforList[0].thumbnail);
+  // }
   const settings = {
     className: "center",
     centerMode: true,
