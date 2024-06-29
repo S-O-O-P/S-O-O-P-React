@@ -9,6 +9,7 @@ export default function Main(cultureList) {
   
   const navigate = useNavigate();
 
+
   // 스크롤시 Header 색상 변경 
   useEffect(
     () => {
