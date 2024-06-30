@@ -1,15 +1,22 @@
 import { Link } from 'react-router-dom';
 import styles from '../../pages/cultureInfo/CultureInfo.module.css';
+import LoadingSpinner from '../commons/Loading';
 
-export default function CardType(cultureList){
-  // if (cultureList) {
-  //   console.log("cultureList from TopBanner : " + cultureList.cultureList.perforList);
-  //   console.log("cultureList from TopBanner : " + cultureList.cultureList.perforList[0].thumbnail);
+export default function CardType({cultureList, detailDataList}){
+  console.log('Culture List:', cultureList);
+  console.log('Detail Data List:', detailDataList);
+
+  // 데이터가 로딩 중일 때 처리
+  // if (!cultureList || !cultureList.perforList || !detailDataList) {
+  //   return <LoadingSpinner />;
   // }
+
+  // console.log("detailList from CardType.js : "+ JSON.stringify(detailDataList));
+
   const today = new Date();
   return(
       <>
-        {cultureList.cultureList && cultureList.cultureList.perforList ? cultureList.cultureList.perforList.map((item, index) => {
+        {cultureList && cultureList.perforList ? cultureList.perforList.map((item, index) => {
             // 공연 / 전시 start/endDate
             const convertDateFormat = (stringDate, type) => {
               let dateFormat = "";
@@ -26,9 +33,18 @@ export default function CardType(cultureList){
 
             const title = item.title.replaceAll('&lt;',`<`).replaceAll('&gt;',`>`).replaceAll("&#39;","'"); // 제목          
             if(parseInt(convertDateFormat(item.endDate, "rest") - today) < 7){
-              console.log("남은 공연/전시 기간 : " + parseInt((convertDateFormat(item.endDate, "rest") - today) / 86400000));
-              
+              console.log("남은 공연/전시 기간 : " + parseInt((convertDateFormat(item.endDate, "rest") - today) / 86400000));              
             }
+
+            // seq에 해당하는 detailData 가져오기
+            const detailData = detailDataList[item.seq];
+            // console.log("Detail data for seq ", item.seq, ": ", detailData);
+
+            // detailData가 존재하고 price 속성이 있을 때 가격 표시
+            const price = detailData && detailData.price ? detailData.price : "가격 정보 없음";
+            // const detailData = detailDataList[item.seq]; // seq(공연/전시 코드)에 따른 상세 정보
+            // console.log("price from cardtype : " + JSON.stringify(detailData));
+            const earlyCheck = false; // 얼리버드 여부 - false로 초기화
             
             return(
               <li key={index}>
@@ -41,68 +57,15 @@ export default function CardType(cultureList){
                     <p className={styles.culture_tit}>{title}</p>
                     <p className={styles.culture_date}>{convertDateFormat(item.startDate, null)} ~ {convertDateFormat(item.endDate, null)}</p>
                     <p className={styles.early_end}></p>
-                    <p className={styles.culture_price}><span className={styles.sale_rate}>30%</span> 84,700원</p>
+                    <p className={styles.culture_price}>
+                      { earlyCheck ? <span className={styles.sale_rate}>30%</span> : null} {price}
+                    </p>
                   </div>
                 </Link>
               </li>
             );          
-          }) : <div>Loading중입니다.</div>}
+          }) : <div>로딩 중입니다.</div>}
       </>
   );
 }
-{/* <li>
-        <Link to="/cultureinfo/detail">
-          <div className={styles.culture_img}>
-            <img src="https://images.pexels.com/photos/26076858/pexels-photo-26076858.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="culture poster" />
-            <span className={styles.culture_mark}>마감임박</span>
-          </div>
-          <div className={styles.culture_item_txt}>
-            <p className={styles.culture_tit}>서양 미술 800년展</p>
-            <p className={styles.culture_date}>2024.08.05 ~ 2024.10.31</p>
-            <p className={styles.early_end}></p>
-            <p className={styles.culture_price}><span className={styles.sale_rate}>30%</span> 84,700원</p>
-          </div>
-        </Link>
-      </li>
-      <li>
-        <Link to="/cultureinfo/detail">
-          <div className={styles.culture_img}>
-            <img src="https://images.pexels.com/photos/6899772/pexels-photo-6899772.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="culture poster" />
-            <span className={styles.culture_mark}>마감임박</span>
-          </div>
-          <div className={styles.culture_item_txt}>
-            <p className={styles.culture_tit}>서양 미술 800년展</p>
-            <p className={styles.culture_date}>2024.08.05 ~ 2024.10.31</p>
-            <p className={styles.early_end}></p>
-            <p className={styles.culture_price}><span className={styles.sale_rate}>30%</span> 84,700원</p>
-          </div>
-        </Link>
-      </li>
-      <li>
-        <Link to="/cultureinfo/detail">
-          <div className={styles.culture_img}>
-            <img src="https://images.pexels.com/photos/4722568/pexels-photo-4722568.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="culture poster" />
-            <span className={styles.culture_mark}>마감임박</span>
-          </div>
-          <div className={styles.culture_item_txt}>
-            <p className={styles.culture_tit}>서양 미술 800년展</p>
-            <p className={styles.culture_date}>2024.08.05 ~ 2024.10.31</p>
-            <p className={styles.early_end}></p>
-            <p className={styles.culture_price}><span className={styles.sale_rate}>30%</span> 84,700원</p>
-          </div>
-        </Link>
-      </li>
-      <li>
-        <Link to="/cultureinfo/detail">
-          <div className={styles.culture_img}>
-            <img src="https://images.pexels.com/photos/6896326/pexels-photo-6896326.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="culture poster" />
-            <span className={styles.culture_mark}>마감임박</span>
-          </div>
-          <div className={styles.culture_item_txt}>
-            <p className={styles.culture_tit}>서양 미술 800년展</p>
-            <p className={styles.culture_date}>2024.08.05 ~ 2024.10.31</p>
-            <p className={styles.early_end}></p>
-            <p className={styles.culture_price}><span className={styles.sale_rate}>30%</span> 84,700원</p>
-          </div>
-        </Link>
-      </li> */}
+{/* <LoadingSpinner/> */}

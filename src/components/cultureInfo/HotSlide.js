@@ -22,7 +22,7 @@ function PrevBtn(props) {
   );
 }
 
-export default function HotSlide(cultureList) {
+export default function HotSlide({cultureList}) {
   // if (cultureList) {
   //   console.log("cultureList from TopBanner : " + cultureList.cultureList.perforList);
   //   console.log("cultureList from TopBanner : " + cultureList.cultureList.perforList[0].thumbnail);
@@ -48,28 +48,48 @@ export default function HotSlide(cultureList) {
   return (
     <div className={`slider-container ${styles.right_shape} ${styles.common_slide}`}>
       <Slider {...settings}>
-      {cultureList.cultureList && cultureList.cultureList.perforList ? [...Array(parseInt(10))].map((n, index) => {
+      {cultureList && cultureList.perforList ? cultureList.perforList.slice(0, 10).map((item, index) => {
+          const { endDate, thumbnail, title, seq } = item;
+          if (!endDate || !thumbnail || !title) return null;
           // 공연 / 전시 endDate
-          const stringDate = cultureList.cultureList.perforList[index].endDate;
-          const year = stringDate.slice(0, 4);
-          const month = stringDate.slice(4, 6);
-          const day = stringDate.slice(6);
-          const endDate = new Date(year+"-"+month+"-"+day); //Date형으로 변환
-          const dayName = endDate.getDay() == 0 ? '일' : endDate.getDay() == 1 ? '월' : endDate.getDay() == 2 ? '화' : endDate.getDay() == 3 ? '수' : endDate.getDay() == 4 ? '목' : endDate.getDay() == 5 ? '금' : '토'; // 요일 표시
-          const endDateFormat = year+"."+month+"."+day; // 날짜 표시 형식
-          const title = cultureList.cultureList.perforList[index].title.replaceAll('&lt;',`<`).replaceAll('&gt;',`>`).replaceAll("&#39;","'"); // 제목
+          //const stringDate = cultureList.perforList[index].endDate;
+          // const year = stringDate.slice(0, 4);
+          // const month = stringDate.slice(4, 6);
+          // const day = stringDate.slice(6);
+          // const endDate = new Date(year+"-"+month+"-"+day); //Date형으로 변환
+          // const dayName = endDate.getDay() == 0 ? '일' : endDate.getDay() == 1 ? '월' : endDate.getDay() == 2 ? '화' : endDate.getDay() == 3 ? '수' : endDate.getDay() == 4 ? '목' : endDate.getDay() == 5 ? '금' : '토'; // 요일 표시
+          // const endDateFormat = year+"."+month+"."+day; // 날짜 표시 형식
+          // const title = cultureList.perforList[index].title.replaceAll('&lt;',`<`).replaceAll('&gt;',`>`).replaceAll("&#39;","'"); // 제목
+          const year = endDate.slice(0, 4);
+          const month = endDate.slice(4, 6);
+          const day = endDate.slice(6);
+          const formattedEndDate = new Date(`${year}-${month}-${day}`);
+          const dayOfWeek = formattedEndDate.getDay();
+          const dayName = ['일', '월', '화', '수', '목', '금', '토'][dayOfWeek];
+          const endDateFormat = `${year}.${month}.${day}`;
+          const decodedTitle = title.replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll("&#39;", "'");
 
           return(
             <div className={styles.hot_list} key={index}>
-              <Link to={`/cultureinfo/detail/${cultureList.cultureList.perforList[index].seq}`}>                
-                <img src={cultureList.cultureList.perforList[index].thumbnail} alt={`${cultureList.cultureList.perforList[index].title} thumbnail`}/>
+              <Link to={`/cultureinfo/detail/${seq}`}>
+                <img src={thumbnail} alt={`${decodedTitle} thumbnail`} />
                 <div className={styles.hot_txt_box}>
-                  <p className={styles.hot_tit}>{title}</p>
+                  <p className={styles.hot_tit}>{decodedTitle}</p>
                   <p className={styles.hot_date}>~{endDateFormat}<span>({dayName})</span> 까지</p>
                   {/* <span className={styles.early_mark}>얼리버드 티켓 판매중</span> */}
                 </div>
               </Link>
             </div>
+            // <div className={styles.hot_list} key={index}>
+            //   <Link to={`/cultureinfo/detail/${cultureList.perforList[index].seq}`}>                
+            //     <img src={cultureList.perforList[index].thumbnail} alt={`${cultureList.perforList[index].title} thumbnail`}/>
+            //     <div className={styles.hot_txt_box}>
+            //       <p className={styles.hot_tit}>{title}</p>
+            //       <p className={styles.hot_date}>~{endDateFormat}<span>({dayName})</span> 까지</p>
+            //       {/* <span className={styles.early_mark}>얼리버드 티켓 판매중</span> */}
+            //     </div>
+            //   </Link>
+            // </div>
           );          
         }) : <div>Loading중입니다.</div>}                
       </Slider>

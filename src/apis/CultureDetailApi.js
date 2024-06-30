@@ -22,14 +22,14 @@ export default function CultureDetailApi({setDetailData}, seq) {
         const jsonData = xmlToJson(xmlDom); // XML 데이터를 JSON 형식으로 변환
         // setDetailData(jsonData.response.msgBody.msgBody[0].perforInfo[0]); // App.js에서 전달받은 setDetailData 함수를 호출하여 데이터 설정
         // console.log("from CultureApi : "+JSON.stringify(jsonData.response.msgBody[0].perforInfo[0]));
-        console.log("JSON Data: ", JSON.stringify(jsonData)); // JSON 데이터 구조를 로그로 확인
+        //console.log("JSON Data: ", JSON.stringify(jsonData)); // JSON 데이터 구조를 로그로 확인
       
         const perforInfo = jsonData?.response?.msgBody?.[0]?.perforInfo?.[0];
         if (perforInfo) {
           setDetailData(perforInfo); // CultureDetail.js에서 전달받은 setDetailData 함수를 호출하여 데이터 설정
-          console.log("from CultureApi : " + JSON.stringify(perforInfo));
+          //console.log("from CultureApi : " + JSON.stringify(perforInfo));
         } else {
-          console.error('Expected data structure is missing: ', JSON.stringify(jsonData));
+          //console.error('Expected data structure is missing: ', JSON.stringify(jsonData));
         }
       } else {
         // 오류 처리
