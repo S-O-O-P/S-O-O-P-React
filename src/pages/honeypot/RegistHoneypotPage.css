@@ -39,10 +39,6 @@
     color: var(--main-color);
 }
 
-.regist-procedure .step1 {
-    background: var(--main-color);
-    color: white;
-}
 .regist-procedure span {
     display: inline-flex;
     justify-content: center;
@@ -57,7 +53,13 @@
     margin-right: 20px;
 }
 
-.regist-procedure .step1 span {
+/* 활성화*/
+.regist-procedure .step.active {
+    background: var(--main-color);
+    color: white;
+}
+
+.regist-procedure .step.active span {
     background: white;
     color: var(--main-color);
 }
@@ -68,6 +70,15 @@
     border:  1px solid var(--main-color);
     border-top: none;
     border-radius: 0 0 20px 20px;
+}
+
+.step2-container {
+    width: 800px;
+    height: 100%;
+    border:  1px solid var(--main-color);
+    border-top: none;
+    border-radius: 0 0 20px 20px;
+    padding: 20px;
 }
 
 .select-container {
@@ -193,6 +204,7 @@
 }
 
 .regist-btn-container {
+    width: 800px;
     display: flex;
     justify-content: space-between;
     margin-top: 40px;
@@ -218,4 +230,190 @@
     background: var(--main-color);
     color: white;
 }
+
+.region-eventdate {
+    display: flex;
+    margin-bottom: 60px;
+}
+
+.totaluser-enddate {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.member-explanation {
+    color: var(--main-color);
+    font-size: 12px;
+    margin-bottom: 2px;
+
+}
+.regist-title {
+    display: flex;
+    margin-top: 40px;
+}
+.regist-content {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 120px;
+}
+
+.regist-info-btn {
+    width: 120px;
+    height: 48px;
+    background: var(--main-color);
+    color: white;
+    border-radius: 48px;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.selected-region {
+    width: 150px;
+    height: 48px;
+    border: 1px solid var(--main-color);
+    border-radius: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--main-color);
+    margin-right: auto;
+}
+
+.step2-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 150px;
+    height: 48px;
+    border-radius: 48px;
+    border: 1px solid var(--main-color);
+    display: inline-block;
+    background: url(/public/images/commons/icon_arrow_bottom_main_color.png) no-repeat 90% 50%;
+    background-size: 20px 20px;
+    background-color: #FFFFFF;
+    text-align: center;
+    color: var(--main-color);
+    font-size: 16px;
+    margin-right: auto;
+}
+
+.date-style {
+    width: 206px;
+    height: 48px;
+    border: 1px solid var(--main-color);
+    border-radius: 48px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.regist-honeypot-title {
+    width: 620px;
+    height: 48px;
+    border: 1px solid var(--main-color);
+    border-radius: 48px;
+    padding-left: 20px;
+}
+
+.regist-honeypot-content {
+    width: 620px;
+    resize: none;
+    height: 250px;
+    border: 1px solid var(--main-color);
+    border-radius: 20px;
+    display: flex;
+    padding: 20px;
+    font-family: 'SUIT Regular', sans-serif;
+}
+
+.regist-honeypot-title:focus,
+.regist-honeypot-content:focus {
+    outline: none;
+}
+
+.text-area-wrapper {
+    position: relative;
+}
+
+.text-area-wrapper .limit {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-size: 12px;
+    color: var(--main-color);
+}
+
+.regist-confirm-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.regist-confirm-modal-content {
+    width: 360px;
+    height: 250px;
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    font-family: 'SUIT Semibold', sans-serif;
+}
+
+.regist-confirm-modal-content img {
+    width: 36px;
+    height: 36px;
+    margin-top: 27px;
+    margin-bottom: 27px;
+}
+
+.regist-confirm-modal-semibold {
+    font-weight: var(--semiBold);
+    font-size: 18px;
+    margin-bottom: 18px;
+}
+
+.regist-confirm-modal-regular {
+    font-size: 14px;
+    margin-bottom: 35px;
+}
+
+.regist-confirm-modal-buttons {
+display: flex;
+justify-content: center;
+}
+
+.regist-confirm-modal-button {
+font-size: 16px;
+}
+
+.regist-confirm-modal-button.yes {
+    width: 140px;
+    height: 48px;
+    border-radius: 48px;
+    border: none;
+    background-color: var(--main-color);
+    color: #fff;
+    margin-left: 10px;
+}
+
+.regist-confirm-modal-button.yes:hover {
+    background: #EB844A;
+}
+
+.no-culture {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+}
+
 
