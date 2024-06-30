@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Header.css';
 import { NavLink, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Header() {
 
@@ -23,11 +24,15 @@ function Header() {
     }
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    document.cookie = "refresh=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    setAccessToken(null);
-    navigate('/login');
+  const handleLogout = async () => {
+    try {
+      await axios.post('http://localhost:8081/logout', {}, { withCredentials: true });
+      localStorage.removeItem('accessToken');
+      setAccessToken(null);
+      navigate('/main');
+    } catch (error) {
+      console.error('Logout failed', error);
+    }
   };
 
   return (

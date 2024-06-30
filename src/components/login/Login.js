@@ -15,7 +15,7 @@ const Login = () => {
 
     if (accessToken) {
       setToken(accessToken);
-      const expiresAt = new Date().getTime() + (10 * 60 * 1000); // 1분후 만료
+      const expiresAt = new Date().getTime() + (10 * 60 * 1000); // 10분후 만료
       localStorage.setItem('accessToken', JSON.stringify({ token: accessToken, expiresAt }));
       navigate('/main');
     } else {
@@ -28,7 +28,7 @@ const Login = () => {
   }, [navigate]);
 
   const getAuth = (token) => axios.create({
-    baseURL: 'http://localhost:3000/login',
+    baseURL: 'http://localhost:8081/login',
     headers: {
       "Content-Type": "application/json;charset=UTF-8",
       "Accept": "*",
