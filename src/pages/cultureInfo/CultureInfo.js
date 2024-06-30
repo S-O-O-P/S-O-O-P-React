@@ -247,14 +247,14 @@ export default function CultureInfo(props) {
           onClick={() => handlePageClick(1)}
           disabled={currentPage === 1}
         >
-          &laquo; {/* 처음 페이지로 */}
+          {/* 처음 페이지로 */}
         </span>
         <span
           className={styles.prev_page}
           onClick={() => handlePageClick(currentPage - 1)}
           disabled={currentPage === 1}
         >
-          &lsaquo; {/* 이전 페이지로 */}
+          {/* 이전 페이지로 */}
         </span>
         <ul className={`${styles.pagination} ${styles.flex_center}`}>
           {renderPageNumbers()}
@@ -264,21 +264,21 @@ export default function CultureInfo(props) {
           onClick={() => handlePageClick(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
-          &rsaquo; {/* 다음 페이지로 */}
+          {/* 다음 페이지로 */}
         </span>
         <span
           className={styles.end_page}
           onClick={() => handlePageClick(totalPages)}
           disabled={currentPage === totalPages}
         >
-          &raquo; {/* 마지막 페이지로 */}
+          {/* 마지막 페이지로 */}
         </span>
       </div>
     );
   };
 
-  const cardData = getCurrentPageData(cultureList?.perforList, cardItemsPerPage, currentPage);
-const tableData = getCurrentPageData(cultureList?.perforList, tableItemsPerPage, currentPage);
+//   const cardData = getCurrentPageData(cultureList?.perforList, cardItemsPerPage, currentPage);
+// const tableData = getCurrentPageData(cultureList?.perforList, tableItemsPerPage, currentPage);
 
 
   return (
@@ -401,7 +401,8 @@ const tableData = getCurrentPageData(cultureList?.perforList, tableItemsPerPage,
             <div className={`${styles.culture_list_box} ${styles.active}`}>
               <ul className={`${styles.culture_list} ${styles.flex_start}`}>
                 {/* {CardType()} */}
-                {cultureList && detailDataList && cardData && (<CardType cultureList={cardData} detailDataList={detailDataList} />)}
+                {cultureList && detailDataList && (<CardType cultureList={cultureList} detailDataList={detailDataList} />)}
+                {/* {cultureList && detailDataList && cardData && (<CardType cultureList={cardData} detailDataList={detailDataList} />)} */}
               </ul>
               {/* <span className={styles.view_more_btn}>더보기</span> */}
               <Pagination
@@ -416,7 +417,8 @@ const tableData = getCurrentPageData(cultureList?.perforList, tableItemsPerPage,
             {/* 테이블 형식 */}
             <div className={styles.culture_table}>
               {/* {TableType()} */}
-              {cultureList && detailDataList && tableData && <TableType cultureList={tableData} detailDataList={detailDataList} />}
+              {cultureList && detailDataList && <TableType cultureList={cultureList} detailDataList={detailDataList} />}
+              {/* {cultureList && detailDataList && tableData && <TableType cultureList={tableData} detailDataList={detailDataList} />} */}
               <Pagination
                 items={cultureList?.perforList}
                 itemsPerPage={tableItemsPerPage}
