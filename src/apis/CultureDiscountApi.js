@@ -1,19 +1,15 @@
-export default function CultureApi({ setData }) {
+export default function CultureDiscountApi({ setData }) {
   const serviceKey = '8/QFvrhFxUkbFccDXVjo2OKIiDWufUA8v2jGrIaDSWRqL499Gznzk7NYdHxvIoOvbJes6wYSeXMEgXHhyUxS9g=='; // 서비스 인증키
     const xhr = new XMLHttpRequest(); //XMLHttpRequest는 비동기로 작동
     const url = '/api/openapi/rest/publicperformancedisplays/realm'; //기간별 공연/전시 정보 목록 조회 요청 url
     const queryParams = new URLSearchParams({ // 조회시 요청 parameters
       serviceKey: serviceKey,
-      keyword: '',
-      //sortStdr: '3', // 1 : 등록일 / 2 :   / 3 : 지역
       ComMsgHeader: '',
       RequestTime: '20240701:23003422', // 요청 기간 
       CallBackURI: '',
       MsgBody: '',
       cPage: '1',
       rows: '500', // 1페이지에 불러올 데이터 갯수
-      // from: '20240701', // 시작일
-      to: '202401231' // 종료일
     });
 
     xhr.open('GET', `${url}?${queryParams.toString()}`, true); // get 요청

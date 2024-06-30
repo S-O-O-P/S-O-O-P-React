@@ -41,7 +41,7 @@ function Header() {
         <nav>
           <ul>
             <li><NavLink to='/cultureinfo'>공연/전시 정보<span></span></NavLink></li>
-            <li><NavLink to='/honey'>허니팟<span></span></NavLink></li>
+            <li><NavLink to='/honeypot'>허니팟<span></span></NavLink></li>
           </ul>
         </nav>
 

@@ -1,19 +1,14 @@
-export default function CultureApi({ setData }) {
+export default function CultureDetailApi({setDetailData}) {
   const serviceKey = '8/QFvrhFxUkbFccDXVjo2OKIiDWufUA8v2jGrIaDSWRqL499Gznzk7NYdHxvIoOvbJes6wYSeXMEgXHhyUxS9g=='; // 서비스 인증키
     const xhr = new XMLHttpRequest(); //XMLHttpRequest는 비동기로 작동
-    const url = '/api/openapi/rest/publicperformancedisplays/realm'; //기간별 공연/전시 정보 목록 조회 요청 url
+    const url = '/api/openapi/rest/publicperformancedisplays/d/'; // 공연/전시 정보 상세 조회 요청 url
     const queryParams = new URLSearchParams({ // 조회시 요청 parameters
       serviceKey: serviceKey,
-      keyword: '',
-      //sortStdr: '3', // 1 : 등록일 / 2 :   / 3 : 지역
       ComMsgHeader: '',
       RequestTime: '20240701:23003422', // 요청 기간 
       CallBackURI: '',
       MsgBody: '',
-      cPage: '1',
-      rows: '500', // 1페이지에 불러올 데이터 갯수
-      // from: '20240701', // 시작일
-      to: '202401231' // 종료일
+      seq: '276212',
     });
 
     xhr.open('GET', `${url}?${queryParams.toString()}`, true); // get 요청
@@ -24,8 +19,8 @@ export default function CultureApi({ setData }) {
         const parser = new DOMParser(); // XML 문자열을 파싱하기 위해 DOMParser 객체를 생성
         const xmlDom = parser.parseFromString(xmlText, 'application/xml'); // XML 문자열을 XML DOM 객체로 변환
         const jsonData = xmlToJson(xmlDom); // XML 데이터를 JSON 형식으로 변환
-        setData(jsonData.response.msgBody[0]); // App.js에서 전달받은 setData 함수를 호출하여 데이터 설정
-        console.log("from CultureApi : "+jsonData.response.msgBody[0]);
+        setDetailData(jsonData.response.msgBody[0].perforInfo); // App.js에서 전달받은 setDetailData 함수를 호출하여 데이터 설정
+        console.log("from CultureApi : "+jsonData.response.msgBody[0].perforInfo);
       } else {
         // 오류 처리
         console.error('Network response was not ok ' + xhr.statusText);

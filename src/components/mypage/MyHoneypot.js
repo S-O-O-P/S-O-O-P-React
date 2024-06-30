@@ -53,13 +53,13 @@ function MyHoneypot() {
 
             <div className='participation-honeypot'>
                 <p>진행 중인 허니팟</p>
-                <select className='select_renewal' value={sortCriteria} onChange={handleSortChange}>
+                <select className='mypage_select_renewal' value={sortCriteria} onChange={handleSortChange}>
                     <option value='빠른모임순'>빠른모임순</option>
                     <option value='늦은모임순'>늦은모임순</option>
                     <option value='카테고리별'>카테고리별</option>
                     <option value='지역별'>지역별</option>
                 </select>
-                <div className='search-wrapper'>
+                <div className='mypage_search-wrapper'>
                     <input className='text-search' type='text' value={searchWord} onChange={handleSearch} placeholder="제목으로 검색"/>
                     <button className='submit-btn' type='submit'></button>
                 </div>
