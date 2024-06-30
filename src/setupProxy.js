@@ -6,7 +6,14 @@ module.exports = function(app) {
     createProxyMiddleware({
       target: 'http://www.culture.go.kr',
       changeOrigin: true,
-    })
+    }),
+  );
+  app.use(
+    '/salesapi',
+    createProxyMiddleware({
+      target: 'http://kopis.or.kr',
+      changeOrigin: true,
+    }),
   );
   app.use(
     '/local-api',

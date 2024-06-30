@@ -6,13 +6,28 @@ import styles from "./CultureInfo.module.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function CultureInfo() {
+export default function CultureInfo(props) {
 
   //State 설정
+  const [cultureList, setCultureList] = useState(null); // 공연/전시 전체 목록 
   const [category, setCategory] = useState('all') // 선택한 카테고리 - 초기값은 전체
   const [count, setCount] = useState('0'); // 카테고리 별 공연/전시 갯수
 
   const navigate = useNavigate();
+
+  //app.js에서 전달받은 api정보 state 저장
+  useEffect(
+    ()=>{
+      if (props.cultureList) { // api정보 정상적으로 불러오면
+        setCultureList(JSON.parse(props.cultureList)); // JSON형태로 cultureList 저장
+        // setLoading(false); // 로딩 화면 종료
+        console.log("props.cultureList in CultureInfo.js from useEffect : " + JSON.parse(props.cultureList)); // props.cultureList 출력       
+        // console.log("JSON.parse : " + JSON.parse(props.cultureList).totalCount) ;
+        console.log("JSON.parse perforList : " + JSON.stringify(props.cultureList.perforList)) ;
+        // console.log("JSON.parse title in CultureInfo.js : " + cultureList?.perforList[10].title) ;
+      }
+    },[props.cultureList]
+  );
 
 
   useEffect(
@@ -118,7 +133,8 @@ export default function CultureInfo() {
                 <li></li>
                 <li></li>
               </ul>
-              {HotSlide()}
+              {/* {HotSlide()} */}
+              {cultureList && <HotSlide cultureList={cultureList} />}        
             </div>
           </div>
         </div>
@@ -209,7 +225,8 @@ export default function CultureInfo() {
             {/* 카드 형식 */}
             <div className={`${styles.culture_list_box} ${styles.active}`}>
               <ul className={`${styles.culture_list} ${styles.flex_start}`}>
-                {CardType()}
+                {/* {CardType()} */}
+                {cultureList && <CardType cultureList={cultureList} />}  
               </ul>
               <span className={styles.view_more_btn}>더보기</span>
             </div>

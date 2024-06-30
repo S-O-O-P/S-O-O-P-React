@@ -1,0 +1,189 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    --main-color: #FBB755;
+    --text-color: #282A29;
+    color: var(--text-color);
+}
+
+.honeypot-list-container {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px 20px;
+    cursor: pointer;
+}
+
+.one-honeypot-index {
+    width: 570px;
+    height: 200px;
+    display: flex;
+}
+
+.honeypot-index-poster {
+    position: relative;
+    width: 174px;
+    border-radius: 20px;
+    background: var(--main-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.honeypot-index-poster img {
+    width: 151px;
+    height: 180px;
+    border-radius: 12px;
+    margin-right: 5px;
+}
+
+.honeypot-dashed {
+    position: absolute;
+    right: 0;
+    border: none;
+    height: 154.2px; /* 선의 높이 */
+    width: 5px; /* 선의 너비 (부모 요소에 맞게 설정) */
+    background-image: url('dashed-line.svg'); /* SVG 파일 경로 */
+    background-position: center; 
+    background-repeat: repeat-y; /* 가로 방향으로 반복 배경 */
+}
+
+.honeypot-index-info {
+    box-sizing: border-box;
+    width: 397px;
+    border-radius: 20px;
+    padding: 20px;
+    border: 1px solid var(--main-color);
+    border-left: none;
+    background: white;
+}
+
+.honeypot-index-info .top-info {
+    display: flex;
+}
+
+.honeypot-index-info .top-info div {
+    height: 30px;
+    border-radius: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.region-info {
+    background: var(--main-color);
+}
+
+.category-info {
+    background: #B1DCAE;
+    margin-left: 10px;
+}
+
+.honeypot-status {
+    background: #FE8C53;
+    margin-left: auto;
+}
+
+.honeypot-index-info .honeypot-title {
+    padding: 0;
+    font-size: 20px;
+    font-weight: var(--semiBold);
+    display: flex;
+    justify-content: left;
+    margin-top: 19px;
+}
+
+.honeypot-schedule {
+    display: flex;
+    align-items: center;
+    margin-top: 14px;
+}
+
+.honeypot-schedule div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--main-color);
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 30px;
+    border-radius: 30px;
+    color: white;
+}
+
+.honeypot-schedule .honeypot-date {
+    margin-left: 10px;
+    font-weight: var(--midium);
+}
+
+.honeypot-schedule .total-member {
+    margin-left: auto;
+    font-weight: var(--midium);
+}
+
+.end-date {
+    margin-top: 19px;
+    text-align: end;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.page-button {
+    padding: 5px 10px;
+    border: none;
+    color: var(--main-color);
+    font-size: 18px;
+    background: none;
+    cursor: pointer;
+}
+
+.page-button.active {
+    background-color: var(--main-color);
+    width: 36px;
+    height: 36px;
+    border-radius: 36px;
+    color: white;
+}
+
+
+.prev-btn,
+.next-btn,
+.first-btn,
+.last-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: var(--main-color);
+    border-radius: 4px;
+    margin-right: 4px;
+}
+
+.pagination button[disabled] {
+    opacity: 0.3;
+    cursor: default;
+}
+
+
+
+
+
