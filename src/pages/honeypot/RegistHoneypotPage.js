@@ -49,7 +49,7 @@ function RegistHoneypotPage({cultureList}) {
     };
 
     const [showConfirmModal, setShowConfirmModal] = useState(false);
-    const [showWarningModal, setShowWarningModal] = useState(true);
+    const [showWarningModal, setShowWarningModal] = useState(false);
 
     /* 확인버튼 */
     const okBtn = () => {
