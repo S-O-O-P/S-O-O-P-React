@@ -3,6 +3,7 @@ import './Header.css';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 function Header() {
+
   useEffect(() => {
     if (!sessionStorage.getItem('refreshed')) {
       sessionStorage.setItem('refreshed', 'true');
@@ -24,6 +25,7 @@ function Header() {
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
+    document.cookie = "refresh=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     setAccessToken(null);
     navigate('/login');
   };

@@ -1,3 +1,5 @@
+// src/Login.js
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -13,19 +15,14 @@ const Login = () => {
 
     if (accessToken) {
       setToken(accessToken);
-      const expiresAt = new Date().getTime() + (60 * 60 * 1000); // 1시간 후 만료
-      localStorage.setItem('accessToken', JSON.stringify({ token: accessToken, expiresAt })); // 로컬 스토리지에 토큰과 만료 시간 저장
-      navigate('/main'); // 토큰이 설정되면 메인 페이지로 리디렉션
+      const expiresAt = new Date().getTime() + (10 * 60 * 1000); // 1분후 만료
+      localStorage.setItem('accessToken', JSON.stringify({ token: accessToken, expiresAt }));
+      navigate('/main');
     } else {
-      const storedToken = JSON.parse(localStorage.getItem('accessToken')); // 로컬 스토리지에서 토큰 가져오기
+      const storedToken = JSON.parse(localStorage.getItem('accessToken'));
       if (storedToken) {
-        const now = new Date().getTime();
-        if (now < storedToken.expiresAt) {
-          setToken(storedToken.token); // 토큰이 유효한 경우 설정
-          navigate('/main'); // 유효한 토큰이 있는 경우 메인 페이지로 리디렉션
-        } else {
-          localStorage.removeItem('accessToken'); // 토큰이 만료된 경우 삭제
-        }
+        setToken(storedToken.token);
+        navigate('/main');
       }
     }
   }, [navigate]);

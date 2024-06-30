@@ -6,14 +6,13 @@ module.exports = function(app) {
     createProxyMiddleware({
       target: 'http://www.culture.go.kr',
       changeOrigin: true,
-    }),)
-    app.use(
-      '/local-api',
-      createProxyMiddleware({
-        target: 'http://localhost:8081',
-        changeOrigin: true,
-        pathRewrite: {'^/local-api' : ''},
-        cookieDomainRewrite: "localhost"
-    }),
-    )
+    })
+  );
+  app.use(
+    '/local-api',
+    createProxyMiddleware({
+      target: 'http://localhost:8081',
+      changeOrigin: true
+    })
+  );
 };
