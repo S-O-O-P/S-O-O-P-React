@@ -16,6 +16,7 @@ function Header() {
   
   const [accessToken, setAccessToken] = useState(null);
   const navigate = useNavigate();
+  const [userNickName,setUserNickName] = useState('test나중에지움');
 
   useEffect(() => {
     const storedToken = JSON.parse(localStorage.getItem('accessToken'));
@@ -49,7 +50,7 @@ function Header() {
             <li><NavLink to='/honeypot'>허니팟<span></span></NavLink></li>
           </ul>
         </nav>
-        <li><p>NickName</p></li>
+        <li><p>{userNickName}</p></li>
         <li><img className='mypage-btn' src={`${process.env.PUBLIC_URL}/images/commons/icon_mypage_white.png`} alt="MYPAGE"/></li>
         <li>{accessToken ? 
           <img onClick={handleLogout} className='logout-btn' src={`${process.env.PUBLIC_URL}/images/commons/icon_logout_white.png`} alt='LOGOUT'/>
