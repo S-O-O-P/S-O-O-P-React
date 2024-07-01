@@ -29,7 +29,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    console.log(data); // 데이터가 변경될 때마다 로그를 출력
+    // console.log(data); // 데이터가 변경될 때마다 로그를 출력
   }, [data]);
   
   // PublicRoute  = access 토큰이 있는 상태로 접근 불가 (예를 들면 로그인 페이지, 회원가입 페이지 등등)

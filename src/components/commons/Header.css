@@ -35,12 +35,39 @@
   cursor: pointer;
   color: white;
 }
+.logout-btn{
+  width: 36px;
+  height: 36px;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+.mypage-btn {
+  width: 40px;
+  height: 40px;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+.mypage-btn:hover {
+  width: 40px;
+  height: 40px;
+  margin-left: 15px;
+  cursor: pointer;
+}
 
 .header-logo { 
   height: 60px;
   width: 60px;
   cursor: pointer;
 }
+
+.header-logo:hover { 
+  height: 60px;
+  width: 60px;
+  cursor: pointer;
+}
+
 nav ul {
   list-style: none;
   display: flex;

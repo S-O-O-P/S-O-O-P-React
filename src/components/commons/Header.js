@@ -45,17 +45,19 @@ function Header() {
         </div>
         <nav>
           <ul>
-            <li><NavLink to='/cultureinfo'>공연/전시 정보<span></span></NavLink></li>
+            <li><NavLink to='/cultureinfo'>공연/전시 정보<span></span></NavLink></li>7
             <li><NavLink to='/honeypot'>허니팟<span></span></NavLink></li>
           </ul>
         </nav>
-
-        {accessToken ? 
-          (<button className="login-btn" onClick={handleLogout}>LOGOUT</button>)
+        <li><p>NickName</p></li>
+        <li><img className='mypage-btn' src={`${process.env.PUBLIC_URL}/images/commons/icon_mypage_white.png`} alt="MYPAGE"/></li>
+        <li>{accessToken ? 
+          <img onClick={handleLogout} className='logout-btn' src={`${process.env.PUBLIC_URL}/images/commons/icon_logout_white.png`} alt='LOGOUT'/>
             : 
           (<NavLink to='/login'>
             <button className="login-btn">LOGIN</button>
           </NavLink>)}
+          </li>
       </div>
     </header>
   );
