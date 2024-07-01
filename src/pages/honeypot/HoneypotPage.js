@@ -2,6 +2,7 @@ import HoneypotList from '../../components/honeypot/HoneypotList';
 import './HoneypotPage.css'
 import { useState, useEffect } from 'react'
 import { honeypotData } from './DummyData';
+import { useNavigate } from 'react-router-dom';
 
 function HoneypotPage() {
 
@@ -124,6 +125,9 @@ function HoneypotPage() {
         setFilteredHoneypots(sortedData);
     }, [sortKey]); // sortKey가 변경될 때만 실행
 
+    // 허니팟 생성 네비게이트
+    const navigate = useNavigate();
+
     return (
         <div className="main-content">
             <div className="honeypot-container">
@@ -170,7 +174,7 @@ function HoneypotPage() {
                             <input className='text-search' onChange={searchTitleWord} onKeyPress={handleKeyPress} type='text' placeholder="검색어를 입력하세요."/>
                             <button onClick={onClickSearchInput} className='submit-btn' type='button'></button>
                         </div>
-                        <button className='create-honeypot'>허니팟<img src={`${process.env.PUBLIC_URL}/images/honeypot/icon_create_white.png`} alt="허니팟생성아이콘" /></button>
+                        <button className='create-honeypot' onClick={() => navigate('/honeypot/regist')}>허니팟<img src={`${process.env.PUBLIC_URL}/images/honeypot/icon_create_white.png`} alt="허니팟생성아이콘" /></button>
                     </div>
                     <HoneypotList honeypotData={filteredHoneypots}
                                   currentPage={currentPage}
