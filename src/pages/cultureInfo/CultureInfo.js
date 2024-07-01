@@ -41,6 +41,8 @@ export default function CultureInfo(props) {
     () => {
       if (props.cultureList) { // api정보 정상적으로 불러오면   
         const cultureListObj = JSON.parse(props.cultureList); // cultureList를 JavaScript 객체로 변환
+        // const cultureListObj = (JSON.parse(props.cultureList)).perforList.filter(item => item.realmName === genre || item.title.match("전시")); // cultureList를 JavaScript 객체로 변환
+        console.log("마감임박순으로 sorted : " + JSON.stringify(cultureListObj.perforList.sort((a,b) => {return Number(a.endDate) - Number(b.endDate)})));
         const totalCount = cultureListObj.totalCount; // totalCount 값 가져오기
         console.log("totalCount: ", totalCount);
         setTotalCount(totalCount);
@@ -66,7 +68,6 @@ export default function CultureInfo(props) {
           }
         });
         setExhibitCount(realmCounts["전시"]);
-        // setConcertCount((realmCounts["음악"] + realmCounts["연극"]));
         setConcertCount(realmCounts["공연"]);
         setMusicalCount(realmCounts["뮤지컬"]);
         setFestivalCount(realmCounts["축제"]);
@@ -120,6 +121,55 @@ export default function CultureInfo(props) {
             setCurrentPage(1); // 페이지를 1로 초기화
           });
         }); 
+
+        // 공연/전시 세부 필터
+      const detailFilter = document.querySelectorAll(`.${styles.detail_filter_list} > li`);
+
+      // 공연/전시 세부 필터링 리스트 아이템
+      const detailFilterItem = document.querySelectorAll(`.${styles.detail_filter_list} > li > ul > li`);
+
+      // 선택한 공연/전시 세부 필터링 리스트 아이템 텍스트
+      // 왼쪽 필터링 리스트 선택 필터
+      const selectedLeftOption = document.querySelectorAll(`.${styles.left_detail_selected}`);
+
+      // 오른쪽 필터링 리스트 선택 필터
+      const selectedRightOption = document.querySelectorAll(`.${styles.right_detail_selected}`);
+
+
+      detailFilter.forEach(detailBtn => { //디테일 필터 각각에
+        detailBtn.addEventListener('click', (e) => { // 클릭 이벤트 추가
+          e.currentTarget.classList.contains(`${styles.active}`) ? e.currentTarget.classList.remove(`${styles.active}`) : e.currentTarget.classList.add(`${styles.active}`); // 클릭한 버튼의 활성화 여부에 따라 active 클래스 추가 또는 삭제
+          e.currentTarget.childNodes[1].classList.contains(`${styles.active}`) ? e.currentTarget.childNodes[1].classList.remove(`${styles.active}`) : e.currentTarget.childNodes[1].classList.add(`${styles.active}`); // 클릭한 버튼 > 필터링 리스트의 active 클래스 추가 또는 삭제
+        })
+      });
+
+      detailFilterItem.forEach(detailItem => { // 디테일 필터링 리스트 아이템 각각에
+        detailItem.addEventListener('click', (e) => { // 클릭 이벤트 추가
+          e.currentTarget.closest("ul").classList.remove(`.${styles.active}`); // 디테일 필터링 리스트 비활성화
+          e.currentTarget.closest("ul").previousElementSibling.childNodes[0].innerText = e.currentTarget.innerText;
+          const filter = e.currentTarget.dataset.filter;
+
+          // 해당 카테고리에 맞는 cultureList 필터링
+          // let filteredList = [];
+          // if (filter === "dealine") { // 마감임박순
+          //   filteredList = cultureListObj.perforList; // 전체보기일 경우 전체 리스트 반환
+          // } else if(filter === "미술"){ // 전시
+          //   filteredList = cultureListObj.perforList.filter(item => item.realmName === filter || item.title.match("전시"));
+          // } else if(filter === "음악"){ // 공연
+          //   filteredList = cultureListObj.perforList.filter(item => item.realmName === genre || item.realmName === "연극" || item.title.match("음악") || item.title.match("영화"));
+          // } else if(genre === "뮤지컬"){ // 뮤지컬
+          //   filteredList = cultureListObj.perforList.filter(item => item.title.match("뮤지") || item.title.match("뮤지컬"));
+          // } else if(genre === "축제"){ // 행사 / 축제
+          //   filteredList = cultureListObj.perforList.filter(item => item.title.match("축제") || item.title.match("페스티벌"));
+          // }
+
+          // 필터링된 결과를 cultureList 상태에 업데이트
+          // setCultureList({ ...cultureListObj, perforList: filteredList });
+          // setCurrentPage(1); // 페이지를 1로 초기화
+        })
+      });
+
+
         return () => {
           // 클릭 이벤트 리스너 해제 (cleanup)
           genreFilterList.forEach(genreBtn => {
@@ -161,8 +211,8 @@ export default function CultureInfo(props) {
         detailItem.addEventListener('click', (e) => { // 클릭 이벤트 추가
           e.currentTarget.closest("ul").classList.remove(`.${styles.active}`); // 디테일 필터링 리스트 비활성화
           e.currentTarget.closest("ul").previousElementSibling.childNodes[0].innerText = e.currentTarget.innerText;
-        })
       });
+    });
 
       // 공연/전시 카드/테이블 타입 보기 필터
       const viewFilter = document.querySelectorAll(`.${styles.view_filter_list} > li`);
@@ -215,12 +265,11 @@ export default function CultureInfo(props) {
   const Pagination = ({ items, itemsPerPage, currentPage, onPageChange }) => {
     const totalPages = Math.ceil(items?.length / itemsPerPage);
   
-    if (totalPages === 1) return null; // 페이지가 1개일 경우 페이지네이션 표시 안함
+    // if (totalPages === 1) return null; // 페이지가 1개일 경우 페이지네이션 표시 안함
   
     const handlePageClick = (page) => {
       if (page > 0 && page <= totalPages) {
         onPageChange(page);
-        window.scrollTo(0, 0); // 페이지 이동시, 최상단으로 스크롤 위치
       }
     };
   
@@ -241,44 +290,51 @@ export default function CultureInfo(props) {
     };
   
     return (
+       
       <div className={`${styles.pagination_box} ${styles.flex_center}`}>
-        <span
-          className={styles.start_page}
-          onClick={() => handlePageClick(1)}
-          disabled={currentPage === 1}
-        >
-          {/* 처음 페이지로 */}
-        </span>
-        <span
-          className={styles.prev_page}
-          onClick={() => handlePageClick(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          {/* 이전 페이지로 */}
-        </span>
+        {totalPages !== 1 ?
+        <>
+          <span
+            className={styles.start_page}
+            onClick={() => handlePageClick(1)}
+            disabled={currentPage === 1}
+          >
+            {/* 처음 페이지로 */}
+          </span>
+          <span
+            className={styles.prev_page}
+            onClick={() => handlePageClick(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            {/* 이전 페이지로 */}
+          </span>
+        </> : null}
         <ul className={`${styles.pagination} ${styles.flex_center}`}>
           {renderPageNumbers()}
         </ul>
-        <span
-          className={styles.next_page}
-          onClick={() => handlePageClick(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          {/* 다음 페이지로 */}
-        </span>
-        <span
-          className={styles.end_page}
-          onClick={() => handlePageClick(totalPages)}
-          disabled={currentPage === totalPages}
-        >
-          {/* 마지막 페이지로 */}
-        </span>
+        { totalPages !== 1 ?
+          <>
+          <span
+            className={styles.next_page}
+            onClick={() => handlePageClick(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            {/* 다음 페이지로 */}
+          </span>
+          <span
+            className={styles.end_page}
+            onClick={() => handlePageClick(totalPages)}
+            disabled={currentPage === totalPages}
+          >
+            {/* 마지막 페이지로 */}
+          </span>
+        </> : null}
       </div>
     );
   };
 
-//   const cardData = getCurrentPageData(cultureList?.perforList, cardItemsPerPage, currentPage);
-// const tableData = getCurrentPageData(cultureList?.perforList, tableItemsPerPage, currentPage);
+  const cardData = getCurrentPageData(cultureList?.perforList, cardItemsPerPage, currentPage); //카드형 페이지 데이터
+  const tableData = getCurrentPageData(cultureList?.perforList, tableItemsPerPage, currentPage); //테이블형 페이지 데이터
 
 
   return (
@@ -365,21 +421,34 @@ export default function CultureInfo(props) {
                 <li className={styles.left_filter}>
                   <span className={`${styles.selected_filter} ${styles.left} ${styles.flex_between}`}><span className={`${styles.selected_option} ${styles.left_detail_selected}`}>최신등록순</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_bottom_main_color.png`} alt="arrow direction bottom icon" className={styles.filter_arrow_icon} /></span>
                   <ul>
-                    <li>마감임박순</li>
-                    <li>가격높은순</li>
-                    <li>가격낮은순</li>
-                    <li>허니팟 많은순</li>
-                    <li>인기순</li>
+                    <li data-filter="deadline">마감임박순</li>
+                    <li data-filter="lately">최신등록순</li>
+                    {/* <li data-filter="low">가격낮은순</li> */}
+                    <li data-filter="honeyPot">허니팟 많은순</li>
+                    <li data-filter="hot">인기순</li>
                   </ul>
                 </li>
                 <li className={`${styles.right_filter} ${styles.region_filter}`}>
                   <span className={`${styles.selected_filter} ${styles.right} ${styles.flex_between}`}><span className={`${styles.selected_option} ${styles.right_detail_selected}`}>전체 지역</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_bottom_main_color.png`} alt="arrow direction bottom icon" className={styles.filter_arrow_icon} /></span>
                   <ul>
-                    <li>전체 지역</li>
-                    <li>서울</li>
-                    <li>인천</li>
-                    <li>경기</li>
-                    <li>부산</li>
+                    <li data-region="all">전체 지역</li>
+                    <li data-region="sel">서울</li>
+                    <li data-region="ich">인천</li>
+                    <li data-region="bs">부산</li>
+                    <li data-region="gg">경기</li>
+                    <li data-region="chN">충북</li>
+                    <li data-region="chS">충남</li>
+                    <li data-region="kS">경남</li>
+                    <li data-region="kN">경북</li>
+                    <li data-region="tk">대구</li>
+                    <li data-region="dj">대전</li>
+                    <li data-region="gj">광주</li>
+                    <li data-region="sj">세종</li>
+                    <li data-region="ws">울산</li>
+                    <li data-region="gw">강원</li>
+                    <li data-region="jS">전남</li>
+                    <li data-region="jN">전북</li>
+                    <li data-region="jj">제주</li>
                   </ul>
                 </li>
               </ul>
@@ -401,8 +470,8 @@ export default function CultureInfo(props) {
             <div className={`${styles.culture_list_box} ${styles.active}`}>
               <ul className={`${styles.culture_list} ${styles.flex_start}`}>
                 {/* {CardType()} */}
-                {cultureList && detailDataList && (<CardType cultureList={cultureList} detailDataList={detailDataList} />)}
-                {/* {cultureList && detailDataList && cardData && (<CardType cultureList={cardData} detailDataList={detailDataList} />)} */}
+                {/* {cultureList && detailDataList && (<CardType cultureList={cultureList} detailDataList={detailDataList} />)} */}
+                {cultureList && detailDataList && cardData && (<CardType cultureList={cardData} detailDataList={detailDataList} />)}
               </ul>
               {/* <span className={styles.view_more_btn}>더보기</span> */}
               <Pagination
@@ -417,8 +486,8 @@ export default function CultureInfo(props) {
             {/* 테이블 형식 */}
             <div className={styles.culture_table}>
               {/* {TableType()} */}
-              {cultureList && detailDataList && <TableType cultureList={cultureList} detailDataList={detailDataList} />}
-              {/* {cultureList && detailDataList && tableData && <TableType cultureList={tableData} detailDataList={detailDataList} />} */}
+              {/* {cultureList && detailDataList && <TableType cultureList={cardData} detailDataList={detailDataList} />} */}
+              {cultureList && detailDataList && tableData && <TableType cultureList={tableData} detailDataList={detailDataList} />}
               <Pagination
                 items={cultureList?.perforList}
                 itemsPerPage={tableItemsPerPage}
@@ -427,20 +496,6 @@ export default function CultureInfo(props) {
               />
             </div>
             {/*//테이블 형식 */}
-            
-            {/* <div className={`${styles.pagination_box} ${styles.flex_center}`}>
-              <span className={styles.start_page}></span>
-              <span className={styles.prev_page}></span>
-              <ul className={`${styles.pagination} ${styles.flex_center}`}>
-                <li className={styles.active}>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-              </ul>
-              <span className={styles.next_page}></span>
-              <span className={styles.end_page}></span>
-            </div> */}
           </div>
         </div>
         {/* //공연/전시 둘러보기 */}

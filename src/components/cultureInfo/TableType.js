@@ -6,7 +6,7 @@ export default function TableType({cultureList, detailDataList}){
   // 데이터가 로딩 중일 때 처리
   const navigate = useNavigate();
   const today = new Date();
-  if (!cultureList || !cultureList.perforList || !detailDataList) {
+  if (!cultureList || !detailDataList) {
     return <LoadingSpinner />;
   }
 
@@ -22,7 +22,7 @@ export default function TableType({cultureList, detailDataList}){
             </tr>
           </thead>
           <tbody>
-        {cultureList && cultureList.perforList ? cultureList.perforList.map((item, index) => {
+        {cultureList ? cultureList.map((item, index) => {
             // 공연 / 전시 start/endDate
             const convertDateFormat = (stringDate, type) => {
               let dateFormat = "";
@@ -53,7 +53,7 @@ export default function TableType({cultureList, detailDataList}){
 
             // seq에 해당하는 detailData 가져오기
             const detailData = detailDataList[item.seq];
-            console.log("Detail data for seq ", item.seq, ": ", detailData);
+            // console.log("Detail data for seq ", item.seq, ": ", detailData);
 
             // detailData가 존재하고 price 속성이 있을 때 가격 표시
             const price = detailData && detailData.price ? detailData.price : "가격 정보 없음";

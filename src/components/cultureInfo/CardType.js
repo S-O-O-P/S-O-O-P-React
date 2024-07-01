@@ -16,7 +16,7 @@ export default function CardType({cultureList, detailDataList}){
   const today = new Date();
   return(
       <>
-        {cultureList && cultureList.perforList ? cultureList.perforList.map((item, index) => {
+        {cultureList ? cultureList.map((item, index) => {
             // 공연 / 전시 start/endDate
             const convertDateFormat = (stringDate, type) => {
               let dateFormat = "";

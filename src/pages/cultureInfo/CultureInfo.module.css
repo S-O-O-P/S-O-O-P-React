@@ -108,7 +108,7 @@ li.right_filter .selected_filter {width: 128px;}
 /* 카드 형식 */
 .culture_list_box.active {display: flex;}
 .culture_list_box{display: none; flex-direction: column; align-items: center; padding-bottom: 100px;}
-.culture_list {align-items: flex-start; flex-wrap: wrap;}
+.culture_list {align-items: flex-start; flex-wrap: wrap; width: 100%;}
 .culture_list li {width: calc((100% - 60px) / 4); margin-right: 20px; margin-bottom: 40px;}
 .culture_list li:nth-child(4n) {margin-right: 0px;}
 .culture_list li a {display: block;}
