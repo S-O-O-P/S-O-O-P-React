@@ -1,39 +1,38 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import style from './Notice.module.css';
+import axios from 'axios';
 
 function NoticePage() {
 
-    const currentNotices = [
-        { title: "notice 제목 1", writer: "관리자 1", date: "2024-01-01", category: "notice" },
-        { title: "notice 제목 2", writer: "관리자 2", date: "2024-02-01", category: "event" },
-        { title: "notice 제목 3", writer: "관리자 3", date: "2024-03-01", category: "notice" },
-        { title: "notice 제목 4", writer: "관리자 4", date: "2024-04-01", category: "event" },
-        { title: "notice 제목 5", writer: "관리자 5", date: "2024-05-01", category: "notice" },
-        { title: "notice 제목 6", writer: "관리자 6", date: "2024-05-01", category: "event" },
-        { title: "notice 제목 7", writer: "관리자 7", date: "2024-05-01", category: "notice" },
-        { title: "notice 제목 8", writer: "관리자 8", date: "2024-05-01", category: "event" },
-        { title: "notice 제목 9", writer: "관리자 9", date: "2024-05-01", category: "notice" },
-        { title: "notice 제목 10", writer: "관리자 10", date: "2024-05-01", category: "event" },
-        { title: "notice 제목 11", writer: "관리자 11", date: "2024-05-01", category: "notice" },
-        { title: "notice 제목 12", writer: "관리자 12", date: "2024-05-01", category: "event" },
-        { title: "notice 제목 1", writer: "관리자 1", date: "2024-05-01", category: "notice" },
-    ];
-
-    const [search, setSearch] = useState("");
-    const [select, setSelect] = useState("all");
-    const [filterNotice, setFilterNotice] = useState(currentNotices);
+    const [notices, setNotices] = useState([]);
+    const [search, setSearch] = useState('');
+    const [select, setSelect] = useState('all');
+    const [filterNotice, setFilterNotice] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const noticePerPage = 10;
-    const totalPages = Math.ceil(filterNotice.length / noticePerPage);
+    const maxPageNumbers = 5;
+
+    useEffect(() => {
+        async function fetchNotice() {
+            try {
+                const res = await axios.get('http://localhost:8081/notice');
+                setNotices(res.data.mainNoticeList);
+                setFilterNotice(res.data.mainNoticeList);
+            } catch (error) {
+                console.error('공지사항 불러오기 실패.', error);
+            }
+        }
+        fetchNotice();
+    }, []);
 
     const onChange = (e) => {
         setSearch(e.target.value);
     };
 
     const handleSubmit = () => {
-        const filtered = currentNotices.filter(notice => {
-            const matchCategory = select === "all" || notice.category === select;
-            const matchSearch = search === "" || notice.title.includes(search);
+        const filtered = notices.filter(notice => {
+            const matchCategory = select === '전체' || notice.category === select;
+            const matchSearch = search === '' || notice.title.includes(search);
             return matchCategory && matchSearch;
         });
         setFilterNotice(filtered);
@@ -44,32 +43,28 @@ function NoticePage() {
         setSelect(e.target.value);
     };
 
-    const lastNotice = currentPage * noticePerPage;
-    const firstNotice = lastNotice - noticePerPage;
-    const currentNotice = filterNotice.slice(firstNotice, lastNotice);
+    const totalPages = Math.ceil(filterNotice.length / noticePerPage);
 
     const handlePageClick = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
 
     const handlePrevGroup = () => {
-        const firstGroup = Math.floor((currentPage - 1) / maxPageNumbers) * maxPageNumbers + 1;
-        if (firstGroup > 1) {
-            setCurrentPage(firstGroup - 1);
-        }
+        const firstGroup = Math.max(1, startPage - maxPageNumbers);
+        setCurrentPage(firstGroup);
     };
 
     const handleNextGroup = () => {
-        const nextGroup = Math.floor((currentPage - 1) / maxPageNumbers) * maxPageNumbers + maxPageNumbers + 1;
-        if (nextGroup <= totalPages) {
-            setCurrentPage(nextGroup);
-        }
+        const nextGroup = Math.min(totalPages, endPage + 1);
+        setCurrentPage(nextGroup);
     };
 
-    const maxPageNumbers = 5;
-    const currentGroup = Math.floor((currentPage - 1) / maxPageNumbers);
-    const startPage = currentGroup * maxPageNumbers + 1;
-    const endPage = Math.min(totalPages, (currentGroup + 1) * maxPageNumbers);
+    const lastNotice = currentPage * noticePerPage;
+    const firstNotice = lastNotice - noticePerPage;
+    const currentNotice = filterNotice.slice(firstNotice, lastNotice);
+
+    const startPage = Math.floor((currentPage - 1) / maxPageNumbers) * maxPageNumbers + 1;
+    const endPage = Math.min(totalPages, startPage + maxPageNumbers - 1);
 
     const pagination = [];
     for (let i = startPage; i <= endPage; i++) {
@@ -88,9 +83,9 @@ function NoticePage() {
 
                     <div className={style.inputBox}>
                         <select className={style.customSelect} onChange={handleSelect} value={select}>
-                            <option value="all">전체</option>
-                            <option value="notice">공지사항</option>
-                            <option value="event">이벤트</option>
+                            <option value="전체">전체</option>
+                            <option value="공지사항">공지사항</option>
+                            <option value="이벤트">이벤트</option>
                         </select>
                         <input className={style.customInput} type="text" onChange={onChange} placeholder="검색어를 입력해주세요." />
                         <button className={style.submitBtn} onClick={handleSubmit}>
@@ -102,15 +97,18 @@ function NoticePage() {
 
                     <table className={style.table}>
                         <tbody>
-                            {currentNotice.map((notice, index) => (
-                                <tr key={index}>
-                                    <td className={style.noticeTitle}><a href="/noticedetail">{notice.title}</a></td>
-                                    <td>{notice.writer}</td>
-                                    <td>{notice.date}</td>
+                            {currentNotice.map((notice) => (
+                                <tr key={notice.noticeCode}>
+                                    <td className={style.faqContent}>
+                                        <a href={`/notice/${notice.noticeCode}`} className={style.noticeTitle}>{notice.title}</a>
+                                    </td>
+                                    <td className={style.faqContent}>{notice.regDate}</td>
+                                    <td className={style.faqContent}>{notice.memberDTO.nickname}</td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
+
                     <div className={style.pagination}>
                         <ul className={style.paginationList}>
                             <li>
@@ -118,7 +116,7 @@ function NoticePage() {
                             </li>
                             {pagination}
                             <li>
-                                <button onClick={handleNextGroup} disabled={endPage === totalPages} className={endPage === totalPages ? style.disabled : ''}>&gt;</button>
+                                <button onClick={handleNextGroup} disabled={endPage >= totalPages} className={endPage >= totalPages ? style.disabled : ''}>&gt;</button>
                             </li>
                         </ul>
                     </div>
