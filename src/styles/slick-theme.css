@@ -193,7 +193,8 @@
     text-align: center;
 
     opacity: .25;
-    color: var(--main-color);
+    /* color: var(--main-color); */
+    color: #ffffff;
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -201,5 +202,6 @@
 .slick-dots li.slick-active button:before
 {
     opacity: .75;
-    color: var(--main-color);
+    /* color: var(--main-color); */
+    color: #ffffff;
 }
