@@ -17,11 +17,11 @@ export default function Main(props) {
         setCultureList(JSON.parse(props.cultureList)); // JSON형태로 cultureList 저장
         setLoading(false);
         // setLoading(false); // 로딩 화면 종료
-        console.log("props.cultureList in Main.js from useEffect : " + JSON.parse(props.cultureList)); // props.cultureList 출력       
-        console.log("props.cultureList in Main.js from useEffect : " + props.cultureList); // props.cultureList 출력       
+        // console.log("props.cultureList in Main.js from useEffect : " + JSON.parse(props.cultureList)); // props.cultureList 출력       
+        // console.log("props.cultureList in Main.js from useEffect : " + props.cultureList); // props.cultureList 출력       
         // console.log("JSON.parse : " + JSON.parse(props.cultureList).totalCount) ;
         // console.log("JSON.parse perforList : " + JSON.stringify(cultureList.perforList[10].title)) ;
-        console.log("JSON.parse title : " + cultureList) ;
+        // console.log("JSON.parse title : " + cultureList) ;
       }
     },[props.cultureList]
   );
