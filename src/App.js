@@ -42,7 +42,7 @@ export default function App() {
       console.log("data length : " + data.perforList.length);
       const newSeqList = data.perforList.map(perfor => perfor.seq); // seq 데이터 리스트 생성
       setSeqList(newSeqList); // seq 데이터 리스트 설정
-    }    
+    }
   }, [data]);
 
   useEffect(() => {
@@ -55,7 +55,7 @@ export default function App() {
       }, seq);
     });
   }, [seqList]);
-  
+
   // PublicRoute  = access 토큰이 있는 상태로 접근 불가 (예를 들면 로그인 페이지, 회원가입 페이지 등등)
   // PrivateRoute = access 토큰이 없는 경우 접근 불가 (예를 들면 회원가입 페이지, 마이페이지, 1:1 문의 등등)
   // 아무것도 없으면 회원, 비회원 구분 없이 접속 가능.
@@ -66,11 +66,11 @@ export default function App() {
         <ExpiredToken />
         <Routes>
           <Route element={<Layout />}> {/* 레이아웃 오픈 */}
-            <Route path='/main' element={data ? <Main cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 메인 */}
-            <Route index element={data ? <Main cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 메인 */}
+            <Route path='/main' element={data ? <Main cultureList={JSON.stringify(data)} /> : <LoadingSpinner />} /> {/* 메인 */}
+            <Route index element={data ? <Main cultureList={JSON.stringify(data)} /> : <LoadingSpinner />} /> {/* 메인 */}
             <Route path='/login' element={<PublicRoute restricted={false} element={LoginPage} />} /> {/* 로그인 */}
             <Route path='/signup' element={<PrivateRoute element={SignUpPage} />} /> {/* 추가 정보 입력 */}
-            <Route path="/cultureinfo" element={data ? <CultureInfo cultureList={JSON.stringify(data)} detailDataList={detailDataList}/> : <LoadingSpinner />}/> {/* 전시/공연 정보 */}
+            <Route path="/cultureinfo" element={data ? <CultureInfo cultureList={JSON.stringify(data)} detailDataList={detailDataList} /> : <LoadingSpinner />} /> {/* 전시/공연 정보 */}
             <Route path="/cultureinfo/detail/:seq" element={<CultureDetail detailDataList={detailDataList}/>}/> {/* 전시/공연 상세페이지*/}
             <Route path='/completed' element={<PrivateRoute element={CompletedPage}/>} /> {/* 회원 가입 완료 */}
             <Route path='/honeypot' element={<HoneypotPage/>}/> {/* 허니팟 페이지 */}
@@ -80,8 +80,8 @@ export default function App() {
             <Route path='/help' element={<Cs />} /> {/* 고객 센터 */}
             <Route path='/faq' element={<Faq />} /> {/* 자주 찾는 질문 */}
             <Route path='/notice' element={<Notice />} /> {/* 공지사항 */}
-            <Route path='/inquiry' element={<PrivateRoute element={Inquiry}/>} /> {/* 1:1문의 */}
-            <Route path='/noticedetail' element={<NoticeDetailPage />} /> {/* 공지사항 상세페이지 */}
+            <Route path='/inquiry' element={<Inquiry />} /> {/* 1:1문의 */}
+            <Route path='/notice/:code' element={<NoticeDetailPage />} /> {/* 공지사항 상세페이지 */}
           </Route> {/* 레이아웃 클로즈 */}
         </Routes>
       </Router>
