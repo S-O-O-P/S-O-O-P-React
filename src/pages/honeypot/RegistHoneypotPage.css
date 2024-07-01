@@ -1,0 +1,419 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    --main-color: #FBB755;
+    --text-color: #282A29;
+    color: var(--text-color);
+}
+
+.honeypot-regist-main-content {
+    padding-top: 80px; /* Header의 높이만큼 상단 여백을 줌 */
+    padding-bottom: 100px; /* Footer의 높이만큼 하단 여백을 줌 */
+    overflow-y: auto; /* 내용이 넘칠 경우 스크롤 생성 */
+}
+
+.honeypto-regist-container {
+    width: 1200px;
+    min-height: 400px;
+    height: 100%;
+    margin:0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.regist-procedure {
+    display: flex;
+    justify-content: center;
+}
+
+.regist-procedure button {
+    width: 400px;
+    height: 48px;
+    border: 1px solid var(--main-color);
+    border-radius: 12px 12px 0 0;
+    background: white;
+    font-size: 18px;
+    font-weight: var(--semiBold);
+    color: var(--main-color);
+}
+
+.regist-procedure span {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--main-color);
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: var(--semiBold);
+    color: var(--main-color);
+    margin-right: 20px;
+}
+
+/* 활성화*/
+.regist-procedure .step.active {
+    background: var(--main-color);
+    color: white;
+}
+
+.regist-procedure .step.active span {
+    background: white;
+    color: var(--main-color);
+}
+
+.select-event {
+    width: 800px;
+    height: 963px;
+    border:  1px solid var(--main-color);
+    border-top: none;
+    border-radius: 0 0 20px 20px;
+}
+
+.step2-container {
+    width: 800px;
+    height: 100%;
+    border:  1px solid var(--main-color);
+    border-top: none;
+    border-radius: 0 0 20px 20px;
+    padding: 20px;
+}
+
+.select-container {
+    height: 88px;
+    padding: 20px;
+}
+
+.select-interest,
+.select-region {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 150px;
+    height: 48px;
+    border-radius: 48px;
+    border: 1px solid var(--main-color);
+    display: inline-block;
+    background: url(/public/images/commons/icon_arrow_bottom_main_color.png) no-repeat 90% 50%;
+    background-size: 20px 20px;
+    background-color: #FFFFFF;
+    text-align: center;
+    color: var(--main-color);
+    font-size: 16px;
+}
+
+.select-interest {
+    margin-right: 20px;
+}
+
+.select-api-container {
+    height: 652px;
+    padding: 20px 20px 20px 20px;
+    margin-right:20px;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* 포스터 간격을 추가 */
+    justify-content: space-between;
+    
+}
+
+.one-culture {
+    position: relative; /* 상대 위치 설정 */
+    width: calc(33.33% - 20px); /* 포스터 요소 너비를 3등분 */
+    height: auto;
+    margin-bottom: 20px;
+    box-sizing: border-box; /* 패딩 및 보더를 포함한 너비 및 높이 계산 */
+    cursor: pointer; /* 포인터 커서 추가 */
+    transition: transform 0.2s ease-in-out; /* 선택 상태 전환 애니메이션 */
+}
+
+.one-culture:hover {
+    transform: scale(1.05); /* 호버 시 약간 확대 */
+}
+
+.one-culture .poster {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    transition: filter 0.3s ease; /* 필터 전환 애니메이션 */
+}
+
+/* 선택된 경우 흑백 필터 제거 */
+.one-culture .poster .selected {
+    filter: grayscale(0); 
+}
+
+/* 선택되지 않은 경우 흑백으로 필터링 */
+.one-culture .poster.grayscale {
+    filter: grayscale(100%); 
+}
+
+.confirm-icon {
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 72px;
+    height: 72px;
+}
+
+/*스크롤바 수정*/
+.select-api-container::-webkit-scrollbar {
+    width: 10px;
+}
+
+.select-api-container::-webkit-scrollbar-thumb {
+    background: var(--main-color);
+    border-radius: 10px;
+    height: 150px;
+}
+
+.select-api-container::-webkit-scrollbar-track {
+    background: rgba(255, 183, 85, 0.4);
+    border-radius: 10px;
+}
+
+.culture-info-title {
+    display: flex;
+    margin: 20px;
+}
+
+.culture-info-title .index {
+    width: 120px;
+    height: 48px;
+    background: var(--main-color);
+    color: white;
+    border-radius: 48px;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.culture-info-title .content {
+    font-size: 18px;
+    font-weight: var(--semiBold);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid var(--main-color);
+}
+
+.regist-btn-container {
+    width: 800px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.regist-cancle-btn,
+.regist-next-btn {
+    width: 116px;
+    height: 48px;
+    border-radius: 48px;
+    cursor: pointer;
+    border: none;
+}
+
+.regist-cancle-btn {
+    background: white;
+    border: 1px solid var(--main-color);
+    color: var(--main-color);
+}
+
+.regist-next-btn {
+    background: var(--main-color);
+    color: white;
+}
+
+.region-eventdate {
+    display: flex;
+    margin-bottom: 60px;
+}
+
+.totaluser-enddate {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.member-explanation {
+    color: var(--main-color);
+    font-size: 12px;
+    margin-bottom: 2px;
+
+}
+.regist-title {
+    display: flex;
+    margin-top: 40px;
+}
+.regist-content {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 120px;
+}
+
+.regist-info-btn {
+    width: 120px;
+    height: 48px;
+    background: var(--main-color);
+    color: white;
+    border-radius: 48px;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.selected-region {
+    width: 150px;
+    height: 48px;
+    border: 1px solid var(--main-color);
+    border-radius: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--main-color);
+    margin-right: auto;
+}
+
+.step2-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 150px;
+    height: 48px;
+    border-radius: 48px;
+    border: 1px solid var(--main-color);
+    display: inline-block;
+    background: url(/public/images/commons/icon_arrow_bottom_main_color.png) no-repeat 90% 50%;
+    background-size: 20px 20px;
+    background-color: #FFFFFF;
+    text-align: center;
+    color: var(--main-color);
+    font-size: 16px;
+    margin-right: auto;
+}
+
+.date-style {
+    width: 206px;
+    height: 48px;
+    border: 1px solid var(--main-color);
+    border-radius: 48px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.regist-honeypot-title {
+    width: 620px;
+    height: 48px;
+    border: 1px solid var(--main-color);
+    border-radius: 48px;
+    padding-left: 20px;
+}
+
+.regist-honeypot-content {
+    width: 620px;
+    resize: none;
+    height: 250px;
+    border: 1px solid var(--main-color);
+    border-radius: 20px;
+    display: flex;
+    padding: 20px;
+    font-family: 'SUIT Regular', sans-serif;
+}
+
+.regist-honeypot-title:focus,
+.regist-honeypot-content:focus {
+    outline: none;
+}
+
+.text-area-wrapper {
+    position: relative;
+}
+
+.text-area-wrapper .limit {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-size: 12px;
+    color: var(--main-color);
+}
+
+.regist-confirm-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.regist-confirm-modal-content {
+    width: 360px;
+    height: 250px;
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    font-family: 'SUIT Semibold', sans-serif;
+}
+
+.regist-confirm-modal-content img {
+    width: 36px;
+    height: 36px;
+    margin-top: 27px;
+    margin-bottom: 27px;
+}
+
+.regist-confirm-modal-semibold {
+    font-weight: var(--semiBold);
+    font-size: 18px;
+    margin-bottom: 18px;
+}
+
+.regist-confirm-modal-regular {
+    font-size: 14px;
+    margin-bottom: 35px;
+}
+
+.regist-confirm-modal-buttons {
+display: flex;
+justify-content: center;
+}
+
+.regist-confirm-modal-button {
+font-size: 16px;
+}
+
+.regist-confirm-modal-button.yes {
+    width: 140px;
+    height: 48px;
+    border-radius: 48px;
+    border: none;
+    background-color: var(--main-color);
+    color: #fff;
+    margin-left: 10px;
+}
+
+.regist-confirm-modal-button.yes:hover {
+    background: #EB844A;
+}
+
+.no-culture {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+}
+
+
