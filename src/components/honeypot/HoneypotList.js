@@ -1,5 +1,5 @@
+import { useNavigate } from "react-router-dom";
 import "./HoneypotList.css";
-import { useState } from "react";
 
 function HoneypotList( {currentPage, setCurrentPage, pageGroup, setPageGroup, honeypots} ) {
   
@@ -56,12 +56,14 @@ function HoneypotList( {currentPage, setCurrentPage, pageGroup, setPageGroup, ho
     }
   };
 
+  const navigate = useNavigate();
+
   
 
   return (
     <div className="honeypot-list-container">
       {currentHoneypots.map((honeypot, index) => (
-        <div key={index} className="one-honeypot-index">
+        <div key={index} className="one-honeypot-index" onClick={() => navigate(`/honeypot/detail/${honeypot.honeypotCode}`)}>
           <div className="honeypot-index-poster">
             <img src={honeypot.poster} alt="포스터이미지" />
             <hr className="honeypot-dashed" />

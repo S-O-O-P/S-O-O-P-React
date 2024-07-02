@@ -21,7 +21,7 @@ function HoneypotPage() {
                 const response = await axios.get('http://localhost:8081/honeypot/list');
                 setHoneypots(response.data.results.honeypots);
                 setFilteredHoneypots(response.data.results.honeypots); // 초기 필터링 설정
-                console.log(response.data);
+                console.log(honeypots);
             } catch (error) {
                 console.error('Error 입니다 : ', error);
             }
@@ -44,10 +44,11 @@ function HoneypotPage() {
         } else {
             // 특정 카테고리를 선택한 경우 해당 카테고리로 필터링합니다.
             categoryFilteredData = honeypots.filter(honeypot =>
-                honeypot.interestCategory.interstCode === interestCode &&
+                honeypot.interestCategory.interestName === interestCode &&
                 (selectRegion === '전체' || honeypot.region === selectRegion) &&
                 honeypot.honeypotTitle.toLowerCase().includes(searchWord.toLowerCase())
             );
+            console.log(interestCode);
         }
     
         setFilteredHoneypots(categoryFilteredData);
@@ -182,7 +183,8 @@ function HoneypotPage() {
                         setCurrentPage={setCurrentPage}
                         pageGroup={pageGroup}
                         setPageGroup={setPageGroup}
-                        honeypots={filteredHoneypots}/>
+                        honeypots={filteredHoneypots}
+                    />
                 </div>
             </div>
         </div>
