@@ -77,3 +77,27 @@ export default function CultureApi({ setData }) {
   return null; // JSX를 반환하지 않음
 };
 
+// export default function CultureApi({ setData }) {
+//   const url = 'https://raw.githubusercontent.com/S-O-O-P/S-O-O-P-DB/master/dummy.json'; // JSON 데이터 파일 URL
+
+//   const xhr = new XMLHttpRequest();
+//   xhr.open('GET', url, true);
+
+//   xhr.onload = function () {
+//     if (xhr.status >= 200 && xhr.status < 300) {
+//       const jsonData = JSON.parse(xhr.responseText); // JSON 데이터를 파싱
+//       setData(jsonData.response.msgBody); // msgBody 안에 있는 데이터 설정
+//       // console.log("from CultureApi : " + JSON.stringify(jsonData.response.msgBody)); // 데이터 확인 로그
+//     } else {
+//       console.error('Network response was not ok ' + xhr.statusText);
+//     }
+//   };
+
+//   xhr.onerror = function () {
+//     console.error('XMLHttpRequest failed');
+//   };
+
+//   xhr.send();
+
+//   return null;
+// }

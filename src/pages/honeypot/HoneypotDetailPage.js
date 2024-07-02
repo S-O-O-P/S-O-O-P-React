@@ -1,17 +1,76 @@
 import HoneypotComment from '../../components/honeypot/HoneypotComment';
 import RecommendHoneypot from '../../components/honeypot/RecommendHoneypot';
 import './HoneypotDetailPage.css';
+import { useNavigate, useParams } from 'react-router-dom';
+import {useState, useEffect} from 'react';
+import axios, { all } from 'axios';
+import LoadingSpinner from '../../components/commons/Loading';
 
-function HoneypotDetailPage() {
+
+function HoneypotDetailPage( {cultureList}) {
+
+    const { honeypotCode } = useParams();
+    const [detailHoneypot, setDetailHoneypot] = useState({});
+    const navigate = useNavigate();
+    const parsedData = JSON.parse(cultureList);
+    const allCultureList = parsedData.perforList || [];
+    const [filteredCultureList, setFilteredCultureList] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
+
+    // 공연 / 전시 start/endDate
+    const convertDateFormat = (stringDate) => {
+        let dateFormat = "";
+        const year = stringDate.slice(0, 4);
+        const month = stringDate.slice(4, 6);
+        const day = stringDate.slice(6);
+        
+        dateFormat = year+"."+month+"."+day; // 날짜 표시 형식
+        return dateFormat;
+    }
+
+
+
+    useEffect(() => {
+        async function fetchHoneypots() {
+            setIsLoading(true); // 데이터 로딩 시작 시 로딩 상태를 true로 설정
+            try {
+                const response = await axios.get(`http://localhost:8081/honeypot/detail/${honeypotCode}`);
+                console.log('seqNo:', response.data.results.honeypot.seqNo);
+                console.log('test : ', allCultureList)
+    
+                // seqNo 값과 일치하는 데이터만 필터링
+                const seqNoFromResponse = response.data.results.honeypot.seqNo;
+                const filteredList = allCultureList.filter(item => item.seq === seqNoFromResponse.toString());
+                console.log('filteredCultureList:', filteredList);
+    
+                setDetailHoneypot(response.data.results.honeypot);
+                setFilteredCultureList(filteredList);
+            } catch (error) {
+                console.error('Error:', error);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+    
+        fetchHoneypots();
+    }, [honeypotCode]);
+
+    if (isLoading) {
+        return <LoadingSpinner />; // 로딩 중일 때 보여줄 UI
+    }
+
+    const title = filteredCultureList[0].title.replaceAll('&lt;',`<`).replaceAll('&gt;',`>`).replaceAll("&#39;","'"); // 제목          
+
+
 
     return (
         <div className="main-content">
             <div className="detail-container">
                 <div className='host-info-wrapper'>
-                    <img className='detail-poster'src={`${process.env.PUBLIC_URL}/images/honeypot/poster_test.jpg`} draggable="false"/>
+                    <img className='detail-poster'src={detailHoneypot.poster} draggable="false" alt='포스터이미지'/>
                     <div className='host-profile-wrapper'>
-                        <img className='host-profile-pic'src={`${process.env.PUBLIC_URL}/images/honeypot/jeonsomin.PNG`} draggable="false"/>
-                        <p className='host-nickname'>전소민</p>
+                        <img className='host-profile-pic'src={detailHoneypot.profilePic} draggable="false" alt='프로필사진'/>
+                        <p className='host-nickname'>{detailHoneypot.hostInfo.nickname}</p>
                     </div>
                     <div className='detail-manner-box' >
                         <img src={`${process.env.PUBLIC_URL}/images/commons/icon_star.png`} alt="유저평점아이콘" />
@@ -23,30 +82,30 @@ function HoneypotDetailPage() {
                 </div>
                 <div className='honeypot-detail-container'>
                     <div className='title-status-regdate'>
-                        <p className='detail-title'>서양미술 800년 전 같이 가실 분 :-)</p>
-                        <div className='detail-status'>모집중</div>
+                        <p className='detail-title'>{detailHoneypot.honeypotTitle}</p>
+                        <div className='detail-status'>{detailHoneypot.closureStatus}</div>
                         <p className='detail-regdate'>2024.07.12</p>
                     </div>
                     <div className='detail-introduction-container'>
-                        <p>서양미술에 요즘 관심이 생겨서 보러가고 싶은데 혼자가긴 조금 두렵네요. {'\n'} 서양미술에 대해서 모르셔도 좋아요!{'\n'} 같이 가실분 구합니다.{'\n'} 남자, 여자 상관없습니다. 하지만 마음이 아름다운 분이면 좋을 거 같습니다 ㅎㅎ{'\n'} 많관부</p>
+                        <p>{detailHoneypot.honeypotContent}</p>
                     </div>
                     <div className='eventdate-totalpeople-container'>
                         <div className='detail-index-btn'>허니팟일정</div>
-                        <p className='event-date'>2024.07.20</p>
+                        <p className='event-date'>{detailHoneypot.eventDate}</p>
                         <div className='detail-index-btn'>참여인원</div>
-                        <p> 1 / 2</p>
+                        <p> 1 / {detailHoneypot.totalMember}</p>
                     </div>
                     <div className='eventdate-totalpeople-container'>
                         <div className='detail-index-btn'>모집 마감일</div>
-                        <p className='event-date'>2024.07.20</p>
+                        <p className='event-date'>{detailHoneypot.endDate}</p>
                     </div>
                     <div className='btn-container'>
-                        <button className='go-to-list'> 목록으로</button>
+                        <button className='go-to-list' onClick={() => navigate('/honeypot')}> 목록으로</button>
                         <button className='go-to-modify'>수정하기</button>
                     </div>
                     <div className='ticket-info-container'>
                         <div className='poster-wrapper'>
-                        <img src={`${process.env.PUBLIC_URL}/images/honeypot/poster_test.jpg`} alt="포스터이미지" draggable="false"/>
+                        <img src={filteredCultureList[0].thumbnail} alt="포스터이미지" draggable="false"/>
                         </div>
                         <ul className='poster-cutting_line'>
                             <li></li>
@@ -55,17 +114,11 @@ function HoneypotDetailPage() {
                             <li></li>
                             <li></li>
                             <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
                         </ul>
                         <div className='ticket-info'>
-                            <p className='ticket-title'>서양 미술 800년 展</p>
-                            <p>2024.08.05 ~ 2024.10.31</p>
-                            <p>더현대서울 6층 ALT.1</p>
-                            <div>남은시간</div>
-                            <p className='countdown'>1일 5시간 36분 12초</p>
-                            <p className='count-eb'>얼리버드 : 07.19 24:00 까지</p>
+                            <p className='ticket-title'>{title}</p>
+                            <p>{convertDateFormat(filteredCultureList[0].startDate)} ~ {convertDateFormat(filteredCultureList[0].endDate)}</p>
+                            <p>{filteredCultureList[0].place}</p>
                         </div>
                     </div>
                     <hr className='honeypot-detail-hr'/>

@@ -1,34 +1,32 @@
-import './RegistHoneypotPage.css';
-import {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RegistStepOne from '../../components/honeypot/RegistStepOne';
 import RegistStepTwo from '../../components/honeypot/RegistStepTwo';
+import axios from 'axios';
+import './RegistHoneypotPage.css';
 
-
-function RegistHoneypotPage({cultureList}) {
-
+function RegistHoneypotPage({ cultureList }) {
     const parsedData = JSON.parse(cultureList);
     const allCultureList = parsedData.perforList || [];
     const [selectedIndex, setSelectedIndex] = useState(null);
     const navigate = useNavigate();
     const [registStep, setRegistStep] = useState(1); // 등록 순서
-
-    // API에서 지역 목록 가져오기
+    const [formData, setFormData] = useState({});
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [showWarningModal, setShowWarningModal] = useState(false);
+    const [filteredCultureList, setFilteredCultureList] = useState([]); // 필터링된 목록 상태 추가
     const areas = allCultureList.map(item => item.area);
-
-    // 지역 중복 제거
     const uniqueAreas = [...new Set(areas)];
-
-    // API에서 장르 가져오기
     const realmName = allCultureList.map(item => item.realmName);
-
-    // 장르 중복 제거
     const uniqueRealmName = [...new Set(realmName)];
 
-
+    // StepOne에서 필터링된 목록을 업데이트하는 함수
+    const updateFilteredCultureList = (filteredList) => {
+        setFilteredCultureList(filteredList);
+    };
 
     const posterClick = (index) => {
-        setSelectedIndex(index === selectedIndex ? null : index);
+        setSelectedIndex(index);
     };
 
     const nextBtnClick = () => {
@@ -39,7 +37,7 @@ function RegistHoneypotPage({cultureList}) {
                 setRegistStep(2);
             }
         }
-    }
+    };
 
     const previousBtnClick = () => {
         if (registStep === 2) {
@@ -48,17 +46,42 @@ function RegistHoneypotPage({cultureList}) {
         }
     };
 
-    const [showConfirmModal, setShowConfirmModal] = useState(false);
-    const [showWarningModal, setShowWarningModal] = useState(false);
+    const fetchHoneypotList = async () => {
+        try {
+            const response = await axios.get('http://localhost:8081/honeypot/list');
+            const honeypotList = response.data.results.honeypots;
+            console.log('honeypotList : ', honeypotList)
+            const latestHoneypot = honeypotList[honeypotList.length - 1];
+            console.log('lastestHoneypot : ', latestHoneypot);
+            return latestHoneypot.honeypotCode;
+        } catch (error) {
+            console.error('연결실패', error);
+            return null;
+        }
+    };
 
-    /* 확인버튼 */
-    const okBtn = () => {
+    const okBtn = async () => {
         setShowConfirmModal(false);
-    }
+        const code = await fetchHoneypotList();
+        if (code) {
+            navigate(`/honeypot/detail/${code}`); // 모달 닫기 후 상세 페이지로 이동
+        } else {
+            console.error('연결실패');
+        }
+    };
 
     const registBtn = () => {
-        setShowConfirmModal(true);
-    }
+        axios.post('http://localhost:8081/honeypot/regist', formData)
+            .then(response => {
+                console.log('Sending data to server:', formData);
+                setShowConfirmModal(true);
+                console.log(response);
+            })
+            .catch(error => {
+                console.error('There was an error registering the honeypot!', error);
+                console.log('Sending data to server:', formData);
+            });
+    };
 
     const warningOkBtn = () => {
         setShowWarningModal(false);
@@ -75,58 +98,60 @@ function RegistHoneypotPage({cultureList}) {
                     <button className={`step ${registStep === 2 ? 'active' : ''}`}><span>2</span>모집 정보 입력</button>
                 </div>
                 
-                    {registStep === 1 && (
-                        <RegistStepOne
-                            allCultureList={allCultureList}
-                            posterClick={posterClick}
-                            selectedIndex={selectedIndex}
-                            uniqueAreas={uniqueAreas}
-                            uniqueRealmName={uniqueRealmName}
-                        />
-                    )}
-                    {registStep === 2 && (
-                        <RegistStepTwo
-                            selectedIndex={selectedIndex}
-                            allCultureList={allCultureList}
-                        />
-                    )}
+                {registStep === 1 && (
+                    <RegistStepOne
+                        allCultureList={allCultureList}
+                        filteredCultureList={filteredCultureList} // 필터링된 목록 전달
+                        updateFilteredCultureList={updateFilteredCultureList} // 필터링된 목록 업데이트 함수 전달
+                        posterClick={posterClick}
+                        selectedIndex={selectedIndex}
+                        uniqueAreas={uniqueAreas}
+                        uniqueRealmName={uniqueRealmName}
+                    />
+                )}
+                {registStep === 2 && (
+                    <RegistStepTwo
+                        selectedIndex={selectedIndex}
+                        filteredCultureList={filteredCultureList} // 필터링된 목록 전달
+                        onChange={setFormData}
+                    />
+                )}
                 
-                    {registStep === 1 && (
-                        <div className='regist-btn-container'>
+                {registStep === 1 && (
+                    <div className='regist-btn-container'>
                         <button className='regist-cancle-btn' onClick={() => navigate('/honeypot')}>취소</button>
-                        <button className='regist-next-btn' onClick={ nextBtnClick }>다음</button>
-                    </div>    
-                    )}
-                    {registStep === 2 && (
-                        <div className='regist-btn-container'>
+                        <button className='regist-next-btn' onClick={nextBtnClick}>다음</button>
+                    </div>
+                )}
+                {registStep === 2 && (
+                    <div className='regist-btn-container'>
                         <button className='regist-cancle-btn' onClick={previousBtnClick}>이전</button>
                         <button className='regist-next-btn' onClick={registBtn}>생성</button>
-                    </div>    
-                    )}
-                
+                    </div>
+                )}
             </div>
             {/* 제출확인 Modal */}
             {showConfirmModal && (
                 <div className="regist-confirm-modal-container">
-                <div className="regist-confirm-modal-content">
-                <img src={`${process.env.PUBLIC_URL}/images/commons/icon_confirm.png`}/>
-                    <p className="regist-confirm-modal-semibold">허니팟 등록이 완료되었습니다.</p>
-                    <p className="regist-confirm-modal-regular">함께 즐거운 문화 생활을 즐겨보세요.</p>
-                    <div className="regist-confirm-modal-buttons">
-                    <button className="regist-confirm-modal-button yes" onClick={okBtn}>
-                        확인
-                    </button>
+                    <div className="regist-confirm-modal-content">
+                        <img src={`${process.env.PUBLIC_URL}/images/commons/icon_confirm.png`} alt="confirm-icon" />
+                        <p className="regist-confirm-modal-semibold">허니팟 등록이 완료되었습니다.</p>
+                        <p className="regist-confirm-modal-regular">함께 즐거운 문화 생활을 즐겨보세요.</p>
+                        <div className="regist-confirm-modal-buttons">
+                            <button className="regist-confirm-modal-button yes" onClick={okBtn}>
+                                확인
+                            </button>
+                        </div>
                     </div>
-                </div>
                 </div>
             )}
 
             {/* 경고 Modal */}
             {showWarningModal && (
                 <div className="regist-confirm-modal-container">
-                    <div className="regist-confirm-modal-content" style={{height: '220px'}}>
-                    <img src={`${process.env.PUBLIC_URL}/images/commons/icon_confirm.png`}/>
-                        <p className="regist-confirm-modal-semibold">항목을 선택해 주세요.</p>
+                    <div className="regist-confirm-modal-content" style={{ height: '220px' }}>
+                        <img src={`${process.env.PUBLIC_URL}/images/commons/icon_confirm.png`} alt="confirm-icon" />
+                        <p className="regist-confirm-modal-semibold">모든 필드를 입력해 주세요.</p>
                         <div className="regist-confirm-modal-buttons">
                             <button className="regist-confirm-modal-button yes" onClick={warningOkBtn}>
                                 확인
@@ -135,10 +160,8 @@ function RegistHoneypotPage({cultureList}) {
                     </div>
                 </div>
             )}
-                
-            
         </div>
-    )
+    );
 }
 
 export default RegistHoneypotPage;
