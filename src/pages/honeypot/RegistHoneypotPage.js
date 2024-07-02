@@ -46,8 +46,28 @@ function RegistHoneypotPage({ cultureList }) {
         }
     };
 
-    const okBtn = () => {
+    const fetchHoneypotList = async () => {
+        try {
+            const response = await axios.get('http://localhost:8081/honeypot/list');
+            const honeypotList = response.data.results.honeypots;
+            console.log('honeypotList : ', honeypotList)
+            const latestHoneypot = honeypotList[honeypotList.length - 1];
+            console.log('lastestHoneypot : ', latestHoneypot);
+            return latestHoneypot.honeypotCode;
+        } catch (error) {
+            console.error('연결실패', error);
+            return null;
+        }
+    };
+
+    const okBtn = async () => {
         setShowConfirmModal(false);
+        const code = await fetchHoneypotList();
+        if (code) {
+            navigate(`/honeypot/detail/${code}`); // 모달 닫기 후 상세 페이지로 이동
+        } else {
+            console.error('연결실패');
+        }
     };
 
     const registBtn = () => {

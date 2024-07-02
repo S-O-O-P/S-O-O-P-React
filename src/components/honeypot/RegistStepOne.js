@@ -63,6 +63,7 @@ function RegistStepOne({ allCultureList, filteredCultureList, updateFilteredCult
         const selectedGenre = filteredCultureList[index]?.realmName; // 필터링된 목록에서 선택된 포스터의 카테고리
         const interestCode = genreMap[selectedGenre] || null; // 선택된 카테고리에 대응하는 코드
         posterClick(index, interestCode); // posterClick 함수에 index와 interestCode 전달
+        console.log(filteredCultureList[index]);
     };
 
     return (

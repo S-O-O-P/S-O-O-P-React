@@ -30,6 +30,7 @@ function RegistStepTwo({ selectedIndex, filteredCultureList, onChange }) {
             regDate: new Date().toISOString(),
             totalMember: parseInt(totalMembers),
             visibilityStatus: '활성화',
+            seqNo: filteredCultureList[selectedIndex].seq,
         };
         
         // onChange 함수 호출
