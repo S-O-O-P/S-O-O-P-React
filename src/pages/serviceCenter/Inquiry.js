@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import style from './Inquiry.module.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function InquiryPage() {
 
     const navigater = useNavigate();
+
+    const [notices, setNotices] = useState([]);
 
     const [selected, setSelected] = useState("전체");
     const handleSelect = (e) => {
@@ -25,12 +28,28 @@ function InquiryPage() {
     const [writerModal, setWriterModal] = useState(false);
 
     const handleSubmit = () => {
+        const today = new Date();
 
         if (title !== "" && content !== "") {
+            const data = {
+                "category": selected,
+                "title": title,
+                "content": content,
+                "userCode": 1,  // 회원 정보로 수정 필요
+                "inquiryDate": today,
+                "adminCode" : 7
+            }
+
             console.log("유형", selected);
             console.log("제목:", title);
             console.log("내용:", content);
             setModalOpen(true);
+
+            axios.post('http://localhost:8081/inquiry', data)
+                .then(response => {
+                    console.log("response", response);
+                })
+
         } else {
             setWriterModal(true);
         }
