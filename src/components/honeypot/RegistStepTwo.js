@@ -74,6 +74,18 @@ function RegistStepTwo({ selectedIndex, filteredCultureList, onChange }) {
         }
     };
 
+    useEffect(() => {
+        if (eventDate) {
+          const eventDateObj = new Date(eventDate);
+          eventDateObj.setDate(eventDateObj.getDate() - 1);
+          setEndDate(eventDateObj.toISOString().split('T')[0]);
+        } else {
+          setEndDate('');
+        }
+      }, [eventDate]);
+
+    
+
     return (
         <div className='step2-container'>
             {selectedIndex !== null && (
@@ -92,7 +104,7 @@ function RegistStepTwo({ selectedIndex, filteredCultureList, onChange }) {
                             <option value="4">4</option>
                         </select>
                         <div className="regist-info-btn">마감 일자</div>
-                        <input className='date-style' type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+                        <input className='date-style' type="date" value={endDate} readOnly/>
                     </div>
                     <p className="member-explanation">* 모집 정원은 호스트를 포함한 인원입니다.</p>
                     <p className="member-explanation">예시) 1명 모집을 원할 경우, 모집 정원 2명 선택(호스트 + 참여자)</p>
