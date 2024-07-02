@@ -182,10 +182,10 @@ export default function CultureInfo(props) {
         let filteredList = [];
 
         if (e.currentTarget.innerText === "마감임박순") {
-          filteredList = cultureList.perforList.sort((a, b) => Number(a.endDate) - Number(b.endDate));
+          filteredList = cultureListObj.perforList.sort((a, b) => Number(a.endDate) - Number(b.endDate));
           setSubFilter(e.currentTarget.innerText);
         } else if (e.currentTarget.innerText === "최신등록순") {
-          filteredList = cultureList.perforList.sort((a, b) => Number(b.startDate) - Number(a.startDate));
+          filteredList = cultureListObj.perforList.sort((a, b) => Number(b.startDate) - Number(a.startDate));
           setSubFilter(e.currentTarget.innerText);
         } else if (e.currentTarget.innerText === "가격순") {
           filteredList = cultureListObj.perforList.sort((a, b) => Number(b.startDate) - Number(a.startDate));
