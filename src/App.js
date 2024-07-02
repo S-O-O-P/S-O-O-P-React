@@ -75,7 +75,7 @@ export default function App() {
             <Route path='/completed' element={<PrivateRoute element={CompletedPage}/>} /> {/* 회원 가입 완료 */}
             <Route path='/honeypot' element={<HoneypotPage/>}/> {/* 허니팟 페이지 */}
             <Route path='/honeypot/regist' element={data ? <RegistHoneypotPage cultureList={JSON.stringify(data)}/> : <div>Loading...</div>}/> {/* 허니팟 등록 페이지 */}
-            <Route path='/honeypot/detail' element={<HoneypotDetailPage/>}/> {/* 허니팟 상세 페이지 */}
+            <Route path='/honeypot/detail/:honeypotcode' element={<HoneypotDetailPage/>}/> {/* 허니팟 상세 페이지 */}
             <Route path='/mypage' element={<PrivateRoute element={MyPage} />} /> {/* 마이 페이지 */}
             <Route path='/help' element={<Cs />} /> {/* 고객 센터 */}
             <Route path='/faq' element={<Faq />} /> {/* 자주 찾는 질문 */}
