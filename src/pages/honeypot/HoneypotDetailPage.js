@@ -3,7 +3,7 @@ import RecommendHoneypot from '../../components/honeypot/RecommendHoneypot';
 import './HoneypotDetailPage.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import {useState, useEffect} from 'react';
-import axios, { all } from 'axios';
+import axios from 'axios';
 import LoadingSpinner from '../../components/commons/Loading';
 
 
@@ -37,6 +37,7 @@ function HoneypotDetailPage( {cultureList}) {
                 const response = await axios.get(`http://localhost:8081/honeypot/detail/${honeypotCode}`);
                 console.log('seqNo:', response.data.results.honeypot.seqNo);
                 console.log('test : ', allCultureList)
+                console.log('detailHoneypot', detailHoneypot);
     
                 // seqNo 값과 일치하는 데이터만 필터링
                 const seqNoFromResponse = response.data.results.honeypot.seqNo;
@@ -55,6 +56,12 @@ function HoneypotDetailPage( {cultureList}) {
         fetchHoneypots();
     }, [honeypotCode]);
 
+    const modifyClick = () => {
+        navigate(`/honeypot/modify/${honeypotCode}`, {
+            state: { detailHoneypot }
+        });
+    };
+
     if (isLoading) {
         return <LoadingSpinner />; // 로딩 중일 때 보여줄 UI
     }
@@ -69,7 +76,7 @@ function HoneypotDetailPage( {cultureList}) {
                 <div className='host-info-wrapper'>
                     <img className='detail-poster'src={detailHoneypot.poster} draggable="false" alt='포스터이미지'/>
                     <div className='host-profile-wrapper'>
-                        <img className='host-profile-pic'src={detailHoneypot.profilePic} draggable="false" alt='프로필사진'/>
+                        <img className='host-profile-pic'src={detailHoneypot.hostInfo.profilePic} draggable="false" alt='프로필사진'/>
                         <p className='host-nickname'>{detailHoneypot.hostInfo.nickname}</p>
                     </div>
                     <div className='detail-manner-box' >
@@ -84,7 +91,7 @@ function HoneypotDetailPage( {cultureList}) {
                     <div className='title-status-regdate'>
                         <p className='detail-title'>{detailHoneypot.honeypotTitle}</p>
                         <div className='detail-status'>{detailHoneypot.closureStatus}</div>
-                        <p className='detail-regdate'>2024.07.12</p>
+                        <p className='detail-regdate'>{detailHoneypot.regDate}</p>
                     </div>
                     <div className='detail-introduction-container'>
                         <p>{detailHoneypot.honeypotContent}</p>
@@ -101,7 +108,7 @@ function HoneypotDetailPage( {cultureList}) {
                     </div>
                     <div className='btn-container'>
                         <button className='go-to-list' onClick={() => navigate('/honeypot')}> 목록으로</button>
-                        <button className='go-to-modify'>수정하기</button>
+                        <button className='go-to-modify' onClick={modifyClick}>수정하기</button>
                     </div>
                     <div className='ticket-info-container'>
                         <div className='poster-wrapper'>

@@ -23,6 +23,7 @@ import PublicRoute from './components/PublicRoute';
 import ExpiredToken from './apis/ExpiredToken';
 import RegistHoneypotPage from './pages/honeypot/RegistHoneypotPage';
 import HoneypotDetailPage from './pages/honeypot/HoneypotDetailPage';
+import ModifyHoneypotPage from './pages/honeypot/ModifyHoneypotPage';
 
 
 
@@ -76,6 +77,7 @@ export default function App() {
             <Route path='/honeypot' element={<HoneypotPage/>}/> {/* 허니팟 페이지 */}
             <Route path='/honeypot/regist' element={data ? <RegistHoneypotPage cultureList={JSON.stringify(data)}/> : <div>Loading...</div>}/> {/* 허니팟 등록 페이지 */}
             <Route path='/honeypot/detail/:honeypotCode' element={data ? <HoneypotDetailPage cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 상세 페이지 */}
+            <Route path='/honeypot/modify/:honeypotCode' element={data ? <ModifyHoneypotPage cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 상세 페이지 */}
             <Route path='/mypage' element={<MyPage/>}/> {/* 마이 페이지 */}
             <Route path='/help' element={<Cs />} /> {/* 고객 센터 */}
             <Route path='/faq' element={<Faq />} /> {/* 자주 찾는 질문 */}

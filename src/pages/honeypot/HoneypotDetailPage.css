@@ -49,6 +49,8 @@
     border: 10px solid var(--main-color);
     border-radius: 50%;
     margin-bottom: 10px;
+    object-fit: cover;
+    object-position: top;
 }
 
 .host-nickname {
