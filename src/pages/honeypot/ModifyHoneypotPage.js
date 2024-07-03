@@ -1,3 +1,5 @@
+import './ModifyHoneypotPage.css';
+
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -12,6 +14,7 @@ function ModifyHoneypotPage() {
     const [eventDate, setEventDate] = useState(detailHoneypot.eventDate);
     const [endDate, setEndDate] = useState(detailHoneypot.endDate);
     const [totalMember, setTotalMember] = useState(detailHoneypot.totalMember);
+    const [region, setRegion] = useState(detailHoneypot.region);
 
     useEffect(() => {
         // 기존 데이터 초기값 설정
@@ -20,6 +23,7 @@ function ModifyHoneypotPage() {
         setEventDate(detailHoneypot.eventDate);
         setEndDate(detailHoneypot.endDate);
         setTotalMember(detailHoneypot.totalMember);
+        setRegion(detailHoneypot.region);
     }, [detailHoneypot]);
 
     const handleEventDateChange = (newDate) => {
@@ -56,53 +60,53 @@ function ModifyHoneypotPage() {
     };
 
     return (
-        <div className="main-content">
-            <div className="modify-container">
-                <div className='modify-title'>
-                    <input
-                        type='text'
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
+        <div className="honeypot-modify-main-content">
+            <div className="honeypot-modify-container">
+                <div className="honeypotpage-title">
+                    <p>허니팟 수정</p>
+                </div>
+                <div className='moidify-container'>
+                <div className="region-eventdate">
+                    <div className="regist-info-btn">지역</div>
+                    <div className="selected-region">{region}</div>
+                    <div className="regist-info-btn">모임일자</div>
+                    <input className='date-style' type="date" value={eventDate} 
+                            min={new Date().toISOString().split('T')[0]} // 현재 날짜 이후만 선택 가능
+                            max={new Date(new Date().setDate(new Date().getDate() + 30)).toISOString().split('T')[0]} // 현재 날짜로부터 +30일까지 선택 가능
+                            onChange={(e) => handleEventDateChange(e.target.value)}
                     />
                 </div>
-                <div className='modify-content'>
-                    <textarea
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                    />
+                <div className="totaluser-enddate">
+                    <div className="regist-info-btn">모집 정원</div>
+                    <select className="step2-select" value={totalMember} onChange={(e) => setTotalMember(e.target.value)}>
+                        <option value={2}>2</option>
+                        <option value={3}>3</option>
+                        <option value={4}>4</option>
+                    </select>
+                    <div className="regist-info-btn">마감 일자</div>
+                    <input className='date-style' type="date" value={endDate} readOnly/>
                 </div>
-                <div className='modify-event-date'>
-                    <label>모임 일정:</label>
-                    <input
-                        type='date'
-                        value={eventDate}
-                        min={new Date().toISOString().split('T')[0]} // 현재 날짜 이후만 선택 가능
-                        max={new Date(new Date().setDate(new Date().getDate() + 30)).toISOString().split('T')[0]} // 현재 날짜로부터 +30일까지 선택 가능
-                        onChange={(e) => handleEventDateChange(e.target.value)}
-                    />
+                <p className="member-explanation">* 모집 정원은 호스트를 포함한 인원입니다.</p>
+                <p className="member-explanation">예시) 1명 모집을 원할 경우, 모집 정원 2명 선택(호스트 + 참여자)</p>
+                <div className="regist-title">
+                    <div className="regist-info-btn">제목</div>
+                    <input className='regist-honeypot-title' type="text" placeholder="허니팟 제목을 입력하세요." value={title} onChange={(e) => setTitle(e.target.value)} />
                 </div>
-                <div className='modify-end-date'>
-                    <label>모집 마감일:</label>
-                    <input
-                        type='date'
-                        value={endDate}
-                        readOnly
-                    />
+                <div className="regist-content">
+                    <div className="regist-info-btn">내용</div>
+                    <div className='text-area-wrapper'>
+                        <textarea className="regist-honeypot-content" placeholder="허니팟 내용을 입력하세요." value={content} onChange={(e) => setContent(e.target.value)}/>
+                        <p className='limit'></p>
+                    </div>
                 </div>
-                <div className='modify-total-member'>
-                    <label>총 참여 인원:</label>
-                    <input
-                        type='number'
-                        value={totalMember}
-                        max={4} min={2}
-                        onChange={(e) => setTotalMember(e.target.value)}
-                    />
-                </div>
-                <div className='btn-container'>
-                    <button className='cancel-btn' onClick={handleCancelClick}>취소하기</button>
-                    <button className='save-btn' onClick={handleSaveClick}>저장하기</button>
+
+            </div>
+                <div className='regist-btn-container'>
+                    <button className='regist-cancle-btn' onClick={handleCancelClick}>취소</button>
+                    <button className='regist-next-btn' onClick={handleSaveClick}>수정</button>
                 </div>
             </div>
+            
         </div>
     )
 }

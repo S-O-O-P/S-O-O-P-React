@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './HoneypotComment.css';
-import HoneypotApi from '../../apis/honeypot/HoneypotApi';
+import CommentApi from '../../apis/honeypot/CommentApi';
 
 function HoneypotComment({ detailHoneypot }) {
     const [comments, setComments] = useState([]);
@@ -23,7 +23,7 @@ function HoneypotComment({ detailHoneypot }) {
     });
 
     useEffect(() => {
-        HoneypotApi({setComments}, detailHoneypot);
+        CommentApi({setComments}, detailHoneypot);
         
     }, [detailHoneypot.honeypotCode], comments);
 
@@ -60,7 +60,7 @@ function HoneypotComment({ detailHoneypot }) {
                     content: ''
                 });
 
-                HoneypotApi({setComments}, detailHoneypot);
+                CommentApi({setComments}, detailHoneypot);
 
                 // window.location.reload();
                 // setRefreshNeeded(true); // 댓글 추가 후 한 번만 리프레시 필요 상태 업데이트

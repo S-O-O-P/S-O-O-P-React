@@ -1,12 +1,19 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './RecommendHoneypot.css';
-import { honeypotData } from '../../pages/honeypot/DummyData';
+import HoneypotListApi from '../../apis/honeypot/HoneypotListApi';
 
-function RecommendHoneypot() {
+function RecommendHoneypot( {interestName, allCultureList}) {
+    const [honeypots, setHoneypots] = useState([]);
+    const [filteredHoneypots, setFilteredHoneypots] = useState([]);
+
     const scrollRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(null);
     const [scrollLeft, setScrollLeft] = useState(0);
+
+    useEffect(() => {
+        HoneypotListApi({setHoneypots}, {setFilteredHoneypots})
+    }, [setHoneypots])
 
     const handleMouseDown = (e) => {
         setIsDragging(true);
@@ -25,6 +32,9 @@ function RecommendHoneypot() {
         setIsDragging(false);
     };
 
+    const filteredHoneypotData = honeypots.filter(honeypot => honeypot.interestCategory.interestName === interestName);
+
+
     return (
         <div className='recommend-container'>
             <div className='recommend-title'>추천 허니팟</div>
@@ -36,27 +46,27 @@ function RecommendHoneypot() {
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseUp}
             >
-                {honeypotData.map((honeypot, index) => (
-                    <div key={index} className="one-recommend-index">
+                {filteredHoneypotData.map((honeypot, index) => (
+                    <div key={index} className="one-recommend-index" onClick={ console.log(filteredHoneypotData)}>
                         <div className="recommend-index-poster">
                             <img
-                                src={`${process.env.PUBLIC_URL}/images/honeypot/poster_test.jpg`}
+                                src={filteredHoneypotData[index].poster}
                                 alt="포스터이미지"
                             />
                         </div>
                         <div className="recommend-index-info">
                             <div className="top-info">
-                                <div className="recommend-region-info">{honeypot.REGION}</div>
-                                <div className="recommend-category-info">{honeypot.INTEREST_CODE}</div>
-                                <div className="recommend-status">{honeypot.CLOSURE_STATUS}</div>
+                                <div className="recommend-region-info">{filteredHoneypotData[index].region}</div>
+                                <div className="recommend-category-info">{filteredHoneypotData[index].interestCategory.interestName}</div>
+                                <div className="recommend-status">{filteredHoneypotData[index].closureStatus}</div>
                             </div>
-                            <p className="recommend-info-title">{honeypot.HONEYPOT_TITLE}</p>
+                            <p className="recommend-info-title">{filteredHoneypotData[index].honeypotTitle}</p>
                             <div className="recommend-schedule">
                                 <div>일정</div>
-                                <p className="honeypot-date">2024.06.02 (토)</p>
-                                <p className="total-member"> 참여인원 1 / {honeypot.TOTAL_MEMBER} </p>
+                                <p className="honeypot-date">{filteredHoneypotData[index].eventDate}</p>
+                                <p className="total-member"> 참여인원 1 / {filteredHoneypotData[index].totalMember} </p>
                             </div>
-                            <p className="end-date">{honeypot.END_DATE} 까지 모집해요</p>
+                            <p className="end-date">{filteredHoneypotData[index].endDate} 까지 모집해요</p>
                         </div>
                     </div>
                 ))}

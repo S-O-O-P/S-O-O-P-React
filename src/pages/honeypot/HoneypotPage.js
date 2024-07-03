@@ -21,7 +21,7 @@ function HoneypotPage() {
                 const response = await axios.get('http://localhost:8081/honeypot/list');
                 setHoneypots(response.data.results.honeypots);
                 setFilteredHoneypots(response.data.results.honeypots); // 초기 필터링 설정
-                console.log(honeypots);
+                console.log('메인페이지:',honeypots);
             } catch (error) {
                 console.error('Error 입니다 : ', error);
             }
@@ -48,7 +48,7 @@ function HoneypotPage() {
                 (selectRegion === '전체' || honeypot.region === selectRegion) &&
                 honeypot.honeypotTitle.toLowerCase().includes(searchWord.toLowerCase())
             );
-            console.log(interestCode);
+            console.log('관심코드:', interestCode);
         }
     
         setFilteredHoneypots(categoryFilteredData);

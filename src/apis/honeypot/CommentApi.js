@@ -1,17 +1,13 @@
 import axios from "axios";
 
-export default function HoneypotApi( {setComments}, detailHoneypot ) {
+export default function CommentApi( {setComments}, detailHoneypot ) {
     
     const fetchComments = async () => {
         try {
-            console.log("detailHoneypot in api :",detailHoneypot);
             const response = await axios.get(`http://localhost:8081/honeypot/comment`);
-            console.log("리스펀스?", response)
             const fetchedComments = response.data.results.comments.filter(
                 comment => comment.honeypotCode === detailHoneypot.honeypotCode
             );
-            console.log('받아오는 데이터 : ', fetchedComments);
-            console.log('이미지 : ', fetchedComments[0].writerInfo.profilePic)
             setComments(fetchedComments);
             
             

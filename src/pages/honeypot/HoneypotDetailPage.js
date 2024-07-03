@@ -28,15 +28,11 @@ function HoneypotDetailPage( {cultureList}) {
         return dateFormat;
     }
 
-
-
     useEffect(() => {
         async function fetchHoneypots() {
             setIsLoading(true); // 데이터 로딩 시작 시 로딩 상태를 true로 설정
             try {
                 const response = await axios.get(`http://localhost:8081/honeypot/detail/${honeypotCode}`);
-                console.log('seqNo:', response.data.results.honeypot.seqNo);
-                console.log('test : ', allCultureList)
                 console.log('detailHoneypot', detailHoneypot);
     
                 // seqNo 값과 일치하는 데이터만 필터링
@@ -67,7 +63,6 @@ function HoneypotDetailPage( {cultureList}) {
     }
 
     const title = filteredCultureList[0].title.replaceAll('&lt;',`<`).replaceAll('&gt;',`>`).replaceAll("&#39;","'"); // 제목          
-
 
 
     return (
@@ -129,7 +124,8 @@ function HoneypotDetailPage( {cultureList}) {
                         </div>
                     </div>
                     <hr className='honeypot-detail-hr'/>
-                    <RecommendHoneypot />
+                    <RecommendHoneypot interestName={detailHoneypot.interestCategory.interestName}
+                                       allCultureList={allCultureList}/>
                     <HoneypotComment detailHoneypot={detailHoneypot}/>
                 </div>
             </div>
