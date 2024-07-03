@@ -60,6 +60,28 @@ export default function App() {
   // PublicRoute  = access 토큰이 있는 상태로 접근 불가 (예를 들면 로그인 페이지, 회원가입 페이지 등등)
   // PrivateRoute = access 토큰이 없는 경우 접근 불가 (예를 들면 회원가입 페이지, 마이페이지, 1:1 문의 등등)
   // 아무것도 없으면 회원, 비회원 구분 없이 접속 가능.
+
+  // 임시 로그인정보 대체(김만호 테스트용)
+  const users = [
+    { userCode: 8, nickname: '전소민', profilePic: 'https://i.ibb.co/1Z2Zbvs/image.jpg', aboutMe: '안녕하세요. 전소민입니다.', },
+    { userCode: 9, nickname: '이병건',  profilePic: 'https://i.ibb.co/BqqgBBp/image.jpg', aboutMe: '안녕하세요. 이병건입니다.', },
+    { userCode: 10, nickname: '양세찬', profilePic: 'https://i.ibb.co/Yk4jBmw/image.jpg', aboutMe: '안녕하세요. 양세찬입니다.', },
+    { userCode: 11, nickname: '코하루', profilePic: 'https://i.ibb.co/Np2j4f4/image.png', aboutMe: '안녕하세요. 코하루입니다.', }
+  ];
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState(null);
+
+  useEffect(() => {
+      // 특정 사용자가 이미 로그인된 상태로 가정
+      const user = users.find(user => user.userCode === 10);
+          if (user) {
+              setIsLoggedIn(true);
+              setLoggedInUser(user);
+          }
+  }, []);
+  // 임시 로그인정보 대체(김만호 테스트용)
+
+
   return (
     <>
       <GlobalStyles />
@@ -74,10 +96,10 @@ export default function App() {
             <Route path="/cultureinfo" element={data ? <CultureInfo cultureList={JSON.stringify(data)} detailDataList={detailDataList} /> : <LoadingSpinner />} /> {/* 전시/공연 정보 */}
             <Route path="/cultureinfo/detail/:seq" element={<CultureDetail detailDataList={detailDataList}/>}/> {/* 전시/공연 상세페이지*/}
             <Route path='/completed' element={<PrivateRoute element={CompletedPage}/>} /> {/* 회원 가입 완료 */}
-            <Route path='/honeypot' element={<HoneypotPage/>}/> {/* 허니팟 페이지 */}
+            <Route path='/honeypot' element={<HoneypotPage user={loggedInUser}/>}/> {/* 허니팟 페이지 */}
             <Route path='/honeypot/regist' element={data ? <RegistHoneypotPage cultureList={JSON.stringify(data)}/> : <div>Loading...</div>}/> {/* 허니팟 등록 페이지 */}
-            <Route path='/honeypot/detail/:honeypotCode' element={data ? <HoneypotDetailPage cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 상세 페이지 */}
-            <Route path='/honeypot/modify/:honeypotCode' element={data ? <ModifyHoneypotPage cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 상세 페이지 */}
+            <Route path='/honeypot/detail/:honeypotCode' element={data ? <HoneypotDetailPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 상세 페이지 */}
+            <Route path='/honeypot/modify/:honeypotCode' element={data ? <ModifyHoneypotPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 수정 페이지 */}
             <Route path='/mypage' element={<MyPage/>}/> {/* 마이 페이지 */}
             <Route path='/help' element={<Cs />} /> {/* 고객 센터 */}
             <Route path='/faq' element={<Faq />} /> {/* 자주 찾는 질문 */}

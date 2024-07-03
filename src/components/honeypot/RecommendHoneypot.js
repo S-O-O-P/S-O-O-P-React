@@ -47,7 +47,7 @@ function RecommendHoneypot( {interestName, allCultureList}) {
                 onMouseLeave={handleMouseUp}
             >
                 {filteredHoneypotData.map((honeypot, index) => (
-                    <div key={index} className="one-recommend-index" onClick={ console.log(filteredHoneypotData)}>
+                    <div key={index} className="one-recommend-index">
                         <div className="recommend-index-poster">
                             <img
                                 src={filteredHoneypotData[index].poster}

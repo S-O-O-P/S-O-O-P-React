@@ -4,7 +4,8 @@ import axios from 'axios';
 import HoneypotList from '../../components/honeypot/HoneypotList';
 import './HoneypotPage.css';
 
-function HoneypotPage() {
+function HoneypotPage({user}) {
+    
     const [honeypots, setHoneypots] = useState([]);
     const [filteredHoneypots, setFilteredHoneypots] = useState([]); // 필터링된 허니팟 데이터
     const [searchWord, setSearchWord] = useState(''); // 검색어
@@ -22,6 +23,7 @@ function HoneypotPage() {
                 setHoneypots(response.data.results.honeypots);
                 setFilteredHoneypots(response.data.results.honeypots); // 초기 필터링 설정
                 console.log('메인페이지:',honeypots);
+                console.log('로그인한 유저(허니팟메인페이지): ', user);
             } catch (error) {
                 console.error('Error 입니다 : ', error);
             }
@@ -184,6 +186,7 @@ function HoneypotPage() {
                         pageGroup={pageGroup}
                         setPageGroup={setPageGroup}
                         honeypots={filteredHoneypots}
+                        user={user}
                     />
                 </div>
             </div>

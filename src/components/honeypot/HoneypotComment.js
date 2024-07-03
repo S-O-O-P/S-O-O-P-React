@@ -3,13 +3,13 @@ import axios from 'axios';
 import './HoneypotComment.css';
 import CommentApi from '../../apis/honeypot/CommentApi';
 
-function HoneypotComment({ detailHoneypot }) {
+function HoneypotComment({ detailHoneypot, user }) {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState({
         honeypotCode: detailHoneypot.honeypotCode,
         content: '',
         writerInfo: {
-            userCode: 11 // 로그인한 사용자 코드
+            userCode: user.userCode
         }, 
         writingTime: '',
         updateTime: null
@@ -23,23 +23,30 @@ function HoneypotComment({ detailHoneypot }) {
     });
 
     useEffect(() => {
-        CommentApi({setComments}, detailHoneypot);
-        
+        CommentApi({ setComments }, detailHoneypot);
     }, [detailHoneypot.honeypotCode], comments);
+
+    const getKoreanTime = () => {
+        const date = new Date();
+        const utcOffset = date.getTimezoneOffset() * 60000; // 분을 밀리초로 변환
+        const kstOffset = 9 * 60 * 60000; // 9시간을 밀리초로 변환
+        const kstTime = new Date(date.getTime() + utcOffset + kstOffset);
+        return kstTime.toISOString(); // ISO 8601 형식으로 반환
+    };
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setNewComment({
             ...newComment,
             [name]: value,
-            writingTime: new Date()
+            writingTime: getKoreanTime()
         });
     };
 
     const addComment = async () => {
         if (newComment.content.trim() !== '') {
             try {
-                const currentTime = new Date();
+                const currentTime = getKoreanTime();
     
                 const response = await axios.post('http://localhost:8081/honeypot/comment', {
                     honeypotCode: newComment.honeypotCode,
@@ -51,7 +58,6 @@ function HoneypotComment({ detailHoneypot }) {
                     updateTime: null
                 });
     
-                // 새로 등록된 댓글을 받아와서 comments 상태에 추가
                 const newCommentData = response.data;
                 setComments([...comments, newCommentData]);
     
@@ -60,10 +66,7 @@ function HoneypotComment({ detailHoneypot }) {
                     content: ''
                 });
 
-                CommentApi({setComments}, detailHoneypot);
-
-                // window.location.reload();
-                // setRefreshNeeded(true); // 댓글 추가 후 한 번만 리프레시 필요 상태 업데이트
+                CommentApi({ setComments }, detailHoneypot);
             
             } catch (error) {
                 console.error('Failed to add comment:', error);
@@ -89,23 +92,25 @@ function HoneypotComment({ detailHoneypot }) {
         const { value } = event.target;
         setEditedComment({
             ...editedComment,
-            content: value
+            content: value,
+            updateTime: getKoreanTime() // 수정 시간 설정
         });
     };
 
     const saveEditedComment = async () => {
         try {
+            const currentTime = getKoreanTime();
+
             const response = await axios.put(`http://localhost:8081/honeypot/comment/${editedComment.commentCode}`, {
                 commentCode: editedComment.commentCode,
                 honeypotCode: editedComment.honeypotCode,
                 userCode: editedComment.userCode,
                 content: editedComment.content,
-                updateTime: new Date().toISOString() // ISO 8601 형식으로 변환
+                updateTime: currentTime
             });
     
             const updatedComment = response.data.results.comment;
     
-            // 서버에서 수정된 댓글 데이터를 받아오고 나서 UI를 업데이트
             const updatedComments = comments.map(comment =>
                 comment.commentCode === updatedComment.commentCode
                     ? { ...comment, content: updatedComment.content, updateTime: updatedComment.updateTime }
@@ -124,6 +129,11 @@ function HoneypotComment({ detailHoneypot }) {
         } catch (error) {
             console.error('댓글 수정 실패:', error);
         }
+    };
+
+    const formatKoreanTime = (isoString) => {
+        const date = new Date(isoString);
+        return date.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
     };
 
     return (
@@ -151,8 +161,8 @@ function HoneypotComment({ detailHoneypot }) {
                                 <p className='comment-content'>{comment.content}</p>
                             )}
                             <div className='date-wrapper'>
-                                <p className='comment-regdate'>등록일: {comment.writingTime}</p>
-                                {comment.updateTime && <p className='comment-editdate'>수정일: {comment.updateTime}</p>}
+                                <p className='comment-regdate'>등록일: {formatKoreanTime(comment.writingTime)}</p>
+                                {comment.updateTime && <p className='comment-editdate'>수정일: {formatKoreanTime(comment.updateTime)}</p>}
                             </div>
                         </div>
                             {editedComment.commentCode === comment.commentCode ? (
@@ -160,12 +170,12 @@ function HoneypotComment({ detailHoneypot }) {
                                     <button onClick={saveEditedComment}>저장</button>
                                     <p>|</p>
                                     <button onClick={() => setEditedComment({
-                                                                                commentCode: null,
-                                                                                content: '',
-                                                                                userCode: '',
-                                                                                writingTime: '',
-                                                                                updateTime: ''
-                                                                            })}>취소</button>
+                                        commentCode: null,
+                                        content: '',
+                                        userCode: '',
+                                        writingTime: '',
+                                        updateTime: ''
+                                    })}>취소</button>
                                 </div>
                             ) : (
                                 <div className='modify-delete'>
@@ -175,10 +185,9 @@ function HoneypotComment({ detailHoneypot }) {
                                 </div>
                             )}
                     </div>
-                    ))
-                }
+                ))}
                 <div className='comment-write'>
-                    <p>로그인한사람닉네임</p>
+                    <p>{user.nickname}</p>
                     <textarea
                         className='write-textarea'
                         name='content'
