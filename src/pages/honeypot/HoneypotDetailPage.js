@@ -130,7 +130,7 @@ function HoneypotDetailPage( {cultureList}) {
                     </div>
                     <hr className='honeypot-detail-hr'/>
                     <RecommendHoneypot />
-                    <HoneypotComment/>
+                    <HoneypotComment detailHoneypot={detailHoneypot}/>
                 </div>
             </div>
         </div>
