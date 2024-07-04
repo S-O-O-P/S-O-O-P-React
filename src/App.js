@@ -74,7 +74,7 @@ export default function App() {
 
   useEffect(() => {
       // 특정 사용자가 이미 로그인된 상태로 가정
-      const user = users.find(user => user.userCode === 8); // 여기에 로그인 회원번호 넣기
+      const user = users.find(user => user.userCode === 11); // 여기에 로그인 회원번호 넣기
           if (user) {
               setIsLoggedIn(true);
               setLoggedInUser(user);

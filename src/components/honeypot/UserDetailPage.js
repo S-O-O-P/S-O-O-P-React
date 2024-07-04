@@ -15,6 +15,7 @@ export default function UserDetailPage({ detailHoneypot, filteredCultureList, ti
   // 승인 여부 필터링
   const approvedApplications = applications.filter(app => app.decisionStatus === '승인');
   console.log('승인 된 신청인 수: ', approvedApplications.length)
+  console.log('트루인가 : ', approvedApplications.length + 1 === detailHoneypot.totalMember)
 
   // 참여하기 버튼 클릭 시 동작할 함수
   const handleParticipate = async () => {
@@ -49,33 +50,13 @@ export default function UserDetailPage({ detailHoneypot, filteredCultureList, ti
       // 신청 완료 후 참가 신청자 정보 다시 조회
       ApplicationApi(detailHoneypot.honeypotCode, setApplications);
 
-      // 모집 상태 업데이트를 위한 조건 확인
-      if (approvedApplications.length + 1 === detailHoneypot.totalMember) {
-        updateRecruitmentStatus();
-      }
-
     } catch (error) {
       console.error('참가 신청 실패:', error);
       alert('참가 신청에 실패했습니다. 다시 시도해주세요.');
     }
   };
 
-  // 모집 상태 업데이트를 위한 함수
-  const updateRecruitmentStatus = async () => {
-    try {
-      const response = await axios.put(`http://localhost:8081/honeypot/modify/${detailHoneypot.honeypotCode}`, {
-        closureStatus: '모집 완료'
-      });
-
-      console.log('모집 상태 업데이트 완료:', response.data);
-
-      // 모집 상태 업데이트 후 UI 업데이트는 필요하면 여기에 추가
-
-    } catch (error) {
-      console.error('모집 상태 업데이트 실패:', error);
-      // 실패한 경우 처리 로직 추가
-    }
-  };
+  
 
   return (
     <div className='honeypot-detail-container'>

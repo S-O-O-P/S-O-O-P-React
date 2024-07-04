@@ -1,4 +1,5 @@
 import ApplicationApi from "../../apis/honeypot/ApplicationApi";
+import HoneypotDetailApi from '../../apis/honeypot/HoneypotDetailApi';
 import { useState, useEffect } from "react";
 import axios from 'axios';
 
@@ -14,32 +15,69 @@ export default function HostDetailPage({ detailHoneypot, filteredCultureList, ti
     }
   }, [detailHoneypot]);
 
+  // 승인 여부 필터링
+  const approvedApplications = applications.filter(app => app.decisionStatus === '승인');
+  const pendingApplications = applications.filter(app => app.decisionStatus === '승인대기중');
+
+  // 모집 상태 업데이트를 위한 함수
+  const updateRecruitmentStatus = async () => {
+    try {
+      const response = await axios.put(`http://localhost:8081/honeypot/modify/${detailHoneypot.honeypotCode}`, {
+        honeypotTitle: detailHoneypot.honeypotTitle,
+        honeypotContent: detailHoneypot.honeypotContent,
+        eventDate: detailHoneypot.eventDate,
+        endDate: detailHoneypot.endDate,
+        totalMember: detailHoneypot.totalMember,
+        closureStatus: '모집완료'
+      });
+
+      console.log('모집 상태 업데이트 완료:', response.data);
+      // 모집 상태 업데이트 후 모집상태 재 조회
+      ApplicationApi(detailHoneypot.honeypotCode, setApplications);
+
+    } catch (error) {
+      console.error('모집 상태 업데이트 실패:', error);
+    }
+  };
+
+  // 모집 인원 초과 여부 체크 및 상태 업데이트
+  useEffect(() => {
+    if (
+      approvedApplications.length + 1 >= detailHoneypot.totalMember &&
+      detailHoneypot.closureStatus !== '모집완료' &&
+      detailHoneypot.closureStatus === '모집중'
+    ) {
+      updateRecruitmentStatus();
+      HoneypotDetailApi();
+    }
+  }, [approvedApplications.length, detailHoneypot]);
+
   // 승인 미승인 수정
   const handleApproval = async (applicationCode, decisionStatus) => {
-    
-    if(approvedApplications.length + 1 === detailHoneypot.totalMember) {
-      alert('모집인원이 다 찼습니다.');
-      return
-    }
-
     try {
       const response = await axios.put(`http://localhost:8081/honeypot/application/${detailHoneypot.honeypotCode}/${applicationCode}`, {
         decisionStatus
       });
       console.log("승인/미승인 업데이트:", response.data);
-      ApplicationApi(detailHoneypot.honeypotCode, setApplications); // 업데이트 후 다시 조회
+      
+      // 업데이트 후 승인된 신청자 수 다시 조회
+      ApplicationApi(detailHoneypot.honeypotCode, setApplications);
+
+      // 승인된 신청자 수와 모집 인원 비교 후 상태 업데이트
+      if (
+        approvedApplications.length + 1 >= detailHoneypot.totalMember &&
+        detailHoneypot.closureStatus !== '모집완료' &&
+        detailHoneypot.closureStatus === '모집중'
+      ) {
+        updateRecruitmentStatus();
+      }
+
     } catch (error) {
       console.error('승인/미승인 업데이트 실패:', error);
     }
   };
 
-  // 승인 여부 필터링
-  const approvedApplications = applications.filter(app => app.decisionStatus === '승인');
-  const pendingApplications = applications.filter(app => app.decisionStatus === '승인대기중');
-
   console.log('승인대기자: ', pendingApplications);
-
-  
 
   return (
     <div className='honeypot-detail-container'>

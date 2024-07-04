@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import "./HoneypotList.css";
+import { useState, useEffect } from 'react';
+import ApplicationApi from "../../apis/honeypot/ApplicationApi";
 
-function HoneypotList( {currentPage, setCurrentPage, pageGroup, setPageGroup, honeypots, user} ) {
+function HoneypotList({ currentPage, setCurrentPage, pageGroup, setPageGroup, honeypots, user }) {
   
   const honeypotsPerPage = 10;
 
@@ -58,10 +60,35 @@ function HoneypotList( {currentPage, setCurrentPage, pageGroup, setPageGroup, ho
 
   const navigate = useNavigate();
 
+  const [applications, setApplications] = useState({}); // 참가신청자 수
+
+  // useEffect(() => {
+  //   // honeypot 코드를 기반으로 API 호출
+  //   const fetchApplications = async (honeypotCode) => {
+  //     try {
+  //       const response = await ApplicationApi(honeypotCode ,setApplications); // ApplicationApi는 특정 허니팟 코드에 대한 참가신청 정보를 가져오는 함수여야 함
+  //       if (response && response.data) {
+  //         setApplications(prevState => ({
+  //           ...prevState,
+  //           [honeypotCode]: response.data
+  //         }));
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching applications:', error);
+  //     }
+  //   };
+
+  //   // currentHoneypots를 순회하며 각 허니팟 코드에 대한 API 호출
+  //   currentHoneypots.forEach((honeypot) => {
+  //     fetchApplications(honeypot.honeypotCode);
+  //   });
+  // }, [applications.length]); // currentHoneypots가 변경될 때마다 API 호출
+
   return (
     <div className="honeypot-list-container">
       {currentHoneypots.map((honeypot, index) => (
-        <div key={index} className="one-honeypot-index" onClick={() => navigate(`/honeypot/detail/${honeypot.honeypotCode}`)}>
+        <div key={index} className="one-honeypot-index"
+         onClick={ () => {navigate(`/honeypot/detail/${honeypot.honeypotCode}`)}}>
           <div className="honeypot-index-poster">
             <img src={honeypot.poster} alt="포스터이미지" />
             <hr className="honeypot-dashed" />
@@ -77,7 +104,7 @@ function HoneypotList( {currentPage, setCurrentPage, pageGroup, setPageGroup, ho
               <div>일정</div>
               <p className="honeypot-date">{honeypot.eventDate}</p>
               <p className="total-member">
-                참여인원 1 / {honeypot.totalMember}
+                참여인원 {applications[honeypot.honeypotCode] ? applications[honeypot.honeypotCode].length + 1 : 1} / {honeypot.totalMember}
               </p>
             </div>
             <p className="end-date">{honeypot.endDate} 까지 모집해요</p>
@@ -112,4 +139,5 @@ function HoneypotList( {currentPage, setCurrentPage, pageGroup, setPageGroup, ho
     </div>
   );
 }
+
 export default HoneypotList;

@@ -28,7 +28,6 @@ function HoneypotPage({user}) {
                 console.error('Error 입니다 : ', error);
             }
         }
-
         fetchHoneypots();
     }, []);
 
