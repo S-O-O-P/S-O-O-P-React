@@ -1,6 +1,7 @@
 import axios from "axios";
 
-export default function CommentApi( {setComments}, detailHoneypot ) {
+// 댓글 호출 API
+export default function CommentApi({setComments}, detailHoneypot) {
     
     const fetchComments = async () => {
         try {

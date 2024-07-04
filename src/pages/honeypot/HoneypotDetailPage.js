@@ -50,7 +50,7 @@ function HoneypotDetailPage({ cultureList, user }) {
     }
 
     fetchHoneypots();
-  }, [honeypotCode]);
+  }, [honeypotCode], console.log("디테일 페이지 정보 : ", detailHoneypot));
 
   const modifyClick = () => {
     navigate(`/honeypot/modify/${honeypotCode}`, {
@@ -98,6 +98,7 @@ function HoneypotDetailPage({ cultureList, user }) {
             title={title}
             convertDateFormat={convertDateFormat}
             navigate={navigate}
+            user={user}
           />
         )}
         <div className='ticket-info-container'>

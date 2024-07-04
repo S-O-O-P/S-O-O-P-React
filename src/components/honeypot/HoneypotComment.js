@@ -4,6 +4,8 @@ import './HoneypotComment.css';
 import CommentApi from '../../apis/honeypot/CommentApi';
 
 function HoneypotComment({ detailHoneypot, user }) {
+
+    console.log('댓글 작성자:', user.nickname);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState({
         honeypotCode: detailHoneypot.honeypotCode,
@@ -51,7 +53,7 @@ function HoneypotComment({ detailHoneypot, user }) {
                 const response = await axios.post('http://localhost:8081/honeypot/comment', {
                     honeypotCode: newComment.honeypotCode,
                     writerInfo: {
-                        userCode: newComment.writerInfo.userCode
+                        userCode: user.userCode
                     },
                     content: newComment.content,
                     writingTime: currentTime,
