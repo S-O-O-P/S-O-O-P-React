@@ -3,7 +3,7 @@ import HoneypotDetailApi from '../../apis/honeypot/HoneypotDetailApi';
 import { useState, useEffect } from "react";
 import axios from 'axios';
 
-export default function HostDetailPage({ detailHoneypot, filteredCultureList, title, convertDateFormat, navigate, modifyClick }) {
+export default function HostDetailPage({ user, honeypotCode, detailHoneypot, allCultureList, setDetailHoneypot, setFilteredCultureList, filteredCultureList, title, convertDateFormat, navigate, modifyClick, isLoading, setIsLoading }) {
 
   const [applications, setApplications] = useState([]); // 참가신청자
   const [approvalModal, setApprovalModal] = useState(false); // 승인/미승인 결정 모달
@@ -40,6 +40,7 @@ export default function HostDetailPage({ detailHoneypot, filteredCultureList, ti
     }
   };
 
+
   // 모집 인원 초과 여부 체크 및 상태 업데이트
   useEffect(() => {
     if (
@@ -48,7 +49,8 @@ export default function HostDetailPage({ detailHoneypot, filteredCultureList, ti
       detailHoneypot.closureStatus === '모집중'
     ) {
       updateRecruitmentStatus();
-      HoneypotDetailApi();
+      HoneypotDetailApi({allCultureList, setDetailHoneypot, setFilteredCultureList, honeypotCode, user , setIsLoading})
+
     }
   }, [approvedApplications.length, detailHoneypot]);
 

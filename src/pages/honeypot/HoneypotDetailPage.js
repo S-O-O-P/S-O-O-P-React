@@ -51,6 +51,27 @@ function HoneypotDetailPage({ cultureList, user }) {
     });
   };
 
+  const handleDeleteHoneypot = async () => {
+    try {
+      // 참가 신청자가 있는지 확인
+      if (applications.length > 0) {
+        alert('참가 신청자가 있어 허니팟을 삭제할 수 없습니다.');
+        return;
+      }
+
+      // 삭제 API 호출
+      // await axios.delete(`http://localhost:8081/honeypot/${detailHoneypot.honeypotCode}`);
+      alert('허니팟이 성공적으로 삭제되었습니다.');
+
+      // 삭제 후 리다이렉트 또는 다른 작업 수행
+      navigate('/honeypot');
+
+    } catch (error) {
+      console.error('허니팟 삭제 실패:', error);
+      alert('허니팟 삭제에 실패했습니다. 다시 시도해주세요.');
+    }
+  };
+
   if (isLoading) {
     return <LoadingSpinner />; // 로딩 중일 때 보여줄 UI
   }
@@ -83,6 +104,13 @@ function HoneypotDetailPage({ cultureList, user }) {
             convertDateFormat={convertDateFormat}
             navigate={navigate}
             modifyClick={modifyClick}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            allCultureList={allCultureList}
+            setDetailHoneypot={setDetailHoneypot}
+            setFilteredCultureList={setFilteredCultureList}
+            honeypotCode={honeypotCode}
+            user={user}
           />
         ) : (
           <UserDetailPage
@@ -113,7 +141,16 @@ function HoneypotDetailPage({ cultureList, user }) {
           </div>
         </div>
         <hr className='honeypot-detail-hr'/>
-        <RecommendHoneypot interestName={detailHoneypot.interestCategory.interestName} allCultureList={allCultureList}/>
+        <RecommendHoneypot interestName={detailHoneypot.interestCategory.interestName} allCultureList={allCultureList} honeypotCode={honeypotCode}/>
+        <div className='comment-top'>
+                <p>댓글</p>
+                {detailHoneypot.hostInfo.userCode === user.userCode && (
+                <div className='honeypot-delete' onClick={handleDeleteHoneypot}>
+                    <img src={`${process.env.PUBLIC_URL}/images/commons/icon_delete_main_color.png`} alt="delete icon"/>
+                    <p>삭제</p>
+                </div>
+                )}
+            </div>
         <HoneypotComment detailHoneypot={detailHoneypot} user={user}/>
       </div>
     </div>

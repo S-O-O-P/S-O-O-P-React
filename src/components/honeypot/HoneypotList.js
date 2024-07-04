@@ -60,30 +60,6 @@ function HoneypotList({ currentPage, setCurrentPage, pageGroup, setPageGroup, ho
 
   const navigate = useNavigate();
 
-  const [applications, setApplications] = useState({}); // 참가신청자 수
-
-  // useEffect(() => {
-  //   // honeypot 코드를 기반으로 API 호출
-  //   const fetchApplications = async (honeypotCode) => {
-  //     try {
-  //       const response = await ApplicationApi(honeypotCode ,setApplications); // ApplicationApi는 특정 허니팟 코드에 대한 참가신청 정보를 가져오는 함수여야 함
-  //       if (response && response.data) {
-  //         setApplications(prevState => ({
-  //           ...prevState,
-  //           [honeypotCode]: response.data
-  //         }));
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching applications:', error);
-  //     }
-  //   };
-
-  //   // currentHoneypots를 순회하며 각 허니팟 코드에 대한 API 호출
-  //   currentHoneypots.forEach((honeypot) => {
-  //     fetchApplications(honeypot.honeypotCode);
-  //   });
-  // }, [applications.length]); // currentHoneypots가 변경될 때마다 API 호출
-
   return (
     <div className="honeypot-list-container">
       {currentHoneypots.map((honeypot, index) => (
@@ -96,7 +72,7 @@ function HoneypotList({ currentPage, setCurrentPage, pageGroup, setPageGroup, ho
           <div className="honeypot-index-info">
             <div className="top-info">
               <div className="region-info">{honeypot.region}</div>
-              <div className="category-info">{honeypot.interestCategory.interestName}</div>
+              <div className="category-info">{honeypot.interestName}</div>
               <div className="honeypot-status">{honeypot.closureStatus}</div>
             </div>
             <p className="honeypot-title">{honeypot.honeypotTitle}</p>
@@ -104,7 +80,7 @@ function HoneypotList({ currentPage, setCurrentPage, pageGroup, setPageGroup, ho
               <div>일정</div>
               <p className="honeypot-date">{honeypot.eventDate}</p>
               <p className="total-member">
-                참여인원 {applications[honeypot.honeypotCode] ? applications[honeypot.honeypotCode].length + 1 : 1} / {honeypot.totalMember}
+                참여인원 {honeypot.approvedCount + 1} / {honeypot.totalMember}
               </p>
             </div>
             <p className="end-date">{honeypot.endDate} 까지 모집해요</p>

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './RecommendHoneypot.css';
 import HoneypotListApi from '../../apis/honeypot/HoneypotListApi';
 
-function RecommendHoneypot( {interestName, allCultureList}) {
+function RecommendHoneypot( {interestName, allCultureList, honeypotCode}) {
     const [honeypots, setHoneypots] = useState([]);
     const [filteredHoneypots, setFilteredHoneypots] = useState([]);
 
@@ -32,9 +32,11 @@ function RecommendHoneypot( {interestName, allCultureList}) {
         setIsDragging(false);
     };
 
-    const filteredHoneypotData = honeypots.filter(honeypot => honeypot.interestCategory.interestName === interestName);
+    const filteredHoneypotData = honeypots.filter(honeypot => honeypot.interestCategory.interestName === interestName && honeypot.honeypotCode != honeypotCode
+    );
 
-
+    console.log(filteredHoneypotData);
+    
     return (
         <div className='recommend-container'>
             <div className='recommend-title'>추천 허니팟</div>

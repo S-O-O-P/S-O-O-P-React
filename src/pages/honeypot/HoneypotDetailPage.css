@@ -410,3 +410,24 @@
 .approval-modal-close:hover {
     background: #EB844A;
 }
+
+.comment-top {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.comment-top p {
+    margin-right: auto;
+    font-size: 14px;
+    font-weight: var(--semiBold);
+}
+
+.honeypot-delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+}

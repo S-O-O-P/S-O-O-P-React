@@ -140,13 +140,7 @@ function HoneypotComment({ detailHoneypot, user }) {
 
     return (
         <div className="detail-comment-container">
-            <div className='comment-top'>
-                <p>댓글</p>
-                <div className='honeypot-delete'>
-                    <img src={`${process.env.PUBLIC_URL}/images/commons/icon_delete_main_color.png`} alt="delete icon"/>
-                    <p>삭제</p>
-                </div>
-            </div>
+            
             <div className='comment-main'>
                 { comments.map((comment) => (
                     <div className='one-comment-index' key={comment.commentCode}>
@@ -181,9 +175,13 @@ function HoneypotComment({ detailHoneypot, user }) {
                                 </div>
                             ) : (
                                 <div className='modify-delete'>
-                                    <button onClick={() => startEditingComment(comment)}>수정</button>
-                                    <p>|</p>
-                                    <button onClick={() => deleteComment(comment.commentCode)}>삭제</button>
+                                    {comment.writerInfo.userCode === user.userCode && (
+                                        <>
+                                            <button onClick={() => startEditingComment(comment)}>수정</button>
+                                            <p>|</p>
+                                            <button onClick={() => deleteComment(comment.commentCode)}>삭제</button>
+                                        </>
+                                    )}
                                 </div>
                             )}
                     </div>

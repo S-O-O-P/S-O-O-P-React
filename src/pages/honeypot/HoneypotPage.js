@@ -19,17 +19,18 @@ function HoneypotPage({user}) {
     useEffect(() => {
         async function fetchHoneypots() {
             try {
-                const response = await axios.get('http://localhost:8081/honeypot/list');
-                setHoneypots(response.data.results.honeypots);
-                setFilteredHoneypots(response.data.results.honeypots); // 초기 필터링 설정
-                console.log('메인페이지:',honeypots);
-                console.log('로그인한 유저(허니팟메인페이지): ', user);
+                const response = await axios.get('http://localhost:8081/honeypot/listandapproved');
+                console.log('백에서 받아온 결과물 : ', response.data);
+                setHoneypots(response.data);
+                setFilteredHoneypots(response.data); // 초기 필터링 설정
             } catch (error) {
                 console.error('Error 입니다 : ', error);
             }
         }
         fetchHoneypots();
     }, []);
+
+    console.log(honeypots.interestName)
 
     // 카테고리 버튼 클릭 처리 함수
     const onClickCategory = (interestCode) => {
@@ -45,7 +46,7 @@ function HoneypotPage({user}) {
         } else {
             // 특정 카테고리를 선택한 경우 해당 카테고리로 필터링합니다.
             categoryFilteredData = honeypots.filter(honeypot =>
-                honeypot.interestCategory.interestName === interestCode &&
+                honeypot.interestName === interestCode &&
                 (selectRegion === '전체' || honeypot.region === selectRegion) &&
                 honeypot.honeypotTitle.toLowerCase().includes(searchWord.toLowerCase())
             );
@@ -113,7 +114,7 @@ function HoneypotPage({user}) {
                 sortedData.sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate));
                 break;
             case '카테고리별':
-                sortedData.sort((a, b) => a.interestCategory.interestName.localeCompare(b.interestCategory.interestName));
+                sortedData.sort((a, b) => a.interestName.localeCompare(b.interestName));
                 break;
             default:
                 break;
@@ -123,11 +124,11 @@ function HoneypotPage({user}) {
 
     const count = {
         전체: honeypots.length,
-        팝업: honeypots.filter(item => item.interestCategory.interestName === '팝업').length,
-        공연: honeypots.filter(item => item.interestCategory.interestName === '공연').length,
-        행사축제: honeypots.filter(item => item.interestCategory.interestName === '행사/축제').length,
-        전시회: honeypots.filter(item => item.interestCategory.interestName === '전시회').length,
-        뮤지컬: honeypots.filter(item => item.interestCategory.interestName === '뮤지컬').length,
+        팝업: honeypots.filter(item => item.interestName === '팝업').length,
+        공연: honeypots.filter(item => item.interestName === '공연').length,
+        행사축제: honeypots.filter(item => item.interestName === '행사/축제').length,
+        전시회: honeypots.filter(item => item.interestName === '전시회').length,
+        뮤지컬: honeypots.filter(item => item.interestName === '뮤지컬').length,
     };
 
     const uniqueRegions = [...new Set(honeypots.map(honeypot => honeypot.region))];
