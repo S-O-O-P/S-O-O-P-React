@@ -3,11 +3,7 @@ import "./HoneypotList.css";
 import { useState, useEffect } from 'react';
 import ApplicationApi from "../../apis/honeypot/ApplicationApi";
 
-<<<<<<< HEAD
 function HoneypotList({ currentPage, setCurrentPage, pageGroup, setPageGroup, honeypots, user }) {
-=======
-function HoneypotList( {currentPage, setCurrentPage, pageGroup, setPageGroup, honeypots} ) {
->>>>>>> develop
   
   const honeypotsPerPage = 10;
 
@@ -63,8 +59,6 @@ function HoneypotList( {currentPage, setCurrentPage, pageGroup, setPageGroup, ho
   };
 
   const navigate = useNavigate();
-
-  
 
   return (
     <div className="honeypot-list-container">

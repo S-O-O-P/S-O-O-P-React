@@ -13,7 +13,7 @@
     overflow-y: auto; /* 내용이 넘칠 경우 스크롤 생성 */
 }
 
-.honeypto-regist-container {
+.honeypot-regist-container {
     width: 1200px;
     min-height: 400px;
     height: 100%;
@@ -415,5 +415,3 @@ font-size: 16px;
     align-items: center;
     font-size: 40px;
 }
-
-

@@ -1,59 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './HoneypotComment.css';
+import CommentApi from '../../apis/honeypot/CommentApi';
 
-<<<<<<< HEAD
 function HoneypotComment({ detailHoneypot, user }) {
 
     console.log('댓글 작성자:', user.nickname);
     const [comments, setComments] = useState([]);
-=======
-function HoneypotComment() {
-    const [comments, setComments] = useState([
-        {
-            id: 1,
-            profilepic: `${process.env.PUBLIC_URL}/images/honeypot/jeonsomin.PNG`,
-            nickname: '전소민',
-            comment: '시간은 언제로 생각하고 계시나요?',
-            regdate: '2024.06.27 10:59',
-            editdate: ''
-        },
-        {
-            id: 2,
-            profilepic: `${process.env.PUBLIC_URL}/images/honeypot/neogoolman.jpg`,
-            nickname: '너굴너굴너굴맨',
-            comment: '너굴너굴 너어어굴??',
-            regdate: '2024.06.27 12:33',
-            editdate: ''
-        },
-    ]);
-
->>>>>>> develop
     const [newComment, setNewComment] = useState({
-        profilepic: `${process.env.PUBLIC_URL}/images/honeypot/jeonsomin.PNG`,
-        nickname: '전소민',
-        comment: '',
-        regdate: ''
+        honeypotCode: detailHoneypot.honeypotCode,
+        content: '',
+        writerInfo: {
+            userCode: user.userCode
+        }, 
+        writingTime: '',
+        updateTime: null
+    });
+    const [editedComment, setEditedComment] = useState({
+        commentCode: detailHoneypot.commentCode,
+        content: '',
+        userCode: '',
+        writingTime: '',
+        updateTime: ''
     });
 
-    const [editedComment, setEditedComment] = useState({
-        id: null,
-        comment: '',
-        profilepic: '',
-        nickname: '',
-        regdate: '',
-        editdate: ''
-    });
+    useEffect(() => {
+        CommentApi({ setComments }, detailHoneypot);
+    }, [detailHoneypot.honeypotCode], comments);
+
+    const getKoreanTime = () => {
+        const date = new Date();
+        const utcOffset = date.getTimezoneOffset() * 60000; // 분을 밀리초로 변환
+        const kstOffset = 9 * 60 * 60000; // 9시간을 밀리초로 변환
+        const kstTime = new Date(date.getTime() + utcOffset + kstOffset);
+        return kstTime.toISOString(); // ISO 8601 형식으로 반환
+    };
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setNewComment({
             ...newComment,
             [name]: value,
-            regdate: getCurrentDateTime() // 댓글 작성 시 현재 시간으로 설정
+            writingTime: getKoreanTime()
         });
     };
 
-<<<<<<< HEAD
     const addComment = async () => {
         if (newComment.content.trim() !== '') {
             try {
@@ -73,99 +64,116 @@ function HoneypotComment() {
                 setComments([...comments, newCommentData]);
     
                 setNewComment({
-=======
-    const getCurrentDateTime = () => {
-        const now = new Date();
-        const year = now.getFullYear();
-        let month = now.getMonth() + 1;
-        let day = now.getDate();
-        let hour = now.getHours();
-        let minute = now.getMinutes();
-
-        if (month < 10) month = '0' + month;
-        if (day < 10) day = '0' + day;
-        if (hour < 10) hour = '0' + hour;
-        if (minute < 10) minute = '0' + minute;
-
-        return `${year}.${month}.${day} ${hour}:${minute}`;
-    };
-
-    const addComment = () => {
-        if (newComment.comment.trim() !== '') {
-            setComments([
-                ...comments,
-                {
-                    id: comments.length + 1,
->>>>>>> develop
                     ...newComment,
-                    editdate: ''
-                }
-            ]);
-            setNewComment({
-                ...newComment,
-                comment: ''
-            });
+                    content: ''
+                });
+
+                CommentApi({ setComments }, detailHoneypot);
+            
+            } catch (error) {
+                console.error('Failed to add comment:', error);
+            }
         }
     };
 
-    const deleteComment = (id) => {
-        const updatedComments = comments.filter(comment => comment.id !== id);
-        setComments(updatedComments);
+    const deleteComment = async (commentCode) => {
+        try {
+            await axios.delete(`http://localhost:8081/honeypot/comment/${commentCode}`);
+            const updatedComments = comments.filter(comment => comment.commentCode !== commentCode);
+            setComments(updatedComments);
+        } catch (error) {
+            console.error('댓글 삭제 실패:', error);
+        }
     };
 
-    const editComment = () => {
-        const updatedComments = comments.map(comment =>
-            comment.id === editedComment.id ? { ...comment, comment: editedComment.comment, editdate: getCurrentDateTime() } : comment
-        );
-        setComments(updatedComments);
+    const startEditingComment = (comment) => {
+        setEditedComment(comment);
+    };
+
+    const handleEditCommentChange = (event) => {
+        const { value } = event.target;
         setEditedComment({
-            id: null,
-            comment: '',
-            profilepic: '',
-            nickname: '',
-            regdate: '',
-            editdate: ''
+            ...editedComment,
+            content: value,
+            updateTime: getKoreanTime() // 수정 시간 설정
         });
+    };
+
+    const saveEditedComment = async () => {
+        try {
+            const currentTime = getKoreanTime();
+
+            const response = await axios.put(`http://localhost:8081/honeypot/comment/${editedComment.commentCode}`, {
+                commentCode: editedComment.commentCode,
+                honeypotCode: editedComment.honeypotCode,
+                userCode: editedComment.userCode,
+                content: editedComment.content,
+                updateTime: currentTime
+            });
+    
+            const updatedComment = response.data.results.comment;
+    
+            const updatedComments = comments.map(comment =>
+                comment.commentCode === updatedComment.commentCode
+                    ? { ...comment, content: updatedComment.content, updateTime: updatedComment.updateTime }
+                    : comment
+            );
+    
+            setComments(updatedComments);
+            setEditedComment({
+                commentCode: null,
+                content: '',
+                userCode: '',
+                writingTime: '',
+                updateTime: ''
+            });
+
+        } catch (error) {
+            console.error('댓글 수정 실패:', error);
+        }
+    };
+
+    const formatKoreanTime = (isoString) => {
+        const date = new Date(isoString);
+        return date.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
     };
 
     return (
         <div className="detail-comment-container">
-<<<<<<< HEAD
             
-=======
-            <div className='comment-top'>
-                <p>댓글</p>
-                <div className='honeypot-delete'>
-                    <img src={`${process.env.PUBLIC_URL}/images/commons/icon_delete_main_color.png`}/>
-                    <p>삭제</p>
-                </div>
-            </div>
->>>>>>> develop
             <div className='comment-main'>
-                {comments.map((comment) => (
-                    <div className='one-comment-index' key={comment.id}>
-                        <img src={comment.profilepic} alt="프로필"/>
+                { comments.map((comment) => (
+                    <div className='one-comment-index' key={comment.commentCode}>
+                        <img src={comment.writerInfo?.profilePic || `${process.env.PUBLIC_URL}/images/commons/icon_mypage_colored.png`} alt="프로필"/>
                         <div>
-                            <p className='comment-nickname'>{comment.nickname}</p>
-                            {editedComment.id === comment.id ? (
+                            <p className='comment-nickname'>{comment.writerInfo?.nickname || '사용자 닉네임'}</p>
+                            {editedComment.commentCode === comment.commentCode ? (
                                 <textarea
                                     className='edit-textarea'
-                                    value={editedComment.comment}
-                                    onChange={(e) => setEditedComment({ ...editedComment, comment: e.target.value })}
+                                    value={editedComment.content}
+                                    onChange={handleEditCommentChange}
                                 />
                             ) : (
-                                <p className='comment-content'>{comment.comment}</p>
+                                <p className='comment-content'>{comment.content}</p>
                             )}
                             <div className='date-wrapper'>
-                                <p className='comment-regdate'>등록일: {comment.regdate}</p>
-                                {comment.editdate && <p className='comment-editdate'>수정일: {comment.editdate}</p>}
+                                <p className='comment-regdate'>등록일: {formatKoreanTime(comment.writingTime)}</p>
+                                {comment.updateTime && <p className='comment-editdate'>수정일: {formatKoreanTime(comment.updateTime)}</p>}
                             </div>
                         </div>
-                        <div className='modify-delete'>
-                            {editedComment.id === comment.id ? (
-                                <button onClick={editComment}>저장</button>
+                            {editedComment.commentCode === comment.commentCode ? (
+                                <div className='modify-delete'>
+                                    <button onClick={saveEditedComment}>저장</button>
+                                    <p>|</p>
+                                    <button onClick={() => setEditedComment({
+                                        commentCode: null,
+                                        content: '',
+                                        userCode: '',
+                                        writingTime: '',
+                                        updateTime: ''
+                                    })}>취소</button>
+                                </div>
                             ) : (
-<<<<<<< HEAD
                                 <div className='modify-delete'>
                                     {comment.writerInfo.userCode === user.userCode && (
                                         <>
@@ -175,26 +183,20 @@ function HoneypotComment() {
                                         </>
                                     )}
                                 </div>
-=======
-                                <button onClick={() => setEditedComment(comment)}>수정</button>
->>>>>>> develop
                             )}
-                            <p>|</p>
-                            <button onClick={() => deleteComment(comment.id)}>삭제</button>
-                        </div>
                     </div>
                 ))}
                 <div className='comment-write'>
-                    <p>{newComment.nickname}</p>
+                    <p>{user.nickname}</p>
                     <textarea
                         className='write-textarea'
-                        name='comment'
-                        value={newComment.comment}
+                        name='content'
+                        value={newComment.content}
                         onChange={handleInputChange}
                         placeholder='댓글을 남겨보세요.'
                     />
                     <div className='comment-write-bottom'>
-                        <p>0 / 500</p>
+                        <p>{newComment.content.length} / 500</p>
                         <button onClick={addComment}>등록</button>
                     </div>
                 </div>
