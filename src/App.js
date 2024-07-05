@@ -23,7 +23,7 @@ import PublicRoute from './components/PublicRoute';
 import ExpiredToken from './apis/ExpiredToken';
 import RegistHoneypotPage from './pages/honeypot/RegistHoneypotPage';
 import HoneypotDetailPage from './pages/honeypot/HoneypotDetailPage';
-
+import ModifyHoneypotPage from './pages/honeypot/ModifyHoneypotPage';
 
 
 export default function App() {
