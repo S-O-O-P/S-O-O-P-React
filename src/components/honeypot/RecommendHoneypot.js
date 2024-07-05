@@ -1,19 +1,20 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './RecommendHoneypot.css';
+<<<<<<< HEAD
 import HoneypotListApi from '../../apis/honeypot/HoneypotListApi';
 
 function RecommendHoneypot( {interestName, allCultureList, honeypotCode}) {
     const [honeypots, setHoneypots] = useState([]);
     const [filteredHoneypots, setFilteredHoneypots] = useState([]);
+=======
+import { honeypotData } from '../../pages/honeypot/DummyData';
+>>>>>>> develop
 
+function RecommendHoneypot() {
     const scrollRef = useRef(null);
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(null);
     const [scrollLeft, setScrollLeft] = useState(0);
-
-    useEffect(() => {
-        HoneypotListApi({setHoneypots}, {setFilteredHoneypots})
-    }, [setHoneypots])
 
     const handleMouseDown = (e) => {
         setIsDragging(true);
@@ -32,11 +33,14 @@ function RecommendHoneypot( {interestName, allCultureList, honeypotCode}) {
         setIsDragging(false);
     };
 
+<<<<<<< HEAD
     const filteredHoneypotData = honeypots.filter(honeypot => honeypot.interestCategory.interestName === interestName && honeypot.honeypotCode != honeypotCode
     );
 
     console.log(filteredHoneypotData);
     
+=======
+>>>>>>> develop
     return (
         <div className='recommend-container'>
             <div className='recommend-title'>추천 허니팟</div>
@@ -48,27 +52,27 @@ function RecommendHoneypot( {interestName, allCultureList, honeypotCode}) {
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseUp}
             >
-                {filteredHoneypotData.map((honeypot, index) => (
+                {honeypotData.map((honeypot, index) => (
                     <div key={index} className="one-recommend-index">
                         <div className="recommend-index-poster">
                             <img
-                                src={filteredHoneypotData[index].poster}
+                                src={`${process.env.PUBLIC_URL}/images/honeypot/poster_test.jpg`}
                                 alt="포스터이미지"
                             />
                         </div>
                         <div className="recommend-index-info">
                             <div className="top-info">
-                                <div className="recommend-region-info">{filteredHoneypotData[index].region}</div>
-                                <div className="recommend-category-info">{filteredHoneypotData[index].interestCategory.interestName}</div>
-                                <div className="recommend-status">{filteredHoneypotData[index].closureStatus}</div>
+                                <div className="recommend-region-info">{honeypot.REGION}</div>
+                                <div className="recommend-category-info">{honeypot.INTEREST_CODE}</div>
+                                <div className="recommend-status">{honeypot.CLOSURE_STATUS}</div>
                             </div>
-                            <p className="recommend-info-title">{filteredHoneypotData[index].honeypotTitle}</p>
+                            <p className="recommend-info-title">{honeypot.HONEYPOT_TITLE}</p>
                             <div className="recommend-schedule">
                                 <div>일정</div>
-                                <p className="honeypot-date">{filteredHoneypotData[index].eventDate}</p>
-                                <p className="total-member"> 참여인원 1 / {filteredHoneypotData[index].totalMember} </p>
+                                <p className="honeypot-date">2024.06.02 (토)</p>
+                                <p className="total-member"> 참여인원 1 / {honeypot.TOTAL_MEMBER} </p>
                             </div>
-                            <p className="end-date">{filteredHoneypotData[index].endDate} 까지 모집해요</p>
+                            <p className="end-date">{honeypot.END_DATE} 까지 모집해요</p>
                         </div>
                     </div>
                 ))}

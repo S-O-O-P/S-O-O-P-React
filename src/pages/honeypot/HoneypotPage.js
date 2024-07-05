@@ -4,8 +4,7 @@ import axios from 'axios';
 import HoneypotList from '../../components/honeypot/HoneypotList';
 import './HoneypotPage.css';
 
-function HoneypotPage({user}) {
-    
+function HoneypotPage() {
     const [honeypots, setHoneypots] = useState([]);
     const [filteredHoneypots, setFilteredHoneypots] = useState([]); // 필터링된 허니팟 데이터
     const [searchWord, setSearchWord] = useState(''); // 검색어
@@ -19,10 +18,17 @@ function HoneypotPage({user}) {
     useEffect(() => {
         async function fetchHoneypots() {
             try {
+<<<<<<< HEAD
                 const response = await axios.get('http://localhost:8081/honeypot/listandapproved');
                 console.log('백에서 받아온 결과물 : ', response.data);
                 setHoneypots(response.data);
                 setFilteredHoneypots(response.data); // 초기 필터링 설정
+=======
+                const response = await axios.get('http://localhost:8081/honeypot/list');
+                setHoneypots(response.data.results.honeypots);
+                setFilteredHoneypots(response.data.results.honeypots); // 초기 필터링 설정
+                console.log(honeypots);
+>>>>>>> develop
             } catch (error) {
                 console.error('Error 입니다 : ', error);
             }
@@ -50,7 +56,7 @@ function HoneypotPage({user}) {
                 (selectRegion === '전체' || honeypot.region === selectRegion) &&
                 honeypot.honeypotTitle.toLowerCase().includes(searchWord.toLowerCase())
             );
-            console.log('관심코드:', interestCode);
+            console.log(interestCode);
         }
     
         setFilteredHoneypots(categoryFilteredData);
@@ -186,7 +192,6 @@ function HoneypotPage({user}) {
                         pageGroup={pageGroup}
                         setPageGroup={setPageGroup}
                         honeypots={filteredHoneypots}
-                        user={user}
                     />
                 </div>
             </div>

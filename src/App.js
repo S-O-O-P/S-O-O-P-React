@@ -23,7 +23,6 @@ import PublicRoute from './components/PublicRoute';
 import ExpiredToken from './apis/ExpiredToken';
 import RegistHoneypotPage from './pages/honeypot/RegistHoneypotPage';
 import HoneypotDetailPage from './pages/honeypot/HoneypotDetailPage';
-import ModifyHoneypotPage from './pages/honeypot/ModifyHoneypotPage';
 
 
 
@@ -60,6 +59,7 @@ export default function App() {
   // PublicRoute  = access 토큰이 있는 상태로 접근 불가 (예를 들면 로그인 페이지, 회원가입 페이지 등등)
   // PrivateRoute = access 토큰이 없는 경우 접근 불가 (예를 들면 회원가입 페이지, 마이페이지, 1:1 문의 등등)
   // 아무것도 없으면 회원, 비회원 구분 없이 접속 가능.
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 
 =======
@@ -95,6 +95,8 @@ export default function App() {
   // 임시 로그인정보 대체(김만호 테스트용)
 
 
+=======
+>>>>>>> develop
   return (
     <>
       <GlobalStyles />
@@ -105,10 +107,11 @@ export default function App() {
             <Route path='/main' element={data ? <Main cultureList={JSON.stringify(data)} /> : <LoadingSpinner />} /> {/* 메인 */}
             <Route index element={data ? <Main cultureList={JSON.stringify(data)} /> : <LoadingSpinner />} /> {/* 메인 */}
             <Route path='/login' element={<PublicRoute restricted={false} element={LoginPage} />} /> {/* 로그인 */}
-            <Route path='/signup' element={<PrivateRoute element={SignUpPage} />} /> {/* 추가 정보 입력 */}
-            <Route path="/cultureinfo" element={data ? <CultureInfo cultureList={JSON.stringify(data)} detailDataList={detailDataList} /> : <LoadingSpinner />} /> {/* 전시/공연 정보 */}
+            <Route path='/signup' element={<SignUpPage/>} /> {/* 추가 정보 입력 */}
+            <Route path="/cultureinfo" element={data ? <CultureInfo cultureList={JSON.stringify(data)} detailDataList={detailDataList}/> : <LoadingSpinner />}/> {/* 전시/공연 정보 */}
             <Route path="/cultureinfo/detail/:seq" element={<CultureDetail detailDataList={detailDataList}/>}/> {/* 전시/공연 상세페이지*/}
             <Route path='/completed' element={<PrivateRoute element={CompletedPage}/>} /> {/* 회원 가입 완료 */}
+<<<<<<< HEAD
             <Route path='/honeypot' element={<HoneypotPage user={loggedInUser}/>}/> {/* 허니팟 페이지 */}
 <<<<<<< Updated upstream
             <Route path='/honeypot/regist' element={data ? <RegistHoneypotPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <div>Loading...</div>}/> {/* 허니팟 등록 페이지 */}
@@ -117,6 +120,11 @@ export default function App() {
 >>>>>>> Stashed changes
             <Route path='/honeypot/detail/:honeypotCode' element={data ? <HoneypotDetailPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 상세 페이지 */}
             <Route path='/honeypot/modify/:honeypotCode' element={data ? <ModifyHoneypotPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 수정 페이지 */}
+=======
+            <Route path='/honeypot' element={<HoneypotPage/>}/> {/* 허니팟 페이지 */}
+            <Route path='/honeypot/regist' element={data ? <RegistHoneypotPage cultureList={JSON.stringify(data)}/> : <div>Loading...</div>}/> {/* 허니팟 등록 페이지 */}
+            <Route path='/honeypot/detail/:honeypotCode' element={data ? <HoneypotDetailPage cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 상세 페이지 */}
+>>>>>>> develop
             <Route path='/mypage' element={<MyPage/>}/> {/* 마이 페이지 */}
             <Route path='/help' element={<Cs />} /> {/* 고객 센터 */}
             <Route path='/faq' element={<Faq />} /> {/* 자주 찾는 질문 */}
