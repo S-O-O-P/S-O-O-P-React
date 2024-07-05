@@ -89,7 +89,7 @@ function RegistHoneypotPage({ cultureList }) {
 
     return (
         <div className='honeypot-regist-main-content'>
-            <div className='honeypot-regist-container'>
+            <div className='honeypto-regist-container'>
                 <div className="honeypotpage-title">
                     <p>허니팟 등록</p>
                 </div>

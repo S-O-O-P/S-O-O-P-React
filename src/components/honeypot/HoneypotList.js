@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "./HoneypotList.css";
 
-function HoneypotList( {currentPage, setCurrentPage, pageGroup, setPageGroup, honeypots, user} ) {
+function HoneypotList( {currentPage, setCurrentPage, pageGroup, setPageGroup, honeypots} ) {
   
   const honeypotsPerPage = 10;
 
@@ -57,6 +57,8 @@ function HoneypotList( {currentPage, setCurrentPage, pageGroup, setPageGroup, ho
   };
 
   const navigate = useNavigate();
+
+  
 
   return (
     <div className="honeypot-list-container">
