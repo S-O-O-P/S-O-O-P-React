@@ -8,7 +8,7 @@ function Completed() {
         <div className="App">
         <main>
             <div className="login-container">
-            <div className='logo-content'>
+            <div className='logo-content2'>
             <img className='chack' src='images/commons/icon_confirm.png'/>
             </div>
                 
