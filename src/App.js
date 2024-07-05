@@ -70,7 +70,7 @@ export default function App() {
             <Route path='/main' element={data ? <Main cultureList={JSON.stringify(data)} /> : <LoadingSpinner />} /> {/* 메인 */}
             <Route index element={data ? <Main cultureList={JSON.stringify(data)} /> : <LoadingSpinner />} /> {/* 메인 */}
             <Route path='/login' element={<PublicRoute restricted={false} element={LoginPage} />} /> {/* 로그인 */}
-            <Route path='/signup' element={<PrivateRoute element={SignUpPage}/>} /> {/* 추가 정보 입력 */}
+            <Route path='/signup' element={<SignUpPage/>} /> {/* 추가 정보 입력 */}
             <Route path="/cultureinfo" element={data ? <CultureInfo cultureList={JSON.stringify(data)} detailDataList={detailDataList}/> : <LoadingSpinner />}/> {/* 전시/공연 정보 */}
             <Route path="/cultureinfo/detail/:seq" element={<CultureDetail detailDataList={detailDataList}/>}/> {/* 전시/공연 상세페이지*/}
             <Route path='/completed' element={<PrivateRoute element={CompletedPage}/>} /> {/* 회원 가입 완료 */}
