@@ -29,7 +29,6 @@
     width: 800px;
     height: 300px;
     object-fit: cover;
-    object-position: top;
 }
 
 .host-profile-wrapper {
@@ -171,12 +170,11 @@
     margin-top: 40px;
     display: flex;
     justify-content: center;
-    cursor: pointer;
 }
 
 .poster-wrapper {
-    width: calc(245px * 0.7);
-    height: calc(260px * 0.7);
+    width: 245px;
+    height: 260px;
     border-radius: 20px;
     background: var(--main-color);
     padding: 15px;
@@ -187,7 +185,6 @@
     height: 100%;
     border-radius: 12px;
     object-fit: cover;
-    object-position: top;
 }
 
 .poster-cutting_line {
@@ -200,23 +197,20 @@
 }
 .poster-cutting_line li {
     width: 10px;
-    height: calc(100% / 6 - 15px);
+    height: calc(100% / 8 - 17px);
     background-color: white;
-    border-radius:5px;
+    border-radius:10px;
     margin-top: 5px;
     margin-bottom: 5px;
 }
 
 .ticket-info {
     width: 310px;
-    height: calc(260px * 0.7);
+    height: 260px;
     border: 1px solid var(--main-color);
     border-radius: 20px;
     background: white;
-    padding: 20px 20px 20px 25px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    padding: 20px 0 0 30px;
 }
 
 .ticket-info p {

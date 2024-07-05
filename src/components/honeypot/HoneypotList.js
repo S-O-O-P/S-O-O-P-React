@@ -1,20 +1,20 @@
-import { useNavigate } from "react-router-dom";
 import "./HoneypotList.css";
+import { useState } from "react";
 
-function HoneypotList( {currentPage, setCurrentPage, pageGroup, setPageGroup, honeypots} ) {
+function HoneypotList( {honeypotData, currentPage, setCurrentPage, pageGroup, setPageGroup} ) {
   
   const honeypotsPerPage = 10;
 
   // 현재 페이지에 맞는 데이터 필터링
   const indexOfLastHoneypot = currentPage * honeypotsPerPage;
   const indexOfFirstHoneypot = indexOfLastHoneypot - honeypotsPerPage;
-  const currentHoneypots = honeypots.slice(
+  const currentHoneypots = honeypotData.slice(
     indexOfFirstHoneypot,
     indexOfLastHoneypot
   );
 
   // 총 페이지 수 계산
-  const totalPages = Math.ceil(honeypots.length / honeypotsPerPage);
+  const totalPages = Math.ceil(honeypotData.length / honeypotsPerPage);
   const maxPageButtons = 5;
   const totalGroups = Math.ceil(totalPages / maxPageButtons);
 
@@ -56,33 +56,34 @@ function HoneypotList( {currentPage, setCurrentPage, pageGroup, setPageGroup, ho
     }
   };
 
-  const navigate = useNavigate();
-
   
 
   return (
     <div className="honeypot-list-container">
       {currentHoneypots.map((honeypot, index) => (
-        <div key={index} className="one-honeypot-index" onClick={() => navigate(`/honeypot/detail/${honeypot.honeypotCode}`)}>
+        <div key={index} className="one-honeypot-index">
           <div className="honeypot-index-poster">
-            <img src={honeypot.poster} alt="포스터이미지" />
+            <img
+              src={`${process.env.PUBLIC_URL}/images/honeypot/poster_test.jpg`}
+              alt="포스터이미지"
+            />
             <hr className="honeypot-dashed" />
           </div>
           <div className="honeypot-index-info">
             <div className="top-info">
-              <div className="region-info">{honeypot.region}</div>
-              <div className="category-info">{honeypot.interestCategory.interestName}</div>
-              <div className="honeypot-status">{honeypot.closureStatus}</div>
+              <div className="region-info">{honeypot.REGION}</div>
+              <div className="category-info">{honeypot.INTEREST_CODE}</div>
+              <div className="honeypot-status">{honeypot.CLOSURE_STATUS}</div>
             </div>
-            <p className="honeypot-title">{honeypot.honeypotTitle}</p>
+            <p className="honeypot-title">{honeypot.HONEYPOT_TITLE}</p>
             <div className="honeypot-schedule">
               <div>일정</div>
-              <p className="honeypot-date">{honeypot.eventDate}</p>
+              <p className="honeypot-date">2024.06.02 (토)</p>
               <p className="total-member">
-                참여인원 1 / {honeypot.totalMember}
+                참여인원 1 / {honeypot.TOTAL_MEMBER}
               </p>
             </div>
-            <p className="end-date">{honeypot.endDate} 까지 모집해요</p>
+            <p className="end-date">{honeypot.END_DATE} 까지 모집해요</p>
           </div>
         </div>
       ))}
