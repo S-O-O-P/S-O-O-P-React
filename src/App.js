@@ -59,7 +59,6 @@ export default function App() {
   // PublicRoute  = access 토큰이 있는 상태로 접근 불가 (예를 들면 로그인 페이지, 회원가입 페이지 등등)
   // PrivateRoute = access 토큰이 없는 경우 접근 불가 (예를 들면 회원가입 페이지, 마이페이지, 1:1 문의 등등)
   // 아무것도 없으면 회원, 비회원 구분 없이 접속 가능.
-
   return (
     <>
       <GlobalStyles />
