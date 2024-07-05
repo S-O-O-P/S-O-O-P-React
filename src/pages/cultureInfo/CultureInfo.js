@@ -7,11 +7,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../../components/commons/Loading";
 import TableType from "../../components/cultureInfo/TableType";
+import EarlyBirdInfoApi from "../../apis/cultureInfo/EarlyBirdApi";
 
 export default function CultureInfo(props) {
 
   //State 설정
   const [cultureList, setCultureList] = useState(null); // 공연/전시 전체 목록 
+  const [earlyBirdInfo, setEarlyBirdInfo] = useState([]); // 얼리버드 리스트
   const { detailDataList } = props;  // detailDataList를 props에서 가져옴
   const [category, setCategory] = useState('all') // 선택한 카테고리 - 초기값은 전체
   const [totalCount, setTotalCount] = useState(0); // 공연/전시 총 갯수
@@ -34,7 +36,15 @@ export default function CultureInfo(props) {
   // 장르 카테고리 선택 후, 등록순 / 지역 카테고리 선택
   // 장르 카테고리를 재설정할 경우, 하위 - 등록순 / 지역 카테고리 초기화
 
-  const navigate = useNavigate();
+  const navigate = useNavigate();  
+
+  useEffect(
+    () => {
+      //얼리버드 공연/전시 리스트 전체 조회 api 호출
+      // EventsInfoApi({setEvents});
+      EarlyBirdInfoApi({setEarlyBirdInfo}, "all");
+    },[]
+  );  
 
   //app.js에서 전달받은 api정보 state 저장
   useEffect(
@@ -397,7 +407,7 @@ export default function CultureInfo(props) {
           <div className={styles.early_sec}>
             <p className={styles.sec_tit}>얼리버드</p>
             <div className={styles.early_slide_box}>
-              {EarlySlide()}
+              {earlyBirdInfo && <EarlySlide earlyBirdInfo={earlyBirdInfo}/>}
             </div>
           </div>
         </div>

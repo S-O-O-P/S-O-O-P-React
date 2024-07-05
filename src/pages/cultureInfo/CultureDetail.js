@@ -1,18 +1,33 @@
 import { useEffect, useState } from "react";
 import styles from "./CultureInfo.module.css";
 import { useParams } from "react-router-dom";
+import EarlyBirdInfoApi from "../../apis/cultureInfo/EarlyBirdApi";
 
 export default function CultureDetail(props) {
   const [detailData, setDetailData] = useState(null); //상세 정보 저장
+  const [earlyBirdInfo, setEarlyBirdInfo] = useState(null); // 얼리버드 상세 정보 저장
   const { seq } = useParams({}); // seq 코드 param으로 가져오기
   const [early, setEarly] = useState(false); // 얼리버드 여부 - false로 초기화
+  const [detailInfo, setDetailInfo] = useState(""); // 상세 내용
 
-  // useEffect(() => {
-  //   if (seq) {
-  //     // CultureDetailApi({ setDetailData }, seq); // 상세 정보 조회 api에 setDetailData 와 seq코드 전달
-  //     console.log("detailData from CultureDetail.js: " + JSON.stringify(detailData));
-  //   }
-  // }, [seq]); // seq가 변경될 때마다 실행
+  useEffect(
+    () => {
+      if(seq){
+        //얼리버드 공연/전시 상세 조회 api 호출
+        EarlyBirdInfoApi({setEarlyBirdInfo}, "detail", seq);
+        console.log("events detail : ",earlyBirdInfo);
+      }
+    },[seq]
+  );
+
+  useEffect(
+    () => {
+      if (earlyBirdInfo && Object.keys(earlyBirdInfo).length > 0) {
+        // setDetailInfo(events?.ebContent);
+        setDetailInfo((earlyBirdInfo?.ebContent).replaceAll("<br>", `\n`));
+      }
+    },[earlyBirdInfo]
+  );
 
   useEffect(() => {
     if (props.detailDataList) {
