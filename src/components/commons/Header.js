@@ -50,15 +50,15 @@ function Header() {
             <li><NavLink to='/honeypot'>허니팟<span></span></NavLink></li>
           </ul>
         </nav>
-        {accessToken ?  <a href='/mypage'><li>{userNickName}</li></a>
-        : <li><p></p></li>}
-        {accessToken ? <a href='/mypage'><li><img className='mypage-btn' src={`${process.env.PUBLIC_URL}/images/commons/icon_mypage_white.png`} alt="MYPAGE"/></li></a>
-        : <li></li>}
-        {accessToken ? <li><img className='logout-btn' onClick={handleLogout} src={`${process.env.PUBLIC_URL}/images/commons/icon_logout_white.png`} alt='LOGOUT'/></li>
-        : (<NavLink to='/login'>
-            <li><button className="login-btn">LOGIN</button></li>
+        <li><p>{userNickName}</p></li>
+        <li><img className='mypage-btn' src={`${process.env.PUBLIC_URL}/images/commons/icon_mypage_white.png`} alt="MYPAGE"/></li>
+        <li>{accessToken ? 
+          <img onClick={handleLogout} className='logout-btn' src={`${process.env.PUBLIC_URL}/images/commons/icon_logout_white.png`} alt='LOGOUT'/>
+            : 
+          (<NavLink to='/login'>
+            <button className="login-btn">LOGIN</button>
           </NavLink>)}
-          
+          </li>
       </div>
     </header>
   );

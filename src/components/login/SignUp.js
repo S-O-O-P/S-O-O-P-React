@@ -1,102 +1,20 @@
+import React, { useState } from 'react';
 import './SignUp.css';
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { NavLink } from 'react-router-dom';
 
 function SignUp() {
   const [selectedInterests, setSelectedInterests] = useState([]);
-  const [accessToken, setAccessToken] = useState(null);
-  const [nickName, setNickName] = useState("");
-  const [aboutMe, setAboutMe] = useState("");
-  const [signupPlatform, setSignupPlatform] = useState("");
-  const [user, setUser] = useState(null);
-  const navigate = useNavigate();
-  const [token, setToken] = useState(null);
-
 
   const onClickHandler = (valueI) => {
     setSelectedInterests(pre => {
       if (pre.includes(valueI)) {
         return pre.filter(interest => interest !== valueI);
-      } else if (pre.length < 3) {
+      } else if (pre.length < 5) {
         return [...pre, valueI];
       }
       return pre;
     });
   };
-
-  console.log("관심사 코드 : "+selectedInterests)
-
-
-
-  useEffect(() => {
-    const query = new URLSearchParams(window.location.search);
-    const accessToken = query.get('token');
-
-    if (accessToken) {
-      setToken(accessToken);
-      const expiresAt = new Date().getTime() + (10 * 60 * 1000); // 10분후 만료
-      localStorage.setItem('accessToken', JSON.stringify({ token: accessToken, expiresAt }));
-      navigate('/signup');
-    } else {
-      const storedToken = JSON.parse(localStorage.getItem('accessToken'));
-
-      if (storedToken) {
-        setToken(storedToken.token);
-        fetchUser(storedToken.token)
-        // navigate('/main');
-      }
-    }
-  }, [navigate]);
-
-  const fetchUser = async (token) => {
-    try {
-      const response = await axios.get('http://localhost:8081/signup', {
-        headers: {
-          "Content-Type": "application/json;charset=UTF-8",
-          "Accept": "*",
-          "Authorization": `Bearer ${token}`,
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": "true",
-        }
-      });
-      
-      setUser(response.data);
-      setSignupPlatform(response.data.signupPlatform); // signupPlatform 설정
-    } catch (error) {
-      console.error('Error fetching user data', error);
-    }
-  };
-
-
-  const handleLogout = async () => {
-    try {
-      await axios.post('http://localhost:8081/logout', {}, { withCredentials: true });
-      localStorage.removeItem('accessToken');
-      setAccessToken(null);
-      navigate('/login');
-    } catch (error) {
-      console.error('Logout failed', error);
-    }
-  };
-
-
-  const handleSignUp = async () => {
-    try {
-      const response = await axios.post('http://localhost:8081/signup', 
-        { nickName, aboutMe, signupPlatform, selectedInterests },
-        {
-          headers: {
-            "Authorization": `Bearer ${token}`
-          }
-        }
-      );
-      console.log('추가 정보 입력 완료', response);
-    } catch (error) {
-      console.error('추가 정보 입력 실패', error);
-    }
-  }
-
 
   return (
     <div className="App">
@@ -110,61 +28,78 @@ function SignUp() {
             <div className='inputBox'>
               <div className='NickBox'>
                 <div className='NickTitle'>닉네임</div>
-                <input maxLength='10' className='NickName' placeholder='닉네임' onChange={(e)=>setNickName(e.target.value)} />
+                <input maxLength='10' className='NickName' />
               </div>
               <div className='AboutBox'>
-                <div className='AboutTitle' >자기소개</div>
-                <textarea maxLength='300' className='AboutMe' placeholder='자기소개를 입력해 주세요'onChange={(e)=>setAboutMe(e.target.value)} />
+                <div className='AboutTitle'>자기소개</div>
+                <textarea maxLength='300' className='AboutMe' />
               </div>
             </div>
             <p className='InterestTitle'>
               <span className='textRed'>관심사를 </span>
               <span>선택해주세요.</span>
             </p>
-            <span className='textRed'>최대 3개</span>
+            <span className='textRed'>최대 5개</span>
             <span>까지 선택할 수 있습니다.</span>
             <div>
-            <button
+              <button
                 onClick={() => onClickHandler(1)}
                 className={selectedInterests.includes(1) ? 'InterestButtonOn' : 'InterestButton'}
-                >
-                #팝업
+              >
+                #전시
               </button>
               <button
                 onClick={() => onClickHandler(2)}
                 className={selectedInterests.includes(2) ? 'InterestButtonOn' : 'InterestButton'}
-                >
-                #공연
+              >
+                #콘서트
               </button>
               <button
                 onClick={() => onClickHandler(3)}
                 className={selectedInterests.includes(3) ? 'InterestButtonOn' : 'InterestButton'}
-                >
-                #행사/축제
+              >
+                #연주회
+              </button>
+              <button
+                onClick={() => onClickHandler(4)}
+                className={selectedInterests.includes(4) ? 'InterestButtonOn' : 'InterestButton'}
+              >
+                #공연
               </button>
             </div>
             <div>
-            <button
-                onClick={() => onClickHandler(4)}
-                className={selectedInterests.includes(4) ? 'InterestButtonOn' : 'InterestButton'}
-                >
-                #전시
-              </button>
               <button
                 onClick={() => onClickHandler(5)}
                 className={selectedInterests.includes(5) ? 'InterestButtonOn' : 'InterestButton'}
-                >
+              >
                 #뮤지컬
               </button>
-
+              <button
+                onClick={() => onClickHandler(6)}
+                className={selectedInterests.includes(6) ? 'InterestButtonOn' : 'InterestButton'}
+              >
+                #연극
+              </button>
+              <button
+                onClick={() => onClickHandler(7)}
+                className={selectedInterests.includes(7) ? 'InterestButtonOn' : 'InterestButton'}
+              >
+                #팝업스토어
+              </button>
+              <button
+                onClick={() => onClickHandler(8)}
+                className={selectedInterests.includes(8) ? 'InterestButtonOn' : 'InterestButton'}
+              >
+                #페스티벌
+              </button>
             </div>
             <div className='btns'>
-              <button className='btn1' onClick={handleLogout}>취 소</button>
-
-              <button className={selectedInterests.length < 1 ?'btn2':'btn3'} 
-              onClick={handleSignUp}>등 록
-              </button>
-
+            <NavLink to='/login'>
+              <button className='btn1'>취소</button>
+              </NavLink>
+              <NavLink to=''>
+              <button className='btn2'>등록</button>
+              </NavLink>
             </div>
           </div>
         </div>
