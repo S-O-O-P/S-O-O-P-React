@@ -7,8 +7,6 @@ function InquiryPage() {
 
     const navigater = useNavigate();
 
-    const [notices, setNotices] = useState([]);
-
     const [selected, setSelected] = useState("전체");
     const handleSelect = (e) => {
         setSelected(e.target.value);
@@ -20,8 +18,10 @@ function InquiryPage() {
     };
 
     const [content, setContent] = useState("");
+    const [inputCount, setInputCount] = useState(0);
     const handleContentChange = (e) => {
         setContent(e.target.value);
+        setInputCount(e.target.value.length);
     };
 
     const [modalOpen, setModalOpen] = useState(false);
@@ -37,7 +37,7 @@ function InquiryPage() {
                 "content": content,
                 "userCode": 1,  // 회원 정보로 수정 필요
                 "inquiryDate": today,
-                "adminCode" : 7
+                "adminCode": 7
             }
 
             console.log("유형", selected);
@@ -100,14 +100,15 @@ function InquiryPage() {
                                 <p>제목</p>
                                 <p className={style.point}>*</p>
                             </div>
-                            <input className={style.customInput} type='text' name="title" placeholder='제목을 입력해주세요.' value={title} onChange={handleTitleChange} />
+                            <input className={style.customInput} type='text' name="title" placeholder='제목을 입력해주세요.' value={title} onChange={handleTitleChange} maxLength={200} />
                         </div>
                         <div className={style.inqyiryContentBox}>
                             <div className={style.inquiryCategoryContent}>
                                 <p className={style.inquiryCategory}>내용</p>
                                 <p className={style.point}>*</p>
                             </div>
-                            <textarea className={style.customContentInput} name="content" placeholder='내용을 입력해주세요.' value={content} onChange={handleContentChange}></textarea>
+                            <textarea className={style.customContentInput} name="content" placeholder='내용을 입력해주세요.' value={content} onChange={handleContentChange} maxLength={500}></textarea>
+                            <p className={style.inputCount}>{inputCount}/500</p>
                         </div>
                         <div className={style.buttons}>
                             <a>
