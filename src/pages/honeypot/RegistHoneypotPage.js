@@ -5,7 +5,7 @@ import RegistStepTwo from '../../components/honeypot/RegistStepTwo';
 import axios from 'axios';
 import './RegistHoneypotPage.css';
 
-function RegistHoneypotPage({ cultureList }) {
+function RegistHoneypotPage({ cultureList, user }) {
     const parsedData = JSON.parse(cultureList);
     const allCultureList = parsedData.perforList || [];
     const [selectedIndex, setSelectedIndex] = useState(null);
@@ -107,6 +107,7 @@ function RegistHoneypotPage({ cultureList }) {
                         selectedIndex={selectedIndex}
                         uniqueAreas={uniqueAreas}
                         uniqueRealmName={uniqueRealmName}
+                        user={user}
                     />
                 )}
                 {registStep === 2 && (
@@ -114,6 +115,7 @@ function RegistHoneypotPage({ cultureList }) {
                         selectedIndex={selectedIndex}
                         filteredCultureList={filteredCultureList} // 필터링된 목록 전달
                         onChange={setFormData}
+                        user={user}
                     />
                 )}
                 

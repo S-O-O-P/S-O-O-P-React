@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function RegistStepTwo({ selectedIndex, filteredCultureList, onChange }) {
+function RegistStepTwo({ selectedIndex, filteredCultureList, onChange, user }) {
     const [honeypotContent, setHoneypotContent] = useState('');
     const [honeypotTitle, setHoneypotTitle] = useState('');
     const [region, setRegion] = useState(filteredCultureList[selectedIndex]?.area || '');
@@ -17,7 +17,7 @@ function RegistStepTwo({ selectedIndex, filteredCultureList, onChange }) {
         }
 
         const formData = {
-            hostCode: 3,
+            hostCode: user.userCode,
             closureStatus: '모집중',
             honeypotTitle,
             honeypotContent,

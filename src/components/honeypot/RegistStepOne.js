@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function RegistStepOne({ allCultureList, filteredCultureList, updateFilteredCultureList, posterClick, uniqueAreas }) {
+function RegistStepOne({ allCultureList, filteredCultureList, updateFilteredCultureList, posterClick, uniqueAreas, user }) {
     const [selectedRealm, setSelectedRealm] = useState('전체');
     const [selectedArea, setSelectedArea] = useState('지역');
     const [selectedIndex, setSelectedIndex] = useState(null);
