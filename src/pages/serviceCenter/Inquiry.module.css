@@ -92,8 +92,6 @@
 .inqyiryContentBox {
     display: flex;
     justify-content: space-between;
-
-    position: relative;
 }
 
 .customContentInput {
@@ -118,17 +116,6 @@
     font: var(--medium);
     padding-top: 10px;
 }
-
-.inputCount {
-    position: absolute;
-    right: 12px;
-    bottom: 10px;
-    color: var(--main-color);
-    font-size: 14px;
-    font-weight: var(--medium);
-}
-
-/* 버튼 */
 
 .buttons {
     display: flex;
