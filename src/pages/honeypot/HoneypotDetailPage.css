@@ -49,8 +49,6 @@
     border: 10px solid var(--main-color);
     border-radius: 50%;
     margin-bottom: 10px;
-    object-fit: cover;
-    object-position: top;
 }
 
 .host-nickname {
@@ -256,7 +254,7 @@
 }
 
 .honeypot-detail-hr {
-    width: calc(100% - 40px);
+    width: 100%;
     margin: 0 auto;
     margin-top: 60px;
     border: none;
