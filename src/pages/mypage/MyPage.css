@@ -58,6 +58,8 @@
     font-size: 24px;
     font-family: 'SUIT Regular', sans-serif;
     z-index: 10;
+    object-fit: cover;
+    object-position: top;
 }
 
 .profile-pic-update-btn {

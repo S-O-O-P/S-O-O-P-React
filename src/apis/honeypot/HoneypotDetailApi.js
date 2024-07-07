@@ -17,7 +17,7 @@ export default function HoneypotDetailApi({ allCultureList, setDetailHoneypot, s
       setFilteredCultureList(filteredList);
       console.log('담긴 결과 : ',response.data.results.honeypot)
     } catch (error) {
-      console.error('Error:', error);
+      console.error('디테일페이지 호출 실패 :', error);
     } finally {
         setIsLoading(false);
     }

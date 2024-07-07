@@ -6,6 +6,7 @@ import ApplicationApi from "../../apis/honeypot/ApplicationApi";
 function HoneypotList({ currentPage, setCurrentPage, pageGroup, setPageGroup, honeypots, user }) {
   
   const honeypotsPerPage = 10;
+  console.log('이건뭐지', honeypots)
 
   // 현재 페이지에 맞는 데이터 필터링
   const indexOfLastHoneypot = currentPage * honeypotsPerPage;

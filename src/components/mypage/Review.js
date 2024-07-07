@@ -1,22 +1,139 @@
 import "./Review.css";
-import { useState } from "react";
+import { useState, useEffect } from 'react';
+import axios from "axios";
 
-function MyComments() {
-  const [자료있음, 자료변경] = useState(true);
+function MyComments({finishedHoneyPotList, particiMember, user, ratingCategory}) {
+
   const [showReCheckModal, setShowReCheckModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [hasData, setHasData] = useState(true);
+  const [partyPeople, setPartyPeople] = useState(false);
+  const [selectedHoneypotCode, setSelectedHoneypotCode] = useState(null);
+  const [selectedProfileIndex, setSelectedProfileIndex] = useState(null);
+  const [selectedHoneypot, setSelectedHoneypot] = useState(null);
+  const [participants, setParticipants] = useState([]);
+  const [evaluatedMembers, setEvaluatedMembers] = useState([]);
+  const [evaluationData, setEvaluationData] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const clickMannerBtn = (honeypot) => {
+    console.log('허니팟코드?', honeypot.honeypotCode);
+    setPartyPeople(true);
+    setSelectedHoneypotCode(honeypot.honeypotCode);
+    setSelectedHoneypot(honeypot);
+    setSelectedProfileIndex(null);
+  }
+
+  const fetchEvaluationData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8081/mypage/userratring`, {
+        params: {
+          honeypotCode: selectedHoneypotCode,
+          raterCode: user.userCode
+        }
+      });
+      console.log('서버 응답:', response.data);
+      
+      const newEvaluationData = {};
+      response.data.forEach(evaluation => {
+        if (evaluation.raterCode === user.userCode) {
+          newEvaluationData[evaluation.rateeCode] = evaluation.ratingCode;
+        }
+      });
+      
+      setEvaluationData(newEvaluationData);
+      console.log('설정된 evaluationData:', newEvaluationData);
+    } catch (error) {
+      console.error('평가 데이터를 가져오는 중 오류 발생:', error);
+    }
+  };
   
+  useEffect(() => {
+    console.log('evaluationData 변경:', evaluationData);
+  }, [evaluationData]);
+  
+  useEffect(() => {
+    if (selectedHoneypotCode) {
+      fetchEvaluationData();
+    }
+  }, [selectedHoneypotCode]);
+
+  useEffect(() => {
+    if (selectedHoneypotCode) {
+      const foundHoneypot = particiMember.find(hp => hp.honeypotCode === selectedHoneypotCode);
+      if (foundHoneypot) {
+        // 자기 자신을 제외한 참여자만 필터링
+        const filteredParticipants = foundHoneypot.participants.filter(
+          participant => participant.userCode !== user.userCode // 또는 userCode를 사용할 수 있습니다
+        );
+        console.log('참여멤버 (자신 제외)', filteredParticipants);
+        setParticipants(filteredParticipants);
+      } else {
+        console.log('해당 허니팟을 찾을 수 없습니다.');
+        setParticipants([]);
+      }
+    }
+  }, [selectedHoneypotCode, particiMember]);
+
+  useEffect(() => {
+    // finishedHoneyPotList의 길이가 0일 때 데이터가 없는 것으로 처리
+    if (finishedHoneyPotList.length === 0) {
+        setHasData(false);
+    } else {
+        setHasData(true);
+    }
+}, [finishedHoneyPotList]);  
 
   /* 제출버튼 눌렀을 때 모달창 띄우기 */
   const reviewSubmit = () => {
     setShowReCheckModal(true);
   }
 
-  /* 확인버튼 */
-  const okBtn = () => {
-    setShowReCheckModal(false);
-    setShowConfirmModal(true);
-  }
+    /* 확인버튼 클릭 시 모달 닫고 서버로 평가 등록 요청 */
+    const okBtn = () => {
+      setShowReCheckModal(false);
+      // 여기서 서버로 평가 등록 요청을 보낼 수 있습니다.
+      submitEvaluation(); // 평가 제출 함수 호출
+    };
+  
+    /* 서버로 평가 등록 요청 보내는 함수 */
+    const submitEvaluation = () => {
+      if (isSubmitting) return;
+    
+      setIsSubmitting(true);
+      
+      const requestData = {
+        honeypotCode: selectedHoneypotCode,
+        raterCode: user.userCode,
+        rateeCode: selectedProfileIndex !== null ? participants[selectedProfileIndex].userCode : null,
+        ratingCode: selectedRadio
+      };
+    
+      console.log('제출할 평가 데이터:', requestData);
+    
+      axios.post('http://localhost:8081/mypage/userrating', requestData)
+        .then(response => {
+          console.log('평가가 성공적으로 등록되었습니다.', response.data);
+          setShowConfirmModal(true);
+          
+          setEvaluationData(prevData => {
+            const newData = {...prevData, [requestData.rateeCode]: requestData.ratingCode};
+            console.log('업데이트된 evaluationData:', newData);
+            return newData;
+          });
+          
+          setSelectedProfileIndex(null);
+          setSelectedPointIndex(null);
+          setSelectedRadio(null);
+        })
+        .catch(error => {
+          console.error('평가 등록 중 오류 발생:', error);
+          alert("이미 평가한 멤버입니다.");
+        })
+        .finally(() => {
+          setIsSubmitting(false);
+        });
+    };
 
   const noBtn = () => {
     setShowReCheckModal(false);
@@ -26,49 +143,22 @@ function MyComments() {
     setShowConfirmModal(false);
   }
 
-  /* 프로필 선택 */
-  const profiles = [
-    { imgSrc: "/images/mypage/profile-father.png", name: "웅이아버지", review: "null"},
-    { imgSrc: "/images/mypage/profile-song.png", name: "귀여운처제", review: "null" },
-    { imgSrc: "/images/mypage/profile-push.png", name: "당기나미나", review: "notNull" },
-  ];
-
-  const [selectedProfileIndex, setSelectedProfileIndex] = useState(null);
-
   const profileClick = (index) => {
-
-    // 평점가를 완료하면 선택안됨.
-    if (profiles[index].review === 'null') {
-      setSelectedProfileIndex(index);
-      setSelectedPointIndex(null); // 프로필 선택 시 포인트 선택 초기화
-      setSelectedRadio(null); // 프로필 선택 시 라디오 버튼 초기화
-    }
-
+    setSelectedProfileIndex(index);
+    setSelectedPointIndex(null);
+    setSelectedRadio(null);
+    console.log('선택한 피평가자 : ', participants[index].userCode);
   };
 
   const pointClick = (index) => {
     setSelectedPointIndex(index);
     setSelectedRadio(null);
+    console.log('선택한 점수:', index + 1); // 선택한 얼굴의 점수 출력
   };
-
-  /* 멤버 평점 버튼 */
-  const [partyPeople, setPartyPeople] = useState(false);
-
-  const clickMannerBtn = () => {
-    setPartyPeople(true);
-  }
-  
-
-  /* 프로필 선택 */
 
   /* 평점 얼굴 선택 */
   const [selectedPointIndex, setSelectedPointIndex] = useState(null);
   const [selectedRadio, setSelectedRadio] = useState(null);
-  
-  const choiceFace = (index) => {
-    setSelectedPointIndex(index);
-    setSelectedRadio(null);
-  };
 
   const pointChoices = [
     { imgSrc: "/images/mypage/angryface.png", text: "못 만났어요" },
@@ -77,137 +167,40 @@ function MyComments() {
     { imgSrc: "/images/mypage/grinningface.png", text: "괜찮았어요" },
     { imgSrc: "/images/mypage/starstruck.png", text: "좋았어요!" },
   ];
-  /* 평점 얼굴 선택 */
 
   /* 평점 얼굴 선택시 텍스트 */
-
   const choiceText = () => {
-    switch (selectedPointIndex) {
-      case 0:
-        return (
-          <>
-            <label for="choice1" className="radio-box">
-              <input type="radio" id="choice1" name="choice" value="option1"
-                checked={selectedRadio === "option1"}
-                onChange={() => setSelectedRadio("option1")}/>
-              <span className="radio-btn"></span>
-              사전 연락 없이 무단으로 모임에 불참했어요.
-            </label>
-            <label for="choice2" className="radio-box">
-              <input type="radio" id="choice2" name="choice" value="option2"
-                checked={selectedRadio === "option2"}
-                onChange={() => setSelectedRadio("option2")}/>
-              <span className="radio-btn"></span>
-              불참 의사를 멤버들에게 알리고 모임에 불참했어요.
-            </label>
-          </>
-        );
-      case 1:
-        return (
-          <>
-            <label for="choice1" className="radio-box">
-              <input type="radio" id="choice1" name="choice" value="option1"
-                checked={selectedRadio === "option1"}
-                onChange={() => setSelectedRadio("option1")} />
-              <span className="radio-btn"></span>
-              시간 약속을 지키지 않아서 다른 사람들이 모두 기다렸어요.
-            </label>
-            <label for="choice2" className="radio-box">
-              <input type="radio" id="choice2" name="choice" value="option2"
-                checked={selectedRadio === "option2"}
-                onChange={() => setSelectedRadio("option2")} />
-              <span className="radio-btn"></span>
-              이성에 대한 과도한 관심을 보여서 불편했어요.
-            </label>
-            <label for="choice3" className="radio-box">
-              <input type="radio" id="choice3" name="choice" value="option3"
-                checked={selectedRadio === "option3"}
-                onChange={() => setSelectedRadio("option3")} />
-              <span className="radio-btn"></span>
-              수동적이고 소극적인 태도여서 함께하기 어색했어요.
-            </label>
-          </>
-        );
-      case 2:
-        return (
-          <>
-            <label for="choice1" className="radio-box">
-              <input type="radio" id="choice1" name="choice" value="option1"
-                checked={selectedRadio === "option1"}
-                onChange={() => setSelectedRadio("option1")} />
-              <span className="radio-btn"></span>
-              싫지도 좋지도 않았어요.
-            </label>
-            <label for="choice2" className="radio-box">
-              <input type="radio" id="choice2" name="choice" value="option2"
-                checked={selectedRadio === "option2"}
-                onChange={() => setSelectedRadio("option2")} />
-              <span className="radio-btn"></span>
-              평범한 경험이었어요.
-            </label>
-          </>
-        );
-      case 3:
-        return (
-          <>
-            <label for="choice1" className="radio-box">
-              <input type="radio" id="choice1" name="choice" value="option1"
-                checked={selectedRadio === "option1"}
-                onChange={() => setSelectedRadio("option1")} />
-              <span className="radio-btn"></span>
-              대화코드가 잘 맞아 즐겁게 대화할 수 있었어요.
-            </label>
-            <label for="choice2" className="radio-box">
-              <input type="radio" id="choice2" name="choice" value="option2"
-                checked={selectedRadio === "option2"}
-                onChange={() => setSelectedRadio("option2")} />
-              <span className="radio-btn"></span>
-              다른 멤버가 이야기 할 때 잘 들어주셨어요.
-            </label>
-            <label for="choice3" className="radio-box">
-              <input type="radio" id="choice3" name="choice" value="option3"
-                checked={selectedRadio === "option3"}
-                onChange={() => setSelectedRadio("option3")} />
-              <span className="radio-btn"></span>
-              주도적으로 모임에 잘 참여해 주셨어요.
-            </label>
-          </>
-        );
-      case 4:
-        return (
-          <>
-            <label for="choice1" className="radio-box">
-              <input type="radio" id="choice1" name="choice" value="option1"
-                checked={selectedRadio === "option1"}
-                onChange={() => setSelectedRadio("option1")} />
-              <span className="radio-btn"></span>
-              취향이 통하는 멤버를 만나 좋았어요. 다음에 또 만나고 싶어요.
-            </label>
-            <label for="choice2" className="radio-box">
-              <input type="radio" id="choice2" name="choice" value="option2"
-                checked={selectedRadio === "option2"}
-                onChange={() => setSelectedRadio("option2")} />
-              <span className="radio-btn"></span>
-              유쾌하고 밝은 에너지로 분위기 메이커 역할을 했어요.
-            </label>
-            <label for="choice3" className="radio-box">
-              <input type="radio" id="choice3" name="choice" value="option3"
-                checked={selectedRadio === "option3"}
-                onChange={() => setSelectedRadio("option3")} />
-              <span className="radio-btn"></span>
-              덕분에 시간가는줄 모르고 즐거운 경험을 했어요.
-            </label>
-          </>
-        );
-      default:
-        return null;
-    }
+    if (selectedPointIndex === null) return null;
+  
+    const filteredCategories = ratingCategory.filter(
+      category => category.score === selectedPointIndex + 1
+    );
+  
+    return filteredCategories.map((category, index) => (
+      <label htmlFor={`choice${index}`} className="radio-box" key={index}>
+        <input
+          type="radio"
+          id={`choice${index}`}
+          name="choice"
+          value={category.ratingCode}
+          checked={selectedRadio === category.ratingCode}
+          onChange={() => {
+            console.log(`Selected ratingCode: ${category.ratingCode}`)
+            console.log(`Selected score: ${category.score}`);
+            console.log(`Selected content: ${category.content}`);
+            setSelectedRadio(category.ratingCode);
+          }}
+        />
+        <span className="radio-btn"></span>
+        {category.content}
+      </label>
+    ));
   };
 
   return (
     <>
     {
-      자료있음 == false ? 
+      hasData == false ? 
     (
       <div className="review-detail">
       <div className="fin-honeypot-title">
@@ -236,25 +229,27 @@ function MyComments() {
       <div className="fin-honeypot-container">
         
         <div className="fin-honeypot-list">
-          <div className="fin-honeypot">
-            <div className="poster">
-              <img
-                src={`${process.env.PUBLIC_URL}/images/mypage/poster.png`}
-                alt="포스터"
-              />
+        {finishedHoneyPotList.map((finishedHoneyPot, index) => (
+        <div className="fin-honeypot" key={index}>
+          <div className="poster">
+            <img
+              src={finishedHoneyPot.poster}
+              alt="포스터"
+            />
+          </div>
+          <div className="list-contents">
+            <div className="text">
+              <p className="status">진행완료</p>
+              <p className="reg-date">{finishedHoneyPot.regDate}</p>
+              <p className="honeypot-title">{finishedHoneyPot.honeypotTitle}</p>
+              <p className="participate">참여인원 {Number(finishedHoneyPot.approvalCount) + 1} / {finishedHoneyPot.totalMember}</p>
             </div>
-            <div className="list-contents">
-              <div className="text">
-                <p className="status">진행완료</p>
-                <p className="reg-date">2024년 6월 3일 모집시작</p>
-                <p className="honeypot-title">XX 같이 볼 사람</p>
-                <p className="participate">참여인원 4/4</p>
-              </div>
-              <div className="button">
-                <button onClick={ clickMannerBtn }>멤버 평가</button>
-              </div>
+            <div className="button">
+              <button onClick={() => clickMannerBtn(finishedHoneyPot)}>멤버 평가</button>
             </div>
           </div>
+        </div>
+      ))}
         </div>
         {partyPeople == false ?
         (
@@ -275,37 +270,33 @@ function MyComments() {
             </div>
           </div>
           <div className="choice-profile">
-{profiles.map((profile, index) => (
-  <div
-    className="one-profile"
-    onClick={() => profileClick(index)}
-    key={index}
-    style={{
-      opacity:
-        selectedProfileIndex !== null && selectedProfileIndex !== index
-          ? 0.3
-          : 1,
-      cursor: "pointer",
-    }}
-  >
-    <img
-      src={`${process.env.PUBLIC_URL}${profile.imgSrc}`}
-      alt="프로필사진"
-    />
-    <p
+          {participants.map((profile, index) => {
+  const isEvaluated = evaluationData.hasOwnProperty(profile.userCode);
+  console.log(`프로필 ${profile.nickname}: isEvaluated = ${isEvaluated}, evaluationData:`, evaluationData);
+  
+  return (
+    <div
+      className={`one-profile ${isEvaluated ? 'evaluated' : ''}`}
+      onClick={() => !isEvaluated && profileClick(index)}
+      key={index}
       style={{
-        color: selectedProfileIndex === index ? "#EB844A" : "var(--blur-color)",
-        fontFamily: selectedProfileIndex === index
-          ? "'SUIT Semibold', sans-serif"
-          : "'SUIT Regular', sans-serif",
-        fontSize: "12px",
+        opacity: isEvaluated ? 0.3 : 1,
+        cursor: isEvaluated ? "not-allowed" : "pointer",
       }}
     >
-      {profile.name}
-    </p>
-  </div>
-))}
-</div>
+      <img src={profile.profilePic} alt="프로필사진" />
+      <p style={{
+        color: selectedProfileIndex === index ? "#EB844A" : "var(--blur-color)",
+        fontFamily: selectedProfileIndex === index ? "'SUIT Semibold', sans-serif" : "'SUIT Regular', sans-serif",
+        fontSize: "12px",
+      }}>
+        {profile.nickname}
+        {isEvaluated && <span className="evaluated-text"> (평가 완료)</span>}
+      </p>
+    </div>
+  );
+})}
+          </div>
           {/*멤버 프로필 선택 시*/}
           <div className="choice-point-container">
             {selectedProfileIndex !== null ? (
@@ -341,7 +332,7 @@ function MyComments() {
           </div>
 
           {selectedRadio && (
-            <input className="send-review-btn" type="submit" value='제출' onClick={reviewSubmit}/>
+            <input className="send-review-btn" type="submit" value='제출' onClick={reviewSubmit} disabled={isSubmitting}/>
           )}
           </div>
         )}
