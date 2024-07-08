@@ -16,7 +16,7 @@ function Header() {
   
   const [accessToken, setAccessToken] = useState(null);
   const navigate = useNavigate();
-  const [userNickName,setUserNickName] = useState('test나중에지움');
+  const [userNickName,setUserNickName] = useState('');
 
   useEffect(() => {
     const storedToken = JSON.parse(localStorage.getItem('accessToken'));

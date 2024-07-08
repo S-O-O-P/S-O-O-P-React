@@ -23,7 +23,7 @@ import PublicRoute from './components/PublicRoute';
 import ExpiredToken from './apis/ExpiredToken';
 import RegistHoneypotPage from './pages/honeypot/RegistHoneypotPage';
 import HoneypotDetailPage from './pages/honeypot/HoneypotDetailPage';
-
+import ModifyHoneypotPage from './pages/honeypot/ModifyHoneypotPage';
 
 
 export default function App() {
@@ -73,7 +73,7 @@ export default function App() {
 
   useEffect(() => {
       // 특정 사용자가 이미 로그인된 상태로 가정
-      const user = users.find(user => user.userCode === 11); // 여기에 로그인 회원번호 넣기
+      const user = users.find(user => user.userCode === 10); // 여기에 로그인 회원번호 넣기
 
           if (user) {
               setIsLoggedIn(true);
@@ -99,10 +99,10 @@ export default function App() {
             <Route path="/cultureinfo/detail/:seq" element={<CultureDetail detailDataList={detailDataList}/>}/> {/* 전시/공연 상세페이지*/}
             <Route path='/completed' element={<PrivateRoute element={CompletedPage}/>} /> {/* 회원 가입 완료 */}
             <Route path='/honeypot' element={<HoneypotPage user={loggedInUser}/>}/> {/* 허니팟 페이지 */}
-            <Route path='/honeypot/regist' element={data ? <RegistHoneypotPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <div>Loading...</div>}/> {/* 허니팟 등록 페이지 */}
+            <Route path='/honeypot/c' element={data ? <RegistHoneypotPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <div>Loading...</div>}/> {/* 허니팟 등록 페이지 */}
             <Route path='/honeypot/detail/:honeypotCode' element={data ? <HoneypotDetailPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 상세 페이지 */}
-            <Route path='/honeypot/modify/:honeypotCode' element={data ? <ModifyHoneypotPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 수정 페이지 */}
-            <Route path='/mypage' element={<MyPage/>}/> {/* 마이 페이지 */}
+            <Route path='/honeypot/u/:honeypotCode' element={data ? <ModifyHoneypotPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 수정 페이지 */}
+            <Route path='/mypage' element={<MyPage user={loggedInUser}/>}/> {/* 마이 페이지 */}
             <Route path='/help' element={<Cs />} /> {/* 고객 센터 */}
             <Route path='/faq' element={<Faq />} /> {/* 자주 찾는 질문 */}
             <Route path='/notice' element={<Notice />} /> {/* 공지사항 */}

@@ -18,6 +18,15 @@ export default function HostDetailPage({ user, honeypotCode, detailHoneypot, all
   // 승인 여부 필터링
   const approvedApplications = applications.filter(app => app.decisionStatus === '승인');
   const pendingApplications = applications.filter(app => app.decisionStatus === '승인대기중');
+  const [isRecruitmentFull, setIsRecruitmentFull] = useState(false);
+
+  useEffect(() => {
+    if (approvedApplications.length + 1 >= detailHoneypot.totalMember) {
+      setIsRecruitmentFull(true);
+    } else {
+      setIsRecruitmentFull(false);
+    }
+  }, [approvedApplications.length, detailHoneypot.totalMember]);
 
   // 모집 상태 업데이트를 위한 함수
   const updateRecruitmentStatus = async () => {
@@ -119,30 +128,49 @@ export default function HostDetailPage({ user, honeypotCode, detailHoneypot, all
       <div className='btn-container'>
         <button className='go-to-list' onClick={() => navigate('/honeypot')}> 목록으로</button>
         <button className='go-to-modify' onClick={modifyClick}>수정하기</button>
-        <button className='check-application' onClick={() => setApprovalModal(true)}>참여신청 정보 확인</button>
+        <button className='check-application' onClick={() => {
+  if (isRecruitmentFull) {
+    // 모집 완료 모달 표시
+    setApprovalModal(true);
+  } else {
+    // 기존 참여신청 정보 확인 모달 표시
+    setApprovalModal(true);
+  }
+}}>
+  참여신청 정보 확인
+</button>
       </div>
-      {approvalModal && (
-        <div className='approval-modal-container'>
-          <div className='approval-modal-content'>
-            <h2>참여신청 정보</h2>
-            {pendingApplications.length > 0 ? (
-              pendingApplications.map(app => (
-                <div key={app.applicationCategory.applicationCode} className='application-info'>
-                  <div className="img-name-wrapper">  
-                    <img src={app.applicationCategory.userCategory.profilePic} alt="신청자프로필사진"/>
-                    <p className="approval-name">{app.applicationCategory.userCategory.nickname}</p>
-                  </div>
-                  <button className='disapproved-btn' onClick={() => handleApproval(app.applicationCategory.applicationCode, '미승인')}>미승인</button>
-                  <button className='approved-btn' onClick={() => handleApproval(app.applicationCategory.applicationCode, '승인')}>승인</button>
+{approvalModal && (
+  <div className='approval-modal-container'>
+    <div className='approval-modal-content'>
+      {isRecruitmentFull ? (
+        <>
+          <h2>모집 완료</h2>
+          <p>모집이 완료되어 더 이상 참여신청 정보를 확인할 수 없습니다.</p>
+        </>
+      ) : (
+        <>
+          <h2>참여신청 정보</h2>
+          {pendingApplications.length > 0 ? (
+            pendingApplications.map(app => (
+              <div key={app.applicationCategory.applicationCode} className='application-info'>
+                <div className="img-name-wrapper">  
+                  <img src={app.applicationCategory.userCategory.profilePic} alt="신청자프로필사진"/>
+                  <p className="approval-name">{app.applicationCategory.userCategory.nickname}</p>
                 </div>
-              ))
-            ) : (
-              <p>대기 중인 신청자가 없습니다.</p>
-            )}
-            <button className='approval-modal-close' onClick={() => setApprovalModal(false)}>닫기</button>
-          </div>
-        </div>
+                <button className='disapproved-btn' onClick={() => handleApproval(app.applicationCategory.applicationCode, '미승인')}>미승인</button>
+                <button className='approved-btn' onClick={() => handleApproval(app.applicationCategory.applicationCode, '승인')}>승인</button>
+              </div>
+            ))
+          ) : (
+            <p>대기 중인 신청자가 없습니다.</p>
+          )}
+        </>
       )}
+      <button className='approval-modal-close' onClick={() => setApprovalModal(false)}>닫기</button>
+    </div>
+  </div>
+)}
     </div>
   );
 }

@@ -32,48 +32,52 @@ function SignUp() {
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
     const accessToken = query.get('token');
+    const username = query.get('username');
 
     if (accessToken) {
+      setSignupPlatform(username);
       setToken(accessToken);
       const expiresAt = new Date().getTime() + (10 * 60 * 1000); // 10분후 만료
       localStorage.setItem('accessToken', JSON.stringify({ token: accessToken, expiresAt }));
+      localStorage.setItem('username', JSON.stringify({ si: username, expiresAt }));
       navigate('/signup');
     } else {
       const storedToken = JSON.parse(localStorage.getItem('accessToken'));
-
+      const storedUserName = JSON.parse(localStorage.getItem('username'));
       if (storedToken) {
         setToken(storedToken.token);
-        fetchUser(storedToken.token)
+        setSignupPlatform(storedUserName.username);
+        // fetchUser(storedToken.token)
         // navigate('/main');
       }
     }
+    // console.log(accessToken);
+    // console.log(username);
   }, [navigate]);
-
-  const fetchUser = async (token) => {
-    try {
-      const response = await axios.get('http://localhost:8081/signup', {
-        headers: {
-          "Content-Type": "application/json;charset=UTF-8",
-          "Accept": "*",
-          "Authorization": `Bearer ${token}`,
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": "true",
-        }
-      });
+  // const fetchUser = async (token) => {
+  //   try {
+  //     const response = await axios.get('http://localhost:8081/user', {
+  //       headers: {
+  //         "Authorization": `Bearer ${token}`
+  //       },
+  //       withCredentials: true
+  //     });
       
-      setUser(response.data);
-      setSignupPlatform(response.data.signupPlatform); // signupPlatform 설정
-    } catch (error) {
-      console.error('Error fetching user data', error);
-    }
-  };
+  //     setUser(response.data);
+  //     setSignupPlatform(response.data.signupPlatform); // signupPlatform 설정
+  //   } catch (error) {
+  //     console.error('Error fetching user data', error);
+  //   }
+  // };
 
 
   const handleLogout = async () => {
     try {
       await axios.post('http://localhost:8081/logout', {}, { withCredentials: true });
       localStorage.removeItem('accessToken');
+      localStorage.removeItem('username');
       setAccessToken(null);
+      setSignupPlatform(null);
       navigate('/login');
     } catch (error) {
       console.error('Logout failed', error);
@@ -92,8 +96,10 @@ function SignUp() {
         }
       );
       console.log('추가 정보 입력 완료', response);
+      navigate('/main');
     } catch (error) {
       console.error('추가 정보 입력 실패', error);
+      handleLogout();
     }
   }
 
@@ -106,7 +112,7 @@ function SignUp() {
             <img className='midle-logo' src="images/commons/logo.png" alt="LOGO"/>
           </div>
           <div>
-            <p className='title'>추가 정보 입력</p>
+            <p className='titles'>추가 정보 입력</p>
             <div className='inputBox'>
               <div className='NickBox'>
                 <div className='NickTitle'>닉네임</div>
