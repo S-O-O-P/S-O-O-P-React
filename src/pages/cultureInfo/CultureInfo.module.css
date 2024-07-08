@@ -106,6 +106,7 @@ li.right_filter .selected_filter {width: 128px;}
 
 /* 전시/공연 리스트 */
 /* 카드 형식 */
+.cultureList_null {display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 300px; height: calc(100vh - 300px); font-size: 20px; }
 .culture_list_box.active {display: flex;}
 .culture_list_box{display: none; flex-direction: column; align-items: center; padding-bottom: 100px;}
 .culture_list {align-items: flex-start; flex-wrap: wrap; width: 100%;}
@@ -114,7 +115,7 @@ li.right_filter .selected_filter {width: 128px;}
 .culture_list li a {display: block;}
 .culture_list li a:hover .culture_img{border: 1px solid var(--point-color);} 
 .culture_img {position: relative; width: 100%; height: 348px; border-radius:20px; border: 1px solid rgba(255, 183, 85,.2); overflow: hidden; transition: border 200ms ease-in-out;}
-.culture_img img {width: 100%; height: 100%; object-fit: cover; }
+.culture_img img {width: 100%; height: 100%; object-fit: cover; object-position: top;}
 .culture_mark {position: absolute; top: 10px; right:10px; display: inline-block; height: 30px; padding:0 10px; line-height: 30px; color: #ffffff; background-color: var(--point-color); border-radius:30px; font-size: 14px; font-weight: var(--medium);}
 .culture_item_txt {padding-top: 20px;}
 .culture_tit {font-size: 20px; font-weight: var(--bold);}
@@ -171,6 +172,7 @@ li.right_filter .selected_filter {width: 128px;}
 .short_cut_btn {display: block; height: 48px; padding:0 20px; margin-top: 10px; border-radius: 48px; font-size: 18px; font-weight: var(--semiBold); color: #ffffff; line-height: 48px; text-align: center; background-color: var(--main-color); transition: background-color 200ms ease-in-out;}
 .short_cut_btn:hover {background-color: var(--point-color);}
 .price_list p {padding-bottom: 10px;}
+ .price_list.earlyPrice p {padding-bottom: 0;}
 /* .price_list .price {margin-left: 10px;} */
 
 /* detail info 영역 */
@@ -188,6 +190,7 @@ li.right_filter .selected_filter {width: 128px;}
 .info_tit {padding-bottom: 20px; padding-top: 80px; font-size: 24px; font-weight: var(--semiBold);}
 .info_tit:first-of-type {padding-top: 0;}
 .info_description {font-size: 18px; font-weight: var(--regular);}
+.detailInfoText {padding-bottom: 60px; white-space: pre-line;}
 .detail_info_img {width: 100%;}
 .detail_info_img img{width: 100%; object-fit: contain;}
 
