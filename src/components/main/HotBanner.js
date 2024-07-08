@@ -22,7 +22,7 @@ function PrevBtn(props) {
   );
 }
 
-export default function HotBanner() {
+export default function HotBanner({hotList}) {
   const settings = {
     infinite: true,
     speed: 500,
@@ -39,56 +39,33 @@ export default function HotBanner() {
   return (
     <div className={`slider-container ${mainStyle.hot_prf_box} ${mainStyle.common_slide}`}>
       <Slider {...settings}>
-        <div className={mainStyle.hot_prf_list}>
+      {hotList ? hotList.perforList.map((item, index) => {
+        // 공연 / 전시 start/endDate
+        const convertDateFormat = (stringDate, type) => {
+          let dateFormat = "";
+          const year = stringDate?.slice(0, 4);
+          const month = stringDate?.slice(4, 6);
+          const day = stringDate?.slice(6);
+          if(type == "rest"){
+            dateFormat = new Date(year+"-"+month+"-"+day); // 날짜 표시 형식
+          } else{
+            dateFormat = year+"."+month+"."+day; // 날짜 표시 형식
+          }              
+          return dateFormat;
+        }
+
+        const title = item?.title.replaceAll('&lt;',`<`).replaceAll('&gt;',`>`).replaceAll("&#39;","'");
+
+        return(<div className={mainStyle.hot_prf_list} key={index}>
           <Link to="/cultureinfo/detail">
-            <img src="https://images.unsplash.com/photo-1545264835-3e14e4dae383?q=80&w=2548&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="hot performance poster"/>
+            <img src={item.thumbnail} alt={`${title} poster`}/>
             <div className={mainStyle.hot_prf_txt}>
-              <p className={mainStyle.hot_tit}>서양 미술 800년展</p>
-              <p className={mainStyle.hot_place}>더 현대 서울 ALT.1</p>
-              <p className={mainStyle.hot_period}>2024.08.05&nbsp;~&nbsp;2024.10.31</p>
+              <p className={mainStyle.hot_tit}>{title}</p>
+              <p className={mainStyle.hot_place}>{item.place}</p>
+              <p className={mainStyle.hot_period}>{convertDateFormat(item.startDate, null)} ~ {convertDateFormat(item.endDate, null)}</p>
             </div>
           </Link>
-        </div>
-        <div className={mainStyle.hot_prf_list}>
-          <Link to="/cultureinfo/detail">
-            <img src="https://images.unsplash.com/photo-1571847140471-1d7766e825ea?q=80&w=3866&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="hot performance poster"/>
-            <div className={mainStyle.hot_prf_txt}>
-              <p className={mainStyle.hot_tit}>서양 미술 800년展</p>
-              <p className={mainStyle.hot_place}>더 현대 서울 ALT.1</p>
-              <p className={mainStyle.hot_period}>2024.08.05&nbsp;~&nbsp;2024.10.31</p>
-            </div>
-          </Link>
-        </div>
-        <div className={mainStyle.hot_prf_list}>
-          <Link to="/cultureinfo/detail">
-            <img src="https://images.unsplash.com/photo-1625062833789-b0273c8a3f58?w=1200&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGNvbmNlcnQlMjBwb3N0ZXJ8ZW58MHx8MHx8fDA%3D" alt="hot performance poster"/>
-            <div className={mainStyle.hot_prf_txt}>
-              <p className={mainStyle.hot_tit}>서양 미술 800년展</p>
-              <p className={mainStyle.hot_place}>더 현대 서울 ALT.1</p>
-              <p className={mainStyle.hot_period}>2024.08.05&nbsp;~&nbsp;2024.10.31</p>
-            </div>
-          </Link>
-        </div>     
-        <div className={mainStyle.hot_prf_list}>
-          <Link to="/cultureinfo/detail">
-            <img src="https://images.unsplash.com/photo-1569949237615-e2defbeb5d0a?q=80&w=1960&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="hot performance poster"/>
-            <div className={mainStyle.hot_prf_txt}>
-              <p className={mainStyle.hot_tit}>서양 미술 800년展</p>
-              <p className={mainStyle.hot_place}>더 현대 서울 ALT.1</p>
-              <p className={mainStyle.hot_period}>2024.08.05&nbsp;~&nbsp;2024.10.31</p>
-            </div>
-          </Link>
-        </div>     
-        <div className={mainStyle.hot_prf_list}>
-          <Link to="/cultureinfo/detail">
-            <img src="https://images.unsplash.com/photo-1497911270199-1c552ee64aa4?w=1200&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzF8fGNvbmNlcnQlMjBwb3N0ZXJ8ZW58MHx8MHx8fDA%3D" alt="hot performance poster"/>
-            <div className={mainStyle.hot_prf_txt}>
-              <p className={mainStyle.hot_tit}>서양 미술 800년展</p>
-              <p className={mainStyle.hot_place}>더 현대 서울 ALT.1</p>
-              <p className={mainStyle.hot_period}>2024.08.05&nbsp;~&nbsp;2024.10.31</p>
-            </div>
-          </Link>
-        </div>     
+        </div>);}) : null}
       </Slider>
     </div>
   );

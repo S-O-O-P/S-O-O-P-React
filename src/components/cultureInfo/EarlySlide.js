@@ -14,7 +14,7 @@ function NextBtn(props) {
 }
 
 function PrevBtn(props) {
-  const { className, style, onClick } = props;
+  const { className, onClick } = props;
   return (
     <>
       <span className={`${className} ${styles.prev_btn}`} onClick={onClick}><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_left_white.png`} alt="arrow left direction icon"/></span>
