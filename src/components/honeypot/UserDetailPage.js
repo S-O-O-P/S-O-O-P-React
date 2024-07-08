@@ -20,18 +20,23 @@ export default function UserDetailPage({ detailHoneypot, filteredCultureList, ti
   // 참여하기 버튼 클릭 시 동작할 함수
   const handleParticipate = async () => {
     try {
+      // 모집 완료 상태 확인
+      if(detailHoneypot.closureStatus === '진행완료') {
+        alert('진행 완료 된 모임은 신청하실 수 없습니다.');
+      }
+      
+      if (detailHoneypot.closureStatus === '모집완료' || approvedApplications.length + 1 >= detailHoneypot.totalMember) {
+        alert('모집이 완료되어 신청하실 수 없습니다.');
+        return;
+      }
+  
       // 이미 참여한 사용자인지 확인
       const alreadyApplied = applications.some(app => app.applicationCategory.userCategory.userCode === user.userCode);
       if (alreadyApplied) {
         alert('이미 참여 신청한 사용자입니다.');
         return;
       }
-
-      if(approvedApplications.length + 1 === detailHoneypot.totalMember) {
-        alert('신청인원이 다 찼습니다.');
-        return;
-      }
-
+  
       // 참여 신청 API 호출
       const response = await axios.post('http://localhost:8081/honeypot/application', {
         honeypotCategory: {
@@ -42,14 +47,14 @@ export default function UserDetailPage({ detailHoneypot, filteredCultureList, ti
         },
         applicationDate: new Date().toISOString().slice(0, 10) // 오늘 날짜를 ISO 포맷으로 설정
       });
-
+  
       // 참여 신청 완료 메시지
       console.log('등록완료 정보 : ', response);
       alert('참가 신청이 완료되었습니다.');
-
+  
       // 신청 완료 후 참가 신청자 정보 다시 조회
       ApplicationApi(detailHoneypot.honeypotCode, setApplications);
-
+  
     } catch (error) {
       console.error('참가 신청 실패:', error);
       alert('참가 신청에 실패했습니다. 다시 시도해주세요.');

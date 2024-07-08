@@ -35,7 +35,7 @@ function HoneypotDetailPage({ cultureList, user }) {
       if (detailHoneypot && detailHoneypot.honeypotCode) {
         ApplicationApi(detailHoneypot.honeypotCode, setApplications);
       }
-  }, [detailHoneypot]);
+  }, [detailHoneypot,user]);
   
   console.log(applications)
 
@@ -46,7 +46,7 @@ function HoneypotDetailPage({ cultureList, user }) {
  
 
   const modifyClick = () => {
-    navigate(`/honeypot/modify/${honeypotCode}`, {
+    navigate(`/honeypot/u/${honeypotCode}`, {
       state: { detailHoneypot }
     });
   };
