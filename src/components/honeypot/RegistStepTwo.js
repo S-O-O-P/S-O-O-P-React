@@ -7,7 +7,28 @@ function RegistStepTwo({ selectedIndex, filteredCultureList, onChange, user }) {
     const [eventDate, setEventDate] = useState('');
     const [totalMembers, setTotalMembers] = useState('2');
     const [endDate, setEndDate] = useState('');
+    const [maxDate, setMaxDate] = useState('');
+    const [minDate, setMinDate] = useState('');
     const maxLength = 500;
+
+    useEffect(() => {
+
+        const today = new Date().toISOString().split('T')[0];
+        setMinDate(today);
+
+        if (selectedIndex !== null) {
+            const selectedEndDate = filteredCultureList[selectedIndex].endDate;
+            const year = selectedEndDate.substring(0, 4);
+            const month = selectedEndDate.substring(4, 6) - 1; // 월은 0부터 시작하므로 1을 빼줍니다.
+            const day = selectedEndDate.substring(6, 8);
+            const dateObject = new Date(year, month, day);
+            const formattedEndDate = dateObject.toISOString().split('T')[0];
+
+            setMaxDate(formattedEndDate);
+            console.log('선택한 항목의 엔드데이트 ', formattedEndDate);
+        }
+    }, [selectedIndex, filteredCultureList]);
+
 
     // useEffect를 이용하여 onChange 함수 호출
     useEffect(() => {
@@ -23,12 +44,11 @@ function RegistStepTwo({ selectedIndex, filteredCultureList, onChange, user }) {
             honeypotContent,
             region,
             eventDate,
-            totalMembers: parseInt(totalMembers),
+            totalMember: parseInt(totalMembers),
             endDate,
             interestCode: mapInterestCode(filteredCultureList[selectedIndex]?.realmName),
             poster: filteredCultureList[selectedIndex]?.thumbnail || null,
             regDate: new Date().toISOString(),
-            totalMember: parseInt(totalMembers),
             visibilityStatus: '활성화',
             seqNo: filteredCultureList[selectedIndex].seq,
         };
@@ -95,7 +115,7 @@ function RegistStepTwo({ selectedIndex, filteredCultureList, onChange, user }) {
                         <div className="regist-info-btn">지역</div>
                         <div className="selected-region">{region}</div>
                         <div className="regist-info-btn">일자</div>
-                        <input className='date-style' type="date" value={eventDate} onChange={(e) => setEventDate(e.target.value)} />
+                        <input className='date-style' type="date" value={eventDate} min={minDate} max={maxDate} onChange={(e) => setEventDate(e.target.value)} />
                     </div>
                     <div className="totaluser-enddate">
                         <div className="regist-info-btn">모집 정원</div>

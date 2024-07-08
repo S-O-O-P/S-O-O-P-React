@@ -116,13 +116,14 @@
     display: flex;
     flex-wrap: wrap;
     gap: 20px; /* 포스터 간격을 추가 */
-    justify-content: space-between;
+    justify-content: flex-start;
     
 }
 
 .one-culture {
     position: relative; /* 상대 위치 설정 */
     width: calc(33.33% - 20px); /* 포스터 요소 너비를 3등분 */
+    max-height: 300px;
     height: auto;
     margin-bottom: 20px;
     box-sizing: border-box; /* 패딩 및 보더를 포함한 너비 및 높이 계산 */
