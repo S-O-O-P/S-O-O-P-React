@@ -219,7 +219,7 @@ export default function CultureDetail(props) {
                   </div> 
                   : 
                   <div className={styles.honeypotListBox}>
-                    <div className={`honeypot-list-container ${styles.honeypotListCont}`}>
+                    <div className={`${styles.honeypotListCont} honeypot-list-container`}>
                       {filteredHoneypots.length > 6 ? [...Array(parseInt(6))].map((honeypot, index) => (
                       <Link key={index} className="one-honeypot-index"
                         to={`/honeypot/detail/${filteredHoneypots[index]?.honeypotCode}`}>

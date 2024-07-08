@@ -199,7 +199,8 @@ li.right_filter .selected_filter {width: 128px;}
 .detail_null_box {height: 562px; text-align: center;}
 .detail_null_box p {padding-bottom: 20px; font-size: 20px; font-weight: var(--regular);}
 .honeypotListBox {display: flex; flex-direction: column; align-items: center;}
-.honeypotListCont {width: 100%; padding-bottom: 60px;}
+.honeypotListCont {width: 100%; padding:0; padding-bottom: 60px;}
+.honeypotListCont a {width: calc((100% - 40px) / 2);}
 .hosting_btn {display: inline-block; height: 48px; padding: 0 20px; font-size: 24px; font-weight: var(--semiBold); line-height: 48px; text-align: center; color: #ffffff; border-radius:48px; background-color: var(--main-color); transition: background-color 200ms ease-in-out; cursor: pointer;}
 .hosting_btn:hover {background-color: var(--point-color);}
 
