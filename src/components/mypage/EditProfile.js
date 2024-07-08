@@ -1,21 +1,16 @@
 import './EditProfile.css';
 import { useState, useEffect } from 'react';
-import axios from 'axios'; // axios를 사용한다고 가정합니다. 필요에 따라 다른 HTTP 클라이언트를 사용할 수 있습니다.
+import axios from 'axios';
 
 const INTERESTS = ['팝업', '공연', '행사/축제', '전시회', '뮤지컬'];
 
 function EditProfile({ loggedInUser, onProfileUpdate }) {
     const [inputText, setInputText] = useState(loggedInUser.nickname);
     const [textAreaText, setTextAreaText] = useState(loggedInUser.aboutme);
-    const [choiceInterest, setChoiceInterest] = useState({
-        팝업: false,
-        공연: false,
-        행사축제: false,
-        전시회: false,
-        뮤지컬: false,
-    });
+    const [choiceInterest, setChoiceInterest] = useState({});
     const [showReCheckModal, setShowReCheckModal] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [selectedInterestsCount, setSelectedInterestsCount] = useState(0);
 
     // useEffect(() => {
     //     const initialInterests = {
@@ -32,12 +27,18 @@ function EditProfile({ loggedInUser, onProfileUpdate }) {
     // }, [loggedInUser, loggedInUser.nickname, loggedInUser.aboutme]);
     
     useEffect(() => {
-      const initialInterests = INTERESTS.reduce((acc, interest) => {
-          acc[interest] = loggedInUser.interests.some(i => i.interestName === interest);
-          return acc;
-      }, {});
-      setChoiceInterest(initialInterests);
-  }, [loggedInUser]);
+        if (loggedInUser && loggedInUser.interests) {
+            const initialInterests = INTERESTS.reduce((acc, interest) => {
+                acc[interest] = loggedInUser.interests.some(i => i.interestName === interest);
+                return acc;
+            }, {});
+            setChoiceInterest(initialInterests);
+            setSelectedInterestsCount(Object.values(initialInterests).filter(Boolean).length);
+            setInputText(loggedInUser.nickname);
+            setTextAreaText(loggedInUser.aboutme);
+            console.log('Updated user data:', loggedInUser);
+        }
+    }, [loggedInUser]);
 
     const maxLength = 180;
 
@@ -53,10 +54,22 @@ function EditProfile({ loggedInUser, onProfileUpdate }) {
 
     const handleInterest = (e) => {
         const interestType = e.target.id;
-        setChoiceInterest(prev => ({
-            ...prev,
-            [interestType]: !prev[interestType]
-        }));
+        setChoiceInterest(prev => {
+            const updatedInterests = { ...prev };
+            if (updatedInterests[interestType]) {
+                // 이미 선택된 관심사를 선택 해제하는 경우
+                updatedInterests[interestType] = false;
+                setSelectedInterestsCount(count => count - 1);
+            } else if (selectedInterestsCount < 3) {
+                // 새로운 관심사를 선택하는 경우 (3개 미만일 때만)
+                updatedInterests[interestType] = true;
+                setSelectedInterestsCount(count => count + 1);
+            } else {
+                // 이미 3개가 선택된 상태에서 새로운 관심사를 선택하려고 할 때
+                alert('관심사는 최대 3개까지만 선택할 수 있습니다.');
+            }
+            return updatedInterests;
+        });
     };
 
     const modifySubmit = () => {
@@ -64,40 +77,30 @@ function EditProfile({ loggedInUser, onProfileUpdate }) {
     };
 
     const handleConfirm = async () => {
-    setShowReCheckModal(false);
+        setShowReCheckModal(false);
+        
+        const updatedInterests = Object.entries(choiceInterest)
+            .filter(([_, value]) => value)
+            .map(([key, _]) =>  INTERESTS.indexOf(key) + 1);
     
-    const interestMap = {
-        '팝업': 1,
-        '공연': 2,
-        '행사/축제': 3,
-        '전시회': 4,
-        '뮤지컬': 5
-    };
-
-    const updatedInterests = Object.entries(choiceInterest)
-        .filter(([_, value]) => value)
-        .map(([key, _]) => interestMap[key])
-        .filter(code => code !== undefined);
-
-    const updateData = {
-        nickname: inputText,
-        aboutme: textAreaText,
-        profilePic: loggedInUser.profilePic,
-        interests: updatedInterests
-    };
-
-    try {
-        await axios.put(`http://localhost:8081/mypage/${loggedInUser.userCode}`, updateData);
-        setShowConfirmModal(true);
-        if (onProfileUpdate) {
-            onProfileUpdate(updateData);
+        const updateData = {
+            nickname: inputText,
+            aboutme: textAreaText,
+            profilePic: loggedInUser.profilePic,
+            interests: updatedInterests
+        };
+    
+        try {
+            const response = await axios.put(`http://localhost:8081/mypage/${loggedInUser.userCode}`, updateData);
+            setShowConfirmModal(true);
+            if (onProfileUpdate) {
+                onProfileUpdate(response.data);  // 서버 응답 데이터를 전달
+            }
+        } catch (error) {
+            console.error("프로필 업데이트 실패:", error.response ? error.response.data : error.message);
         }
-        console.log('업데이트된 데이터:', updateData);
-    } catch (error) {
-        console.error("프로필 업데이트 실패:", error);
-        // 오류 처리 로직 (예: 오류 메시지 표시)
-    }
-};
+    };
+
 
     const closeConfirmModal = () => {
         setShowConfirmModal(false);
@@ -114,19 +117,20 @@ function EditProfile({ loggedInUser, onProfileUpdate }) {
             </div>    
             <hr className='divide-line'/>
             <div className='profile-right'>
-                <p>관심사</p>
-                <div className='interest-wrapper'>
-                    {Object.keys(choiceInterest).map(tag => (
-                        <button 
-                            key={tag} 
-                            id={tag} 
-                            onClick={handleInterest} 
-                            className={choiceInterest[tag] ? 'selected' : ''}
-                        >
-                            # {tag}
-                        </button>
-                    ))}
-                </div>
+            <p>관심사 (최대 3개 선택 가능, 현재 {selectedInterestsCount}개 선택됨)</p>
+            <div className='interest-wrapper'>
+                {INTERESTS.map(tag => (
+                    <button 
+                        key={tag} 
+                        id={tag} 
+                        onClick={handleInterest} 
+                        className={choiceInterest[tag] ? 'selected' : ''}
+                        disabled={!choiceInterest[tag] && selectedInterestsCount >= 3}
+                    >
+                        # {tag}
+                    </button>
+                ))}
+            </div>
                 <div className='modify-container'>
                     <button className='modify-btn' onClick={modifySubmit}>수정</button>
                 </div>
