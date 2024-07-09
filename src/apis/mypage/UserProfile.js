@@ -3,6 +3,7 @@ import axios from "axios";
 export default function UserProflieApi({setIsLoading, setLoggedInUser, setProfileImage, user}) {
     
     async function fetchLoggedInUser() {
+        
         setIsLoading(true);
         try {
             const response = await axios.get(`http://localhost:8081/mypage/${user.userCode}`);

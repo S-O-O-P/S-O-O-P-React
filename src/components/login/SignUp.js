@@ -8,7 +8,7 @@ function SignUp() {
   const [selectedInterests, setSelectedInterests] = useState([]);
   const [nickName, setNickName] = useState("");
   const [aboutMe, setAboutMe] = useState("");
-  const [usercode, setUsercode] = useState(null);
+  const [userCode, setUserCode] = useState(null);
   const [role, setRole] = useState(null); 
   const [signupPlatform, setSignupPlatform] = useState(null);
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ function SignUp() {
 
   useEffect(() => {
     if (decodedToken && accessToken) {
-      setUsercode(decodedToken.usercode);
+      setUserCode(decodedToken.userCode);
       setRole(decodedToken.role);
       setSignupPlatform(decodedToken.signupPlatform);
     } else {
@@ -51,7 +51,7 @@ function SignUp() {
   const handleSignUp = async () => {
     try {
       const response = await axios.post('http://localhost:8081/signup', 
-        { usercode, nickName, aboutMe, signupPlatform, selectedInterests },
+        { userCode, nickName, aboutMe, signupPlatform, selectedInterests },
         {
           headers: {
             "Authorization": `Bearer ${accessToken}`,

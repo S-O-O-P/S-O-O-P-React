@@ -12,6 +12,8 @@ export default function useDecodeJwtResponse() {
       if (parts.length === 2) return parts.pop().split(';').shift();
     };
 
+    console.log('쿠키' , document.cookie);
+
     const token = getCookie('access');
     if (token) {
       try {
