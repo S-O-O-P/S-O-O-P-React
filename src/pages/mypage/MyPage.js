@@ -24,7 +24,6 @@ const MyPage = ({user}) => {
 
     const [selectedMenu, setSelectedMenu] = useState('participatingHoneypot');
     const [showMannerStarModal, setShowMannerStarModal] = useState(false);
-    const [profileImage, setProfileImage] = useState(`${process.env.PUBLIC_URL}/images/commons/logo.png`);
     const fileInput = useRef(null);
     const [loggedInUser, setLoggedInUser] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -49,6 +48,7 @@ const MyPage = ({user}) => {
     },[user, loggedInUser.nickname]);
 
     console.log('나의 정보', myRating);
+    console.log('유저', user);
 
     
 
@@ -107,10 +107,6 @@ const MyPage = ({user}) => {
 
     const mannerStarClick = () => {
         setShowMannerStarModal(true);
-    };
-
-    const mannerStarconfirmBtn = () => {
-        setShowMannerStarModal(false);
     };
 
     const backBtn = () => {

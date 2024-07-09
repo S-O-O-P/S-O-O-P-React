@@ -127,18 +127,16 @@ export default function HostDetailPage({ user, honeypotCode, detailHoneypot, all
       </div>
       <div className='btn-container'>
         <button className='go-to-list' onClick={() => navigate('/honeypot')}> 목록으로</button>
-        <button className='go-to-modify' onClick={modifyClick}>수정하기</button>
+        <button className='go-to-modify' onClick={modifyClick} disabled={applications.length > 0} style={{ opacity: applications.length > 0 ? 0.5 : 1 }}>수정하기</button>
         <button className='check-application' onClick={() => {
-  if (isRecruitmentFull) {
-    // 모집 완료 모달 표시
-    setApprovalModal(true);
-  } else {
-    // 기존 참여신청 정보 확인 모달 표시
-    setApprovalModal(true);
-  }
-}}>
-  참여신청 정보 확인
-</button>
+                                                              if (isRecruitmentFull) {
+                                                                // 모집 완료 모달 표시
+                                                                setApprovalModal(true);
+                                                              } else {
+                                                                // 기존 참여신청 정보 확인 모달 표시
+                                                                setApprovalModal(true);
+                                                              }
+                                                            }}> 참여신청 정보 확인 </button>
       </div>
 {approvalModal && (
   <div className='approval-modal-container'>
