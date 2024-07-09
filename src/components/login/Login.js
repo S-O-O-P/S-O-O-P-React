@@ -2,37 +2,32 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Login.css';
+import useDecodeJwtResponse from '../../apis/DecodeJwtResponse';
 
 const Login = () => {
   const navigate = useNavigate();
   const [token, setToken] = useState(null);
+  const [selectedInterests, setSelectedInterests] = useState([]);
+  const [accessToken, setAccessToken] = useState(null);
+  const [nickName, setNickName] = useState("");
+  const [aboutMe, setAboutMe] = useState("");
+  const [userCode, setUserCode] = useState(null);
+  const [role, setRole] = useState(null); 
+  const [signupPlatform, setSignupPlatform] = useState(null);
+
+  const decodedToken = useDecodeJwtResponse();
 
   useEffect(() => {
-    const getCookie = (name) => {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
-    };
-
-    const accessToken = getCookie('access');
-    // console.log('토큰 꺼내왔는지'+accessToken);
-
-    if (accessToken) {
-      setToken(accessToken);
-      navigate('/main');
+    if (decodedToken) {
+      setUserCode(decodedToken.userCode);
+      setRole(decodedToken.role);
+      setSignupPlatform(decodedToken.signupPlatform);
+      setAccessToken(decodedToken.token);
+      // navigate('/main');
+    } else {
+      navigate('/signup');
     }
-  }, [navigate]);
-
-  const getAuth = (token) => axios.create({
-    baseURL: 'http://localhost:8081/login',
-    headers: {
-      "Content-Type": "application/json;charset=UTF-8",
-      "Accept": "*",
-      "Authorization": `Bearer ${token}`,
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Credentials": "true",
-    }
-  });
+  }, [decodedToken, navigate]);
 
   const onNaverLogin = () => {
     window.location.href = "http://localhost:8081/oauth2/authorization/naver";

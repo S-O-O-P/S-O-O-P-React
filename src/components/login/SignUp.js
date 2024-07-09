@@ -2,18 +2,30 @@ import './SignUp.css';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import DecodeJwtResponse from '../../apis/DecodeJwtResponse'
-import { jwtDecode } from 'jwt-decode';
+import useDecodeJwtResponse from '../../apis/DecodeJwtResponse'
 
 function SignUp() {
   const [selectedInterests, setSelectedInterests] = useState([]);
-  const [accessToken, setAccessToken] = useState(null);
   const [nickName, setNickName] = useState("");
   const [aboutMe, setAboutMe] = useState("");
-  const [userCode, setUserCode] = useState(null);
+  const [usercode, setUsercode] = useState(null);
   const [role, setRole] = useState(null); 
   const [signupPlatform, setSignupPlatform] = useState(null);
   const navigate = useNavigate();
+
+  const { decodedToken, accessToken } = useDecodeJwtResponse();
+
+
+  useEffect(() => {
+    if (decodedToken && accessToken) {
+      setUsercode(decodedToken.usercode);
+      setRole(decodedToken.role);
+      setSignupPlatform(decodedToken.signupPlatform);
+    } else {
+      navigate('/signup');
+    }
+  }, [decodedToken, navigate]);
+  
 
   const onClickHandler = (valueI) => {
     setSelectedInterests(pre => {
@@ -26,35 +38,10 @@ function SignUp() {
     });
   };
 
-  useEffect(() => {
-    const getCookie = (name) => {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(';').shift();
-    };
-
-    const accessToken = getCookie('access');
-    if (accessToken) {
-      const decoded = jwtDecode(accessToken);
-      // console.log("디코드:", decoded);
-
-      setUserCode(decoded.userCode);
-      setRole(decoded.role);
-      setSignupPlatform(decoded.signupPlatform)
-      setAccessToken(accessToken);
-      navigate('/signup');
-    } else {
-      navigate('/login');
-    }
-
-    console.log('Access Token:', accessToken);
-  }, [navigate]);
-
   const handleLogout = async () => {
     try {
       await axios.post('http://localhost:8081/logout', {}, { withCredentials: true });
       document.cookie = "access=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      setAccessToken(null);
       navigate('/login');
     } catch (error) {
       console.error('Logout failed', error);
@@ -64,11 +51,7 @@ function SignUp() {
   const handleSignUp = async () => {
     try {
       const response = await axios.post('http://localhost:8081/signup', 
-        {userCode, nickName, aboutMe, signupPlatform, selectedInterests },
-        // console.log(nickName),
-        // console.log(aboutMe),
-        // console.log(signupPlatform),
-        // console.log(selectedInterests),
+        { usercode, nickName, aboutMe, signupPlatform, selectedInterests },
         {
           headers: {
             "Authorization": `Bearer ${accessToken}`,

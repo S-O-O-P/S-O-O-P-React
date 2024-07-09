@@ -24,6 +24,12 @@ import ExpiredToken from './apis/ExpiredToken';
 import RegistHoneypotPage from './pages/honeypot/RegistHoneypotPage';
 import HoneypotDetailPage from './pages/honeypot/HoneypotDetailPage';
 import ModifyHoneypotPage from './pages/honeypot/ModifyHoneypotPage';
+import useDecodeJwtResponse from './apis/DecodeJwtResponse';
+
+
+
+
+
 
 
 export default function App() {
@@ -31,6 +37,11 @@ export default function App() {
   const [data, setData] = useState(null); // 공공데이터 기간별 조회 목록
   const [seqList, setSeqList] = useState([]); // 상세 조회를 위한 공공데이터 seq 데이터 리스트 저장
   const [detailDataList, setDetailDataList] = useState({}); // seq 데이터 리스트에 따른 공공 데이터 상세 정보 key:value로 저장
+
+  const { decodedToken, accessToken } = useDecodeJwtResponse();
+  const [role, setRole] = useState(null); 
+  const [signupPlatform, setSignupPlatform] = useState(null);
+  const [usercode, setUsercode] = useState(null);
 
   useEffect(() => {
     CultureApi({ setData }); // App.js의 setData함수를 객체 형태로 CultureApi 컴포넌트에 props로 전달
@@ -55,6 +66,15 @@ export default function App() {
       }, seq);
     });
   }, [seqList]);
+
+  useEffect(() => {
+    if (decodedToken && accessToken) {
+      setUsercode(decodedToken.usercode);
+      setRole(decodedToken.role);
+      setSignupPlatform(decodedToken.signupPlatform);
+    } else {
+    }
+  }, [decodedToken]);
 
   // PublicRoute  = access 토큰이 있는 상태로 접근 불가 (예를 들면 로그인 페이지, 회원가입 페이지 등등)
   // PrivateRoute = access 토큰이 없는 경우 접근 불가 (예를 들면 회원가입 페이지, 마이페이지, 1:1 문의 등등)
