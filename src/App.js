@@ -24,7 +24,9 @@ import ExpiredToken from './apis/ExpiredToken';
 import RegistHoneypotPage from './pages/honeypot/RegistHoneypotPage';
 import HoneypotDetailPage from './pages/honeypot/HoneypotDetailPage';
 import ModifyHoneypotPage from './pages/honeypot/ModifyHoneypotPage';
-import LoginCheckApi from './apis/mypage/LoginCheckApi';
+import useDecodeJwtResponse from './apis/DecodeJwtResponse';
+// import LoginCheckApi from './apis/mypage/LoginCheckApi';
+
 
 
 export default function App() {
@@ -32,6 +34,11 @@ export default function App() {
   const [data, setData] = useState(null); // 공공데이터 기간별 조회 목록
   const [seqList, setSeqList] = useState([]); // 상세 조회를 위한 공공데이터 seq 데이터 리스트 저장
   const [detailDataList, setDetailDataList] = useState({}); // seq 데이터 리스트에 따른 공공 데이터 상세 정보 key:value로 저장
+
+  const { decodedToken, accessToken } = useDecodeJwtResponse();
+  const [role, setRole] = useState(null); 
+  const [signupPlatform, setSignupPlatform] = useState(null);
+  const [userCode, setUserCode] = useState(null);
 
   useEffect(() => {
     CultureApi({ setData }); // App.js의 setData함수를 객체 형태로 CultureApi 컴포넌트에 props로 전달
@@ -63,14 +70,13 @@ export default function App() {
 
   // 임시 로그인정보 대체(김만호 테스트용)
 
-  const storedToken = JSON.parse(localStorage.getItem('accessToken'));
-  const [checkLoginUser, setCheckLoginUser] = useState([]);
-  useEffect(() => {
-    LoginCheckApi( {setCheckLoginUser, storedToken})
-  },[])
+  // const storedToken = JSON.parse(localStorage.getItem('accessToken'));
+  // const [checkLoginUser, setCheckLoginUser] = useState([]);
+  // useEffect(() => {
+  //   LoginCheckApi( {setCheckLoginUser, accessToken})
+  // },[])
 
-  console.log("체크로긴유저:", checkLoginUser);
-  console.log("앱JS 테스트", checkLoginUser.userCode)
+
 
   // const lastCheck = checkLoginUser.filter(data => data.refresh === storedToken.token);
   // console.log("라스트체크:" ,lastCheck);
@@ -85,15 +91,33 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(null);
 
+  // useEffect(() => {
+  //   if (checkLoginUser && checkLoginUser.userCode) {
+      
+  //     setLoggedInUser(checkLoginUser);
+  //   } else {
+      
+  //     setLoggedInUser(null);
+  //   }
+  // }, [checkLoginUser]);
+
   useEffect(() => {
-    if (checkLoginUser && checkLoginUser.userCode) {
+    if (decodedToken && decodedToken.userCode) {
       setIsLoggedIn(true);
-      setLoggedInUser(checkLoginUser);
+      setUserCode(decodedToken.userCode);
+      setRole(decodedToken.role);
+      setSignupPlatform(decodedToken.signupPlatform);
+      setLoggedInUser(decodedToken)
     } else {
       setIsLoggedIn(false);
-      setLoggedInUser(null);
+      const decodedToken = null;
     }
-  }, [checkLoginUser]);
+  }, [decodedToken]);
+
+  // console.log('앱JS loggedInUser', loggedInUser.userCode);
+    console.log("체크로긴유저:", decodedToken);
+    console.log("체크 test214241241 : ", loggedInUser)
+    console.log("앱JS 테스트", userCode)
 
   console.log('loggedInUser', loggedInUser);
 

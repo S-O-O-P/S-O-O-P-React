@@ -24,7 +24,7 @@ export default function CultureApi({ setData }) {
         const parser = new DOMParser(); // XML 문자열을 파싱하기 위해 DOMParser 객체를 생성
         const xmlDom = parser.parseFromString(xmlText, 'application/xml'); // XML 문자열을 XML DOM 객체로 변환
         const jsonData = xmlToJson(xmlDom); // XML 데이터를 JSON 형식으로 변환
-        setData(jsonData.response.msgBody[0]); // App.js에서 전달받은 setData 함수를 호출하여 데이터 설정
+        // setData(jsonData.response.msgBody[0]); // App.js에서 전달받은 setData 함수를 호출하여 데이터 설정
         // console.log("from CultureApi : "+jsonData.response.msgBody[0]);
       } else {
         // 오류 처리
