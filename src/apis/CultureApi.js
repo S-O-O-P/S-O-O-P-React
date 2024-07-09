@@ -12,8 +12,8 @@ export default function CultureApi({ setData }) {
       MsgBody: '',
       cPage: '1',
       rows: '500', // 1페이지에 불러올 데이터 갯수
-      from: '20240701', // 시작일
-      to: '20240702' // 종료일
+      from: '20240715', // 시작일
+      to: '20240719' // 종료일
     });
 
     xhr.open('GET', `${url}?${queryParams.toString()}`, true); // get 요청

@@ -16,6 +16,9 @@ import FinishedHoneyPotApi from '../../apis/mypage/FinishedHoneyPotApi';
 import RatingApi from '../../apis/mypage/RatingApi';
 import UserProflieApi from '../../apis/mypage/UserProfile';
 import MyRatingApi from '../../apis/mypage/MyRatingApi';
+import axios from 'axios';
+
+const INTERESTS = ['팝업', '공연', '행사/축제', '전시회', '뮤지컬'];
 
 const MyPage = ({user}) => {
 
@@ -43,7 +46,7 @@ const MyPage = ({user}) => {
         FinishedHoneyPotApi({setIsLoading, setFinishedHoneyPotList, setParticiMember, user}) // 진행완료 된 허니팟
         RatingApi({setIsLoading, setRatingCategory});
         MyRatingApi({setIsLoading, setMyRating, user})
-    },[user]);
+    },[user, loggedInUser.nickname]);
 
     console.log('나의 정보', myRating);
 
@@ -54,11 +57,53 @@ const MyPage = ({user}) => {
     }
 
     const handleProfileUpdate = (updatedProfile) => {
-        setLoggedInUser(prevUser => ({
-            ...prevUser,
-            ...updatedProfile
-        }));
+        console.log("Received updated profile:", updatedProfile);
+        setLoggedInUser(prevUser => {
+            if (!updatedProfile || !updatedProfile.interests) {
+                console.error("Updated profile or interests are missing", updatedProfile);
+                return prevUser;
+            }
+    
+            const newUser = {
+                ...prevUser,
+                ...updatedProfile,
+                interests: Array.isArray(updatedProfile.interests)
+                    ? updatedProfile.interests.map(interest => ({
+                        interestCode: interest.interestCode || interest,
+                        interestName: interest.interestName || ''
+                      }))
+                    : []
+            };
+            console.log("New user state:", newUser);
+            return newUser;
+        });
     };
+
+    const handleProfilePicChange = async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append('file', file);
+    
+            try {
+                const response = await axios.put(`http://localhost:8081/mypage/profile-pic/${loggedInUser.userCode}`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                
+                // Update the profile picture in the UI
+                setLoggedInUser(prevUser => ({
+                    ...prevUser,
+                    profilePic: response.data
+                }));
+            } catch (error) {
+                console.error('Error updating profile picture:', error);
+            }
+        }
+    };
+    
+    
 
     const mannerStarClick = () => {
         setShowMannerStarModal(true);
@@ -85,7 +130,14 @@ const MyPage = ({user}) => {
                         <img src={loggedInUser.profilePic} className="profile-pic" alt="프로필사진" />
                         <div className="profile-pic-update-btn" onClick={() => fileInput.current.click()}>
                             <img src={`${process.env.PUBLIC_URL}/images/commons/icon_edit_profile.png`} alt="사진변경아이콘" />
-                            <input type='file' style={{ display: 'none' }} ref={fileInput} accept='image/jpg, image/png, image/jpeg' name='profile_img' />
+                            <input 
+                                type='file' 
+                                style={{ display: 'none' }} 
+                                ref={fileInput} 
+                                accept='image/jpg, image/png, image/jpeg' 
+                                name='profile_img'
+                                onChange={handleProfilePicChange}
+                            />
                         </div>
                     </div>
 
@@ -119,7 +171,7 @@ const MyPage = ({user}) => {
                     {selectedMenu === 'myComments' && <MyComments myCommentList={myCommentList}/>}
                     {selectedMenu === 'review' && <Review finishedHoneyPotList={finishedHoneyPotList} particiMember={particiMember} user={user} ratingCategory={ratingCategory}/>}
                     {selectedMenu === 'myInquiry' && <MyInquiry myInquiryList={myInquiryList}/>}
-                    {selectedMenu === 'editProfile' && <EditProfile loggedInUser={loggedInUser} onProfileUpdate={handleProfileUpdate} />}
+                    {selectedMenu === 'editProfile' && <EditProfile key={loggedInUser.nickname + loggedInUser.aboutme} loggedInUser={loggedInUser} onProfileUpdate={handleProfileUpdate} />}
                 
                 </div>
 

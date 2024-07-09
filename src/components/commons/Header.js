@@ -5,6 +5,7 @@ import axios from 'axios';
 
 function Header() {
 
+
   useEffect(() => {
     if (!sessionStorage.getItem('refreshed')) {
       sessionStorage.setItem('refreshed', 'true');
@@ -24,6 +25,8 @@ function Header() {
       setAccessToken(storedToken.token);
     }
   }, []);
+
+  
 
   const handleLogout = async () => {
     try {
@@ -52,9 +55,9 @@ function Header() {
         </nav>
         {accessToken ?  <a href='/mypage'><li>{userNickName}</li></a>
         : <li><p></p></li>}
-        {accessToken ? <a href='/mypage'><li><img className='mypage-btn' src={`${process.env.PUBLIC_URL}/images/commons/icon_mypage_white.png`} alt="MYPAGE"/></li></a>
+        {accessToken ? <a href='/mypage'><li><img className='mypage-btn' src={`${process.env.PUBLIC_URL}/images/commons/icon_mypage_colored.png`} alt="MYPAGE"/></li></a>
         : <li></li>}
-        {accessToken ? <li><img className='logout-btn' onClick={handleLogout} src={`${process.env.PUBLIC_URL}/images/commons/icon_logout_white.png`} alt='LOGOUT'/></li>
+        {accessToken ? <li><img className='logout-btn' onClick={handleLogout} src={`${process.env.PUBLIC_URL}/images/commons/icon_logout_colored.png`} alt='LOGOUT'/></li>
         : (<NavLink to='/login'>
             <li><button className="login-btn">LOGIN</button></li>
           </NavLink>)}
