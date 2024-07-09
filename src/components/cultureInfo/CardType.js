@@ -49,12 +49,13 @@ export default function CardType({cultureList, detailDataList, earlyCheck}){
 
             // 얼리버드 공연/전시 가격 1000단위 ,
             const convertPriceFormat = (dPrice) => {
+              console.log("dPrice : ",dPrice);
               if (!dPrice && dPrice !== 0) { // dPrice가 유효하지 않은 경우를 처리
                 return "가격 정보 업데이트중"; // 기본 값 반환
               }
               const endPrice = (dPrice?.toString()).slice(-3);
-              const startPirce = (dPrice?.toString()).slice(0, -3);
-              return startPirce+','+endPrice;
+              const startPrice = (dPrice?.toString()).slice(0, -3);
+              return startPrice+','+endPrice;
             }
 
             const title = earlyCheck ? item.ebTitle.replaceAll('&lt;',`<`).replaceAll('&gt;',`>`).replaceAll("&#39;","'") :  item.title.replaceAll('&lt;',`<`).replaceAll('&gt;',`>`).replaceAll("&#39;","'"); // 제목          
@@ -67,12 +68,11 @@ export default function CardType({cultureList, detailDataList, earlyCheck}){
             const price = earlyCheck ? convertPriceFormat(item?.discountPrice) : detailData && detailData.price ? detailData.price : "가격 정보 없음";
             // const detailData = detailDataList[item.seq]; // seq(공연/전시 코드)에 따른 상세 정보
             // console.log("price from cardtype : " + JSON.stringify(detailData));
-            const discountRate = earlyCheck ? (item?.discountPrice / item?.regularPrice * 100) : null;
-            console.log("discount Rate : " + item?.discountPrice);
+            const discountRate = earlyCheck ? parseInt(item?.discountPrice / item?.regularPrice * 100) : null;
+            console.log("discount Rate : ", item);
             console.log("discount Rate : " + typeof item?.discountPrice);
             console.log("discount Rate : " + item?.regularPrice);
-            console.log("discount Rate : " + (item.discountPrice / item.regularPrice * 100));
-            console.log("discount Rate : " + (item.discountPrice / item.regularPrice * 100));
+            // console.log("discount Rate : " + (item.discountPrice / item.regularPrice * 100));
             
             return(
               <li key={index}>
@@ -86,7 +86,7 @@ export default function CardType({cultureList, detailDataList, earlyCheck}){
                     {earlyCheck ? <p className={styles.culture_date}>{formatDate(item.saleStartDate)} ~ {formatDate(item.saleEndDate)}</p> : <p className={styles.culture_date}>{convertDateFormat(item.startDate, null)} ~ {convertDateFormat(item.endDate, null)}</p>}
                     <p className={styles.early_end}></p>
                     <p className={styles.culture_price}>
-                      { earlyCheck ? <span className={styles.sale_rate}>{discountRate}</span> : null} {price}
+                      { earlyCheck ? <span className={styles.sale_rate}>{discountRate}%</span> : null} {price}원
                     </p>
                   </div>
                 </Link>
