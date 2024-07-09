@@ -109,10 +109,6 @@ const MyPage = ({user}) => {
         setShowMannerStarModal(true);
     };
 
-    const mannerStarconfirmBtn = () => {
-        setShowMannerStarModal(false);
-    };
-
     const backBtn = () => {
         setShowMannerStarModal(false);
     };

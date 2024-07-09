@@ -8,6 +8,7 @@ import HostDetailPage from '../../components/honeypot/HostDetailPage';
 import UserDetailPage from '../../components/honeypot/UserDetailPage';
 import HoneypotDetailApi from '../../apis/honeypot/HoneypotDetailApi';
 import ApplicationApi from "../../apis/honeypot/ApplicationApi";
+import MyRatingApi from '../../apis/mypage/MyRatingApi';
 
 function HoneypotDetailPage({ cultureList, user }) {
   const { honeypotCode } = useParams();
@@ -17,6 +18,9 @@ function HoneypotDetailPage({ cultureList, user }) {
   const allCultureList = parsedData.perforList || [];
   const [filteredCultureList, setFilteredCultureList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [myRating, setMyRating] = useState({ contents: [] })
+  const [showMannerStarModal, setShowMannerStarModal] = useState(false);
+
 
   // 공연 / 전시 start/endDate
   const convertDateFormat = (stringDate) => {
@@ -41,9 +45,9 @@ function HoneypotDetailPage({ cultureList, user }) {
 
   useEffect(() => {
     HoneypotDetailApi({allCultureList, setDetailHoneypot, setFilteredCultureList, honeypotCode, user , setIsLoading})
+    MyRatingApi({setIsLoading, setMyRating, user})
   },[]);
-  
- 
+
 
   const modifyClick = () => {
     navigate(`/honeypot/u/${honeypotCode}`, {
@@ -72,6 +76,14 @@ function HoneypotDetailPage({ cultureList, user }) {
     }
   };
 
+  const mannerStarClick = () => {
+    setShowMannerStarModal(true);
+  };
+
+  const backBtn = () => {
+      setShowMannerStarModal(false);
+  };
+
   if (isLoading) {
     return <LoadingSpinner />; // 로딩 중일 때 보여줄 UI
   }
@@ -87,11 +99,11 @@ function HoneypotDetailPage({ cultureList, user }) {
             <img className='host-profile-pic' src={detailHoneypot.hostInfo.profilePic} draggable="false" alt='프로필사진'/>
             <p className='host-nickname'>{detailHoneypot.hostInfo.nickname}</p>
           </div>
-          <div className='detail-manner-box' >
+          <div className='detail-manner-box' onClick={mannerStarClick}>
             <img src={`${process.env.PUBLIC_URL}/images/commons/icon_star.png`} alt="유저평점아이콘" />
             <div className='detail-manner-text'>
               <p>유저평점</p>
-              <p>4.9 / 5</p>
+              <p>{myRating.averageScore > 0 ? `${myRating.averageScore.toFixed(1)} / 5` : '평가없음'}</p>
             </div>
           </div>
         </div>
@@ -153,6 +165,45 @@ function HoneypotDetailPage({ cultureList, user }) {
             </div>
         <HoneypotComment detailHoneypot={detailHoneypot} user={user}/>
       </div>
+      {showMannerStarModal && (
+        <div className="manner-modal-container">
+          <div className="manner-modal-content">
+            <div className='manner-modal-header'>
+              <img onClick={backBtn} src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_back_main_color.png`} alt="뒤로가기아이콘" />
+              <p>{detailHoneypot.hostInfo.nickname}</p>
+            </div>
+
+            <div className='manner-modal-middle'>
+              <p className='middle-title'>유저평점</p>
+              <div className='star-point-container'>
+                <img src={`${process.env.PUBLIC_URL}/images/commons/icon_star.png`} alt="유저평점아이콘" />
+                <p>{myRating.averageScore > 0 ? `${myRating.averageScore.toFixed(1)} / 5` : '평가없음'}</p>
+              </div>
+              <div className='people-count-container'>
+                <img src={`${process.env.PUBLIC_URL}/images/commons/icon_bee.png`} alt="유저평점아이콘" />
+                <p>{myRating.contents.length > 0 ? `${myRating.contents.length}명의 멤버 평가 반영` : '아직 평가한 멤버가 없습니다'}</p>
+              </div>
+            </div>
+
+            <div className='manner-modal-bottom'>
+              <p className='bottom-title'>멤버평가</p>
+              <div className='bottom-review-container'>
+                {myRating.contents.length > 0 ? (
+                  <div className='bottom-review-container'>
+                    {myRating.contents.map((review, index) => (
+                      <div key={index} className='bottom-review-text'>
+                        <p>{review.content}</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p>아직 받은 평가가 없습니다.</p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
