@@ -95,6 +95,8 @@ export default function App() {
     }
   }, [checkLoginUser]);
 
+  console.log('loggedInUser', loggedInUser);
+
 
 
   return (

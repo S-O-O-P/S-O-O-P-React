@@ -48,6 +48,7 @@ const MyPage = ({user}) => {
     },[user, loggedInUser.nickname]);
 
     console.log('나의 정보', myRating);
+    console.log('유저', user);
 
     
 

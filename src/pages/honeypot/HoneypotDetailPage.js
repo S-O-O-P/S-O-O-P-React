@@ -1,7 +1,7 @@
 import HoneypotComment from '../../components/honeypot/HoneypotComment';
 import RecommendHoneypot from '../../components/honeypot/RecommendHoneypot';
 import './HoneypotDetailPage.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import LoadingSpinner from '../../components/commons/Loading';
 import HostDetailPage from '../../components/honeypot/HostDetailPage';
@@ -20,6 +20,8 @@ function HoneypotDetailPage({ cultureList, user }) {
   const [isLoading, setIsLoading] = useState(true);
   const [myRating, setMyRating] = useState({ contents: [] })
   const [showMannerStarModal, setShowMannerStarModal] = useState(false);
+  const location = useLocation();
+  
 
 
   // 공연 / 전시 start/endDate
@@ -44,12 +46,30 @@ function HoneypotDetailPage({ cultureList, user }) {
   console.log(applications)
 
   useEffect(() => {
-    HoneypotDetailApi({allCultureList, setDetailHoneypot, setFilteredCultureList, honeypotCode, user , setIsLoading})
-    MyRatingApi({setIsLoading, setMyRating, user})
-  },[]);
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        // 새로 등록된 허니팟인 경우 추가 대기 시간 설정
+        if (location.state && location.state.newHoneypotCode) {
+          await new Promise(resolve => setTimeout(resolve, 1000)); // 1초 대기
+        }
+        await HoneypotDetailApi({allCultureList, setDetailHoneypot, setFilteredCultureList, honeypotCode, user, setIsLoading});
+        await MyRatingApi({setIsLoading, setMyRating, user});
+      } catch (error) {
+        console.error("데이터 로딩 실패:", error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [honeypotCode, user]);
 
 
   const modifyClick = () => {
+    if (applications.length > 0) {
+      alert('신청자가 있어 수정할 수 없습니다.');
+      return;
+    }
     navigate(`/honeypot/u/${honeypotCode}`, {
       state: { detailHoneypot }
     });
@@ -157,11 +177,13 @@ function HoneypotDetailPage({ cultureList, user }) {
         <div className='comment-top'>
                 <p>댓글</p>
                 {detailHoneypot.hostInfo.userCode === user.userCode && (
-                <div className='honeypot-delete' onClick={handleDeleteHoneypot}>
-                    <img src={`${process.env.PUBLIC_URL}/images/commons/icon_delete_main_color.png`} alt="delete icon"/>
-                    <p>삭제</p>
-                </div>
-                )}
+              <div className='honeypot-delete' 
+                  onClick={applications.length > 0 ? () => alert('참가 신청자가 있어 허니팟을 삭제할 수 없습니다.') : handleDeleteHoneypot}
+                  style={{ opacity: applications.length > 0 ? 0.5 : 1, cursor: applications.length > 0 ? 'not-allowed' : 'pointer' }}>
+                <img src={`${process.env.PUBLIC_URL}/images/commons/icon_delete_main_color.png`} alt="delete icon"/>
+                <p>삭제</p>
+              </div>
+            )}
             </div>
         <HoneypotComment detailHoneypot={detailHoneypot} user={user}/>
       </div>
