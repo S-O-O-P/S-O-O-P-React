@@ -103,12 +103,12 @@ export default function App() {
 
   useEffect(() => {
     if (checkLoginUser && checkLoginUser.userCode) {
-              setIsLoggedIn(true);
+      setIsLoggedIn(true);
       setLoggedInUser(checkLoginUser);
     } else {
       setIsLoggedIn(false);
       setLoggedInUser(null);
-          }
+    }
   }, [checkLoginUser]);
 
 
