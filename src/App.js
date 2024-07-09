@@ -25,10 +25,7 @@ import RegistHoneypotPage from './pages/honeypot/RegistHoneypotPage';
 import HoneypotDetailPage from './pages/honeypot/HoneypotDetailPage';
 import ModifyHoneypotPage from './pages/honeypot/ModifyHoneypotPage';
 import useDecodeJwtResponse from './apis/DecodeJwtResponse';
-
-
-
-
+import LoginCheckApi from './apis/mypage/LoginCheckApi';
 
 
 
@@ -81,26 +78,38 @@ export default function App() {
   // 아무것도 없으면 회원, 비회원 구분 없이 접속 가능.
 
   // 임시 로그인정보 대체(김만호 테스트용)
-  const users = [
-    { userCode: 8, nickname: '전소민', profilePic: 'https://i.ibb.co/1Z2Zbvs/image.jpg', aboutMe: '안녕하세요. 전소민입니다.', },
-    { userCode: 9, nickname: '이병건',  profilePic: 'https://i.ibb.co/BqqgBBp/image.jpg', aboutMe: '안녕하세요. 이병건입니다.', },
-    { userCode: 10, nickname: '양세찬', profilePic: 'https://i.ibb.co/Yk4jBmw/image.jpg', aboutMe: '안녕하세요. 양세찬입니다.', },
-    { userCode: 11, nickname: '코하루', profilePic: 'https://i.ibb.co/Np2j4f4/image.png', aboutMe: '안녕하세요. 코하루입니다.', },
-    { userCode: 6, nickname: '너굴맨', profilePic: 'https://i.pinimg.com/474x/96/55/ce/9655ce874bf5e3bf92778830a864eb35.jpg', aboutMe: '안녕하세요. 너굴맨입니다.', }
-  ];
+
+  const storedToken = JSON.parse(localStorage.getItem('accessToken'));
+  const [checkLoginUser, setCheckLoginUser] = useState([]);
+  useEffect(() => {
+    LoginCheckApi( {setCheckLoginUser, storedToken})
+  },[])
+
+  console.log("체크로긴유저:", checkLoginUser);
+  console.log("앱JS 테스트", checkLoginUser.userCode)
+
+  // const lastCheck = checkLoginUser.filter(data => data.refresh === storedToken.token);
+  // console.log("라스트체크:" ,lastCheck);
+
+  // const users = [
+  //   { userCode: 8, nickname: '전소민', profilePic: 'https://i.ibb.co/1Z2Zbvs/image.jpg', aboutMe: '안녕하세요. 전소민입니다.', },
+  //   { userCode: 9, nickname: '이병건',  profilePic: 'https://i.ibb.co/BqqgBBp/image.jpg', aboutMe: '안녕하세요. 이병건입니다.', },
+  //   { userCode: 10, nickname: '양세찬', profilePic: 'https://i.ibb.co/Yk4jBmw/image.jpg', aboutMe: '안녕하세요. 양세찬입니다.', },
+  //   { userCode: 11, nickname: '코하루', profilePic: 'https://i.ibb.co/Np2j4f4/image.png', aboutMe: '안녕하세요. 코하루입니다.', },
+  //   { userCode: 6, nickname: '너굴맨', profilePic: 'https://i.pinimg.com/474x/96/55/ce/9655ce874bf5e3bf92778830a864eb35.jpg', aboutMe: '안녕하세요. 너굴맨입니다.', }
+  // ];
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(null);
 
   useEffect(() => {
-      // 특정 사용자가 이미 로그인된 상태로 가정
-      const user = users.find(user => user.userCode === 10); // 여기에 로그인 회원번호 넣기
-
-          if (user) {
+    if (checkLoginUser && checkLoginUser.userCode) {
               setIsLoggedIn(true);
-              setLoggedInUser(user);
+      setLoggedInUser(checkLoginUser);
+    } else {
+      setIsLoggedIn(false);
+      setLoggedInUser(null);
           }
-  }, []);
-  // 임시 로그인정보 대체(김만호 테스트용)
+  }, [checkLoginUser]);
 
 
 

@@ -1,12 +1,18 @@
 import mainStyles from './Main.module.css';
 import TopBanner from '../../components/main/TopBanner';
 import HotBanner from '../../components/main/HotBanner';
-import EarlyBanner from '../../components/main/EarlyBanner';
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import EarlyBirdInfoApi from '../../apis/cultureInfo/EarlyBirdApi';
+import EarlyBanner from '../../components/main/EarlyBanner';
+import HoneypotByMainApi from '../../apis/main/honeypotByMainApi';
 
 export default function Main(props) {
   const [cultureList, setCultureList] = useState(null);
+  const [earlyBirdInfo, setEarlyBirdInfo] = useState([]); // 얼리버드 리스트
+  const [hotList, setHotList] = useState([]) // HOT 공연/전시 정보
+  const [honeypots, setHoneypots] = useState([]);
+  const [filteredHoneypots, setFilteredHoneypots] = useState([]); // 필터링된 허니팟 데이터
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -15,25 +21,27 @@ export default function Main(props) {
     ()=>{
       if (props.cultureList) { // api정보 정상적으로 불러오면
         setCultureList(JSON.parse(props.cultureList)); // JSON형태로 cultureList 저장
+        setHotList(JSON.parse(props.cultureList)); 
         setLoading(false);
-        // setLoading(false); // 로딩 화면 종료
-        // console.log("props.cultureList in Main.js from useEffect : " + JSON.parse(props.cultureList)); // props.cultureList 출력       
-        // console.log("props.cultureList in Main.js from useEffect : " + props.cultureList); // props.cultureList 출력       
-        // console.log("JSON.parse : " + JSON.parse(props.cultureList).totalCount) ;
-        // console.log("JSON.parse perforList : " + JSON.stringify(cultureList.perforList[10].title)) ;
-        // console.log("JSON.parse title : " + cultureList) ;
       }
     },[props.cultureList]
   );
 
-  //app.js에서 전달받은 api정보 state 저장
-  // useEffect(
-  //   ()=>{
-  //     if (props.cultureList) { // api정보 정상적으로 불러오면
-  //       setLoading(false); // 로딩 화면 종료
-  //     }
-  //   },[]
-  // );
+  useEffect(
+    () => {
+      if(earlyBirdInfo){
+         //얼리버드 공연/전시 리스트 전체 조회 api 호출
+         EarlyBirdInfoApi({setEarlyBirdInfo}, "all");   
+      }         
+    },[]
+  );
+
+  useEffect(() => {
+    if(honeypots){
+      HoneypotByMainApi({setHoneypots},{setFilteredHoneypots}); 
+      console.log("honeypots",honeypots);
+    }
+  }, []);
 
   // 스크롤시 Header 색상 변경 
   useEffect(
@@ -78,7 +86,7 @@ export default function Main(props) {
               <p className={mainStyles.sec_tit}>HOT 전시/공연 정보</p>
               <span className={`${mainStyles.view_more_btn} ${mainStyles.flex_center}`} onClick={() => navigate("/cultureinfo")}>더보기 <img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_white.png`} alt="arrow left direction icon"/></span>
             </div>
-            {HotBanner()}
+            {!loading && hotList && <HotBanner hotList={hotList}/>}
           </div>
   
           {/* 얼리버드 전시/공연 정보 */}
@@ -89,7 +97,7 @@ export default function Main(props) {
                 <span className={`${mainStyles.view_more_btn} ${mainStyles.flex_center}`} onClick={() => navigate("/cultureinfo")}>더보기 <img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_white.png`} alt="arrow left direction icon"/></span>
               </div>
               <div className={mainStyles.early_slide_box}>
-                {EarlyBanner()}
+                {!loading && earlyBirdInfo && <EarlyBanner earlyBirdInfo={earlyBirdInfo}/>}
               </div>
             </div>
           </div>
@@ -101,6 +109,33 @@ export default function Main(props) {
               <div className={`${mainStyles.tit_view_more} ${mainStyles.flex_center}`}>
                 <p className={mainStyles.sec_tit}>허니팟</p>
                 <span className={`${mainStyles.view_more_btn} ${mainStyles.flex_center}`} onClick={() => navigate("/honey")}>더보기 <img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_white.png`} alt="arrow right direction icon"/></span>
+              </div>
+              <div className={`${mainStyles.honeypotCont} honeypot-list-container`}>
+                {[...Array(parseInt(10))].map((honeypot, index) => (
+                <Link to={`/honeypot/detail/${filteredHoneypots[index]?.honeypotCode}`} key={index} className="one-honeypot-index"
+                  onClick={ () => {navigate(`/honeypot/detail/${filteredHoneypots[index]?.honeypotCode}`)}}>
+                    <div className="honeypot-index-poster">
+                      <img src={filteredHoneypots[index]?.poster} alt="포스터이미지" />
+                      <hr className="honeypot-dashed" />
+                    </div>
+                    <div className="honeypot-index-info">
+                      <div className="top-info">
+                        <div className="region-info">{filteredHoneypots[index]?.region}</div>
+                        <div className="category-info">{filteredHoneypots[index]?.interestName}</div>
+                        <div className="honeypot-status">{filteredHoneypots[index]?.closureStatus}</div>
+                      </div>
+                      <p className="honeypot-title">{filteredHoneypots[index]?.honeypotTitle}</p>
+                      <div className="honeypot-schedule">
+                        <div>일정</div>
+                        <p className="honeypot-date">{filteredHoneypots[index]?.eventDate}</p>
+                        <p className="total-member">
+                          참여인원 {filteredHoneypots[index]?.approvedCount + 1} / {filteredHoneypots[index]?.totalMember}
+                        </p>
+                      </div>
+                      <p className="end-date">{filteredHoneypots[index]?.endDate} 까지 모집해요</p>
+                    </div>
+                  </Link>
+                ))}
               </div>
             </div>
           </div>

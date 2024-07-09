@@ -34,8 +34,8 @@ export default function CultureInfo(props) {
 
   // 페이지네이션 상태 추가
   const [currentPage, setCurrentPage] = useState(1);
-  const cardItemsPerPage = 4;
-  const tableItemsPerPage = 4;
+  const cardItemsPerPage = 12;
+  const tableItemsPerPage = 15;
 
   // 장르 카테고리 선택 후, 등록순 / 지역 카테고리 선택
   // 장르 카테고리를 재설정할 경우, 하위 - 등록순 / 지역 카테고리 초기화

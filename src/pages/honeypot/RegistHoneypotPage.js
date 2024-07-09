@@ -73,13 +73,13 @@ function RegistHoneypotPage({ cultureList, user }) {
     const registBtn = () => {
         axios.post('http://localhost:8081/honeypot/regist', formData)
             .then(response => {
-                console.log('Sending data to server:', formData);
+                console.log('보내는 데이터:', formData);
                 setShowConfirmModal(true);
-                console.log(response);
+                console.log('?',response);
             })
             .catch(error => {
-                console.error('There was an error registering the honeypot!', error);
-                console.log('Sending data to server:', formData);
+                console.error('등록 실패!', error);
+                console.log('실패 후 보내는 데이터:', formData);
             });
     };
 

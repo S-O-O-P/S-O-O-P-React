@@ -110,7 +110,7 @@ function RegistStepOne({ allCultureList, filteredCultureList, updateFilteredCult
                 <div>
                     <div className='culture-info-title'>
                         <div className='index'>제목</div>
-                        <div className='content'>{filteredCultureList[selectedIndex].title}</div>
+                        <div className='content'>{filteredCultureList[selectedIndex].title.replaceAll('&lt;', `<`).replaceAll('&gt;', `>`).replaceAll("&#39;", "'")}</div>
                     </div>
                     <div className='culture-info-title'>
                         <div className='index'>기간</div>
