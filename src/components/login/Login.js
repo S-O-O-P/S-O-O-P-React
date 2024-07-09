@@ -8,20 +8,18 @@ const Login = () => {
   const [token, setToken] = useState(null);
 
   useEffect(() => {
-    const query = new URLSearchParams(window.location.search);
-    const accessToken = query.get('token'); 
+    const getCookie = (name) => {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    };
+
+    const accessToken = getCookie('access');
+    // console.log('토큰 꺼내왔는지'+accessToken);
 
     if (accessToken) {
       setToken(accessToken);
-      const expiresAt = new Date().getTime() + (10 * 60 * 1000); // 10분후 만료
-      localStorage.setItem('accessToken', JSON.stringify({ token: accessToken, expiresAt }));
       navigate('/main');
-    } else {
-      const storedToken = JSON.parse(localStorage.getItem('accessToken'));
-      if (storedToken) {
-        setToken(storedToken.token);
-        navigate('/main');
-      }
     }
   }, [navigate]);
 

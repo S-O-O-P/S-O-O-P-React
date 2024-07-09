@@ -4,7 +4,6 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function Header() {
-
   useEffect(() => {
     if (!sessionStorage.getItem('refreshed')) {
       sessionStorage.setItem('refreshed', 'true');
@@ -16,19 +15,25 @@ function Header() {
   
   const [accessToken, setAccessToken] = useState(null);
   const navigate = useNavigate();
-  const [userNickName,setUserNickName] = useState('');
+  const [userNickName, setUserNickName] = useState('');
+
+  const getCookies = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  };
 
   useEffect(() => {
-    const storedToken = JSON.parse(localStorage.getItem('accessToken'));
+    const storedToken = getCookies('access');
     if (storedToken) {
-      setAccessToken(storedToken.token);
+      setAccessToken(storedToken);
     }
   }, []);
 
   const handleLogout = async () => {
     try {
       await axios.post('http://localhost:8081/logout', {}, { withCredentials: true });
-      localStorage.removeItem('accessToken');
+      document.cookie = "access=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       setAccessToken(null);
       navigate('/main');
     } catch (error) {
@@ -50,15 +55,17 @@ function Header() {
             <li><NavLink to='/honeypot'>허니팟<span></span></NavLink></li>
           </ul>
         </nav>
-        {accessToken ?  <a href='/mypage'><li>{userNickName}</li></a>
-        : <li><p></p></li>}
-        {accessToken ? <a href='/mypage'><li><img className='mypage-btn' src={`${process.env.PUBLIC_URL}/images/commons/icon_mypage_white.png`} alt="MYPAGE"/></li></a>
-        : <li></li>}
-        {accessToken ? <li><img className='logout-btn' onClick={handleLogout} src={`${process.env.PUBLIC_URL}/images/commons/icon_logout_white.png`} alt='LOGOUT'/></li>
-        : (<NavLink to='/login'>
+        {accessToken ? (
+          <>
+            <a href='/mypage'><li>{userNickName}</li></a>
+            <a href='/mypage'><li><img className='mypage-btn' src={`${process.env.PUBLIC_URL}/images/commons/icon_mypage_white.png`} alt="MYPAGE"/></li></a>
+            <li><img className='logout-btn' onClick={handleLogout} src={`${process.env.PUBLIC_URL}/images/commons/icon_logout_white.png`} alt='LOGOUT'/></li>
+          </>
+        ) : (
+          <NavLink to='/login'>
             <li><button className="login-btn">LOGIN</button></li>
-          </NavLink>)}
-          
+          </NavLink>
+        )}
       </div>
     </header>
   );
