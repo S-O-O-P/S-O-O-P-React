@@ -24,7 +24,6 @@ const MyPage = ({user}) => {
 
     const [selectedMenu, setSelectedMenu] = useState('participatingHoneypot');
     const [showMannerStarModal, setShowMannerStarModal] = useState(false);
-    const [profileImage, setProfileImage] = useState(`${process.env.PUBLIC_URL}/images/commons/logo.png`);
     const fileInput = useRef(null);
     const [loggedInUser, setLoggedInUser] = useState([]);
     const [isLoading, setIsLoading] = useState(false);

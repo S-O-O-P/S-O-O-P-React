@@ -81,7 +81,10 @@ function EditProfile({ loggedInUser, onProfileUpdate }) {
         
         const updatedInterests = Object.entries(choiceInterest)
             .filter(([_, value]) => value)
-            .map(([key, _]) =>  INTERESTS.indexOf(key) + 1);
+            .map(([key, _]) => ({
+                interestCode: INTERESTS.indexOf(key) + 1,
+                interestName: key
+            }));
     
         const updateData = {
             nickname: inputText,
@@ -94,7 +97,8 @@ function EditProfile({ loggedInUser, onProfileUpdate }) {
             const response = await axios.put(`http://localhost:8081/mypage/${loggedInUser.userCode}`, updateData);
             setShowConfirmModal(true);
             if (onProfileUpdate) {
-                onProfileUpdate(response.data);  // 서버 응답 데이터를 전달
+                // 서버 응답 데이터 구조에 맞춰 전달
+                onProfileUpdate(response.data.results.updateProflie);
             }
         } catch (error) {
             console.error("프로필 업데이트 실패:", error.response ? error.response.data : error.message);

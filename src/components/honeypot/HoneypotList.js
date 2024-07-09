@@ -11,17 +11,20 @@ function HoneypotList({ currentPage, setCurrentPage, pageGroup, setPageGroup, ho
   // 비활성화 필터링
   const activeHoneypots = honeypots.filter(honeypot => honeypot.visibilityStatus === "활성화")
 
+  // 진행완료 필터링
+  const finishedHoney = activeHoneypots.filter(honeypot => honeypot.closureStatus !== "진행완료" )
+
   // 현재 페이지에 맞는 데이터 필터링
   const indexOfLastHoneypot = currentPage * honeypotsPerPage;
   const indexOfFirstHoneypot = indexOfLastHoneypot - honeypotsPerPage;
-  const currentHoneypots = activeHoneypots.slice(
+  const currentHoneypots = finishedHoney.slice(
     indexOfFirstHoneypot,
     indexOfLastHoneypot
   );
 
 
   // 총 페이지 수 계산
-  const totalPages = Math.ceil(activeHoneypots.length / honeypotsPerPage);
+  const totalPages = Math.ceil(finishedHoney.length / honeypotsPerPage);
   const maxPageButtons = 5;
   const totalGroups = Math.ceil(totalPages / maxPageButtons);
 
