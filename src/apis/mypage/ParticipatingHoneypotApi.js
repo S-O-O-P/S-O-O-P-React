@@ -7,7 +7,7 @@ export default function ParticipatingHoneypotApi({setIsLoading, setParticipating
         try {
             const response = await axios.get('http://localhost:8081/mypage/participated');
             // console.log('참여중인 허니팟 정보 :', response.data)
-            const myHoneypots = response.data.filter(data => data.userCode === user && data.closureStatus !== '진행완료' && data.decisionStatus === '승인');
+            const myHoneypots = response.data.filter(data => data.userCode === user.userCode && data.closureStatus !== '진행완료' && data.decisionStatus === '승인');
             setParticipatingHoneypotList(myHoneypots);
             // console.log('참여중인 허니팟 전송완료');
 
