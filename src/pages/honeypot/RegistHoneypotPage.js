@@ -7,20 +7,82 @@ import './RegistHoneypotPage.css';
 
 function RegistHoneypotPage({ cultureList, user }) {
     const parsedData = JSON.parse(cultureList);
-    const allCultureList = parsedData.perforList || [];
+    const externalCultureList = parsedData.perforList || [];
+    const [allCultureList, setAllCultureList] = useState([]);
     const [selectedIndex, setSelectedIndex] = useState(null);
     const navigate = useNavigate();
-    const [registStep, setRegistStep] = useState(1); // 등록 순서
+    const [registStep, setRegistStep] = useState(1);
     const [formData, setFormData] = useState({});
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [showWarningModal, setShowWarningModal] = useState(false);
-    const [filteredCultureList, setFilteredCultureList] = useState([]); // 필터링된 목록 상태 추가
-    const areas = allCultureList.map(item => item.area);
-    const uniqueAreas = [...new Set(areas)];
-    const realmName = allCultureList.map(item => item.realmName);
-    const uniqueRealmName = [...new Set(realmName)];
+    const [filteredCultureList, setFilteredCultureList] = useState([]);
+    const [uniqueAreas, setUniqueAreas] = useState([]);
+    const [uniqueRealmName, setUniqueRealmName] = useState([]);
 
-    // StepOne에서 필터링된 목록을 업데이트하는 함수
+    const transformInternalData = (internalItem) => {
+        return {
+            area: internalItem.region,
+            endDate: internalItem.usageEndDate.split('T')[0].replace(/-/g, ''),
+            place: internalItem.place,
+            price: internalItem.regularPrice ? `${internalItem.regularPrice}원` : "상세페이지 확인",
+            realmName: mapInterestCodeToRealmName(internalItem.interestCode),
+            seq: internalItem.earlyBirdCode, // 적절한 고유 식별자 필요
+            startDate: internalItem.usageStartDate.split('T')[0].replace(/-/g, ''),
+            thumbnail: internalItem.poster || "기본 이미지 URL",
+            title: internalItem.ebTitle,
+            url: internalItem.sellerLink || "#"
+        };
+    };
+
+    const mapInterestCodeToRealmName = (interestCode) => {
+        const map = {
+            1: "팝업",
+            2: "공연",
+            3: "행사/축제",
+            4: "전시",
+            5: "뮤지컬"
+        };
+        return map[interestCode] || "기타";
+    };
+
+    useEffect(() => {
+        const fetchInternalCultureList = async () => {
+            try {
+                const response = await axios.get('http://localhost:8081/cultureInfo/early');
+                const internalCultureList = response.data.earlyBirdList;
+                console.log('인터날', internalCultureList);
+                
+                // 내부 API 데이터 구조 변환
+                const transformedInternalList = internalCultureList.map(transformInternalData);
+                
+                // 외부 API 데이터와 변환된 내부 API 데이터 통합
+                const combinedList = [...externalCultureList, ...transformedInternalList];
+                console.log('콤바인드리스트', combinedList);
+                setAllCultureList(combinedList);
+                setFilteredCultureList(combinedList);
+
+                const areas = combinedList.map(item => item.area);
+                setUniqueAreas([...new Set(areas)]);
+
+                const realmNames = combinedList.map(item => item.realmName);
+                setUniqueRealmName([...new Set(realmNames)]);
+
+            } catch (error) {
+                console.error('내부 API 호출 실패', error);
+                setAllCultureList(externalCultureList);
+                setFilteredCultureList(externalCultureList);
+                
+                const areas = externalCultureList.map(item => item.area);
+                setUniqueAreas([...new Set(areas)]);
+
+                const realmNames = externalCultureList.map(item => item.realmName);
+                setUniqueRealmName([...new Set(realmNames)]);
+            }
+        };
+
+        fetchInternalCultureList();
+    }, []);
+
     const updateFilteredCultureList = (filteredList) => {
         setFilteredCultureList(filteredList);
     };
@@ -64,7 +126,6 @@ function RegistHoneypotPage({ cultureList, user }) {
         setShowConfirmModal(false);
         const code = await fetchHoneypotList();
         if (code) {
-            // 데이터를 state에 저장하고 페이지 이동
             navigate(`/honeypot/detail/${code}`, { state: { newHoneypotCode: code } });
         } else {
             console.error('연결실패');
@@ -102,8 +163,8 @@ function RegistHoneypotPage({ cultureList, user }) {
                 {registStep === 1 && (
                     <RegistStepOne
                         allCultureList={allCultureList}
-                        filteredCultureList={filteredCultureList} // 필터링된 목록 전달
-                        updateFilteredCultureList={updateFilteredCultureList} // 필터링된 목록 업데이트 함수 전달
+                        filteredCultureList={filteredCultureList}
+                        updateFilteredCultureList={updateFilteredCultureList}
                         posterClick={posterClick}
                         selectedIndex={selectedIndex}
                         uniqueAreas={uniqueAreas}
@@ -114,7 +175,7 @@ function RegistHoneypotPage({ cultureList, user }) {
                 {registStep === 2 && (
                     <RegistStepTwo
                         selectedIndex={selectedIndex}
-                        filteredCultureList={filteredCultureList} // 필터링된 목록 전달
+                        filteredCultureList={filteredCultureList}
                         onChange={setFormData}
                         user={user}
                     />
@@ -133,7 +194,6 @@ function RegistHoneypotPage({ cultureList, user }) {
                     </div>
                 )}
             </div>
-            {/* 제출확인 Modal */}
             {showConfirmModal && (
                 <div className="regist-confirm-modal-container">
                     <div className="regist-confirm-modal-content">
@@ -148,8 +208,6 @@ function RegistHoneypotPage({ cultureList, user }) {
                     </div>
                 </div>
             )}
-
-            {/* 경고 Modal */}
             {showWarningModal && (
                 <div className="regist-confirm-modal-container">
                     <div className="regist-confirm-modal-content" style={{ height: '220px' }}>
