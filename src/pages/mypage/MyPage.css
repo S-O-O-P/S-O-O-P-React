@@ -311,23 +311,25 @@
 
 .mypage-table-container .th-category {
     width: 63px;
-    margin-left: 20px
+    margin-left: 25px
 }
 
 .mypage-table-container .th-title {
     width: 33px;
-    margin-left: 180px;
+    margin-left: 175px;
     margin-right: 180px;
 }
 
 .mypage-table-container .th-meetday {
     width: 48px;
-    margin-right: 90px;
+    margin-left:20px;
+    margin-right: 70px;
 }
 
 .mypage-table-container .th-region {
     width: 63px;
-    margin-right: 90px;
+    margin-left: 10px;
+    margin-right: 80px;
 }
 
 .mypage-table-container .th-members {

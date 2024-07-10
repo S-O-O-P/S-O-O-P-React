@@ -23,6 +23,8 @@
     align-items: center;
 }
 
+
+
 .regist-procedure {
     display: flex;
     justify-content: center;
@@ -255,7 +257,6 @@
 .regist-content {
     display: flex;
     margin-top: 20px;
-    margin-bottom: 120px;
 }
 
 .regist-info-btn {
@@ -334,9 +335,23 @@
     outline: none;
 }
 
+.title-input-wrapper {
+    position: relative;
+}
+
+.title-input-wrapper .limit {
+    position: absolute;
+    bottom: 16px;
+    right: 20px;
+    font-size: 12px;
+    color: var(--main-color);
+    
+}
+
 .text-area-wrapper {
     position: relative;
 }
+
 
 .text-area-wrapper .limit {
     position: absolute;
@@ -415,4 +430,14 @@ font-size: 16px;
     justify-content: center;
     align-items: center;
     font-size: 40px;
+}
+
+.error-message {
+    margin-top: 20px;
+    margin-bottom: 100px;
+    text-align: right;
+}
+
+.error-message p {
+    color: red;
 }

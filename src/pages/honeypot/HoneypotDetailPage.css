@@ -113,9 +113,14 @@
 
 .detail-introduction-container {
     margin-top: 52px;
-    white-space: pre-line;
     margin-bottom: 100px;
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    line-height: 1.5;
 }
+
 
 .eventdate-totalpeople-container {
     display: flex;

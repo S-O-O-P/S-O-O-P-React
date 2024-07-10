@@ -9,6 +9,8 @@ import UserDetailPage from '../../components/honeypot/UserDetailPage';
 import HoneypotDetailApi from '../../apis/honeypot/HoneypotDetailApi';
 import ApplicationApi from "../../apis/honeypot/ApplicationApi";
 import MyRatingApi from '../../apis/mypage/MyRatingApi';
+import axios from "axios";
+
 
 function HoneypotDetailPage({ cultureList, user }) {
   const { honeypotCode } = useParams();
@@ -84,7 +86,7 @@ function HoneypotDetailPage({ cultureList, user }) {
       }
 
       // 삭제 API 호출
-      // await axios.delete(`http://localhost:8081/honeypot/${detailHoneypot.honeypotCode}`);
+      await axios.delete(`http://localhost:8081/honeypot/${detailHoneypot.honeypotCode}`);
       alert('허니팟이 성공적으로 삭제되었습니다.');
 
       // 삭제 후 리다이렉트 또는 다른 작업 수행

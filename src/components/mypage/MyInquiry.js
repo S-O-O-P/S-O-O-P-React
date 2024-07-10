@@ -21,7 +21,7 @@ function MyInquiry({myInquiryList}) {
         {!hasData ? ( // hasData가 false일 때
                 <div className='inquiry-null'>
                     <p>문의 내역이 없습니다.</p>
-                    <div className='goto-inquiry-btn' onClick={() => {}}>
+                    <div className='goto-inquiry-btn' onClick={() => {navigate('/inquiry')}}>
                         + 1:1 문의 하러 가기
                     </div>
                 </div>

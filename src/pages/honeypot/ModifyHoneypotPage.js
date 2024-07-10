@@ -15,6 +15,10 @@ function ModifyHoneypotPage() {
     const [endDate, setEndDate] = useState(detailHoneypot.endDate);
     const [totalMember, setTotalMember] = useState(detailHoneypot.totalMember);
     const [region, setRegion] = useState(detailHoneypot.region);
+    const [honeypotContent, setHoneypotContent] = useState('');
+    const [honeypotTitle, setHoneypotTitle] = useState('');
+    const maxLength = 500;
+    const maxTitleLength = 24;
 
     useEffect(() => {
         // 기존 데이터 초기값 설정
@@ -99,7 +103,7 @@ function ModifyHoneypotPage() {
                         <div className="regist-info-btn">내용</div>
                         <div className='text-area-wrapper'>
                             <textarea className="regist-honeypot-content" placeholder="허니팟 내용을 입력하세요." value={content} onChange={(e) => setContent(e.target.value)}/>
-                            <p className='limit'></p>
+                            <p className='limit'>{honeypotContent.length}/{maxLength}</p>
                         </div>
                     </div>
                 </div>

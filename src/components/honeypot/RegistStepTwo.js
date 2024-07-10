@@ -9,7 +9,9 @@ function RegistStepTwo({ selectedIndex, filteredCultureList, onChange, user }) {
     const [endDate, setEndDate] = useState('');
     const [maxDate, setMaxDate] = useState('');
     const [minDate, setMinDate] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
     const maxLength = 500;
+    const maxTitleLength = 24;
 
     useEffect(() => {
 
@@ -36,6 +38,18 @@ function RegistStepTwo({ selectedIndex, filteredCultureList, onChange, user }) {
         if (selectedIndex === null) {
             return;
         }
+
+        if (!honeypotTitle || !honeypotContent || !eventDate) {
+            let missingFields = [];
+            if (!honeypotTitle) missingFields.push('제목');
+            if (!honeypotContent) missingFields.push('내용');
+            if (!eventDate) missingFields.push('모임일자');
+            
+            setErrorMessage(`${missingFields.join(', ')}을(를) 입력해주세요.`);
+            return;
+        }
+
+        setErrorMessage('');
 
         const formData = {
             hostCode: user.userCode,
@@ -89,6 +103,12 @@ function RegistStepTwo({ selectedIndex, filteredCultureList, onChange, user }) {
         }
     };
 
+    const handleTitleChange = (e) => {
+        if (e.target.value.length <= maxTitleLength) {
+            setHoneypotTitle(e.target.value);
+        }
+    };
+
     const handleTextAreaChange = (e) => {
         if (e.target.value.length <= maxLength) {
             setHoneypotContent(e.target.value);
@@ -114,7 +134,7 @@ function RegistStepTwo({ selectedIndex, filteredCultureList, onChange, user }) {
                     <div className="region-eventdate">
                         <div className="regist-info-btn">지역</div>
                         <div className="selected-region">{region}</div>
-                        <div className="regist-info-btn">일자</div>
+                        <div className="regist-info-btn">모임 일자</div>
                         <input className='date-style' type="date" value={eventDate} min={minDate} max={maxDate} onChange={(e) => setEventDate(e.target.value)} />
                     </div>
                     <div className="totaluser-enddate">
@@ -131,7 +151,10 @@ function RegistStepTwo({ selectedIndex, filteredCultureList, onChange, user }) {
                     <p className="member-explanation">예시) 1명 모집을 원할 경우, 모집 정원 2명 선택(호스트 + 참여자)</p>
                     <div className="regist-title">
                         <div className="regist-info-btn">제목</div>
-                        <input className='regist-honeypot-title' type="text" placeholder="허니팟 제목을 입력하세요." value={honeypotTitle} onChange={(e) => setHoneypotTitle(e.target.value)} />
+                        <div className='title-input-wrapper'>
+                            <input className='regist-honeypot-title' type="text" placeholder="허니팟 제목을 입력하세요." value={honeypotTitle} onChange={handleTitleChange} />
+                            <p className='limit'>{honeypotTitle.length}/{maxTitleLength}</p>
+                        </div>
                     </div>
                     <div className="regist-content">
                         <div className="regist-info-btn">내용</div>
@@ -139,6 +162,9 @@ function RegistStepTwo({ selectedIndex, filteredCultureList, onChange, user }) {
                             <textarea className="regist-honeypot-content" placeholder="허니팟 내용을 입력하세요." value={honeypotContent} onChange={handleTextAreaChange} />
                             <p className='limit'>{honeypotContent.length}/{maxLength}</p>
                         </div>
+                    </div>
+                    <div className="error-message" >
+                    {errorMessage && <p>{errorMessage}</p>}
                     </div>
                 </>
             )}

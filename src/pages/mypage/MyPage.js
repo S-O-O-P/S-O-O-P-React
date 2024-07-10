@@ -50,11 +50,13 @@ const MyPage = ({user}) => {
     console.log('나의 정보', myRating);
     console.log('유저', user);
 
-    
-
     if (isLoading) {
         return <LoadingSpinner />;
     }
+
+    const getValidRatingsCount = (contents) => {
+        return contents.filter(content => content && content.content !== null).length;
+    };
 
     const handleProfileUpdate = (updatedProfile) => {
         console.log("Received updated profile:", updatedProfile);
@@ -184,28 +186,29 @@ const MyPage = ({user}) => {
                                 <p className='middle-title'>유저평점</p>
                                 <div className='star-point-container'>
                                     <img src={`${process.env.PUBLIC_URL}/images/commons/icon_star.png`} alt="유저평점아이콘" />
-                                    <p>{myRating.averageScore > 0 ? `${myRating.averageScore} / 5` : '평가없음'}</p>
+                                    <p>{myRating.averageScore > 0 ? `${myRating.averageScore.toFixed(1)} / 5` : '평가없음'}</p>
                                 </div>
                                 <div className='people-count-container'>
                                     <img src={`${process.env.PUBLIC_URL}/images/commons/icon_bee.png`} alt="유저평점아이콘" />
-                                    <p>{myRating.contents.length > 0 ? `${myRating.contents.length}명의 멤버 평가 반영` : '아직 평가한 멤버가 없습니다'}</p>
+                                    <p>{getValidRatingsCount(myRating.contents) > 0 
+                                        ? `${getValidRatingsCount(myRating.contents)}명의 멤버 평가 반영` 
+                                        : '아직 평가한 멤버가 없습니다'}
+                                    </p>
                                 </div>
                             </div>
 
                             <div className='manner-modal-bottom'>
                                 <p className='bottom-title'>멤버평가</p>
                                 <div className='bottom-review-container'>
-                                {myRating.contents.length > 0 ? (
-                                <div className='bottom-review-container'>
-                                    {myRating.contents.map((review, index) => (
+                                {getValidRatingsCount(myRating.contents) > 0 ? (
+                                    myRating.contents.filter(review => review && review.content !== null).map((review, index) => (
                                         <div key={index} className='bottom-review-text'>
                                             <p>{review.content}</p>
                                         </div>
-                                    ))}
-                                </div>
-                            ) : (
-                                <p>아직 받은 평가가 없습니다.</p>
-                            )}
+                                    ))
+                                ) : (
+                                    <p>아직 받은 평가가 없습니다.</p>
+                                )}
                                 </div>
                             </div>
                         </div>
