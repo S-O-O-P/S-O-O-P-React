@@ -34,7 +34,7 @@ const ExpiredToken = () => {
             const accessToken = getCookies('access');
             if (accessToken) {
                 const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
-                const expiresAt = tokenPayload.exp * 1000;
+                const expiresAt = tokenPayload.exp * 2000;
                 const now = new Date().getTime();
                 console.log('토큰 만료 여부 확인 중...', { now, expiresAt });
                 if (now >= expiresAt) {

@@ -119,8 +119,6 @@ export default function App() {
     console.log("체크 test214241241 : ", loggedInUser)
     console.log("앱JS 테스트", userCode)
 
-  console.log('loggedInUser', loggedInUser);
-
 
 
   return (

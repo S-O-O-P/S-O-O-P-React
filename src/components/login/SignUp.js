@@ -1,6 +1,6 @@
 import './SignUp.css';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import useDecodeJwtResponse from '../../apis/DecodeJwtResponse'
 
@@ -138,7 +138,8 @@ function SignUp() {
               </button>
             </div>
             <div className='btns'>
-              <button className='btn1' onClick={handleLogout}>취 소</button>
+              <NavLink to={"/main"}>
+              <button className='btn1'>건 너 뛰 기</button></NavLink>
               <button 
                 className={selectedInterests.length < 1 ? 'btn2' : 'btn3'} 
                 onClick={handleSignUp}
