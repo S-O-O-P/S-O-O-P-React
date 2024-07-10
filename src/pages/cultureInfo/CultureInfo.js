@@ -14,11 +14,12 @@ export default function CultureInfo(props) {
 
   //State 설정
   const [cultureList, setCultureList] = useState(null); // 공연/전시 전체 목록 
-  const [filteredList, setFilteredList] = useState(null) // 필터&검색 리스트
+  const [filteredList, setFilteredList] = useState(null) // 필터 리스트
+  const [originalList, setOriginalList] = useState([]) // 필터 리스트
   const [earlyBirdInfo, setEarlyBirdInfo] = useState([]); // 얼리버드 리스트
-  const [hotList, setHotList] = useState([]) // HOT 공연/전시 정보
+  const [hotList, setHotList] = useState([]); // HOT 공연/전시 정보
   const { detailDataList } = props;  // detailDataList를 props에서 가져옴
-  const [category, setCategory] = useState('all') // 선택한 카테고리 - 초기값은 전체
+  const [category, setCategory] = useState('all'); // 선택한 카테고리 - 초기값은 전체
   const [totalCount, setTotalCount] = useState(0); // 공연/전시 총 갯수
   const [publicCount, setPublicCount] = useState(0); // 공연/전시 공공 api 총 갯수
   const [exhibitCount, setExhibitCount] = useState(0); // 전시회 갯수
@@ -27,10 +28,11 @@ export default function CultureInfo(props) {
   const [festivalCount, setFestivalCount] = useState(0); // 행사/축제 갯수
   const [popCount, setPopCount] = useState(0); // 팝업스토어 갯수
   const [earlyCount, setEarlyCount] = useState(0); // 얼리버드 갯수
-  const [isEarly, setIsEarly] = useState(false) // 얼리버드 선택 여부
-  const [searchValue, setSearchValue] = useState(null) // 검색어
-  const [subFilter, setSubFilter] = useState("마감임박순") // 최신 등록순 필터로 초기화
-  const [areaFilter, setAreaFilter] = useState("전체 지역") // 지역 필터 - 전체 지역으로 초기화
+  const [isEarly, setIsEarly] = useState(false); // 얼리버드 선택 여부
+  const [searchValue, setSearchValue] = useState(''); // 검색어
+  const [subFilter, setSubFilter] = useState("마감임박순"); // 최신 등록순 필터로 초기화
+  const [areaFilter, setAreaFilter] = useState("전체 지역"); // 지역 필터 - 전체 지역으로 초기화
+  const [nullText, setNullText] = useState("현재 해당 정보가 존재하지 않습니다."); // null 데이터일 경우, 안내 문구
 
   // 페이지네이션 상태 추가
   const [currentPage, setCurrentPage] = useState(1);
@@ -64,7 +66,9 @@ export default function CultureInfo(props) {
         
         const totalCount = cultureListObj.totalCount; // totalCount 값 가져오기
         console.log("totalCount from public api: ", totalCount);
-        setPublicCount(totalCount);          
+        setPublicCount(totalCount);     
+        const earlyCount = earlyBirdInfo?.length || 0;
+        setEarlyCount(earlyCount);     
         setTotalCount(calculateTotalCount(totalCount, earlyCount));
         
         // realmName 값에 따른 갯수 확인
@@ -72,16 +76,16 @@ export default function CultureInfo(props) {
         cultureListObj.perforList.forEach(item => {
           const realmName = item.realmName;
           const titName = item.title;
-          if (realmName == "미술") {
+          if (realmName === "미술") {
             //realmCounts[realmName]++;
             realmCounts["전시"]++;
-          } else if(titName.match("뮤지") || titName.match("뮤지컬")){
+          } else if(titName.match("뮤지") || titName.match("뮤지컬") || realmName.match("기타")){
             realmCounts["뮤지컬"]++;
-          } else if(realmName == "음악" || realmName == "연극"|| titName.match("영화")){
+          } else if(realmName === "음악" || realmName === "연극"|| titName.match("영화")){
             realmCounts["공연"]++;
-          } else if(titName.match("행사") || titName.match("축제") || titName.match("페스티벌")){
+          } else if(titName.match("행사") || titName.match("축제") || titName.match("페스티벌") || realmName.match("축제")){
             realmCounts["축제"]++;
-          } else if(realmName == "팝업"){
+          } else if(realmName.match("팝업")){
             realmCounts["팝업"]++;
           }
         });
@@ -90,6 +94,7 @@ export default function CultureInfo(props) {
         setConcertCount(realmCounts["공연"]);
         setMusicalCount(realmCounts["뮤지컬"]);
         setFestivalCount(realmCounts["축제"]);
+        setPopCount(realmCounts["팝업"]);
         
         console.log("realmName 별 갯수: ", realmCounts);
         
@@ -108,7 +113,7 @@ export default function CultureInfo(props) {
             //카테고리 버튼 클릭시 마다, 하단 필터 초기화
             setSubFilter("마감임박순");
             setAreaFilter("전체 지역");
-            setSearchValue(null);            
+            setSearchValue("");            
             
             // 모든 버튼에서 active 클래스 제거
             genreFilterList.forEach(item => {
@@ -130,7 +135,7 @@ export default function CultureInfo(props) {
               filteredList = cultureListObj.perforList.filter(item => item.realmName === genre || item.realmName === "연극" || item.title.match("음악") || item.title.match("영화")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
               setIsEarly(false);
             } else if(genre === "뮤지컬"){ // 뮤지컬
-              filteredList = cultureListObj.perforList.filter(item => item.title.match("뮤지") || item.title.match("뮤지컬")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
+              filteredList = cultureListObj.perforList.filter(item => item.title.match("뮤지") || item.title.match("뮤지컬") || item.realmName.match("기타")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
               setIsEarly(false);
             } else if(genre === "축제"){ // 행사 / 축제
               filteredList = cultureListObj.perforList.filter(item => item.title.match("축제") || item.title.match("페스티벌")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
@@ -164,9 +169,9 @@ export default function CultureInfo(props) {
     },[earlyCount, publicCount]
   );
   
-  useEffect(() => {
-    console.log("cultureList : ", cultureList);
-  }, [cultureList]);
+  // useEffect(() => {
+  //   console.log("cultureList : ", cultureList);
+  // }, [cultureList]);
   
   
   useEffect(
@@ -199,7 +204,7 @@ export default function CultureInfo(props) {
       } else if(category === "음악"){ // 공연
         filteredListCategory = cultureListObj.perforList.filter(item => item.realmName === category || item.realmName === "연극" || item.title.match("음악") || item.title.match("영화")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
       } else if(category === "뮤지컬"){ // 뮤지컬
-        filteredListCategory = cultureListObj.perforList.filter(item => item.title.match("뮤지") || item.title.match("뮤지컬")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
+        filteredListCategory = cultureListObj.perforList.filter(item => item.title.match("뮤지") || item.title.match("뮤지컬") || item.realmName.match("기타")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
       } else if(category === "축제"){ // 행사 / 축제
         filteredListCategory = cultureListObj.perforList.filter(item => item.title.match("축제") || item.title.match("페스티벌")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
       } else if(category === "얼리버드"){ // 얼리버드
@@ -231,14 +236,15 @@ export default function CultureInfo(props) {
       }
 
       setFilteredList({ ...cultureListObj, perforList: filteredListAfterSubFiltered });
+      setCultureList({ ...cultureListObj, perforList: filteredListAfterSubFiltered });
       setCurrentPage(1);
     };
 
   // select view
   // 공연/전시 카드/테이블 타입 보기 필터
+  const viewCardType = document.querySelector(`.${styles.culture_list_box}`); // 카드 타입 영역
+  const viewTableType = document.querySelector(`.${styles.culture_table}`);
   const selectViewHandler =  (e) => { // 클릭 이벤트 추가
-    const viewCardType = document.querySelector(`.${styles.culture_list_box}`); // 카드 타입 영역
-    const viewTableType = document.querySelector(`.${styles.culture_table}`);
     if (e.currentTarget.classList.contains(`${styles.active}`)) { //클릭한 버튼이 이미 활성화된 상태라면
       return false;
     } else { // 클릭한 버튼이 비활성화된 상태라면
@@ -260,35 +266,24 @@ export default function CultureInfo(props) {
     }
   }
 
-  // 검색어 입력 처리
-  const searchTitleWord = (e) => {
-    const { value } = e.target;
-    setSearchValue(value);
-    // 검색어가 없는 경우 전체 목록 보여주기
-    if (value === '') {
-        const filteredData = cultureList.perforList;
-        setFilteredList({ ...cultureList, perforList: filteredData });
+  const onClickSearchHandler = () => {
+    console.log("입력한 검색어 : "+searchValue);
+    console.log("검색할 때 참조하는 filtered리스트 : ",filteredList?.perforList);
+    console.log("검색할 때 참조하는 culture리스트 : ",cultureList?.perforList);
+    // console.log("현재 filteredList : ", filteredList?.perforList);
+    console.log("검색한 결과 : ", cultureList?.perforList.filter(item => (item.title.toLowerCase()).includes(searchValue.toLowerCase())))
+    const searchedListNow = cultureList?.perforList.filter(item => (item.title.toLowerCase()).match(searchValue.toLowerCase()));
+    // setSearchedList(searchedListNow);
+    setFilteredList({...cultureList, perforList : searchedListNow});
+    if(searchedListNow.length === 0){ // 검색어가 없는 경우
+      setNullText(`[${searchValue}] 검색 결과가 존재하지 않습니다.`);
+    }else{
+      setNullText("현재 해당 정보가 존재하지 않습니다.");
     }
-  };
-  // 엔터키 처리
-  const handleKeyPress = (e) => {
-      if (e.key === 'Enter') {
-          onClickSearchInput();
-      }
-  };
-  // 검색 버튼 클릭 처리
-  const onClickSearchInput = () => {
-      // 검색어가 비어있는 경우 전체 목록 보여주기
-      const filteredData = searchValue === '' || searchValue === null
-          ? filteredList
-          : cultureList.perforList.filter(cultureItem =>
-            cultureItem.title.toLowerCase().includes(searchValue.toLowerCase()) &&
-              (areaFilter === '전체 지역' || cultureItem.region === areaFilter)
-          );
-          console.log("searching filteredData", filteredData[0]);
-      setCultureList({ ...cultureList, perforList: filteredData });
-      setCurrentPage(1);
-  };
+    
+    setSearchValue('') // 검색 후 검색 결과 초기화 
+  }
+ 
 
   // 현재 페이지에 따른 데이터를 슬라이싱하는 함수
   const getCurrentPageData = (items, itemsPerPage, page) => {
@@ -496,8 +491,9 @@ export default function CultureInfo(props) {
 
               {/* 검색창 */}
               <div className='search-wrapper'>
-                <input className='text-search' onChange={searchTitleWord} onKeyPress={handleKeyPress} type='text' placeholder="검색어를 입력하세요."/>
-                <button onClick={onClickSearchInput} className='submit-btn' type='button'></button>
+                <input className='text-search' type='text' placeholder="검색어를 입력하세요." onChange={e => setSearchValue(e.target.value)} value={searchValue}/>
+                {/*  onKeyDown={e => e.key === "Enter" ? onClickSearchHandler() : null }  */}
+                <button onClick={onClickSearchHandler} className='submit-btn' type='button'></button>
               </div>
 
               <ul className={`${styles.view_filter_list} ${styles.flex_start}`}>
@@ -513,9 +509,11 @@ export default function CultureInfo(props) {
             <p className={styles.culture_notice_txt}>* 표시 가격은 성인 1인 기준 가격입니다.</p>
 
             {/* 공연/전시 리스트 */}
-            {!filteredList?.perforList ?
+            {filteredList?.perforList.length === 0 ?
             <div className={styles.cultureList_null}>
-              <p>현재 해당 정보가 존재하지 않습니다.</p>
+              <img src={`${process.env.PUBLIC_URL}/images/commons/logo.png`} alt="logo" />
+              {/* <p>현재 해당 정보가 존재하지 않습니다.</p> */}
+              <p>{nullText}</p>
               <p>빠른 정보 업데이트로 찾아뵙겠습니다.</p>
             </div>
             :

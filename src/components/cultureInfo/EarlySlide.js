@@ -25,7 +25,7 @@ function PrevBtn(props) {
 export default function EarlySlide({earlyBirdInfo}) {
   // 오늘 날짜 데이터
   const today = new Date();
-  console.log('earlyBirdInfo:', earlyBirdInfo);
+  // console.log('earlyBirdInfo:', earlyBirdInfo);
 
   function timer(targetDate) {
     const now = new Date();

@@ -3,9 +3,9 @@ import styles from '../../pages/cultureInfo/CultureInfo.module.css';
 import LoadingSpinner from '../commons/Loading';
 
 export default function CardType({cultureList, detailDataList, earlyCheck}){
-  console.log('Culture List:', cultureList);
-  console.log('Detail Data List:', detailDataList);
-  console.log('earlyCheck:', earlyCheck);
+  // console.log('Culture List:', cultureList);
+  // console.log('Detail Data List:', detailDataList);
+  // console.log('earlyCheck:', earlyCheck);
 
   // 데이터가 로딩 중일 때 처리
   // if (!cultureList || !cultureList.perforList || !detailDataList) {
@@ -69,9 +69,9 @@ export default function CardType({cultureList, detailDataList, earlyCheck}){
             // const detailData = detailDataList[item.seq]; // seq(공연/전시 코드)에 따른 상세 정보
             // console.log("price from cardtype : " + JSON.stringify(detailData));
             const discountRate = earlyCheck ? parseInt(item?.discountPrice / item?.regularPrice * 100) : null;
-            console.log("discount Rate : ", item);
-            console.log("discount Rate : " + typeof item?.discountPrice);
-            console.log("discount Rate : " + item?.regularPrice);
+            // console.log("discount Rate : ", item);
+            // console.log("discount Rate : " + typeof item?.discountPrice);
+            // console.log("discount Rate : " + item?.regularPrice);
             // console.log("discount Rate : " + (item.discountPrice / item.regularPrice * 100));
             
             return(
