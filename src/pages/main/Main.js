@@ -51,13 +51,28 @@ export default function Main(props) {
       const header = document.querySelector(".header");
       header.classList.add("main");
       document.querySelector(".header-logo").setAttribute('src', 'images/commons/logo_white.png');
+      if(document.querySelector(".mypage-btn")){
+        //mypage-btn
+        document.querySelector(".mypage-btn").setAttribute('src', 'images/commons/icon_mypage_white.png');
+        document.querySelector(".logout-btn").setAttribute('src', 'images/commons/icon_logout_white.png');
+      }
       const changeHeaderBgColor = () => {
         if (window.scrollY > 80) {
           header.classList.remove("main");
           document.querySelector(".header-logo").setAttribute('src', 'images/commons/logo.png');
+          if(document.querySelector(".mypage-btn")){
+            //mypage-btn
+            document.querySelector(".mypage-btn").setAttribute('src', 'images/commons/icon_mypage_colored.png');
+            document.querySelector(".logout-btn").setAttribute('src', 'images/commons/icon_logout_colored.png');
+          }
         } else {
           header.classList.add("main");
           document.querySelector(".header-logo").setAttribute('src', 'images/commons/logo_white.png');
+          if(document.querySelector(".mypage-btn")){
+            //mypage-btn
+            document.querySelector(".mypage-btn").setAttribute('src', 'images/commons/icon_mypage_white.png');
+            document.querySelector(".logout-btn").setAttribute('src', 'images/commons/icon_logout_white.png');
+          }
         }
       };
       
@@ -67,6 +82,11 @@ export default function Main(props) {
         window.removeEventListener("scroll", changeHeaderBgColor);
         header.classList.remove("main"); // 컴포넌트가 언마운트될 때 클래스 제거
         document.querySelector(".header-logo").setAttribute('src', `${process.env.PUBLIC_URL}/images/commons/logo.png`);
+        if(document.querySelector(".mypage-btn")){
+          //mypage-btn
+          document.querySelector(".mypage-btn").setAttribute('src', `${process.env.PUBLIC_URL}/images/commons/icon_mypage_colored.png`);
+          document.querySelector(".logout-btn").setAttribute('src', `${process.env.PUBLIC_URL}/images/commons/icon_logout_colored.png`);
+        }
       };
     },[]
   );
@@ -111,7 +131,7 @@ export default function Main(props) {
                 <span className={`${mainStyles.view_more_btn} ${mainStyles.flex_center}`} onClick={() => navigate("/honey")}>더보기 <img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_white.png`} alt="arrow right direction icon"/></span>
               </div>
               <div className={`${mainStyles.honeypotCont} honeypot-list-container`}>
-                {[...Array(parseInt(10))].map((honeypot, index) => (
+                {honeypots.length > 10 ? [...Array(parseInt(10))].map((honeypot, index) => (
                 <Link to={`/honeypot/detail/${filteredHoneypots[index]?.honeypotCode}`} key={index} className="one-honeypot-index"
                   onClick={ () => {navigate(`/honeypot/detail/${filteredHoneypots[index]?.honeypotCode}`)}}>
                     <div className="honeypot-index-poster">
@@ -135,7 +155,31 @@ export default function Main(props) {
                       <p className="end-date">{filteredHoneypots[index]?.endDate} 까지 모집해요</p>
                     </div>
                   </Link>
-                ))}
+                )) : honeypots.map((honeypot, index) => (
+                  <Link to={`/honeypot/detail/${filteredHoneypots[index]?.honeypotCode}`} key={index} className="one-honeypot-index"
+                    onClick={ () => {navigate(`/honeypot/detail/${filteredHoneypots[index]?.honeypotCode}`)}}>
+                      <div className="honeypot-index-poster">
+                        <img src={filteredHoneypots[index]?.poster} alt="포스터이미지" />
+                        <hr className="honeypot-dashed" />
+                      </div>
+                      <div className="honeypot-index-info">
+                        <div className="top-info">
+                          <div className="region-info">{filteredHoneypots[index]?.region}</div>
+                          <div className="category-info">{filteredHoneypots[index]?.interestName}</div>
+                          <div className="honeypot-status">{filteredHoneypots[index]?.closureStatus}</div>
+                        </div>
+                        <p className="honeypot-title">{filteredHoneypots[index]?.honeypotTitle}</p>
+                        <div className="honeypot-schedule">
+                          <div>일정</div>
+                          <p className="honeypot-date">{filteredHoneypots[index]?.eventDate}</p>
+                          <p className="total-member">
+                            참여인원 {filteredHoneypots[index]?.approvedCount + 1} / {filteredHoneypots[index]?.totalMember}
+                          </p>
+                        </div>
+                        <p className="end-date">{filteredHoneypots[index]?.endDate} 까지 모집해요</p>
+                      </div>
+                    </Link>
+                  ))}
               </div>
             </div>
           </div>
