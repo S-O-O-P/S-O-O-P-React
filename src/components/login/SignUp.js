@@ -12,9 +12,10 @@ function SignUp() {
   const [role, setRole] = useState(null); 
   const [signupPlatform, setSignupPlatform] = useState(null);
   const navigate = useNavigate();
-
+  const [isValidForm, setIsValidForm] = useState(true);
+  const [inputError, setInputError] = useState('');
   const { decodedToken, accessToken } = useDecodeJwtResponse();
-
+  const [showReCheckModal, setShowReCheckModal] = useState(false);
 
   useEffect(() => {
     if (decodedToken && accessToken) {
@@ -39,6 +40,7 @@ function SignUp() {
   };
 
   const handleLogout = async () => {
+    
     try {
       await axios.post('http://localhost:8081/logout', {}, { withCredentials: true });
       document.cookie = "access=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
@@ -49,6 +51,7 @@ function SignUp() {
   };
 
   const handleSignUp = async () => {
+    if(modifySubmit() == true){
     try {
       const response = await axios.post('http://localhost:8081/signup', 
         { userCode, nickName, aboutMe, signupPlatform, selectedInterests },
@@ -65,7 +68,46 @@ function SignUp() {
       // console.error('추가 정보 입력 실패', error);
       handleLogout();
     }
+  }
   };
+
+  const isValidNickname = (nickname) => {
+    // 한글, 영문, 숫자만 허용하고 자음/모음만으로 이루어진 경우를 체크
+    const regex = /^(?=.*[가-힣a-zA-Z0-9])[가-힣a-zA-Z0-9]{1,16}$/;
+    const onlyConsonants = /^[ㄱ-ㅎ]+$/;
+    const onlyVowels = /^[ㅏ-ㅣ]+$/;
+    
+    if (!regex.test(nickname)) {
+        return false;
+    }
+    if (onlyConsonants.test(nickname) || onlyVowels.test(nickname)) {
+        return false;
+    }
+    return true;
+};
+
+  const handleInputChange = (e) => {
+    const newNickname = e.target.value;
+    if (newNickname.length <= 16) {
+        setNickName(newNickname);
+        if (!isValidNickname(newNickname)) {
+            setInputError('닉네임은 한글, 영문, 숫자만 사용 가능하며, 자음 또는 모음만으로 이루어질 수 없습니다.');
+            setIsValidForm(false);
+        } else {
+            setInputError('');
+            setIsValidForm(true);
+        }
+    }
+};
+    const modifySubmit = () => {
+        if (!isValidForm) {
+            alert('올바른 닉네임을 입력해주세요.\n닉네임은 한글, 영문, 숫자만 사용 가능하며,\n자음 또는 모음만으로 이루어질 수 없습니다.');
+            return false;
+        }else{
+          return true;
+        }
+    };
+
 
   return (
     <div className="App">
@@ -80,11 +122,11 @@ function SignUp() {
               <div className='NickBox'>
                 <div className='NickTitle'>닉네임</div>
                 <input 
-                  maxLength='10' 
+                  maxLength='16' 
                   className='NickName' 
-                  placeholder='닉네임' 
+                  placeholder='닉네임을 입력해 주세요.' 
                   value={nickName}
-                  onChange={(e) => setNickName(e.target.value)} 
+                  onChange={handleInputChange} 
                 />
               </div>
               <div className='AboutBox'>
