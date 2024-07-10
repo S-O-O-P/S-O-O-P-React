@@ -31,7 +31,7 @@ function Header() {
   }, []);
 
   const handleLogout = async () => {
-    //  window.location.href = "https://nid.naver.com/nidlogin.logout"
+    // window.open("https://nid.naver.com/nidlogin.logout")
     try {
       await axios.post('http://localhost:8081/logout', {}, { withCredentials: true });
       document.cookie = "access=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
