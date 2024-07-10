@@ -132,7 +132,7 @@ function SignUp() {
               <div className='AboutBox'>
                 <div className='AboutTitle'>자기소개</div>
                 <textarea 
-                  maxLength='300' 
+                  maxLength='180' 
                   className='AboutMe' 
                   placeholder='자기소개를 입력해 주세요'
                   value={aboutMe}
