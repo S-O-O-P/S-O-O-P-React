@@ -64,7 +64,8 @@ function RegistHoneypotPage({ cultureList, user }) {
         setShowConfirmModal(false);
         const code = await fetchHoneypotList();
         if (code) {
-            navigate(`/honeypot/detail/${code}`); // 모달 닫기 후 상세 페이지로 이동
+            // 데이터를 state에 저장하고 페이지 이동
+            navigate(`/honeypot/detail/${code}`, { state: { newHoneypotCode: code } });
         } else {
             console.error('연결실패');
         }

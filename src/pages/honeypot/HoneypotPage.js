@@ -22,8 +22,9 @@ function HoneypotPage({user}) {
                 const response = await axios.get('http://localhost:8081/honeypot/listandapproved');
                 console.log('백에서 받아온 결과물 : ', response.data);
                 const activeHoneypots = response.data.filter(honeypot => honeypot.visibilityStatus === '활성화');
-                setHoneypots(activeHoneypots);
-                setFilteredHoneypots(activeHoneypots);
+                const finishedhoney = activeHoneypots.filter(honeypot => honeypot.closureStatus !== '진행완료');
+                setHoneypots(finishedhoney);
+                setFilteredHoneypots(finishedhoney);
             } catch (error) {
                 console.error('Error 입니다 : ', error);
             }
