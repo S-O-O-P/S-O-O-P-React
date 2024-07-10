@@ -2,11 +2,16 @@ import axios from "axios";
 
 export default function EarlyBirdInfoApi({setEarlyBirdInfo} = null, apiName, earlyCode = null, ){
 
+  const today = new Date();
   // 얼리버드 공연/전시 정보 모두 호출
   const selectAllEarlyBirdInfo = () => {
     axios.get('http://localhost:8081/cultureinfo/early')
       .then(response => {
         console.log('API Response All:', response.data); // 디버깅을 위한 로그
+        const filteredValidList = response.data.earlyBirdList.filter(item => {
+          return new Date(item.saleEndDate) > today;
+        });
+        console.log("filteredValidList",filteredValidList);
         setEarlyBirdInfo(response.data.earlyBirdList || []); // EarlyBirdInfo가 null일 경우 빈 배열로 설정
         // setFilteredRows(response.data.earlyBirdList || []);
         console.log('Fetched Events All:', response.data.earlyBirdList); // Log the fetched data

@@ -5,8 +5,6 @@ import HotSlide from "../../components/cultureInfo/HotSlide";
 import styles from "./CultureInfo.module.css";
 import "../honeypot/HoneypotPage.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import LoadingSpinner from "../../components/commons/Loading";
 import TableType from "../../components/cultureInfo/TableType";
 import EarlyBirdInfoApi from "../../apis/cultureInfo/EarlyBirdApi";
 
@@ -15,7 +13,6 @@ export default function CultureInfo(props) {
   //State 설정
   const [cultureList, setCultureList] = useState(null); // 공연/전시 전체 목록 
   const [filteredList, setFilteredList] = useState(null) // 필터 리스트
-  const [originalList, setOriginalList] = useState([]) // 필터 리스트
   const [earlyBirdInfo, setEarlyBirdInfo] = useState([]); // 얼리버드 리스트
   const [hotList, setHotList] = useState([]); // HOT 공연/전시 정보
   const { detailDataList } = props;  // detailDataList를 props에서 가져옴
@@ -33,6 +30,8 @@ export default function CultureInfo(props) {
   const [subFilter, setSubFilter] = useState("마감임박순"); // 최신 등록순 필터로 초기화
   const [areaFilter, setAreaFilter] = useState("전체 지역"); // 지역 필터 - 전체 지역으로 초기화
   const [nullText, setNullText] = useState("현재 해당 정보가 존재하지 않습니다."); // null 데이터일 경우, 안내 문구
+  const [viewControl, setViewControl] = useState("card"); // view 방식
+  const [filteredEarlyBird, setFilteredEarlyBird] = useState([]);
 
   // 페이지네이션 상태 추가
   const [currentPage, setCurrentPage] = useState(1);
@@ -50,40 +49,57 @@ export default function CultureInfo(props) {
   useEffect(
     () => {
         //얼리버드 공연/전시 리스트 전체 조회 api 호출
-        EarlyBirdInfoApi({setEarlyBirdInfo}, "all");
+        EarlyBirdInfoApi({setEarlyBirdInfo}, "all");        
         const earlyCount = earlyBirdInfo?.length || 0;
         setEarlyCount(earlyCount);
-        setTotalCount(calculateTotalCount(publicCount, earlyCount));      
+        setTotalCount(calculateTotalCount(publicCount, earlyCount));    
     },[]
   );  
   
   //app.js에서 전달받은 api정보 state 저장
   useEffect(
     () => {
-      if (props.cultureList && earlyBirdInfo) { // api정보 정상적으로 불러오면   
+      if (props.cultureList && filteredEarlyBird) { // api정보 정상적으로 불러오면   
         const cultureListObj = JSON.parse(props.cultureList); // cultureList를 JavaScript 객체로 변환
         cultureListObj.perforList.sort((a,b) => {return Number(a.endDate) - Number(b.endDate)}) // 마감임박순으로 초기화
-        
-        const totalCount = cultureListObj.totalCount; // totalCount 값 가져오기
-        console.log("totalCount from public api: ", totalCount);
-        setPublicCount(totalCount);     
-        const earlyCount = earlyBirdInfo?.length || 0;
-        setEarlyCount(earlyCount);     
-        setTotalCount(calculateTotalCount(totalCount, earlyCount));
+        const filteredEb = earlyBirdInfo.map((item, index) => {
+          return {
+            seq: item.earlyBirdCode, // List내 객체 구분에 필요한 key
+            title: item.ebTitle, // 제목
+            realmName: item.interestCode === 1 ? "팝업" : item.interestCode === 2 ? "공연" : item.interestCode === 3 ? "축제" : item.interestCode === 4 ? "전시" : "뮤지컬", // 장르
+            price: item.discountPrice, // 할인 가격  
+            regularPrice: item.regularPrice, // 일반 가격
+            place: item.place,
+            startDate: item.saleStartDate,
+            endDate: item.saleEndDate,
+            area: item.region,
+            thumbnail: item.poster,
+          }
+        });
+        setEarlyCount(earlyBirdInfo.length);
+        console.log("filteredEb : ", filteredEb);
+        setFilteredEarlyBird(filteredEb);
+
+        const addedCultureListObj = cultureListObj.perforList.concat(filteredEb);
+        console.log("filteredEarlyBird : ",filteredEarlyBird);
+        console.log("concat : ",addedCultureListObj);
+
+        const totalCount = addedCultureListObj.length; // totalCount 값 가져오기
+        console.log("totalCount from public api: ", totalCount);    
+        setTotalCount(totalCount);
         
         // realmName 값에 따른 갯수 확인
         const realmCounts = {"전시" : 0 , "공연" : 0 , "뮤지컬" : 0, "축제" : 0, "팝업" : 0, "얼리버드" : 0};
-        cultureListObj.perforList.forEach(item => {
+        addedCultureListObj.forEach(item => {
           const realmName = item.realmName;
           const titName = item.title;
-          if (realmName === "미술") {
-            //realmCounts[realmName]++;
+          if (realmName.match("미술") || realmName.match("전시") || titName.match("전시")) {
             realmCounts["전시"]++;
-          } else if(titName.match("뮤지") || titName.match("뮤지컬") || realmName.match("기타")){
+          } else if(titName.match("뮤지컬") || realmName.match("기타") || realmName.match("뮤지컬")){
             realmCounts["뮤지컬"]++;
-          } else if(realmName === "음악" || realmName === "연극"|| titName.match("영화")){
+          } else if(realmName.match("음악") || titName.match("콘서트") || realmName === "연극"|| titName.match("영화") || realmName.match("공연") || titName.match("주회") || titName.match("공연")){
             realmCounts["공연"]++;
-          } else if(titName.match("행사") || titName.match("축제") || titName.match("페스티벌") || realmName.match("축제")){
+          } else if(titName.match("행사") || titName.match("축제") || titName.match("페스티벌") || realmName.match("축제") || titName.includes("페스티벌") || titName.includes("축제")){
             realmCounts["축제"]++;
           } else if(realmName.match("팝업")){
             realmCounts["팝업"]++;
@@ -94,12 +110,12 @@ export default function CultureInfo(props) {
         setConcertCount(realmCounts["공연"]);
         setMusicalCount(realmCounts["뮤지컬"]);
         setFestivalCount(realmCounts["축제"]);
-        setPopCount(realmCounts["팝업"]);
-        
+        setPopCount(realmCounts["팝업"]);        
         console.log("realmName 별 갯수: ", realmCounts);
         
-        setCultureList(JSON.parse(props.cultureList)); // JSON형태로 cultureList 저장 
-        setFilteredList({...cultureListObj , perforList : cultureListObj.perforList.sort((a,b) => {return Number(a.endDate) - Number(b.endDate)})})
+        // setCultureList(JSON.parse(props.cultureList)); // JSON형태로 cultureList 저장 
+        setCultureList({...cultureListObj , perforList : addedCultureListObj}); // JSON형태로 cultureList 저장 
+        setFilteredList({...cultureListObj , perforList : addedCultureListObj.sort((a,b) => {return Number(a.endDate) - Number(b.endDate)})})
         setHotList(JSON.parse(props.cultureList));          
         
         //공연/전시 대분류 카테고리 버튼
@@ -129,16 +145,19 @@ export default function CultureInfo(props) {
               filteredList = cultureListObj.perforList.sort((a, b) => Number(a.endDate) - Number(b.endDate)); // 전체보기일 경우 전체 리스트 반환
               setIsEarly(false);
             } else if(genre === "미술"){ // 전시
-              filteredList = cultureListObj.perforList.filter(item => item.realmName === genre || item.title.match("전시")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
+              filteredList = addedCultureListObj.filter(item => item.realmName === genre || item.title.match("전시") || item.realmName.match("전시")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
               setIsEarly(false);
             } else if(genre === "음악"){ // 공연
-              filteredList = cultureListObj.perforList.filter(item => item.realmName === genre || item.realmName === "연극" || item.title.match("음악") || item.title.match("영화")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
+              filteredList = addedCultureListObj.filter(item => item.realmName === genre || item.realmName === "연극" || item.title.match("음악") || item.title.match("영화") || item.realmName.match("공연") || item.title.match("콘서트") || item.title.match("연주") || item.title.match("주회")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
               setIsEarly(false);
             } else if(genre === "뮤지컬"){ // 뮤지컬
-              filteredList = cultureListObj.perforList.filter(item => item.title.match("뮤지") || item.title.match("뮤지컬") || item.realmName.match("기타")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
+              filteredList = addedCultureListObj.filter(item => item.title.match("뮤지컬") || item.realmName.match("기타") || item.realmName.match("뮤지컬")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
               setIsEarly(false);
             } else if(genre === "축제"){ // 행사 / 축제
-              filteredList = cultureListObj.perforList.filter(item => item.title.match("축제") || item.title.match("페스티벌")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
+              filteredList = addedCultureListObj.filter(item => item.title.match("축제") || item.title.match("페스티벌") || item.realmName.match("축제")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
+              setIsEarly(false);
+            } else if(genre === "팝업"){ // 행사 / 축제
+              filteredList = addedCultureListObj.filter(item => item.title.match("팝업") || item.title.match("팝업") || item.realmName.match("팝업")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
               setIsEarly(false);
             } else if(genre === "얼리버드"){ // 얼리버드
               filteredList = earlyBirdInfo.sort((a,b) => {return Number(a.saleEndDate) - Number(b.saleEndDate)});
@@ -164,8 +183,8 @@ export default function CultureInfo(props) {
 
   useEffect(
     ()=>{
-      
-      setTotalCount(Number(publicCount) + earlyCount);
+      setEarlyCount(earlyCount);
+      setEarlyCount(earlyCount);
     },[earlyCount, publicCount]
   );
   
@@ -190,7 +209,8 @@ export default function CultureInfo(props) {
   //서브 필터 아이템 
   const subFilterItemHandler = (e) => {
       e.currentTarget.closest("ul").classList.remove(`.${styles.active}`);
-      const cultureListObj = JSON.parse(props.cultureList);
+      const cultureListObj = cultureList;
+      // const cultureListObj = JSON.parse(props.cultureList);
       console.log("현재 클릭한 필터 : " + e.currentTarget.innerText);
       console.log("현재 선택한 카테고리 : " + category);
 
@@ -200,13 +220,13 @@ export default function CultureInfo(props) {
       if (category === "all") { // 전체
         filteredListCategory = cultureListObj.perforList.sort((a, b) => Number(a.endDate) - Number(b.endDate)); // 전체보기일 경우 전체 리스트 반환
       } else if(category === "미술"){ // 전시
-        filteredListCategory = cultureListObj.perforList.filter(item => item.realmName === category || item.title.match("전시")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
+        filteredListCategory = cultureListObj.perforList.filter(item => item.realmName === category || item.title.match("전시") || item.realmName.match("전시")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
       } else if(category === "음악"){ // 공연
-        filteredListCategory = cultureListObj.perforList.filter(item => item.realmName === category || item.realmName === "연극" || item.title.match("음악") || item.title.match("영화")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
+        filteredListCategory = cultureListObj.perforList.filter(item => item.realmName === category || item.realmName === "연극" || item.title.match("음악") || item.title.match("영화") || item.realmName.match("공연")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
       } else if(category === "뮤지컬"){ // 뮤지컬
-        filteredListCategory = cultureListObj.perforList.filter(item => item.title.match("뮤지") || item.title.match("뮤지컬") || item.realmName.match("기타")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
+        filteredListCategory = cultureListObj.perforList.filter(item => item.title.match("뮤지") || item.title.match("뮤지컬") || item.realmName.match("기타") || item.realmName.match("뮤지컬")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
       } else if(category === "축제"){ // 행사 / 축제
-        filteredListCategory = cultureListObj.perforList.filter(item => item.title.match("축제") || item.title.match("페스티벌")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
+        filteredListCategory = cultureListObj.perforList.filter(item => item.title.match("축제") || item.title.match("페스티벌") || item.realmName.match("축제")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
       } else if(category === "얼리버드"){ // 얼리버드
         filteredListCategory = cultureListObj.sort((a,b) => {return Number(a.saleEndDate) - Number(b.saleEndDate)});
       }
@@ -242,30 +262,31 @@ export default function CultureInfo(props) {
 
   // select view
   // 공연/전시 카드/테이블 타입 보기 필터
-  const viewCardType = document.querySelector(`.${styles.culture_list_box}`); // 카드 타입 영역
-  const viewTableType = document.querySelector(`.${styles.culture_table}`);
   const selectViewHandler =  (e) => { // 클릭 이벤트 추가
     if (e.currentTarget.classList.contains(`${styles.active}`)) { //클릭한 버튼이 이미 활성화된 상태라면
       return false;
     } else { // 클릭한 버튼이 비활성화된 상태라면
       e.currentTarget.classList.add(`${styles.active}`); // 활성화 상태로 전환
       console.log('현재 클릭한 버튼 :' + e.currentTarget.classList);
-      if (e.currentTarget.classList.contains(`${styles.left_filter}`)) { // 카드 형식 버튼이 활성화라면              
+      if (e.currentTarget.classList.contains(`${styles.left_filter}`)) { // 카드 형식 버튼이 활성화라면  
+        setViewControl("card");
         e.currentTarget.nextElementSibling.classList.remove(`${styles.active}`);
         e.currentTarget.childNodes[0].setAttribute('src', `/images/cultureInfo/icon_home_white.png`);// 버튼 아이콘 활성화 이미지 변경
         e.currentTarget.nextElementSibling.childNodes[0].setAttribute('src', `/images/commons/icon_list_colored.png`);// 버튼 아이콘 비활성화 이미지 변경
-        viewCardType.classList.add(`${styles.active}`);
-        viewTableType.classList.remove(`${styles.active}`);
+        e.currentTarget.classList.add(`${styles.active}`);
+        e.currentTarget.nextElementSibling.classList.remove(`${styles.active}`);
       } else { // 테이블 형식 버튼이 활성화라면
+        setViewControl("table");
         e.currentTarget.previousElementSibling.classList.remove(`${styles.active}`);
         e.currentTarget.childNodes[0].setAttribute('src', `/images/commons/icon_list_white.png`);// 버튼 아이콘 활성화 이미지 변경
         e.currentTarget.previousElementSibling.childNodes[0].setAttribute('src', `/images/cultureInfo/icon_home_colored.png`);// 버튼 아이콘 비활성화 이미지 변경
-        viewTableType.classList.add(`${styles.active}`);
-        viewCardType.classList.remove(`${styles.active}`);
+        e.currentTarget.classList.add(`${styles.active}`);
+        e.currentTarget.previousElementSibling.classList.remove(`${styles.active}`);
       }
     }
   }
 
+  // 검색어 입력 & 검색 결과 필터링
   const onClickSearchHandler = () => {
     console.log("입력한 검색어 : "+searchValue);
     console.log("검색할 때 참조하는 filtered리스트 : ",filteredList?.perforList);
@@ -292,26 +313,56 @@ export default function CultureInfo(props) {
     const endIndex = startIndex + itemsPerPage;
     return items.slice(startIndex, endIndex);
   };
-
+  
   // 페이지 변경 함수
-  const handlePageChange = (newPage) => {
+  const handlePageChange = (newPage, setCurrentPage) => {
     setCurrentPage(newPage);
   };
-
+  
   const Pagination = ({ items, itemsPerPage, currentPage, onPageChange }) => {
     const totalPages = Math.ceil(items?.length / itemsPerPage);
-  
-    // if (totalPages === 1) return null; // 페이지가 1개일 경우 페이지네이션 표시 안함
+    const pagesPerGroup = 5; // 한 그룹당 페이지 수
+    const [currentGroup, setCurrentGroup] = useState(Math.floor((currentPage - 1) / pagesPerGroup));
   
     const handlePageClick = (page) => {
       if (page > 0 && page <= totalPages) {
         onPageChange(page);
+        setCurrentGroup(Math.floor((page - 1) / pagesPerGroup));
       }
     };
   
+    const handleNextGroupClick = () => {
+      const newPage = currentPage + 1;
+      if (newPage <= totalPages) {
+        onPageChange(newPage);
+        setCurrentGroup(Math.floor((newPage - 1) / pagesPerGroup));
+      }
+    };
+  
+    const handlePrevGroupClick = () => {
+      const newPage = currentPage - 1;
+      if (newPage > 0) {
+        onPageChange(newPage);
+        setCurrentGroup(Math.floor((newPage - 1) / pagesPerGroup));
+      }
+    };
+  
+    const handleFirstPageClick = () => {
+      setCurrentGroup(0);
+      onPageChange(1);
+    };
+  
+    const handleLastPageClick = () => {
+      const newGroup = Math.floor((totalPages - 1) / pagesPerGroup);
+      setCurrentGroup(newGroup);
+      onPageChange(totalPages);
+    };
+  
     const renderPageNumbers = () => {
+      const startPage = currentGroup * pagesPerGroup + 1;
+      const endPage = Math.min(startPage + pagesPerGroup - 1, totalPages);
       let pageNumbers = [];
-      for (let i = 1; i <= totalPages; i++) {
+      for (let i = startPage; i <= endPage; i++) {
         pageNumbers.push(
           <li
             key={i}
@@ -326,45 +377,34 @@ export default function CultureInfo(props) {
     };
   
     return (
-       
       <div className={`${styles.pagination_box} ${styles.flex_center}`}>
-        {totalPages !== 1 ?
-        <>
-          <span
-            className={styles.start_page}
-            onClick={() => handlePageClick(1)}
-            disabled={currentPage === 1}
-          >
-            {/* 처음 페이지로 */}
-          </span>
-          <span
-            className={styles.prev_page}
-            onClick={() => handlePageClick(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            {/* 이전 페이지로 */}
-          </span>
-        </> : null}
+        <span
+          className={`${styles.start_page} ${currentPage === 1 ? styles.disabled : ""}`}
+          onClick={handleFirstPageClick}
+        >
+          {/* 처음 페이지로 */}
+        </span>
+        <span
+          className={`${styles.prev_page} ${currentPage === 1 ? styles.disabled : ""}`}
+          onClick={handlePrevGroupClick}
+        >
+          {/* 이전 페이지로 */}
+        </span>
         <ul className={`${styles.pagination} ${styles.flex_center}`}>
           {renderPageNumbers()}
         </ul>
-        { totalPages !== 1 ?
-          <>
-          <span
-            className={styles.next_page}
-            onClick={() => handlePageClick(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          >
-            {/* 다음 페이지로 */}
-          </span>
-          <span
-            className={styles.end_page}
-            onClick={() => handlePageClick(totalPages)}
-            disabled={currentPage === totalPages}
-          >
-            {/* 마지막 페이지로 */}
-          </span>
-        </> : null}
+        <span
+          className={`${styles.next_page} ${currentPage === totalPages ? styles.disabled : ""}`}
+          onClick={handleNextGroupClick}
+        >
+          {/* 다음 페이지로 */}
+        </span>
+        <span
+          className={`${styles.end_page} ${currentPage === totalPages ? styles.disabled : ""}`}
+          onClick={handleLastPageClick}
+        >
+          {/* 마지막 페이지로 */}
+        </span>
       </div>
     );
   };
@@ -491,8 +531,7 @@ export default function CultureInfo(props) {
 
               {/* 검색창 */}
               <div className='search-wrapper'>
-                <input className='text-search' type='text' placeholder="검색어를 입력하세요." onChange={e => setSearchValue(e.target.value)} value={searchValue}/>
-                {/*  onKeyDown={e => e.key === "Enter" ? onClickSearchHandler() : null }  */}
+                <input className='text-search' type='text' placeholder="검색어를 입력하세요." onChange={e => setSearchValue(e.target.value)} value={searchValue} onKeyDown={e => e.key === "Enter" ? onClickSearchHandler() : null }/>
                 <button onClick={onClickSearchHandler} className='submit-btn' type='button'></button>
               </div>
 
@@ -506,7 +545,8 @@ export default function CultureInfo(props) {
               </ul>
             </div>
             {/* // 해당 공연/전시 세부 필터링 버튼 리스트 */}
-            <p className={styles.culture_notice_txt}>* 표시 가격은 성인 1인 기준 가격입니다.</p>
+            <p className={styles.culture_notice_txt}>*공연/전시 정보의 카테고리 결과는 제목 또는 장르 기준으로 구분되며,<br/> 중복된 결과로 조회될 수 있습니다.</p>
+            <p className={styles.culture_notice_txt}>*얼리버드 공연/전시 정보 표시 가격은 성인 1인 기준 가격입니다.</p>
 
             {/* 공연/전시 리스트 */}
             {filteredList?.perforList.length === 0 ?
@@ -519,7 +559,7 @@ export default function CultureInfo(props) {
             :
               /* 카드 형식 */
               <>
-                <div className={`${styles.culture_list_box} ${styles.active}`}>
+                <div className={`${styles.culture_list_box} ${viewControl === "card" ? styles.active : null}`}>
                   <ul className={`${styles.culture_list} ${styles.flex_start}`}>
                     {/* {CardType()} */}
                     {/* {cultureList && detailDataList && (<CardType cultureList={cultureList} detailDataList={detailDataList} />)} */}
@@ -530,19 +570,19 @@ export default function CultureInfo(props) {
                     items={filteredList?.perforList}
                     itemsPerPage={cardItemsPerPage}
                     currentPage={currentPage}
-                    onPageChange={handlePageChange}
+                    onPageChange={setCurrentPage}
                   />
                 </div>
                 {/* //카드 형식 */}
 
                 { /* 테이블 형식 */}
-                <div className={styles.culture_table}>
+                <div className={`${styles.culture_table} ${viewControl === "table" ? styles.active : null}`}>
                   {filteredList && detailDataList && tableData && <TableType cultureList={tableData} detailDataList={detailDataList} earlyCheck={isEarly}/>}
                   <Pagination
                     items={filteredList?.perforList}
-                    itemsPerPage={tableItemsPerPage}
+                    itemsPerPage={cardItemsPerPage}
                     currentPage={currentPage}
-                    onPageChange={handlePageChange}
+                    onPageChange={setCurrentPage}
                   />
                 </div>
               </>}

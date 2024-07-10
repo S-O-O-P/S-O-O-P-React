@@ -167,7 +167,7 @@ export default function CultureDetail(props) {
 
                     {early === false ? <div className={styles.price_list}>
                       <p>{detailData?.place}</p>
-                      {detailData?.placeUrl !== null || detailData?.placeUrl !== "" ? <Link to={detailData?.placeUrl} target="_blank" className={styles.short_cut_btn}>바로가기</Link> : <p>공식 홈페이지 정보가 존재하지 않습니다.\n추후 업데이트 예정입니다.</p>}
+                      {detailData?.placeUrl === null || typeof detailData?.placeUrl === 'object' ? <p>공식 홈페이지 정보가 존재하지 않습니다.<br/>추후 업데이트 예정입니다.</p> : <Link to={detailData?.placeUrl} target="_blank" className={styles.short_cut_btn}>바로가기</Link>}
 
                     </div> 
                     : 

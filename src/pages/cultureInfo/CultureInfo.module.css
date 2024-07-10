@@ -105,7 +105,8 @@ li.right_filter .selected_filter {width: 128px;}
 .view_filter_list li.left_filter {border-top-right-radius: 0; border-bottom-right-radius: 0;}
 .view_filter_list li.right_filter {border-top-left-radius: 0; border-bottom-left-radius: 0;}
 .view_filter_list img {width: 34px; height: 34px;}
-.culture_notice_txt {padding-bottom: 20px; font-size: 14px; font-weight: var(--regular); color: var(--point-color); text-align: right;}
+.culture_notice_txt {font-size: 14px; font-weight: var(--regular); color: var(--point-color); text-align: right;}
+.culture_notice_txt:last-of-type {padding-bottom: 20px; }
 
 /* 전시/공연 리스트 */
 /* 카드 형식 */
@@ -172,7 +173,8 @@ li.right_filter .selected_filter {width: 128px;}
 .summary_txt_box {width: calc(50% - 30px);}
 .summary_txt_box ul li {align-items: flex-start; padding-top: 20px;}
 .summary_txt_box p{font-size: 20px; font-weight: var(--regular);}
-.summary_txt_box p.detail_item_tit {width: 120px; margin-right: 20px; font-weight: var(--semiBold);}
+.summary_txt_box p.detail_item_tit {width: 160px; margin-right: 20px; font-weight: var(--semiBold);}
+.summary_txt_box .price_list {width: calc(100% - 180px);}
 .short_cut_btn {display: block; height: 48px; padding:0 20px; margin-top: 10px; border-radius: 48px; font-size: 18px; font-weight: var(--semiBold); color: #ffffff; line-height: 48px; text-align: center; background-color: var(--main-color); transition: background-color 200ms ease-in-out;}
 .short_cut_btn:hover {background-color: var(--point-color);}
 .price_list p {padding-bottom: 10px;}
@@ -207,6 +209,18 @@ li.right_filter .selected_filter {width: 128px;}
 .honeypotListCont a {width: calc((100% - 40px) / 2);}
 .hosting_btn {display: inline-block; height: 48px; padding: 0 20px; font-size: 24px; font-weight: var(--semiBold); line-height: 48px; text-align: center; color: #ffffff; border-radius:48px; background-color: var(--main-color); transition: background-color 200ms ease-in-out; cursor: pointer;}
 .hosting_btn:hover {background-color: var(--point-color);}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.start_page,
+.prev_page,
+.next_page,
+.end_page {
+  cursor: pointer;
+}
 
 /* responsive mode */
 @media(max-width:992px){
