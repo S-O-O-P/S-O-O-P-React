@@ -44,7 +44,7 @@ function SignUp() {
       document.cookie = "access=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       navigate('/login');
     } catch (error) {
-      console.error('Logout failed', error);
+      // console.error('Logout failed', error);
     }
   };
 
@@ -59,10 +59,10 @@ function SignUp() {
           }
         }
       );
-      console.log('추가 정보 입력 완료', response);
-      navigate('/main');
+      // console.log('추가 정보 입력 완료', response);
+      navigate('/completed', { state: { nickName } });
     } catch (error) {
-      console.error('추가 정보 입력 실패', error);
+      // console.error('추가 정보 입력 실패', error);
       handleLogout();
     }
   };

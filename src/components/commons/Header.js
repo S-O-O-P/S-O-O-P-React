@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './Header.css';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import UserProflieApi from '../../apis/mypage/UserProfile';
 
-function Header() {
+function Header({user}) {
+  const [loggedInUser, setLoggedInUser] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     if (!sessionStorage.getItem('refreshed')) {
       sessionStorage.setItem('refreshed', 'true');
@@ -30,13 +33,16 @@ function Header() {
     }
   }, []);
 
+  useEffect(() => {
+    UserProflieApi({setIsLoading, setLoggedInUser, user})
+},[user, loggedInUser.nickname]);
+
   const handleLogout = async () => {
-    // window.open("https://nid.naver.com/nidlogin.logout")
     try {
       await axios.post('http://localhost:8081/logout', {}, { withCredentials: true });
       document.cookie = "access=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       setAccessToken(null);
-      navigate('/login');
+      navigate('/main');
     } catch (error) {
       console.error('Logout failed', error);
     }
@@ -58,7 +64,7 @@ function Header() {
         </nav>
         {accessToken ? (
           <>
-            <a href='/mypage'><li>{userNickName}</li></a>
+            <a href='/mypage'><li>{loggedInUser.nickname} 님</li></a>
             <a href='/mypage'><li><img className='mypage-btn' src={`${process.env.PUBLIC_URL}/images/commons/icon_mypage_colored.png`} alt="MYPAGE"/></li></a>
             <li><img className='logout-btn' onClick={handleLogout} src={`${process.env.PUBLIC_URL}/images/commons/icon_logout_colored.png`} alt='LOGOUT'/></li>
           </>

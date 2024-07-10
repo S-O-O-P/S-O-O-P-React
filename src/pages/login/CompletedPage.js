@@ -1,11 +1,11 @@
 import Completed from "../../components/login/SignUpCompleted";
 
-function CompletedPage() {
+function CompletedPage({user}) {
 
     return (
             <>
             <div id="content">
-                {<Completed/>}
+                {<Completed user={user}/>}
             </div>
             </>
     );
