@@ -51,14 +51,17 @@ const ExpiredToken = () => {
                 }
             } else {
                 console.log('저장된 액세스 토큰이 없습니다.');
-                if (location.pathname !== '/main' 
-                    && location.pathname !== '/login'
-                    && location.pathname !== '/help'
-                    && location.pathname.startsWith('/notice')
-                && location.pathname !== '/faq'
-                && location.pathname !== '') {
-                    navigate('/login');
-                }
+                if (![
+                    '/main',
+                    '/login',
+                    '/help',
+                    '/faq',
+                    '/honeypot'
+                ].includes(location.pathname) && 
+                !location.pathname.startsWith('/notice') &&
+                !location.pathname.startsWith('/cultureinfo')) {
+                navigate('/login');
+            }
             }
         };
 
