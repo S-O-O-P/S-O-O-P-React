@@ -18,8 +18,8 @@ import CultureApi from './apis/CultureApi';
 import { useEffect, useState } from 'react';
 import LoadingSpinner from './components/commons/Loading';
 import CultureDetailApi from './apis/CultureDetailApi';
-import PrivateRoute from './components/PrivateRoute';
-import PublicRoute from './components/PublicRoute';
+// import PrivateRoute from './components/PrivateRoute';
+// import PublicRoute from './components/PublicRoute';
 import ExpiredToken from './apis/ExpiredToken';
 import RegistHoneypotPage from './pages/honeypot/RegistHoneypotPage';
 import HoneypotDetailPage from './pages/honeypot/HoneypotDetailPage';
@@ -129,7 +129,7 @@ export default function App() {
           <Route element={<Layout user={loggedInUser} />}> {/* 레이아웃 오픈 */}
             <Route path='/main' element={data ? <Main cultureList={JSON.stringify(data)} /> : <LoadingSpinner />} /> {/* 메인 */}
             <Route index element={data ? <Main cultureList={JSON.stringify(data)} /> : <LoadingSpinner />} /> {/* 메인 */}
-            <Route path='/login' element={<PublicRoute restricted={false} element={LoginPage} />} /> {/* 로그인 */}
+            <Route path='/login' element={ <LoginPage />}/> {/* 로그인 */}
             <Route path='/signup' element={<SignUpPage loggedInUser={loggedInUser}/>} /> {/* 추가 정보 입력 */}
             <Route path="/cultureinfo" element={data ? <CultureInfo cultureList={JSON.stringify(data)} detailDataList={detailDataList}/> : <LoadingSpinner />}/> {/* 전시/공연 정보 */}
             <Route path="/cultureinfo/detail/:seq" element={<CultureDetail detailDataList={detailDataList}/>}/> {/* 전시/공연 상세페이지*/}

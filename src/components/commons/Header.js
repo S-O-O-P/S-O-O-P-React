@@ -18,7 +18,6 @@ function Header({user}) {
 
   const [accessToken, setAccessToken] = useState(null);
   const navigate = useNavigate();
-  const [userNickName, setUserNickName] = useState('');
 
   const getCookies = (name) => {
     const value = `; ${document.cookie}`;

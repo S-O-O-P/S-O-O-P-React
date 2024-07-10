@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const ExpiredToken = () => {
     const navigate = useNavigate();
+    const location = useLocation();
 
     const getCookies = (name) => {
         const value = `; ${document.cookie}`;
@@ -25,7 +26,9 @@ const ExpiredToken = () => {
         } catch (error) {
             console.error('액세스 토큰 갱신 실패', error);
             document.cookie = "access=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            navigate('/login');
+            if (location.pathname !== '/main' && location.pathname !== '/login') {
+                navigate('/login');
+            }
         }
     };
 
@@ -34,7 +37,7 @@ const ExpiredToken = () => {
             const accessToken = getCookies('access');
             if (accessToken) {
                 const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
-                const expiresAt = tokenPayload.exp * 2000;
+                const expiresAt = tokenPayload.exp * 1000;
                 const now = new Date().getTime();
                 console.log('토큰 만료 여부 확인 중...', { now, expiresAt });
                 if (now >= expiresAt) {
@@ -48,12 +51,19 @@ const ExpiredToken = () => {
                 }
             } else {
                 console.log('저장된 액세스 토큰이 없습니다.');
-                navigate('/login');
+                if (location.pathname !== '/main' 
+                    && location.pathname !== '/login'
+                    && location.pathname !== '/help'
+                    && location.pathname.startsWith('/notice')
+                && location.pathname !== '/faq'
+                && location.pathname !== '') {
+                    navigate('/login');
+                }
             }
         };
 
         checkTokenExpiration();
-    }, [navigate]);
+    }, [navigate, location]);
 
     return null;
 };
