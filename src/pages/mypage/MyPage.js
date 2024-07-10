@@ -47,8 +47,8 @@ const MyPage = ({user}) => {
         MyRatingApi({setIsLoading, setMyRating, user})
     },[user, loggedInUser.nickname]);
 
-    console.log('나의 정보', myRating);
-    console.log('유저', user);
+    // console.log('나의 정보', myRating);
+    // console.log('유저', user);
 
     if (isLoading) {
         return <LoadingSpinner />;
@@ -59,7 +59,7 @@ const MyPage = ({user}) => {
     };
 
     const handleProfileUpdate = (updatedProfile) => {
-        console.log("Received updated profile:", updatedProfile);
+        // console.log("Received updated profile:", updatedProfile);
         setLoggedInUser(prevUser => {
             if (!updatedProfile || !updatedProfile.interests) {
                 console.error("Updated profile or interests are missing", updatedProfile);
@@ -76,7 +76,7 @@ const MyPage = ({user}) => {
                       }))
                     : []
             };
-            console.log("New user state:", newUser);
+            // console.log("New user state:", newUser);
             return newUser;
         });
     };
@@ -105,8 +105,6 @@ const MyPage = ({user}) => {
         }
     };
     
-    
-
     const mannerStarClick = () => {
         setShowMannerStarModal(true);
     };

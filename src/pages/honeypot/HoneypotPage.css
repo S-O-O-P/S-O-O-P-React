@@ -138,6 +138,11 @@
     margin-left: 20px;
 }
 
+.honeypot-sort:focus,
+.region:focus {
+    outline: none;
+}
+
 .search-wrapper {
     position: relative;
     display: inline-block;

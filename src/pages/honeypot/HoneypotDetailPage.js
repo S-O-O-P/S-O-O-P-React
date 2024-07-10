@@ -23,15 +23,23 @@ function HoneypotDetailPage({ cultureList, user }) {
   const [myRating, setMyRating] = useState({ contents: [] })
   const [showMannerStarModal, setShowMannerStarModal] = useState(false);
   const location = useLocation();
-  
+  const getValidRatingsCount = (contents) => {
+    return contents.filter(content => content && content.content !== null).length;
+  };
+  const [showWarningModal, setShowWarningModal] = useState(false);
+  const [warningMessage, setWarningMessage] = useState('');
+  const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
+  const [showDeleteSuccessModal, setShowDeleteSuccessModal] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [showReportConfirmModal, setShowReportConfirmModal] = useState(false);
 
 
   // 공연 / 전시 start/endDate
   const convertDateFormat = (stringDate) => {
     let dateFormat = "";
-    const year = stringDate.slice(0, 4);
-    const month = stringDate.slice(4, 6);
-    const day = stringDate.slice(6);
+    const year = stringDate?.slice(0, 4);
+    const month = stringDate?.slice(4, 6);
+    const day = stringDate?.slice(6);
     
     dateFormat = year + "." + month + "." + day; // 날짜 표시 형식
     return dateFormat;
@@ -45,7 +53,7 @@ function HoneypotDetailPage({ cultureList, user }) {
       }
   }, [detailHoneypot,user]);
   
-  console.log('디테일허니팟 컬쳐리스트', allCultureList[0].seq)
+  // console.log('디테일허니팟 컬쳐리스트', allCultureList[0].seq)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,7 +77,8 @@ function HoneypotDetailPage({ cultureList, user }) {
 
   const modifyClick = () => {
     if (applications.length > 0) {
-      alert('신청자가 있어 수정할 수 없습니다.');
+      setWarningMessage('허니팟 정보 변경이 불가합니다.')
+      setShowWarningModal(true);
       return;
     }
     navigate(`/honeypot/u/${honeypotCode}`, {
@@ -77,26 +86,41 @@ function HoneypotDetailPage({ cultureList, user }) {
     });
   };
 
-  const handleDeleteHoneypot = async () => {
-    try {
+  const handleDeleteHoneypot = () => {
       // 참가 신청자가 있는지 확인
       if (applications.length > 0) {
-        alert('참가 신청자가 있어 허니팟을 삭제할 수 없습니다.');
-        return;
+        setWarningMessage('허니팟 삭제 불가합니다.')
+        setShowWarningModal(true);
+      } else {
+        setShowDeleteConfirmModal(true);
       }
+    };
 
+  const confirmDelete = async () => {
+    try {
       // 삭제 API 호출
-      await axios.delete(`http://localhost:8081/honeypot/${detailHoneypot.honeypotCode}`);
-      alert('허니팟이 성공적으로 삭제되었습니다.');
-
-      // 삭제 후 리다이렉트 또는 다른 작업 수행
-      navigate('/honeypot');
-
+      await axios.delete(`http://localhost:8081/honeypot/delete/${detailHoneypot.honeypotCode}`);
+      setShowDeleteConfirmModal(false);
+      setShowDeleteSuccessModal(true);
     } catch (error) {
       console.error('허니팟 삭제 실패:', error);
-      alert('허니팟 삭제에 실패했습니다. 다시 시도해주세요.');
     }
   };
+
+  const handleReport = () => {
+    setShowReportModal(true);
+  }
+
+  const confirmReport = async () => {
+    try {
+      const response = await axios.put(`http://localhost:8081/honeypot/report/${detailHoneypot.honeypotCode}`);
+      console.log('신고가되었나', response.data);
+      setShowReportModal(false);
+      setShowReportConfirmModal(true);
+    } catch(error) {
+      console.error('신고 기능 실패', error);
+    }
+  }
 
   const mannerStarClick = () => {
     setShowMannerStarModal(true);
@@ -110,7 +134,7 @@ function HoneypotDetailPage({ cultureList, user }) {
     return <LoadingSpinner />; // 로딩 중일 때 보여줄 UI
   }
 
-  const title = filteredCultureList[0].title.replaceAll('&lt;', `<`).replaceAll('&gt;', `>`).replaceAll("&#39;", "'"); // 제목
+  const title = filteredCultureList[0]?.title.replaceAll('&lt;', `<`).replaceAll('&gt;', `>`).replaceAll("&#39;", "'"); // 제목
 
   return (
     <div className="main-content">
@@ -158,7 +182,7 @@ function HoneypotDetailPage({ cultureList, user }) {
         )}
         <div className='ticket-info-container'>
           <div className='poster-wrapper'>
-            <img src={filteredCultureList[0].thumbnail} alt="포스터이미지" draggable="false"/>
+            <img src={filteredCultureList[0]?.thumbnail} alt="포스터이미지" draggable="false"/>
           </div>
           <ul className='poster-cutting_line'>
             <li></li>
@@ -170,20 +194,23 @@ function HoneypotDetailPage({ cultureList, user }) {
           </ul>
           <div className='ticket-info'>
             <p className='ticket-title'>{title}</p>
-            <p>{convertDateFormat(filteredCultureList[0].startDate)} ~ {convertDateFormat(filteredCultureList[0].endDate)}</p>
-            <p>{filteredCultureList[0].place}</p>
+            <p>{convertDateFormat(filteredCultureList[0]?.startDate)} ~ {convertDateFormat(filteredCultureList[0]?.endDate)}</p>
+            <p>{filteredCultureList[0]?.place}</p>
           </div>
         </div>
         <hr className='honeypot-detail-hr'/>
         <RecommendHoneypot interestName={detailHoneypot.interestCategory.interestName} allCultureList={allCultureList} honeypotCode={honeypotCode}/>
         <div className='comment-top'>
                 <p>댓글</p>
-                {detailHoneypot.hostInfo.userCode === user.userCode && (
-              <div className='honeypot-delete' 
-                  onClick={applications.length > 0 ? () => alert('참가 신청자가 있어 허니팟을 삭제할 수 없습니다.') : handleDeleteHoneypot}
-                  style={{ opacity: applications.length > 0 ? 0.5 : 1, cursor: applications.length > 0 ? 'not-allowed' : 'pointer' }}>
+                {detailHoneypot.hostInfo.userCode === user.userCode ? (
+              <div className='honeypot-delete'  onClick={handleDeleteHoneypot} >
                 <img src={`${process.env.PUBLIC_URL}/images/commons/icon_delete_main_color.png`} alt="delete icon"/>
                 <p>삭제</p>
+              </div>
+            ) : (
+              <div className='honeypot-report' onClick={handleReport}>
+                <img src={`${process.env.PUBLIC_URL}/images/commons/icon_report_main_color.png`} alt="report icon"/>
+                <p>신고</p>
               </div>
             )}
             </div>
@@ -205,25 +232,105 @@ function HoneypotDetailPage({ cultureList, user }) {
               </div>
               <div className='people-count-container'>
                 <img src={`${process.env.PUBLIC_URL}/images/commons/icon_bee.png`} alt="유저평점아이콘" />
-                <p>{myRating.contents.length > 0 ? `${myRating.contents.length}명의 멤버 평가 반영` : '아직 평가한 멤버가 없습니다'}</p>
+                <p>{getValidRatingsCount(myRating.contents) > 0 
+                    ? `${getValidRatingsCount(myRating.contents)}명의 멤버 평가 반영` 
+                    : '아직 평가한 멤버가 없습니다'}
+                </p>
               </div>
             </div>
 
             <div className='manner-modal-bottom'>
               <p className='bottom-title'>멤버평가</p>
               <div className='bottom-review-container'>
-                {myRating.contents.length > 0 ? (
-                  <div className='bottom-review-container'>
-                    {myRating.contents.map((review, index) => (
+              {getValidRatingsCount(myRating.contents) > 0 ? (
+                  myRating.contents.filter(review => review && review.content !== null).map((review, index) => (
                       <div key={index} className='bottom-review-text'>
-                        <p>{review.content}</p>
+                          <p>{review.content}</p>
                       </div>
-                    ))}
-                  </div>
-                ) : (
+                  ))
+              ) : (
                   <p>아직 받은 평가가 없습니다.</p>
-                )}
+              )}
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {showWarningModal && (
+        <div className='modal-container'>
+          <div className='warningmodal-content'>
+            <img src={`${process.env.PUBLIC_URL}/images/commons/icon_alert.png`}/>
+            <p className="warning-message">{warningMessage}</p>
+            <p className='warning-normal-message'>참여한 멤버가 있는 허니팟 입니다.</p>
+            <div className="warning-modal-buttons">
+              <button className="warning-modal-button yes" onClick={() => setShowWarningModal(false)}>
+                확인
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showDeleteConfirmModal && (
+        <div className='modal-container'>
+          <div className='warningmodal-content'>
+            <img src={`${process.env.PUBLIC_URL}/images/commons/icon_alert.png`}/>
+            <p className="warning-message">삭제하시겠습니까?</p>
+            <p className='warning-normal-message'>삭제하시면 복구가 불가능합니다.</p>
+            <div className="warning-modal-buttons2">
+              <button className="warning-modal-button no2" onClick={() => setShowDeleteConfirmModal(false)}>
+                취소
+              </button>
+              <button className="warning-modal-button yes2" onClick={confirmDelete}>
+                확인
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showDeleteSuccessModal && (
+        <div className='modal-container'>
+          <div className='warningmodal-content3'>
+            <img src={`${process.env.PUBLIC_URL}/images/commons/icon_confirm.png`}/>
+            <p className="warning-message">허니팟이 삭제되었습니다.</p>
+            <div className="warning-modal-buttons3">
+              <button className="warning-modal-button yes" onClick={() => {
+                setShowDeleteSuccessModal(false);
+                navigate('/honeypot');
+              }}>
+                확인
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showReportModal && (
+        <div className='modal-container'>
+          <div className='warningmodal-content2'>
+            <img src={`${process.env.PUBLIC_URL}/images/commons/icon_alert.png`}/>
+            <p className="warning-message">신고하시겠습니까?</p>
+            <div className="warning-modal-buttons2">
+              <button className="warning-modal-button no2" onClick={() => setShowReportModal(false)}>
+                아니오
+              </button>
+              <button className="warning-modal-button yes2" onClick={confirmReport}>
+                예
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showReportConfirmModal && (
+        <div className='modal-container'>
+          <div className='warningmodal-content3'>
+            <img src={`${process.env.PUBLIC_URL}/images/commons/icon_confirm.png`}/>
+            <p className="warning-message">신고가 접수되었습니다.</p>
+            <div className="warning-modal-buttons3">
+              <button className="warning-modal-button yes" onClick={() => setShowReportConfirmModal(false)}>
+                확인
+              </button>
             </div>
           </div>
         </div>

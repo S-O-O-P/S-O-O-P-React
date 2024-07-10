@@ -25,7 +25,7 @@ function EditProfile({ loggedInUser, onProfileUpdate }) {
             setSelectedInterestsCount(Object.values(initialInterests).filter(Boolean).length);
             setInputText(loggedInUser.nickname);
             setTextAreaText(loggedInUser.aboutme);
-            console.log('Updated user data:', loggedInUser);
+            // console.log('Updated user data:', loggedInUser);
         }
     }, [loggedInUser]);
 

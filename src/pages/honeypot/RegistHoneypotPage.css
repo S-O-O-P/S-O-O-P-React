@@ -103,7 +103,12 @@
     background-color: #FFFFFF;
     text-align: center;
     color: var(--main-color);
-    font-size: 16px;
+    font-size: 16px;    
+}
+
+.select-interest:focus,
+.select-region:focus {
+    outline: none;
 }
 
 .select-interest {
@@ -302,6 +307,10 @@
     color: var(--main-color);
     font-size: 16px;
     margin-right: auto;
+}
+
+.step2-select:focus {
+    outline: none;
 }
 
 .date-style {

@@ -2,7 +2,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    --main-color: #FBB755;
+    --main-color: rgb(251, 183, 85);
     --text-color: #282A29;
     color: var(--text-color);
 }
@@ -275,7 +275,7 @@
 .application-user {
     width: 100%;
     height: 150px;
-    background: pink;
+    background: rgba(251, 183, 85, 0.5);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -295,6 +295,9 @@
 .one-people {
     margin-left: 15px;
     margin-right: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .one-people img {
@@ -332,6 +335,19 @@
     font-family: 'SUIT Semibold', sans-serif;
     padding: 40px;
 }
+
+.approval-modal-content h2{
+    margin-bottom: 30px;
+}
+
+.modal-text-01 {
+    margin-bottom: 10px;
+}
+
+.modal-text-02 {
+    margin-bottom: 30px;
+}
+
 
 .application-info {
     display: flex;
@@ -435,4 +451,120 @@
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
+}
+
+.honeypot-report {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.honeypot-report img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.warningmodal-content {
+    width: 360px;
+    height: 250px;
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    font-family: 'SUIT Semibold', sans-serif;
+    padding: 20px;
+}
+
+.warningmodal-content2 {
+    width: 360px;
+    height: 220px;
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    font-family: 'SUIT Semibold', sans-serif;
+    padding: 20px;
+}
+
+.warningmodal-content img {
+    width: 36px;
+    margin-bottom: 20px;
+}
+
+.warningmodal-content2 img {
+    width: 36px;
+    margin-bottom: 20px;
+}
+
+.warning-message {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.warning-normal-message {
+    font-size: 14px;
+}
+
+.warning-modal-buttons {
+    padding: 30px;
+}
+
+.warning-modal-buttons2 {
+    margin-top: 10px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.warning-modal-button.yes {
+    width: 140px;
+    height: 48px;
+    border-radius: 48px;
+    border: none;
+    background-color: var(--main-color);
+    color: #fff;
+    margin-left: 10px;
+}
+
+.warning-modal-button.no2 {
+    width: 120px;
+    height: 48px;
+    border-radius: 48px;
+    border: 1px solid var(--main-color);
+    background-color: white;
+    color: var(--main-color);
+    margin-left: 10px;
+}
+
+.warning-modal-button.yes2 {
+    width: 120px;
+    height: 48px;
+    border-radius: 48px;
+    border: none;
+    background-color: var(--main-color);
+    color: #fff;
+    margin-left: 10px;
+}
+
+.warningmodal-content3 {
+    width: 360px;
+    height: 220px;
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    font-family: 'SUIT Semibold', sans-serif;
+    padding: 20px;
+}
+
+.warningmodal-content3 img {
+    width: 36px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.warning-modal-buttons3 {
+    padding: 10px;
 }

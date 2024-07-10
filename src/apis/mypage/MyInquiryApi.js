@@ -6,7 +6,7 @@ export default function MyInquiryApi({setIsLoading, setMyInquiryList, user}) {
         setIsLoading(true);
         try {
             const response = await axios.get(`http://localhost:8081/mypage/myinquiry/${user.userCode}`);
-            console.log('나의 문의 정보 :', response.data)
+            // console.log('나의 문의 정보 :', response.data)
             setMyInquiryList(response.data);
             // console.log('나의 문의 정보 전송', myComments);
 

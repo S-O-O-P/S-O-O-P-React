@@ -27,7 +27,7 @@ function RegistStepTwo({ selectedIndex, filteredCultureList, onChange, user }) {
             const formattedEndDate = dateObject.toISOString().split('T')[0];
 
             setMaxDate(formattedEndDate);
-            console.log('선택한 항목의 엔드데이트 ', formattedEndDate);
+            // console.log('선택한 항목의 엔드데이트 ', formattedEndDate);
         }
     }, [selectedIndex, filteredCultureList]);
 

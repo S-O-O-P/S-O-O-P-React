@@ -6,11 +6,11 @@ export default function MyRatingApi({setIsLoading, setMyRating, user}) {
         setIsLoading(true);
         try {
             const response = await axios.get(`http://localhost:8081/mypage/rating/${user.userCode}`);
-            console.log('로그인유저 평점 정보 (원본):', response.data);
+            // console.log('로그인유저 평점 정보 (원본):', response.data);
             
             // content를 배열로 처리하여 하나로 묶기
             const processedData = processRatingData(response.data);
-            console.log('처리된 평점 정보:', processedData);
+            // console.log('처리된 평점 정보:', processedData);
             
             setMyRating(processedData);
 

@@ -50,14 +50,14 @@ function RegistHoneypotPage({ cultureList, user }) {
             try {
                 const response = await axios.get('http://localhost:8081/cultureInfo/early');
                 const internalCultureList = response.data.earlyBirdList;
-                console.log('인터날', internalCultureList);
+                // console.log('인터날', internalCultureList);
                 
                 // 내부 API 데이터 구조 변환
                 const transformedInternalList = internalCultureList.map(transformInternalData);
                 
                 // 외부 API 데이터와 변환된 내부 API 데이터 통합
                 const combinedList = [...externalCultureList, ...transformedInternalList];
-                console.log('콤바인드리스트', combinedList);
+                // console.log('콤바인드리스트', combinedList);
                 setAllCultureList(combinedList);
                 setFilteredCultureList(combinedList);
 
@@ -135,9 +135,9 @@ function RegistHoneypotPage({ cultureList, user }) {
     const registBtn = () => {
         axios.post('http://localhost:8081/honeypot/regist', formData)
             .then(response => {
-                console.log('보내는 데이터:', formData);
+                // console.log('보내는 데이터:', formData);
                 setShowConfirmModal(true);
-                console.log('?',response);
+                // console.log('?',response);
             })
             .catch(error => {
                 console.error('등록 실패!', error);

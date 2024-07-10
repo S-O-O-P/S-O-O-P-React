@@ -20,7 +20,7 @@ function HoneypotPage({user}) {
         async function fetchHoneypots() {
             try {
                 const response = await axios.get('http://localhost:8081/honeypot/listandapproved');
-                console.log('백에서 받아온 결과물 : ', response.data);
+                // console.log('백에서 받아온 결과물 : ', response.data);
                 const activeHoneypots = response.data.filter(honeypot => honeypot.visibilityStatus === '활성화');
                 const finishedhoney = activeHoneypots.filter(honeypot => honeypot.closureStatus !== '진행완료');
                 setHoneypots(finishedhoney);
@@ -32,7 +32,7 @@ function HoneypotPage({user}) {
         fetchHoneypots();
     }, []);
 
-    console.log(honeypots.interestName)
+    // console.log(honeypots.interestName)
 
     // 카테고리 버튼 클릭 처리 함수
     const onClickCategory = (interestCode) => {
@@ -52,7 +52,7 @@ function HoneypotPage({user}) {
                 (selectRegion === '전체' || honeypot.region === selectRegion) &&
                 honeypot.honeypotTitle.toLowerCase().includes(searchWord.toLowerCase())
             );
-            console.log('관심코드:', interestCode);
+            // console.log('관심코드:', interestCode);
         }
     
         setFilteredHoneypots(categoryFilteredData);
@@ -131,6 +131,7 @@ function HoneypotPage({user}) {
         행사축제: honeypots.filter(item => item.interestName === '행사/축제').length,
         전시회: honeypots.filter(item => item.interestName === '전시회').length,
         뮤지컬: honeypots.filter(item => item.interestName === '뮤지컬').length,
+        얼리버드: honeypots.filter(item => item.interestName === '얼리버드').length,
     };
 
     const uniqueRegions = [...new Set(honeypots.map(honeypot => honeypot.region))];
@@ -144,7 +145,7 @@ function HoneypotPage({user}) {
                 <div className='honeypot-main'>
                     <div className="honeypot-category">
                         <button className={selectedCategory === '전체' ? 'selected' : ''} onClick={() => onClickCategory('전체')}>
-                            전시/행사 전체보기<span className='count'>{count.전체}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="오른쪽컬러화살표" />
+                            전체보기<span className='count'>{count.전체}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="오른쪽컬러화살표" />
                         </button>
                         <button className={selectedCategory === '팝업' ? 'selected' : ''} onClick={() => onClickCategory('팝업')}>
                             팝업 <span className='count'>{count.팝업}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="오른쪽컬러화살표" />
@@ -161,16 +162,18 @@ function HoneypotPage({user}) {
                         <button className={selectedCategory === '뮤지컬' ? 'selected' : ''} onClick={() => onClickCategory('뮤지컬')}>
                             뮤지컬 <span className='count'>{count.뮤지컬}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="오른쪽컬러화살표" />
                         </button>
+                        <button className={selectedCategory === '얼리버드' ? 'selected' : ''} onClick={() => onClickCategory('얼리버드')}>
+                            얼리버드 <span className='count'>{count.얼리버드}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_main_color.png`} alt="오른쪽컬러화살표" />
+                        </button>
                     </div>
                     <hr className='honeypot-hr'/>
                     <div className='honeypot-sortandsearch-container'>
                         <select className='honeypot-sort' value={sortKey} onChange={(e) => setSortKey(e.target.value)}>
                             <option value='등록일순'>등록일순</option>
-                            <option value='마감일순'>마감일순</option>
-                            <option value='카테고리별'>카테고리별</option>
+                            <option value='마감일순'>빠른모임순</option>
                         </select>
                         <select className='honeypot-sort region' value={selectRegion} onChange={handleRegionChange}>
-                            <option value='전체'>전체</option>
+                            <option value='전체'>지역</option>
                             {uniqueRegions.map((region, index) => (
                                 <option key={index} value={region}>{region}</option>
                             ))}

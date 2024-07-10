@@ -6,7 +6,7 @@ import ApplicationApi from "../../apis/honeypot/ApplicationApi";
 function HoneypotList({ currentPage, setCurrentPage, pageGroup, setPageGroup, honeypots, user }) {
   
   const honeypotsPerPage = 10;
-  console.log('이건뭐지', honeypots)
+  // console.log('이건뭐지', honeypots)
 
   // 비활성화 필터링
   const activeHoneypots = honeypots.filter(honeypot => honeypot.visibilityStatus === "활성화")
@@ -67,6 +67,8 @@ function HoneypotList({ currentPage, setCurrentPage, pageGroup, setPageGroup, ho
   };
 
   const navigate = useNavigate();
+
+  console.log('커런트허니팟', currentHoneypots);
 
   return (
     <div className="honeypot-list-container">

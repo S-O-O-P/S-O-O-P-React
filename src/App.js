@@ -48,16 +48,16 @@ export default function App() {
     }
   }, [data]);
 
-  useEffect(() => {
-    // seqList가 변경될 때마다 CultureDetailApi 호출
-    seqList.forEach(seq => {
-      CultureDetailApi({
-        setDetailData: detailData => {
-          setDetailDataList(prev => ({ ...prev, [seq]: detailData }));
-        }
-      }, seq);
-    });
-  }, [seqList]);
+  // useEffect(() => {
+  //   // seqList가 변경될 때마다 CultureDetailApi 호출
+  //   seqList.forEach(seq => {
+  //     CultureDetailApi({
+  //       setDetailData: detailData => {
+  //         setDetailDataList(prev => ({ ...prev, [seq]: detailData }));
+  //       }
+  //     }, seq);
+  //   });
+  // }, [seqList]);
 
   // PublicRoute  = access 토큰이 있는 상태로 접근 불가 (예를 들면 로그인 페이지, 회원가입 페이지 등등)
   // PrivateRoute = access 토큰이 없는 경우 접근 불가 (예를 들면 회원가입 페이지, 마이페이지, 1:1 문의 등등)

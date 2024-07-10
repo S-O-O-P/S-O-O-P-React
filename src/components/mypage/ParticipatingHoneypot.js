@@ -14,6 +14,7 @@ function ParticipatingHoneypot({participatingHoneypotList}) {
         // participatingHoneypotList의 길이가 0일 때 데이터가 없는 것으로 처리
         if (participatingHoneypotList.length === 0) {
             setHasData(false);
+            console.log('참여중인허니팟', participatingHoneypotList)
         } else {
             setHasData(true);
             setFilteredData(participatingHoneypotList); // 초기 데이터 설정

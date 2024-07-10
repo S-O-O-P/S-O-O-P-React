@@ -12,9 +12,11 @@ function MyHoneypot({ myHoneypotList }) {
     useEffect(() => {
         // myHoneypotList의 길이가 0일 때 데이터가 없는 것으로 처리
         if (myHoneypotList.length === 0) {
+            console.log('마이허니팟이존재해?', myHoneypotList)
             setHasData(false);
         } else {
             setHasData(true);
+            console.log('마이허니팟이존재해?', myHoneypotList)
             setFilteredData(myHoneypotList); // 초기 데이터 설정
         }
     }, [myHoneypotList]);
@@ -52,7 +54,7 @@ function MyHoneypot({ myHoneypotList }) {
             {hasData === false ? (
                 <div className='honeypot-null'>
                     <p>내가 만든 허니팟이 없습니다.</p>
-                    <div className='find-honeypot-btn'>허니팟 만들기</div>
+                    <div className='find-honeypot-btn' onClick={() => navigate('/honeypot/c')}>허니팟 만들기</div>
                 </div>
             ) : (
                 <div className='honeypot-available'>
