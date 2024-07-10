@@ -45,7 +45,7 @@ function HoneypotDetailPage({ cultureList, user }) {
       }
   }, [detailHoneypot,user]);
   
-  console.log(applications)
+  console.log('디테일허니팟 컬쳐리스트', allCultureList[0].seq)
 
   useEffect(() => {
     const fetchData = async () => {
