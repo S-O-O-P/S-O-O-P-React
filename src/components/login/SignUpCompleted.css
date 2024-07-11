@@ -37,6 +37,7 @@ border: 1px solid #FFB755;
 border-radius: 48px;
 background-color: #FFB755;
 color: #ffffff;
+cursor: pointer;
 }
 
 .loginBtn:hover{

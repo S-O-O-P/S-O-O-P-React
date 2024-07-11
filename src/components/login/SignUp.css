@@ -103,6 +103,7 @@ body{
     width: 117px;
     height: 48px;
     border: 1px solid #FFB755;
+    cursor: pointer;
   }
   .InterestButtonOn{
     margin-top: 25px;
@@ -115,6 +116,7 @@ body{
     width: 117px;
     height: 48px;
     border: 1px solid #EB844A;
+    cursor: pointer;
   }
 
 .btns{
@@ -130,6 +132,7 @@ body{
     border-radius: 48px;
     background-color: #ffffff;
     color: #FFB755;
+    cursor: pointer;
   }
 
   .btn1:hover{
@@ -140,6 +143,7 @@ body{
     border-radius: 48px;
     background-color: #ffffff;
     color: #FFB755;
+    cursor: pointer;
   }
 
   .btn2{
@@ -150,6 +154,7 @@ body{
     border-radius: 48px;
     background-color: #ffffff;
     color: #DCE5D7;
+    cursor: pointer;
   }
   .btn2:hover{
     width: 242px;
@@ -159,6 +164,7 @@ body{
     border-radius: 48px;
     background-color: #ffffff;
     color: #DCE5D7;
+    cursor: pointer;
   }
   .btn3{
     width: 242px;
@@ -168,4 +174,5 @@ body{
     border-radius: 48px;
     background-color: #FFB755;
     color: #ffffff;
+    cursor: pointer;
   }

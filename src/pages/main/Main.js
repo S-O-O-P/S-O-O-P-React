@@ -31,7 +31,7 @@ export default function Main(props) {
     () => {
       if(earlyBirdInfo){
          //얼리버드 공연/전시 리스트 전체 조회 api 호출
-         EarlyBirdInfoApi({setEarlyBirdInfo}, "all");   
+          EarlyBirdInfoApi({setEarlyBirdInfo}, "all");   
       }         
     },[]
   );
@@ -55,6 +55,7 @@ export default function Main(props) {
         //mypage-btn
         document.querySelector(".mypage-btn").setAttribute('src', 'images/commons/icon_mypage_white.png');
         document.querySelector(".logout-btn").setAttribute('src', 'images/commons/icon_logout_white.png');
+        document.querySelector(".nickName").style.color = '#ffffff';
       }
       const changeHeaderBgColor = () => {
         if (window.scrollY > 80) {
@@ -64,6 +65,7 @@ export default function Main(props) {
             //mypage-btn
             document.querySelector(".mypage-btn").setAttribute('src', 'images/commons/icon_mypage_colored.png');
             document.querySelector(".logout-btn").setAttribute('src', 'images/commons/icon_logout_colored.png');
+            document.querySelector(".nickName").style.color = '#282A29';
           }
         } else {
           header.classList.add("main");
@@ -72,6 +74,7 @@ export default function Main(props) {
             //mypage-btn
             document.querySelector(".mypage-btn").setAttribute('src', 'images/commons/icon_mypage_white.png');
             document.querySelector(".logout-btn").setAttribute('src', 'images/commons/icon_logout_white.png');
+            document.querySelector(".nickName").style.color = '#ffffff';
           }
         }
       };
@@ -86,6 +89,7 @@ export default function Main(props) {
           //mypage-btn
           document.querySelector(".mypage-btn").setAttribute('src', `${process.env.PUBLIC_URL}/images/commons/icon_mypage_colored.png`);
           document.querySelector(".logout-btn").setAttribute('src', `${process.env.PUBLIC_URL}/images/commons/icon_logout_colored.png`);
+          document.querySelector(".nickName").style.color = '#282A29';
         }
       };
     },[]
