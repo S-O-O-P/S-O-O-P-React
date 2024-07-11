@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './Header.css';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import UserProflieApi from '../../apis/mypage/UserProfile';
 
-function Header() {
+function Header({user}) {
+  const [loggedInUser, setLoggedInUser] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     if (!sessionStorage.getItem('refreshed')) {
       sessionStorage.setItem('refreshed', 'true');
@@ -15,7 +18,6 @@ function Header() {
 
   const [accessToken, setAccessToken] = useState(null);
   const navigate = useNavigate();
-  const [userNickName, setUserNickName] = useState('');
 
   const getCookies = (name) => {
     const value = `; ${document.cookie}`;
@@ -29,6 +31,10 @@ function Header() {
       setAccessToken(storedToken);
     }
   }, []);
+
+  useEffect(() => {
+    UserProflieApi({setIsLoading, setLoggedInUser, user})
+},[user, loggedInUser.nickname]);
 
   const handleLogout = async () => {
     try {
@@ -57,7 +63,7 @@ function Header() {
         </nav>
         {accessToken ? (
           <>
-            <a href='/mypage'><li>{userNickName}</li></a>
+            <a href='/mypage'><li>{loggedInUser.nickname} 님</li></a>
             <a href='/mypage'><li><img className='mypage-btn' src={`${process.env.PUBLIC_URL}/images/commons/icon_mypage_colored.png`} alt="MYPAGE"/></li></a>
             <li><img className='logout-btn' onClick={handleLogout} src={`${process.env.PUBLIC_URL}/images/commons/icon_logout_colored.png`} alt='LOGOUT'/></li>
           </>

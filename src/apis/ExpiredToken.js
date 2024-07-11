@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const ExpiredToken = () => {
     const navigate = useNavigate();
+    const location = useLocation();
 
     const getCookies = (name) => {
         const value = `; ${document.cookie}`;
@@ -25,7 +26,9 @@ const ExpiredToken = () => {
         } catch (error) {
             console.error('액세스 토큰 갱신 실패', error);
             document.cookie = "access=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            navigate('/login');
+            if (location.pathname !== '/main' && location.pathname !== '/login') {
+                navigate('/login');
+            }
         }
     };
 
@@ -48,12 +51,22 @@ const ExpiredToken = () => {
                 }
             } else {
                 console.log('저장된 액세스 토큰이 없습니다.');
+                if (![
+                    '/main',
+                    '/login',
+                    '/help',
+                    '/faq',
+                    '/honeypot'
+                ].includes(location.pathname) && 
+                !location.pathname.startsWith('/notice') &&
+                !location.pathname.startsWith('/cultureinfo')) {
                 navigate('/login');
+            }
             }
         };
 
         checkTokenExpiration();
-    }, [navigate]);
+    }, [navigate, location]);
 
     return null;
 };

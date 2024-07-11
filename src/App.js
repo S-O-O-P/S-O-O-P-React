@@ -18,8 +18,8 @@ import CultureApi from './apis/CultureApi';
 import { useEffect, useState } from 'react';
 import LoadingSpinner from './components/commons/Loading';
 import CultureDetailApi from './apis/CultureDetailApi';
-import PrivateRoute from './components/PrivateRoute';
-import PublicRoute from './components/PublicRoute';
+// import PrivateRoute from './components/PrivateRoute';
+// import PublicRoute from './components/PublicRoute';
 import ExpiredToken from './apis/ExpiredToken';
 import RegistHoneypotPage from './pages/honeypot/RegistHoneypotPage';
 import HoneypotDetailPage from './pages/honeypot/HoneypotDetailPage';
@@ -115,12 +115,9 @@ export default function App() {
   }, [decodedToken]);
 
   // console.log('앱JS loggedInUser', loggedInUser.userCode);
-    console.log("체크로긴유저:", decodedToken);
-    console.log("체크 test214241241 : ", loggedInUser)
-    console.log("앱JS 테스트", userCode)
-
-  console.log('loggedInUser', loggedInUser);
-
+    // console.log("체크로긴유저:", decodedToken);
+    // console.log("체크 test214241241 : ", loggedInUser)
+    // console.log("앱JS 테스트", userCode)
 
 
   return (
@@ -129,14 +126,14 @@ export default function App() {
       <Router>
         <ExpiredToken />
         <Routes>
-          <Route element={<Layout />}> {/* 레이아웃 오픈 */}
+          <Route element={<Layout user={loggedInUser} />}> {/* 레이아웃 오픈 */}
             <Route path='/main' element={data ? <Main cultureList={JSON.stringify(data)} /> : <LoadingSpinner />} /> {/* 메인 */}
             <Route index element={data ? <Main cultureList={JSON.stringify(data)} /> : <LoadingSpinner />} /> {/* 메인 */}
-            <Route path='/login' element={<PublicRoute restricted={false} element={LoginPage} />} /> {/* 로그인 */}
-            <Route path='/signup' element={<SignUpPage/>} /> {/* 추가 정보 입력 */}
+            <Route path='/login' element={ <LoginPage />}/> {/* 로그인 */}
+            <Route path='/signup' element={<SignUpPage loggedInUser={loggedInUser}/>} /> {/* 추가 정보 입력 */}
             <Route path="/cultureinfo" element={data ? <CultureInfo cultureList={JSON.stringify(data)} detailDataList={detailDataList}/> : <LoadingSpinner />}/> {/* 전시/공연 정보 */}
             <Route path="/cultureinfo/detail/:seq" element={<CultureDetail detailDataList={detailDataList}/>}/> {/* 전시/공연 상세페이지*/}
-            <Route path='/completed' element={<PrivateRoute element={CompletedPage}/>} /> {/* 회원 가입 완료 */}
+            <Route path='/completed' element={<CompletedPage user={loggedInUser}/>} /> {/* 회원 가입 완료 */}
             <Route path='/honeypot' element={<HoneypotPage user={loggedInUser}/>}/> {/* 허니팟 페이지 */}
             <Route path='/honeypot/c' element={data ? <RegistHoneypotPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <div>Loading...</div>}/> {/* 허니팟 등록 페이지 */}
             <Route path='/honeypot/detail/:honeypotCode' element={data ? <HoneypotDetailPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 상세 페이지 */}
