@@ -1,12 +1,12 @@
 import SignUp from "../../components/login/SignUp"
 
 
-function SignUpPage() {
+function SignUpPage({user}) {
 
     return (
             <>
             <div id="content">
-                {<SignUp/>}
+                {<SignUp user={user}/>}
             </div>
             </>
     );

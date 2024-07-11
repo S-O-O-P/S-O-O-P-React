@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import useDecodeJwtResponse from '../../apis/DecodeJwtResponse'
+import UserProflieApi from '../../apis/mypage/UserProfile';
 
-function SignUp() {
+function SignUp({user}) {
   const [selectedInterests, setSelectedInterests] = useState([]);
   const [nickName, setNickName] = useState("");
   const [aboutMe, setAboutMe] = useState("");
@@ -15,10 +16,27 @@ function SignUp() {
   const [isValidForm, setIsValidForm] = useState(true);
   const [inputError, setInputError] = useState('');
   const { decodedToken, accessToken } = useDecodeJwtResponse();
-  const [showReCheckModal, setShowReCheckModal] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+
+  useEffect(() => {
+    UserProflieApi({setIsLoading, setLoggedInUser, user})
+},[user, loggedInUser.nickname]
+// ,console.log('1',loggedInUser.nickname)
+);
+
+// console.log('2',loggedInUser.nickname);
+
+useEffect(() => {
+  if (loggedInUser.nickname) {
+    setNickName(loggedInUser.nickname);
+  }
+}, [loggedInUser.nickname]);
 
   useEffect(() => {
     if (decodedToken && accessToken) {
+      // setNickName(loggedInUser.nickname);
       setUserCode(decodedToken.userCode);
       setRole(decodedToken.role);
       setSignupPlatform(decodedToken.signupPlatform);
@@ -44,7 +62,7 @@ function SignUp() {
     try {
       await axios.post('http://localhost:8081/logout', {}, { withCredentials: true });
       document.cookie = "access=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      navigate('/login');
+      NavLink('/login');
     } catch (error) {
       // console.error('Logout failed', error);
     }
@@ -63,7 +81,7 @@ function SignUp() {
         }
       );
       // console.log('추가 정보 입력 완료', response);
-      navigate('/completed', { state: { nickName } });
+      window.location.href = `/completed`;
     } catch (error) {
       // console.error('추가 정보 입력 실패', error);
       handleLogout();
@@ -124,7 +142,7 @@ function SignUp() {
                 <input 
                   maxLength='16' 
                   className='NickName' 
-                  placeholder='닉네임을 입력해 주세요.' 
+                  placeholder='사용하실 닉네임을 입력해 주세요.(제한 16자)' 
                   value={nickName}
                   onChange={handleInputChange} 
                 />
@@ -134,7 +152,7 @@ function SignUp() {
                 <textarea 
                   maxLength='180' 
                   className='AboutMe' 
-                  placeholder='자기소개를 입력해 주세요'
+                  placeholder='자기소개를 입력해 주세요 (제한 180)'
                   value={aboutMe}
                   onChange={(e) => setAboutMe(e.target.value)} 
                 />
@@ -142,10 +160,13 @@ function SignUp() {
             </div>
             <p className='InterestTitle'>
               <span className='textRed'>관심사를 </span>
+            
               <span>선택해주세요.</span>
+              <br/><br/>
             </p>
             <span className='textRed'>최대 3개</span>까지 선택할 수 있습니다.
             <div>
+            <br/>
               <button
                 onClick={() => onClickHandler(1)}
                 className={selectedInterests.includes(1) ? 'InterestButtonOn' : 'InterestButton'}

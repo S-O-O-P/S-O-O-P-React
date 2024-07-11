@@ -42,9 +42,9 @@ function Completed({user}) {
         </div>
         </main>
 
-            <NavLink to='/main'>
+            <a href='/main'>
                 <button className='loginBtn'>메인 바로가기</button>
-            </NavLink>
+            </a>
         </div>
         
     );

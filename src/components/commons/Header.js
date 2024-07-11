@@ -63,7 +63,7 @@ function Header({user}) {
         </nav>
         {accessToken ? (
           <>
-            <a href='/mypage'><li>{loggedInUser.nickname} 님</li></a>
+            <a href='/mypage' ><li className='nickName'>{loggedInUser.nickname} 님</li></a>
             <a href='/mypage'><li><img className='mypage-btn' src={`${process.env.PUBLIC_URL}/images/commons/icon_mypage_colored.png`} alt="MYPAGE"/></li></a>
             <li><img className='logout-btn' onClick={handleLogout} src={`${process.env.PUBLIC_URL}/images/commons/icon_logout_colored.png`} alt='LOGOUT'/></li>
           </>
