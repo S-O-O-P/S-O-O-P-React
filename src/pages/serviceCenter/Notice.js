@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import style from './Notice.module.css';
-import axios from 'axios';
+import { noticesAPI } from '../../apis/serviceCenter/Notice';
 import { useNavigate } from 'react-router-dom';
 
 function NoticePage() {
-
-    const navigater = useNavigate();
+    const navigate = useNavigate();
     const [notices, setNotices] = useState([]);
     const [search, setSearch] = useState('');
     const [select, setSelect] = useState('all');
@@ -15,20 +14,20 @@ function NoticePage() {
     const maxPageNumbers = 5;
 
     useEffect(() => {
-        async function fetchNotice() {
+        async function fetchNoticeData() {
             try {
-                const res = await axios.get('http://localhost:8081/notice');
-                setNotices(res.data.mainNoticeList);
-                setFilterNotice(res.data.mainNoticeList);
+                const noticeList = await noticesAPI();
+                setNotices(noticeList);
+                setFilterNotice(noticeList);
             } catch (error) {
-                console.error('공지사항 불러오기 실패.', error);
+                console.error('공지사항 불러오기 실패', error);
             }
         }
-        fetchNotice();
+        fetchNoticeData();
     }, []);
 
     const inquiryBtn = () => {
-        navigater("/inquiry");
+        navigate("/inquiry");
     }
 
     const onChange = (e) => {
@@ -39,7 +38,6 @@ function NoticePage() {
         const filtered = notices.filter(notice => {
             const matchCategory = select === '전체' || notice.category === select;
             const matchSearch = search === '' || notice.title.includes(search);
-
             return matchCategory && matchSearch;
         });
         setFilterNotice(filtered);

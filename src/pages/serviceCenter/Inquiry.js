@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import style from './Inquiry.module.css';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { inquiryAPI } from '../../apis/serviceCenter/Inquiry';
 
 function InquiryPage({ user }) {
 
-    const navigater = useNavigate();
+    const navigate = useNavigate();
     const [selected, setSelected] = useState("전체");
     const handleSelect = (e) => {
         setSelected(e.target.value);
@@ -26,7 +26,7 @@ function InquiryPage({ user }) {
     const [modalOpen, setModalOpen] = useState(false);
     const [writerModal, setWriterModal] = useState(false);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const today = new Date();
 
         if (title !== "" && content !== "") {
@@ -37,18 +37,16 @@ function InquiryPage({ user }) {
                 "userCode": user.userCode,
                 "inquiryDate": today,
                 "adminCode": 7
-            }
+            };
 
-            console.log("유형", selected);
-            console.log("제목:", title);
-            console.log("내용:", content);
-            console.log("userCode:", user.userCode);
             setModalOpen(true);
 
-            axios.post('http://localhost:8081/inquiry', data)
-                .then(response => {
-                    console.log("response", response);
-                })
+            try {
+                const response = await inquiryAPI(data);
+                console.log("response", response);
+            } catch (error) {
+                console.error("전송 실패", error);
+            }
 
         } else {
             setWriterModal(true);
@@ -60,7 +58,7 @@ function InquiryPage({ user }) {
     }
     const noticeBtn = () => {
         setModalOpen(false);
-        navigater("/notice");
+        navigate("/notice");
     }
 
     const [checkModal, setCheckModal] = useState(false);
@@ -69,7 +67,7 @@ function InquiryPage({ user }) {
         if (title !== "" || content !== "") {
             setCheckModal(true);
         } else {
-            navigater(-1);
+            navigate(-1);
         }
     }
 
@@ -150,7 +148,7 @@ function InquiryPage({ user }) {
                             <p className={style.modalContext}>작성 취소된 내용은 되돌릴 수 없습니다.</p>
                             <div className={style.modalButtonBox}>
                                 <button className={style.modalButton} onClick={() => setCheckModal(false)}>취소</button>
-                                <button className={style.modalButton} onClick={() => navigater(-1)}>확인</button>
+                                <button className={style.modalButton} onClick={() => navigate(-1)}>확인</button>
                             </div>
                         </div>
                     </div>

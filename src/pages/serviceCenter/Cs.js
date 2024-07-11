@@ -1,28 +1,22 @@
 import { useEffect, useState } from 'react';
 import style from './Cs.module.css';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { noticeAPI } from '../../apis/serviceCenter/CsNotice';
 
 function CsPage() {
-
-    const navigater = useNavigate();
+    const navigate = useNavigate();
     const [notices, setNotices] = useState([]);
 
     useEffect(() => {
-        async function fetchNotice() {
-            try {
-                const res = await axios.get('http://localhost:8081/help');
-                setNotices(res.data.mainNoticeList);
-                console.log(res.data.mainNoticeList);
-            } catch (error) {
-                console.error("error", error);
-            }
+        async function getNotices() {
+            const noticesData = await noticeAPI();
+            setNotices(noticesData);
         }
-        fetchNotice();
+        getNotices();
     }, []);
 
     const inquiryBtn = () => {
-        navigater("/inquiry");
+        navigate("/inquiry");
     }
 
     return (
@@ -81,7 +75,6 @@ function CsPage() {
                                 </ul>
                             ))}
                         </div>
-
                     </div>
                 </div>
                 <p className={style.helpMessage}>찾는 내용이 없을 경우 전화나 1:1문의 바랍니다.</p>
@@ -115,4 +108,4 @@ function CsPage() {
     )
 }
 
-export default CsPage
+export default CsPage;
