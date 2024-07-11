@@ -52,16 +52,17 @@ export default function TableType({cultureList, detailDataList, earlyCheck}){
               return [year, month, day].join('.');
             }
 
-            const title = earlyCheck ? item.ebTitle.replaceAll('&lt;',`<`).replaceAll('&gt;',`>`).replaceAll("&#39;","'") :  item.title.replaceAll('&lt;',`<`).replaceAll('&gt;',`>`).replaceAll("&#39;","'"); // 제목  
+            const title = earlyCheck ? item?.ebTitle.replaceAll('&lt;',`<`).replaceAll('&gt;',`>`).replaceAll("&#39;","'") :  item?.title.replaceAll('&lt;',`<`).replaceAll('&gt;',`>`).replaceAll("&#39;","'"); // 제목  
 
             //item.realmName
             const category = (realName) => {
               switch(realName){
-                case("미술") : return "전시회"; break;
-                case("음악") : return "공연"; break;
+                case("미술" || "전시") : return "전시회"; break;
+                case("음악" || "공연") : return "공연"; break;
                 case("연극") : return "공연"; break;
-                case("기타") : return "뮤지컬"; break;
+                case("기타" || "뮤지컬") : return "뮤지컬"; break;
                 case("국악") : return "공연"; break;
+                case("팝업") : return "팝업"; break;
                 default : return "행사/축제"; break;
               }
             }
@@ -79,19 +80,29 @@ export default function TableType({cultureList, detailDataList, earlyCheck}){
               return categoryString;
             }
 
+            // 얼리버드 공연/전시 가격 1000단위 ,
+            const convertPriceFormat = (dPrice) => {
+              if (!dPrice && dPrice !== 0) { // dPrice가 유효하지 않은 경우를 처리
+                return "가격 정보 업데이트중"; // 기본 값 반환
+              }
+              const endPrice = (dPrice?.toString()).slice(-3);
+              const startPrice = (dPrice?.toString()).slice(0, -3);
+              return startPrice+','+endPrice;
+            }
+
             // seq에 해당하는 detailData 가져오기
             const detailData = detailDataList[item.seq];
             // console.log("Detail data for seq ", item.seq, ": ", detailData);
 
             // detailData가 존재하고 price 속성이 있을 때 가격 표시
-            const price = earlyCheck ? item.discountPrice : detailData && detailData.price ? detailData.price : "가격 정보 없음";
+            const price = earlyCheck || item?.regularPrice ? convertPriceFormat(item?.discountPrice || item?.price) : detailData && detailData.price ? detailData.price : "가격 정보 없음";
             
             return(            
-                <tr onClick={() => navigate( earlyCheck ? `/cultureinfo/detail/${item.earlyBirdCode}` : `/cultureinfo/detail/${item.seq}`)} key={index}  state={{ earlyCheck: true }}>
-                  <td>{earlyCheck ? categoryString(earlyCheck.interestCode) : category(item.realmName)}</td>
+                <tr onClick={() => navigate( earlyCheck ? `/cultureinfo/detail/${item?.earlyBirdCode}` : `/cultureinfo/detail/${item?.seq}`)} key={index}  state={{ earlyCheck: true }}>
+                  <td>{earlyCheck ? categoryString(earlyCheck?.interestCode) : category(item?.realmName)}</td>
                   <td>{title}</td>
                   <td>{price}</td>
-                  <td>{earlyCheck ? <p className={styles.culture_date}>{formatDate(item.saleStartDate)} ~ {formatDate(item.saleEndDate)}</p> : <p className={styles.culture_date}>{convertDateFormat(item.startDate)} ~ {convertDateFormat(item.endDate)}</p>}</td>
+                  <td>{earlyCheck || item?.regularPrice ? <p className={styles.culture_date}>{formatDate(item?.saleStartDate || item?.startDate)} ~ {formatDate(item?.saleEndDate || item?.endDate)}</p> : <p className={styles.culture_date}>{convertDateFormat(item?.startDate)} ~ {convertDateFormat(item?.endDate)}</p>}</td>
                 </tr>
               
             );          

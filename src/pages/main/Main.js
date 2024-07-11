@@ -8,7 +8,7 @@ import EarlyBanner from '../../components/main/EarlyBanner';
 import HoneypotByMainApi from '../../apis/main/honeypotByMainApi';
 
 export default function Main(props) {
-  const [cultureList, setCultureList] = useState(null);
+  const [cultureList, setCultureList] = useState([]);
   const [earlyBirdInfo, setEarlyBirdInfo] = useState([]); // 얼리버드 리스트
   const [hotList, setHotList] = useState([]) // HOT 공연/전시 정보
   const [honeypots, setHoneypots] = useState([]);
