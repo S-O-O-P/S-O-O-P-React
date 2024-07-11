@@ -17,6 +17,8 @@ import RatingApi from '../../apis/mypage/RatingApi';
 import UserProflieApi from '../../apis/mypage/UserProfile';
 import MyRatingApi from '../../apis/mypage/MyRatingApi';
 import axios from 'axios';
+import { storage } from '../../firebaseConfig';
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const INTERESTS = ['팝업', '공연', '행사/축제', '전시회', '뮤지컬'];
 
@@ -84,23 +86,47 @@ const MyPage = ({user}) => {
     const handleProfilePicChange = async (event) => {
         const file = event.target.files[0];
         if (file) {
-            const formData = new FormData();
-            formData.append('file', file);
-    
             try {
-                const response = await axios.put(`http://localhost:8081/mypage/profile-pic/${loggedInUser.userCode}`, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
+                // Firebase Storage에 파일 업로드
+                const storageRef = ref(storage, `profile_pictures/${user.userCode}_${file.name}`);
+                await uploadBytes(storageRef, file);
                 
-                // Update the profile picture in the UI
+                // 업로드된 파일의 다운로드 URL 가져오기
+                const downloadURL = await getDownloadURL(storageRef);
+
+                // 백엔드 API 호출하여 프로필 사진 URL 업데이트
+                const response = await axios.put(`${process.env.REACT_APP_API_URL}/mypage/profile-pic/${loggedInUser.userCode}`, 
+                    { profilePicUrl: downloadURL },
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    }
+                );
+                console.log(`API URL: ${process.env.REACT_APP_API_URL}/mypage/profile-pic/${loggedInUser.userCode}`);
+                console.log('프로필수정 응답:', response);
+                
                 setLoggedInUser(prevUser => ({
                     ...prevUser,
-                    profilePic: response.data
+                    profilePic: downloadURL
                 }));
+                
             } catch (error) {
-                console.error('Error updating profile picture:', error);
+                console.error('프로필사진 변경 실패:', error);
+                if (error.response) {
+                    // 서버 응답이 2xx 범위를 벗어난 경우
+                    console.error('응답 데이터:', error.response.data);
+                    console.error('응답 상태:', error.response.status);
+                    console.error('응답 헤더:', error.response.headers);
+                    console.log(`API URL: ${process.env.REACT_APP_API_URL}/mypage/profile-pic/${loggedInUser.userCode}`);
+
+                  } else if (error.request) {
+                    // 요청이 이루어졌으나 응답을 받지 못한 경우
+                    console.error('요청:', error.request);
+                  } else {
+                    // 요청을 설정하는 중에 오류가 발생한 경우
+                    console.error('오류 메시지:', error.message);
+                  }
             }
         }
     };
@@ -120,7 +146,7 @@ const MyPage = ({user}) => {
                 <div className="title">
                     마이페이지
                 </div>
-
+                
                 <div className="profile-top">
                     <div className="profile-box">
                         <img src={loggedInUser.profilePic} className="profile-pic" alt="프로필사진" />
