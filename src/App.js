@@ -35,11 +35,6 @@ export default function App() {
   const [seqList, setSeqList] = useState([]); // 상세 조회를 위한 공공데이터 seq 데이터 리스트 저장
   const [detailDataList, setDetailDataList] = useState({}); // seq 데이터 리스트에 따른 공공 데이터 상세 정보 key:value로 저장
 
-  const { decodedToken, accessToken } = useDecodeJwtResponse();
-  const [role, setRole] = useState(null); 
-  const [signupPlatform, setSignupPlatform] = useState(null);
-  const [userCode, setUserCode] = useState(null);
-
   useEffect(() => {
     CultureApi({ setData }); // App.js의 setData함수를 객체 형태로 CultureApi 컴포넌트에 props로 전달
   }, []);
@@ -53,16 +48,16 @@ export default function App() {
     }
   }, [data]);
 
-  useEffect(() => {
-    // seqList가 변경될 때마다 CultureDetailApi 호출
-    seqList.forEach(seq => {
-      CultureDetailApi({
-        setDetailData: detailData => {
-          setDetailDataList(prev => ({ ...prev, [seq]: detailData }));
-        }
-      }, seq);
-    });
-  }, [seqList]);
+  // useEffect(() => {
+  //   // seqList가 변경될 때마다 CultureDetailApi 호출
+  //   seqList.forEach(seq => {
+  //     CultureDetailApi({
+  //       setDetailData: detailData => {
+  //         setDetailDataList(prev => ({ ...prev, [seq]: detailData }));
+  //       }
+  //     }, seq);
+  //   });
+  // }, [seqList]);
 
   // PublicRoute  = access 토큰이 있는 상태로 접근 불가 (예를 들면 로그인 페이지, 회원가입 페이지 등등)
   // PrivateRoute = access 토큰이 없는 경우 접근 불가 (예를 들면 회원가입 페이지, 마이페이지, 1:1 문의 등등)
@@ -88,7 +83,6 @@ export default function App() {
   //   { userCode: 11, nickname: '코하루', profilePic: 'https://i.ibb.co/Np2j4f4/image.png', aboutMe: '안녕하세요. 코하루입니다.', },
   //   { userCode: 6, nickname: '너굴맨', profilePic: 'https://i.pinimg.com/474x/96/55/ce/9655ce874bf5e3bf92778830a864eb35.jpg', aboutMe: '안녕하세요. 너굴맨입니다.', }
   // ];
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(null);
 
   // useEffect(() => {
@@ -101,24 +95,21 @@ export default function App() {
   //   }
   // }, [checkLoginUser]);
 
+  const { decodedToken, accessToken } = useDecodeJwtResponse();
+  const [role, setRole] = useState(null); 
+  const [signupPlatform, setSignupPlatform] = useState(null);
+  const [userCode, setUserCode] = useState(null);
+
   useEffect(() => {
     if (decodedToken && decodedToken.userCode) {
-      setIsLoggedIn(true);
       setUserCode(decodedToken.userCode);
       setRole(decodedToken.role);
       setSignupPlatform(decodedToken.signupPlatform);
       setLoggedInUser(decodedToken)
     } else {
-      setIsLoggedIn(false);
       const decodedToken = null;
     }
   }, [decodedToken]);
-
-  // console.log('앱JS loggedInUser', loggedInUser.userCode);
-    // console.log("체크로긴유저:", decodedToken);
-    // console.log("체크 test214241241 : ", loggedInUser)
-    // console.log("앱JS 테스트", userCode)
-
 
   return (
     <>
@@ -135,7 +126,7 @@ export default function App() {
             <Route path="/cultureinfo/detail/:seq" element={<CultureDetail detailDataList={detailDataList}/>}/> {/* 전시/공연 상세페이지*/}
             <Route path='/completed' element={<CompletedPage user={loggedInUser}/>} /> {/* 회원 가입 완료 */}
             <Route path='/honeypot' element={<HoneypotPage user={loggedInUser}/>}/> {/* 허니팟 페이지 */}
-            <Route path='/honeypot/c' element={data ? <RegistHoneypotPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <div>Loading...</div>}/> {/* 허니팟 등록 페이지 */}
+            <Route path='/honeypot/c' element={data ? <RegistHoneypotPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 등록 페이지 */}
             <Route path='/honeypot/detail/:honeypotCode' element={data ? <HoneypotDetailPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 상세 페이지 */}
             <Route path='/honeypot/u/:honeypotCode' element={data ? <ModifyHoneypotPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 수정 페이지 */}
             <Route path='/mypage' element={<MyPage user={loggedInUser}/>}/> {/* 마이 페이지 */}

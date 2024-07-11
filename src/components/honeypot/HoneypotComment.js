@@ -5,7 +5,7 @@ import CommentApi from '../../apis/honeypot/CommentApi';
 
 function HoneypotComment({ detailHoneypot, user }) {
 
-    console.log('댓글 작성자:', user.nickname);
+    // console.log('댓글 작성자:', user.nickname);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState({
         honeypotCode: detailHoneypot.honeypotCode,

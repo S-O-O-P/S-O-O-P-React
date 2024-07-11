@@ -6,7 +6,7 @@ export default function RatingApi({setIsLoading, setRatingCategory}) {
         setIsLoading(true);
         try {
             const response = await axios.get('http://localhost:8081/mypage/rating');
-            console.log('유저평가 항목 :', response.data)
+            // console.log('유저평가 항목 :', response.data)
             setRatingCategory(response.data);
 
         } catch (error) {

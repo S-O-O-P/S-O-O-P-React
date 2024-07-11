@@ -6,7 +6,7 @@ export default function FinishedHoneyPotApi({setIsLoading, setFinishedHoneyPotLi
         setIsLoading(true);
         try {
             const response = await axios.get('http://localhost:8081/mypage/finished');
-            console.log('진행완료 된 허니팟 정보 :', response.data)
+            // console.log('진행완료 된 허니팟 정보 :', response.data)
             
             // 허니팟 코드를 기준으로 그룹화
             const groupedHoneyPots = response.data.reduce((acc, pot) => {

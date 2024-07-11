@@ -5,7 +5,7 @@ export default function ApplicationApi(honeypotCode, setApplications) {
     async function fetchApplications() {
         try {
             const response = await axios.get(`http://localhost:8081/honeypot/application/${honeypotCode}`)
-            console.log("참가신청정보 : ", response.data);
+            // console.log("참가신청정보 : ", response.data);
             setApplications(response.data)
 
         } catch (error) {

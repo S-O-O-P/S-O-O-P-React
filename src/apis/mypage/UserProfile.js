@@ -7,7 +7,7 @@ export default function UserProflieApi({setIsLoading, setLoggedInUser, setProfil
         setIsLoading(true);
         try {
             const response = await axios.get(`http://localhost:8081/mypage/${user.userCode}`);
-            console.log('로그인한 유저 정보 :', response.data)
+            // console.log('로그인한 유저 정보 :', response.data)
             setLoggedInUser(response.data);
             setProfileImage(response.data.profilePic);
             

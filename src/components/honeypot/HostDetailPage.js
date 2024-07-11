@@ -40,7 +40,7 @@ export default function HostDetailPage({ user, honeypotCode, detailHoneypot, all
         closureStatus: '모집완료'
       });
 
-      console.log('모집 상태 업데이트 완료:', response.data);
+      // console.log('모집 상태 업데이트 완료:', response.data);
       // 모집 상태 업데이트 후 모집상태 재 조회
       ApplicationApi(detailHoneypot.honeypotCode, setApplications);
 
@@ -69,7 +69,7 @@ export default function HostDetailPage({ user, honeypotCode, detailHoneypot, all
       const response = await axios.put(`http://localhost:8081/honeypot/application/${detailHoneypot.honeypotCode}/${applicationCode}`, {
         decisionStatus
       });
-      console.log("승인/미승인 업데이트:", response.data);
+      // console.log("승인/미승인 업데이트:", response.data);
       
       // 업데이트 후 승인된 신청자 수 다시 조회
       ApplicationApi(detailHoneypot.honeypotCode, setApplications);
@@ -88,7 +88,7 @@ export default function HostDetailPage({ user, honeypotCode, detailHoneypot, all
     }
   };
 
-  console.log('승인대기자: ', pendingApplications);
+  // console.log('승인대기자: ', pendingApplications);
 
   return (
     <div className='honeypot-detail-container'>
@@ -127,7 +127,7 @@ export default function HostDetailPage({ user, honeypotCode, detailHoneypot, all
       </div>
       <div className='btn-container'>
         <button className='go-to-list' onClick={() => navigate('/honeypot')}> 목록으로</button>
-        <button className='go-to-modify' onClick={modifyClick} disabled={applications.length > 0} style={{ opacity: applications.length > 0 ? 0.5 : 1 }}>수정하기</button>
+        <button className='go-to-modify' onClick={modifyClick} >수정하기</button>
         <button className='check-application' onClick={() => {
                                                               if (isRecruitmentFull) {
                                                                 // 모집 완료 모달 표시
@@ -144,7 +144,8 @@ export default function HostDetailPage({ user, honeypotCode, detailHoneypot, all
       {isRecruitmentFull ? (
         <>
           <h2>모집 완료</h2>
-          <p>모집이 완료되어 더 이상 참여신청 정보를 확인할 수 없습니다.</p>
+          <p className="modal-text-01">모집이 완료되어 더 이상 참여신청 정보를</p>
+          <p className="modal-text-02"> 확인할 수 없습니다.</p>
         </>
       ) : (
         <>

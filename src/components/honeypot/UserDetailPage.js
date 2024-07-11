@@ -3,65 +3,64 @@ import { useState, useEffect } from "react";
 import axios from 'axios';
 
 export default function UserDetailPage({ detailHoneypot, filteredCultureList, title, convertDateFormat, navigate, user }) {
-  const [applications, setApplications] = useState([]); // 참가신청자
+  const [applications, setApplications] = useState([]);
+  const [showParticipateModal, setShowParticipateModal] = useState(false);
+  const [showResultModal, setShowResultModal] = useState(false);
+  const [resultMessage, setResultMessage] = useState('');
 
-  // 참가신청정보 조회
   useEffect(() => {
     if (detailHoneypot && detailHoneypot.honeypotCode) {
       ApplicationApi(detailHoneypot.honeypotCode, setApplications);
     }
   }, [detailHoneypot]);
 
-  // 승인 여부 필터링
   const approvedApplications = applications.filter(app => app.decisionStatus === '승인');
-  console.log('승인 된 신청인 수: ', approvedApplications.length)
-  console.log('트루인가 : ', approvedApplications.length + 1 === detailHoneypot.totalMember)
 
-  // 참여하기 버튼 클릭 시 동작할 함수
-  const handleParticipate = async () => {
+  const handleParticipate = () => {
+    if(detailHoneypot.closureStatus === '진행완료') {
+      setResultMessage('진행 완료 된 모임은 신청하실 수 없습니다.');
+      setShowResultModal(true);
+      return;
+    }
+    
+    if (detailHoneypot.closureStatus === '모집완료' || approvedApplications.length + 1 >= detailHoneypot.totalMember) {
+      setResultMessage('모집이 완료되어 신청하실 수 없습니다.');
+      setShowResultModal(true);
+      return;
+    }
+
+    const alreadyApplied = applications.some(app => app.applicationCategory.userCategory.userCode === user.userCode);
+    if (alreadyApplied) {
+      setResultMessage('이미 참여 신청한 사용자입니다.');
+      setShowResultModal(true);
+      return;
+    }
+
+    setShowParticipateModal(true);
+  };
+
+  const confirmParticipate = async () => {
     try {
-      // 모집 완료 상태 확인
-      if(detailHoneypot.closureStatus === '진행완료') {
-        alert('진행 완료 된 모임은 신청하실 수 없습니다.');
-      }
-      
-      if (detailHoneypot.closureStatus === '모집완료' || approvedApplications.length + 1 >= detailHoneypot.totalMember) {
-        alert('모집이 완료되어 신청하실 수 없습니다.');
-        return;
-      }
-  
-      // 이미 참여한 사용자인지 확인
-      const alreadyApplied = applications.some(app => app.applicationCategory.userCategory.userCode === user.userCode);
-      if (alreadyApplied) {
-        alert('이미 참여 신청한 사용자입니다.');
-        return;
-      }
-  
-      // 참여 신청 API 호출
-      const response = await axios.post('http://localhost:8081/honeypot/application', {
+      await axios.post('http://localhost:8081/honeypot/application', {
         honeypotCategory: {
           honeypotCode: detailHoneypot.honeypotCode
         },
         userCategory: {
           userCode: user.userCode
         },
-        applicationDate: new Date().toISOString().slice(0, 10) // 오늘 날짜를 ISO 포맷으로 설정
+        applicationDate: new Date().toISOString().slice(0, 10)
       });
-  
-      // 참여 신청 완료 메시지
-      console.log('등록완료 정보 : ', response);
-      alert('참가 신청이 완료되었습니다.');
-  
-      // 신청 완료 후 참가 신청자 정보 다시 조회
+
+      setResultMessage('참가 신청이 완료되었습니다.');
       ApplicationApi(detailHoneypot.honeypotCode, setApplications);
-  
     } catch (error) {
       console.error('참가 신청 실패:', error);
-      alert('참가 신청에 실패했습니다. 다시 시도해주세요.');
+      setResultMessage('참가 신청에 실패했습니다. 다시 시도해주세요.');
+    } finally {
+      setShowParticipateModal(false);
+      setShowResultModal(true);
     }
   };
-
-  
 
   return (
     <div className='honeypot-detail-container'>
@@ -102,6 +101,37 @@ export default function UserDetailPage({ detailHoneypot, filteredCultureList, ti
         <button className='go-to-list' onClick={() => navigate('/honeypot')}> 목록으로</button>
         <button className='go-to-modify' onClick={handleParticipate}>참여하기</button>
       </div>
+
+      {showParticipateModal && (
+        <div className='modal-container'>
+          <div className='warningmodal-content'>
+            <img src={`${process.env.PUBLIC_URL}/images/commons/icon_alert.png`}/>
+            <p className="warning-message">참여 신청하시겠습니까?</p>
+            <div className="warning-modal-buttons2">
+              <button className="warning-modal-button no2" onClick={() => setShowParticipateModal(false)}>
+                아니오
+              </button>
+              <button className="warning-modal-button yes2" onClick={confirmParticipate}>
+                예
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showResultModal && (
+        <div className='modal-container'>
+          <div className='warningmodal-content'>
+            <img src={`${process.env.PUBLIC_URL}/images/commons/icon_confirm.png`}/>
+            <p className="warning-message">{resultMessage}</p>
+            <div className="warning-modal-buttons">
+              <button className="warning-modal-button yes" onClick={() => setShowResultModal(false)}>
+                확인
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

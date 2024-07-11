@@ -11,20 +11,9 @@ function EditProfile({ loggedInUser, onProfileUpdate }) {
     const [showReCheckModal, setShowReCheckModal] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [selectedInterestsCount, setSelectedInterestsCount] = useState(0);
-
-    // useEffect(() => {
-    //     const initialInterests = {
-    //         팝업: false,
-    //         공연: false,
-    //         행사축제: false,
-    //         전시회: false,
-    //         뮤지컬: false,
-    //     };
-    //     loggedInUser.interests.forEach(interest => {
-    //         initialInterests[interest.interestName] = true;
-    //     });
-    //     setChoiceInterest(initialInterests);
-    // }, [loggedInUser, loggedInUser.nickname, loggedInUser.aboutme]);
+    const [inputError, setInputError] = useState('');
+    const [isValidForm, setIsValidForm] = useState(true);
+    const maxLength = 180;
     
     useEffect(() => {
         if (loggedInUser && loggedInUser.interests) {
@@ -36,14 +25,37 @@ function EditProfile({ loggedInUser, onProfileUpdate }) {
             setSelectedInterestsCount(Object.values(initialInterests).filter(Boolean).length);
             setInputText(loggedInUser.nickname);
             setTextAreaText(loggedInUser.aboutme);
-            console.log('Updated user data:', loggedInUser);
+            // console.log('Updated user data:', loggedInUser);
         }
     }, [loggedInUser]);
 
-    const maxLength = 180;
+    const isValidNickname = (nickname) => {
+        // 한글, 영문, 숫자만 허용하고 자음/모음만으로 이루어진 경우를 체크
+        const regex = /^(?=.*[가-힣a-zA-Z0-9])[가-힣a-zA-Z0-9]{1,16}$/;
+        const onlyConsonants = /^[ㄱ-ㅎ]+$/;
+        const onlyVowels = /^[ㅏ-ㅣ]+$/;
+        
+        if (!regex.test(nickname)) {
+            return false;
+        }
+        if (onlyConsonants.test(nickname) || onlyVowels.test(nickname)) {
+            return false;
+        }
+        return true;
+    };
 
     const handleInputChange = (e) => {
-        setInputText(e.target.value);
+        const newNickname = e.target.value;
+        if (newNickname.length <= 16) {
+            setInputText(newNickname);
+            if (!isValidNickname(newNickname)) {
+                setInputError('닉네임은 한글, 영문, 숫자만 사용 가능하며, 자음 또는 모음만으로 이루어질 수 없습니다.');
+                setIsValidForm(false);
+            } else {
+                setInputError('');
+                setIsValidForm(true);
+            }
+        }
     };
 
     const handleTextAreaChange = (e) => {
@@ -73,12 +85,21 @@ function EditProfile({ loggedInUser, onProfileUpdate }) {
     };
 
     const modifySubmit = () => {
+        if (!isValidForm) {
+            alert('올바른 닉네임을 입력해주세요.');
+            return;
+        }
         setShowReCheckModal(true);
     };
 
     const handleConfirm = async () => {
         setShowReCheckModal(false);
         
+        if (!isValidForm) {
+            alert('올바른 닉네임을 입력해주세요.');
+            return;
+        }
+
         const updatedInterests = Object.entries(choiceInterest)
             .filter(([_, value]) => value)
             .map(([key, _]) => ({
@@ -97,11 +118,11 @@ function EditProfile({ loggedInUser, onProfileUpdate }) {
             const response = await axios.put(`http://localhost:8081/mypage/${loggedInUser.userCode}`, updateData);
             setShowConfirmModal(true);
             if (onProfileUpdate) {
-                // 서버 응답 데이터 구조에 맞춰 전달
                 onProfileUpdate(response.data.results.updateProflie);
             }
         } catch (error) {
             console.error("프로필 업데이트 실패:", error.response ? error.response.data : error.message);
+            alert("프로필 업데이트에 실패했습니다. 다시 시도해주세요.");
         }
     };
 
@@ -114,10 +135,11 @@ function EditProfile({ loggedInUser, onProfileUpdate }) {
         <div className='profile-container'>
             <div className='profile-left'>
                 <p className='name'>이름</p>
-                <input className='name-input' type='text' placeholder='닉네임을 입력하세요.' value={inputText} onChange={handleInputChange}/>
+                <input className='name-input' type='text' placeholder='닉네임을 입력하세요.' value={inputText} onChange={handleInputChange} maxLength={16}/>
                 <p className='intro'>자기소개</p>
                 <p className='limit'>{textAreaText.length}/{maxLength}</p>
                 <textarea className='intro-textarea' placeholder='자기소개를 입력하세요.' value={textAreaText} onChange={handleTextAreaChange} />
+                {inputError && <p className="error-message" style={{color:"red", fontSize: '10px'}}>{inputError}</p>}
             </div>    
             <hr className='divide-line'/>
             <div className='profile-right'>
@@ -136,7 +158,7 @@ function EditProfile({ loggedInUser, onProfileUpdate }) {
                 ))}
             </div>
                 <div className='modify-container'>
-                    <button className='modify-btn' onClick={modifySubmit}>수정</button>
+                <button className='modify-btn' onClick={modifySubmit} disabled={!isValidForm}>수정</button>
                 </div>
             </div>
             

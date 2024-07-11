@@ -41,7 +41,7 @@
 .goto-inquiry-btn {
     width: 200px;
     height: 50px;
-    border-radius: 10px;
+    border-radius: 50px;
     background-color: var(--main-color);
     display: flex;
     justify-content: center;
@@ -49,6 +49,7 @@
     color: white;
     font-family: 'SUIT Semibold', sans-serif;
     font-size: 20px;
+    cursor: pointer;
 }
 
 .mypage-table-container .inquiry-view {

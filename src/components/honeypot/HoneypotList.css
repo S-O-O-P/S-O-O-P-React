@@ -37,6 +37,8 @@
     height: 180px;
     border-radius: 12px;
     margin-right: 5px;
+    object-fit: cover;
+    object-position: top;
 }
 
 .honeypot-dashed {
