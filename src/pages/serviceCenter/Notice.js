@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import style from './Notice.module.css';
-import axios from 'axios';
+import { noticesAPI } from '../../apis/serviceCenter/Notice';
+import { useNavigate } from 'react-router-dom';
 
 function NoticePage() {
-
+    const navigate = useNavigate();
     const [notices, setNotices] = useState([]);
     const [search, setSearch] = useState('');
     const [select, setSelect] = useState('all');
@@ -13,17 +14,21 @@ function NoticePage() {
     const maxPageNumbers = 5;
 
     useEffect(() => {
-        async function fetchNotice() {
+        async function fetchNoticeData() {
             try {
-                const res = await axios.get('http://localhost:8081/notice');
-                setNotices(res.data.mainNoticeList);
-                setFilterNotice(res.data.mainNoticeList);
+                const noticeList = await noticesAPI();
+                setNotices(noticeList);
+                setFilterNotice(noticeList);
             } catch (error) {
-                console.error('공지사항 불러오기 실패.', error);
+                console.error('공지사항 불러오기 실패', error);
             }
         }
-        fetchNotice();
+        fetchNoticeData();
     }, []);
+
+    const inquiryBtn = () => {
+        navigate("/inquiry");
+    }
 
     const onChange = (e) => {
         setSearch(e.target.value);
@@ -38,6 +43,12 @@ function NoticePage() {
         setFilterNotice(filtered);
         setCurrentPage(1);
     };
+
+    const enterKey = (e) => {
+        if (e.key === "Enter") {
+            handleSubmit();
+        }
+    }
 
     const handleSelect = (e) => {
         setSelect(e.target.value);
@@ -87,7 +98,7 @@ function NoticePage() {
                             <option value="공지사항">공지사항</option>
                             <option value="이벤트">이벤트</option>
                         </select>
-                        <input className={style.customInput} type="text" onChange={onChange} placeholder="검색어를 입력해주세요." />
+                        <input className={style.customInput} type="text" onChange={onChange} onKeyPress={enterKey} placeholder="검색어를 입력해주세요." />
                         <button className={style.submitBtn} onClick={handleSubmit}>
                             <img src='/images/serviceCenter/search.png' alt='검색' />
                         </button>
@@ -132,13 +143,13 @@ function NoticePage() {
                                 <p className={style.phoneInquiryText}>평일 9:00 ~ 18:00 | 주말 및 공휴일 휴무</p>
                             </div>
                         </div>
-                        <div className={style.inquiry}>
+                        <div className={style.inquiry} onClick={inquiryBtn}>
                             <img className={style.inquiryIcon} src="./images/commons/icon_inquiry_main_color.png" alt="1:1문의하기" />
                             <div>
-                                <a href="/inquiry" className={style.inquiryIinkButton}>
+                                <p className={style.inquiryIinkButton}>
                                     <p className={style.inquiryTitle}>1:1 문의하기</p>
                                     <img className={style.arrowIcon} src="./images/commons/icon_arrow.png" alt="화살표"></img>
-                                </a>
+                                </p>
                                 <p className={style.inquiryText}>얼리벗에 궁금한 사항을 문의해 주세요.</p>
                                 <p className={style.inquiryText}>최대한 빠른 시일 내에 답변해드리겠습니다.</p>
                             </div>

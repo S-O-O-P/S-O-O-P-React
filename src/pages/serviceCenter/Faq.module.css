@@ -42,6 +42,7 @@
     -webkit-appearance: none;
     background: #fff calc(100% - 5px) center no-repeat url('/public/images/commons/icon_arrow_bottom_main_color.png');
     background-size: 25px;
+    cursor: pointer;
 }
 
 .customSelect:focus {
@@ -64,6 +65,7 @@
     position: absolute;
     right: 45px;
     top: 30px;
+    cursor: pointer;
 }
 
 /* ----- 자주 묻는 질문 ----- */

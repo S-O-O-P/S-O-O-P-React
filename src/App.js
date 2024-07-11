@@ -133,7 +133,7 @@ export default function App() {
             <Route path='/help' element={<Cs />} /> {/* 고객 센터 */}
             <Route path='/faq' element={<Faq />} /> {/* 자주 찾는 질문 */}
             <Route path='/notice' element={<Notice />} /> {/* 공지사항 */}
-            <Route path='/inquiry' element={<Inquiry />} /> {/* 1:1문의 */}
+            <Route path='/inquiry' element={<Inquiry user={loggedInUser}/>} /> {/* 1:1문의 */}
             <Route path='/notice/:code' element={<NoticeDetailPage />} /> {/* 공지사항 상세페이지 */}
           </Route> {/* 레이아웃 클로즈 */}
         </Routes>
