@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import style from './Inquiry.module.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-function InquiryPage() {
+function InquiryPage({ user }) {
 
     const navigater = useNavigate();
-
     const [selected, setSelected] = useState("전체");
     const handleSelect = (e) => {
         setSelected(e.target.value);
@@ -35,7 +34,7 @@ function InquiryPage() {
                 "category": selected,
                 "title": title,
                 "content": content,
-                "userCode": 1,  // 회원 정보로 수정 필요
+                "userCode": user.userCode,
                 "inquiryDate": today,
                 "adminCode": 7
             }
@@ -43,6 +42,7 @@ function InquiryPage() {
             console.log("유형", selected);
             console.log("제목:", title);
             console.log("내용:", content);
+            console.log("userCode:", user.userCode);
             setModalOpen(true);
 
             axios.post('http://localhost:8081/inquiry', data)
@@ -56,8 +56,11 @@ function InquiryPage() {
     };
 
     const closeBtn = () => {
-        setModalOpen(false);
         setWriterModal(false);
+    }
+    const noticeBtn = () => {
+        setModalOpen(false);
+        navigater("/notice");
     }
 
     const [checkModal, setCheckModal] = useState(false);
@@ -126,9 +129,7 @@ function InquiryPage() {
                             <img src='/images/serviceCenter/check.png' alt='확인' width={45} />
                             <p className={style.modalTitle}>1:1문의가 접수 되었습니다.</p>
                             <p className={style.modalContext}>문의 내용에 따라 답변이 늦어질 수 있습니다.</p>
-                            <a href="/help">
-                                <button className={style.modalButton} onClick={closeBtn}>확인</button>
-                            </a>
+                            <button className={style.modalButton} onClick={noticeBtn}>확인</button>
                         </div>
                     </div>
                 )}

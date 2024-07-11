@@ -25,6 +25,21 @@ function NoticeDetailPage() {
         fetchNotice();
     }, []);
 
+    const [file, setFile] = useState(null);
+    useEffect(() => {
+        async function fetchNotice() {
+            try {
+                const id = code;
+                const res = await axios.get(`http://localhost:8080/notice/${id}`);
+                setFile(res.data.fileDTO);
+                console.log(res.data.fileDTO);
+            } catch (error) {
+                console.error('공지사항 불러오기 실패.', error);
+            }
+        }
+        fetchNotice();
+    }, [code]);
+
     return (
 
         <div className={style.wrapper}>
@@ -36,6 +51,8 @@ function NoticeDetailPage() {
                 <hr className={style.hrLine} />
                 <p className={style.noticeContext}>{notice.content}</p>
                 <hr className={style.hrLine} />
+
+                {/* <img src={`http://localhost:8080/notice/image?name=${file.name}`} alt="preview image" /> */}
             </div>
         </div>
     )

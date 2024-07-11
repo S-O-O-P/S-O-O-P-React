@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import style from './Cs.module.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function CsPage() {
 
+    const navigater = useNavigate();
     const [notices, setNotices] = useState([]);
 
     useEffect(() => {
@@ -18,6 +20,10 @@ function CsPage() {
         }
         fetchNotice();
     }, []);
+
+    const inquiryBtn = () => {
+        navigater("/inquiry");
+    }
 
     return (
         <div className={style.wrapper}>
@@ -89,13 +95,13 @@ function CsPage() {
                             <p className={style.phoneInquiryText}>평일 9:00 ~ 18:00 | 주말 및 공휴일 휴무</p>
                         </div>
                     </div>
-                    <div className={style.inquiry}>
+                    <div className={style.inquiry} onClick={inquiryBtn}>
                         <img className={style.inquiryIcon} src="./images/commons/icon_inquiry_main_color.png" alt="1:1문의하기"></img>
                         <div>
-                            <a href="/inquiry" className={style.inquiryIinkButton}>
+                            <p className={style.inquiryIinkButton}>
                                 <p className={style.inquiryTitle}>1:1 문의하기</p>
                                 <img className={style.arrowIcon} src="./images/commons/icon_arrow.png" alt="화살표"></img>
-                            </a>
+                            </p>
                             <p className={style.inquiryText}>얼리벗에 궁금한 사항을 문의해 주세요.</p>
                             <p className={style.inquiryText}>최대한 빠른 시일 내에 답변해드리겠습니다.</p>
                         </div>
