@@ -142,8 +142,8 @@ function HoneypotDetailPage({ cultureList, user }) {
         <div className='host-info-wrapper'>
           <img className='detail-poster' src={detailHoneypot.poster} draggable="false" alt='포스터이미지'/>
           <div className='host-profile-wrapper'>
-            <img className='host-profile-pic' src={detailHoneypot.hostInfo.profilePic} draggable="false" alt='프로필사진'/>
-            <p className='host-nickname'>{detailHoneypot.hostInfo.nickname}</p>
+            <img className='host-profile-pic' src={detailHoneypot.hostInfo?.profilePic} draggable="false" alt='프로필사진'/>
+            <p className='host-nickname'>{detailHoneypot.hostInfo?.nickname}</p>
           </div>
           <div className='detail-manner-box' onClick={mannerStarClick}>
             <img src={`${process.env.PUBLIC_URL}/images/commons/icon_star.png`} alt="유저평점아이콘" />
