@@ -131,6 +131,12 @@ function FaqPage() {
         console.log(search);
     };
 
+    const enterKey = (e) => {
+        if (e.key === "Enter") {
+            handleSubmit();
+        }
+    }
+
     const handleSelect = (e) => {
         setSelect(e.target.value);
     };
@@ -192,7 +198,7 @@ function FaqPage() {
                         <option value="기능">기능</option>
                         <option value="서비스">서비스</option>
                     </select>
-                    <input className={style.customInput} type="text" onChange={onChange} placeholder="검색어를 입력해주세요." />
+                    <input className={style.customInput} type="text" onChange={onChange} onKeyPress={enterKey} placeholder="검색어를 입력해주세요." />
                     <button className={style.submitBtn} onClick={() => { handleSubmit(); toggleFAQ(); }}>
                         <img src='/images/serviceCenter/search.png' alt='검색' />
                     </button>
