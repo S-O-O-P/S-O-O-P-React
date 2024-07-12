@@ -150,9 +150,9 @@
     cursor: pointer;
 }
 
-.cancelButton:active {
+.cancelButton:hover {
     border-color: var(--point-color);
-    transition: 50ms;
+    transition: 20ms;
 }
 
 .submitButton {

@@ -1,10 +1,11 @@
 import style from './NoticeDetail.module.css'
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { fetchNoticeData } from '../../apis/serviceCenter/NoticeDetailAPI';
 
 function NoticeDetailPage() {
 
+    const navigate = useNavigate();
     const [notice, setNotice] = useState({});
     const [file, setFile] = useState(null);
     const { code } = useParams();
@@ -32,8 +33,11 @@ function NoticeDetailPage() {
                 <p className={style.noticeDate}>{notice.regDate}</p>
                 <hr className={style.hrLine} />
                 <p className={style.noticeContext}>{notice.content}</p>
-                {file ? (<img src={`${file}`} className={style.noticeImg} alt="사진" />) : ""}
+                <div className={style.noticeImg}>
+                    {file ? (<img src={`${file}`} alt="사진" />) : ""}
+                </div>
                 <hr className={style.hrLine} />
+                <button type='button' className={style.cancelButton} onClick={() => { navigate("/notice") }}>목록으로</button>
 
             </div>
         </div>

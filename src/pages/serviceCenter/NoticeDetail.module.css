@@ -43,5 +43,25 @@
 }
 
 .noticeImg {
-    max-width: 1000px ;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.cancelButton {
+    width: 96px;
+    height: 48px;
+    background-color: #fff;
+    border: 1px solid var(--main-color);
+    border-radius: 48px;
+    font: var(--semiBold) 16px;
+    color: var(--main-color);
+    cursor: pointer;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.cancelButton:active {
+    border-color: var(--point-color);
+    transition: 50ms;
 }
