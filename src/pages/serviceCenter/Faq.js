@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import style from './Faq.module.css';
+import { NavLink } from 'react-router-dom';
 
 const faqList = [
     {
@@ -248,10 +249,10 @@ function FaqPage() {
                     <div className={style.inquiry}>
                         <img className={style.inquiryIcon} src="./images/commons/icon_inquiry_main_color.png" alt="1:1문의하기" />
                         <div>
-                            <a href="/inquiry" className={style.inquiryIinkButton}>
+                            <NavLink to="/inquiry" className={style.inquiryIinkButton}>
                                 <p className={style.inquiryTitle}>1:1 문의하기</p>
                                 <img className={style.arrowIcon} src="./images/commons/icon_arrow.png" alt="화살표" />
-                            </a>
+                            </NavLink>
                             <p className={style.inquiryText}>얼리벗에 궁금한 사항을 문의해 주세요.</p>
                             <p className={style.inquiryText}>최대한 빠른 시일 내에 답변해드리겠습니다.</p>
                         </div>

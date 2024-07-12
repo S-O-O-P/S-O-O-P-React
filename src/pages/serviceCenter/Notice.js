@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import style from './Notice.module.css';
 import { noticesAPI } from '../../apis/serviceCenter/Notice';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 function NoticePage() {
     const navigate = useNavigate();
@@ -111,7 +111,7 @@ function NoticePage() {
                             {currentNotice.map((notice) => (
                                 <tr key={notice.noticeCode}>
                                     <td className={style.faqContent}>
-                                        <a href={`/notice/${notice.noticeCode}`} className={style.noticeTitle}>{notice.title}</a>
+                                        <NavLink to={`/notice/${notice.noticeCode}`} className={style.noticeTitle}>{notice.title}</NavLink>
                                     </td>
                                     <td className={style.faqContent}>{notice.regDate}</td>
                                     <td className={style.faqContent}>{notice.memberDTO.nickname}</td>

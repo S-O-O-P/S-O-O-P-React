@@ -112,9 +112,7 @@ function InquiryPage({ user }) {
                             <p className={style.inputCount}>{inputCount}/500</p>
                         </div>
                         <div className={style.buttons}>
-                            <a>
-                                <button type='button' className={style.cancelButton} onClick={() => { handleCancel() }}>취소</button>
-                            </a>
+                            <button type='button' className={style.cancelButton} onClick={() => { handleCancel() }}>취소</button>
                             <button type='submit' className={style.submitButton} onClick={() => { handleSubmit() }}>등록</button>
                         </div>
                     </div>
