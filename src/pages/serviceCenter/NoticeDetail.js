@@ -1,10 +1,11 @@
 import style from './NoticeDetail.module.css'
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { noticeAPI, noticeFileAPI } from '../../apis/serviceCenter/NoticeDetailAPI';
+import { useNavigate, useParams } from 'react-router-dom';
+import { fetchNoticeData } from '../../apis/serviceCenter/NoticeDetailAPI';
 
 function NoticeDetailPage() {
 
+    const navigate = useNavigate();
     const [notice, setNotice] = useState({});
     const [file, setFile] = useState(null);
     const { code } = useParams();
@@ -12,22 +13,13 @@ function NoticeDetailPage() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const mainNotice = await noticeAPI(code);
-                setNotice(mainNotice);
+                const mainNotice = await fetchNoticeData(code);
+                setNotice(mainNotice.notice);
+                setFile(mainNotice.file.name);
+                console.log(notice.title);
+                console.log(file);
             } catch (error) {
                 console.error('공지사항 불러오기 실패.', error);
-            }
-        }
-        fetchData();
-    }, [code]);
-
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const fileDTO = await noticeFileAPI(code);
-                setFile(fileDTO);
-            } catch (error) {
-                console.error('파일 불러오기 실패.', error);
             }
         }
         fetchData();
@@ -41,8 +33,12 @@ function NoticeDetailPage() {
                 <p className={style.noticeDate}>{notice.regDate}</p>
                 <hr className={style.hrLine} />
                 <p className={style.noticeContext}>{notice.content}</p>
+                <div className={style.noticeImg}>
+                    {file ? (<img src={`${file}`} alt="사진" />) : ""}
+                </div>
                 <hr className={style.hrLine} />
-                {/* <img src={`http://localhost:8080/notice/image?name=${file.name}`} alt="preview image" /> */}
+                <button type='button' className={style.cancelButton} onClick={() => { navigate("/notice") }}>목록으로</button>
+
             </div>
         </div>
     );
