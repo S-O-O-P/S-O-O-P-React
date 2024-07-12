@@ -41,3 +41,7 @@
     padding: 20px 0;
     min-height: 500px;
 }
+
+.noticeImg {
+    max-width: 1000px ;
+}
