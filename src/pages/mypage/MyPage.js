@@ -83,6 +83,44 @@ const MyPage = ({user}) => {
         });
     };
 
+    // getCookie 함수 정의
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+  
+  // 토큰 갱신
+    const refreshToken = async () => {
+        try {
+        const refreshResponse = await axios.post('http://localhost:8081/reissue', {
+            userCode: loggedInUser.userCode
+        }, {
+            withCredentials: true
+        });
+    
+        if (refreshResponse.status === 200) {
+            console.log('토큰 갱신 성공');
+            // 쿠키에서 새 액세스 토큰을 확인
+            const newAccessToken = getCookie('access');
+
+            if (newAccessToken) {
+            console.log('새 액세스 토큰이 설정되었습니다');
+            } else {
+            console.log('새 액세스 토큰을 찾을 수 없습니다');
+            }
+
+            window.location.reload();
+
+        } else {
+            console.log('토큰 갱신 실패');
+            console.log('응답 정보:', refreshResponse);
+        }
+        } catch (error) {
+        console.error('토큰 갱신 중 오류 발생:', error);
+        }
+    };
+
     const handleProfilePicChange = async (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -110,8 +148,8 @@ const MyPage = ({user}) => {
                     ...prevUser,
                     profilePic: downloadURL
                 }));
-                window.location.reload();
-                
+                await refreshToken();
+
             } catch (error) {
                 console.error('프로필사진 변경 실패:', error);
                 if (error.response) {

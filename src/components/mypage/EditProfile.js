@@ -116,10 +116,19 @@ function EditProfile({ loggedInUser, onProfileUpdate }) {
     
         try {
             const response = await axios.put(`http://localhost:8081/mypage/${loggedInUser.userCode}`, updateData);
-            setShowConfirmModal(true);
-            if (onProfileUpdate) {
-                onProfileUpdate(response.data.results.updateProflie);
+            
+            console.log("서버 응답:", response.data); // 서버 응답 로깅
+
+            if (response.data && response.data.results && response.data.results.updateProflie) {
+                if (onProfileUpdate) {
+                    onProfileUpdate(response.data.results.updateProflie);
+                }
+                setShowConfirmModal(true); // 항상 모달을 표시합니다.
+            } else {
+                console.error("서버 응답에 예상된 데이터가 없습니다.");
+                alert("프로필 업데이트에 문제가 발생했습니다. 다시 시도해주세요.");
             }
+            
         } catch (error) {
             console.error("프로필 업데이트 실패:", error.response ? error.response.data : error.message);
             alert("프로필 업데이트에 실패했습니다. 다시 시도해주세요.");
