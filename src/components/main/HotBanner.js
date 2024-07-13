@@ -57,7 +57,7 @@ export default function HotBanner({hotList}) {
         const title = item?.title.replaceAll('&lt;',`<`).replaceAll('&gt;',`>`).replaceAll("&#39;","'");
 
         return(<div className={mainStyle.hot_prf_list} key={index}>
-          <Link to="/cultureinfo/detail">
+          <Link to={`/cultureinfo/detail/${item.seq}`}>
             <img src={item.thumbnail} alt={`${title} poster`}/>
             <div className={mainStyle.hot_prf_txt}>
               <p className={mainStyle.hot_tit}>{title}</p>
