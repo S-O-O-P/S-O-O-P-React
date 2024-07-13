@@ -4,7 +4,7 @@ import mainStyle from '../../pages/main/Main.module.css';
 import Slider from "react-slick";
 import { Link } from 'react-router-dom';
 
-export default function TopBanner(cultureList) {
+export default function TopBanner({pickList}) {
   // if (cultureList) {
   //   console.log("cultureList from TopBanner : " + cultureList.cultureList?.perforList);
   //   console.log("cultureList from TopBanner : " + cultureList.cultureList?.perforList[0].thumbnail);
@@ -25,11 +25,11 @@ export default function TopBanner(cultureList) {
   return (
     <div className={`slider-container ${mainStyle.top_banner_box}`}>
       <Slider {...settings}>        
-        {cultureList.cultureList && cultureList.cultureList.perforList ? [...Array(parseInt(10))].map((n, index) => {
+        {pickList && pickList.perforList ? [...Array(parseInt(10))].map((n, index) => {
           return(
             <div className={mainStyle.centerList} key={index}>
-              <Link to={`/cultureinfo/detail/${cultureList.cultureList.perforList[index].seq}`}>  
-                <img src={cultureList.cultureList.perforList[index].thumbnail} alt={`${cultureList.cultureList.perforList[index].title} thumbnail`}/>            
+              <Link to={`/cultureinfo/detail/${pickList.perforList[index]?.seq}`}>  
+                <img src={pickList.perforList[index]?.thumbnail} alt={`${pickList.perforList[index]?.title} thumbnail`}/>            
               </Link>
             </div>
           );          

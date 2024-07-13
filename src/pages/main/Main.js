@@ -6,6 +6,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import EarlyBirdInfoApi from '../../apis/cultureInfo/EarlyBirdApi';
 import EarlyBanner from '../../components/main/EarlyBanner';
 import HoneypotByMainApi from '../../apis/main/honeypotByMainApi';
+import UserInterestApi from '../../apis/main/UserInterestApi';
+
 
 
 export default function Main(props) {
@@ -15,6 +17,8 @@ export default function Main(props) {
   const [honeypots, setHoneypots] = useState([]);
   const [filteredHoneypots, setFilteredHoneypots] = useState([]); // 필터링된 허니팟 데이터
   const [loading, setLoading] = useState(true);
+  const [userInterest, setUserInterest] = useState([]); // 로그인한 회원의 관심사 등록
+  const [pickList, setPickList] = useState([]); // 로그인한 회원의 관심사 기준으로 필터링된 링크비 Pick 공연/전시 리스트
   const navigate = useNavigate();
 
   console.log("메인페이지유저정보", props.user);
@@ -25,7 +29,8 @@ export default function Main(props) {
     ()=>{
       if (props.cultureList) { // api정보 정상적으로 불러오면
         setCultureList(JSON.parse(props.cultureList)); // JSON형태로 cultureList 저장
-        setHotList(JSON.parse(props.cultureList)); 
+        setHotList(JSON.parse(props.cultureList));
+        setPickList(JSON.parse(props.cultureList));
         setLoading(false);
       }
     },[props.cultureList]
@@ -46,6 +51,62 @@ export default function Main(props) {
       console.log("honeypots",honeypots);
     }
   }, []);
+
+  useEffect(() => {
+    if(props.user){
+      //{"category":"access","signupPlatform":"kakao:3613081929","role":"ROLE_USER","userCode":6,"iat":1720854970,"exp":1720855270}
+      console.log("로그인한 user info : ",JSON.stringify(props.user.userCode));
+      UserInterestApi({setUserInterest}, props.user.userCode);
+      console.log("userInterest.length : "+userInterest.length);
+      console.log("userInterest : ", userInterest);
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log("userInterest.length : "+userInterest.length);
+    console.log("userInterest.length : ",userInterest);
+    if(userInterest.length > 0){ // 관심사가 등록되어있다면
+      const filteredByInterest = cultureList.perforList.filter(item => {
+        for (let i = 0; i < userInterest.length; i++) {
+          switch (userInterest[i].interestCode) {
+            case "전시회":
+              if (item.realmName.match("미술") || item.title.match("전시")) {
+                return true;
+              }
+              break;
+            case "팝업":
+              if (item.title.match("팝업")) {
+                return true;
+              }
+              break;
+            case "공연":
+              if (((item.realmName.match("음악") && (item.title.match("공연") || item.realmName.match("주회"))) || (item.realmName.match("국악") && item.title.match("공연")) || item.realmName.match("연극") || item.title.match("콘서트")) && !item.title.match("축제") && !item.title.match("페스티벌")) {
+                return true;
+              }
+              break;
+            case "행사":
+              if (item.title.match("축제") || item.title.match("페스티벌")) {
+                return true;
+              }
+              break;
+            case "뮤지컬":
+              if (item.title.match("뮤지컬")) {
+                return true;
+              }
+              break;
+            default:
+              break;
+          }
+        }
+        return false;
+      })
+      console.log("filteredByInterest : ",filteredByInterest);
+      setPickList({...pickList , perforList : filteredByInterest});
+      console.log("pickList after filtered : ", pickList);
+    }else{
+      setPickList(JSON.parse(props.cultureList));
+    }
+  }, [userInterest, props.cultureList]);
 
   // 스크롤시 Header 색상 변경 
   useEffect(
@@ -89,7 +150,7 @@ export default function Main(props) {
         window.removeEventListener("scroll", changeHeaderBgColor);
         header.classList.remove("main"); // 컴포넌트가 언마운트될 때 클래스 제거
         document.querySelector(".header-logo").setAttribute('src', `${process.env.PUBLIC_URL}/images/commons/logo.png`);
-        if(document.querySelector(".mypage-btn")){
+        if(document.querySelector(".logout-btn")){
           //mypage-btn
           document.querySelector(".mypage-btn").setAttribute('src', props.user.profilePic || `${process.env.PUBLIC_URL}/images/commons/icon_mypage_colored.png`);
           document.querySelector(".logout-btn").setAttribute('src', `${process.env.PUBLIC_URL}/images/commons/icon_logout_colored.png`);
@@ -107,11 +168,11 @@ export default function Main(props) {
         <div className={mainStyles.main_sec}>
           <div className={`${mainStyles.main_tit} ${mainStyles.flex_center}`}><img src={`${process.env.PUBLIC_URL}/images/commons/logo_white.png`} alt="Link bee logo white"/><p className={`${mainStyles.sec_tit} ${mainStyles.white}`}>링크비 Picks</p></div>
           {/* Top Banner */}          
-          {!loading && cultureList && <TopBanner cultureList={cultureList} />}
+          {!loading && pickList && <TopBanner pickList={pickList} />}
           
           <div className={mainStyles.hot_prf_sec}>
             <div className={`${mainStyles.tit_view_more} ${mainStyles.flex_center}`}>
-              <p className={mainStyles.sec_tit}>HOT 전시/공연 정보</p>
+              <p className={mainStyles.sec_tit}>HOT 공연/전시 정보</p>
               <span className={`${mainStyles.view_more_btn} ${mainStyles.flex_center}`} onClick={() => navigate("/cultureinfo")}>더보기 <img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_white.png`} alt="arrow left direction icon"/></span>
             </div>
             {!loading && hotList && <HotBanner hotList={hotList}/>}
