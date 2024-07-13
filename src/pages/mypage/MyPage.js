@@ -110,6 +110,7 @@ const MyPage = ({user}) => {
                     ...prevUser,
                     profilePic: downloadURL
                 }));
+                window.location.reload();
                 
             } catch (error) {
                 console.error('프로필사진 변경 실패:', error);

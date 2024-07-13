@@ -7,6 +7,7 @@ import EarlyBirdInfoApi from '../../apis/cultureInfo/EarlyBirdApi';
 import EarlyBanner from '../../components/main/EarlyBanner';
 import HoneypotByMainApi from '../../apis/main/honeypotByMainApi';
 
+
 export default function Main(props) {
   const [cultureList, setCultureList] = useState([]);
   const [earlyBirdInfo, setEarlyBirdInfo] = useState([]); // 얼리버드 리스트
@@ -15,6 +16,9 @@ export default function Main(props) {
   const [filteredHoneypots, setFilteredHoneypots] = useState([]); // 필터링된 허니팟 데이터
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  console.log("쁘롭스", props.user);
+
 
   //app.js에서 전달받은 api정보 state 저장
   useEffect(
@@ -53,7 +57,7 @@ export default function Main(props) {
       document.querySelector(".header-logo").setAttribute('src', 'images/commons/logo_white.png');
       if(document.querySelector(".mypage-btn")){
         //mypage-btn
-        document.querySelector(".mypage-btn").setAttribute('src', 'images/commons/icon_mypage_white.png');
+        document.querySelector(".mypage-btn").setAttribute('src', `${props.user.profilePic}` || 'images/commons/icon_mypage_white.png');
         document.querySelector(".logout-btn").setAttribute('src', 'images/commons/icon_logout_white.png');
         document.querySelector(".nickName").style.color = '#ffffff';
       }
@@ -63,7 +67,7 @@ export default function Main(props) {
           document.querySelector(".header-logo").setAttribute('src', 'images/commons/logo.png');
           if(document.querySelector(".mypage-btn")){
             //mypage-btn
-            document.querySelector(".mypage-btn").setAttribute('src', 'images/commons/icon_mypage_colored.png');
+            document.querySelector(".mypage-btn").setAttribute('src', `${props.user.profilePic}` || 'images/commons/icon_mypage_colored.png');
             document.querySelector(".logout-btn").setAttribute('src', 'images/commons/icon_logout_colored.png');
             document.querySelector(".nickName").style.color = '#282A29';
           }
@@ -72,7 +76,7 @@ export default function Main(props) {
           document.querySelector(".header-logo").setAttribute('src', 'images/commons/logo_white.png');
           if(document.querySelector(".mypage-btn")){
             //mypage-btn
-            document.querySelector(".mypage-btn").setAttribute('src', 'images/commons/icon_mypage_white.png');
+            document.querySelector(".mypage-btn").setAttribute('src', `${props.user.profilePic}` || 'images/commons/icon_mypage_white.png');
             document.querySelector(".logout-btn").setAttribute('src', 'images/commons/icon_logout_white.png');
             document.querySelector(".nickName").style.color = '#ffffff';
           }
@@ -87,7 +91,7 @@ export default function Main(props) {
         document.querySelector(".header-logo").setAttribute('src', `${process.env.PUBLIC_URL}/images/commons/logo.png`);
         if(document.querySelector(".mypage-btn")){
           //mypage-btn
-          document.querySelector(".mypage-btn").setAttribute('src', `${process.env.PUBLIC_URL}/images/commons/icon_mypage_colored.png`);
+          document.querySelector(".mypage-btn").setAttribute('src', `${props.user.profilePic}` || `${process.env.PUBLIC_URL}/images/commons/icon_mypage_colored.png`);
           document.querySelector(".logout-btn").setAttribute('src', `${process.env.PUBLIC_URL}/images/commons/icon_logout_colored.png`);
           document.querySelector(".nickName").style.color = '#282A29';
         }

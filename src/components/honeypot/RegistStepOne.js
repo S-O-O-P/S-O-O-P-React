@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
-function RegistStepOne({ allCultureList, filteredCultureList, updateFilteredCultureList, posterClick, uniqueAreas, user }) {
+function RegistStepOne({ allCultureList, updateFilteredCultureList, posterClick, uniqueAreas, user }) {
     const [selectedRealm, setSelectedRealm] = useState('전체');
     const [selectedArea, setSelectedArea] = useState('지역');
     const [selectedIndex, setSelectedIndex] = useState(null);
+    const [filteredCultureList, setFilteredCultureList] = useState([]);
 
-    // 추가할 장르 옵션
+    // console.log('레지스트 스텝원 Component props:', allCultureList);
+
     const genres = ['전체', '전시', '공연', '뮤지컬', '팝업', '행사/축제'];
 
-    // 장르와 숫자를 매핑하는 객체
     const genreMap = {
         '팝업': 1,
         '공연': 2,
@@ -17,23 +18,10 @@ function RegistStepOne({ allCultureList, filteredCultureList, updateFilteredCult
         '뮤지컬': 5
     };
 
-    // 선택된 장르와 지역에 따라 필터링된 목록
-        filteredCultureList = allCultureList.filter(performance => {
-        const matchesRealm = selectedRealm === '장르' || selectedRealm === '전체' ||
-            (selectedRealm === '전시' && (performance.realmName === '미술' || performance.title.match('전시'))) ||
-            (selectedRealm === '공연' && (performance.realmName === '음악' || performance.realmName === '연극' || performance.title.match('음악') || performance.title.match('영화'))) ||
-            (selectedRealm === '뮤지컬' && (performance.title.match('뮤지') || performance.title.match('뮤지컬'))) ||
-            (selectedRealm === '팝업' && performance.realmName === '팝업') ||
-            (selectedRealm === '행사/축제' && (performance.title.match('축제') || performance.title.match('페스티벌'))) ||
-            performance.realmName === selectedRealm;
-        const matchesArea = selectedArea === '지역' || performance.area === selectedArea;
-        return matchesRealm && matchesArea;
-    });
-
-    useEffect(() => {
-        const filteredList = allCultureList.filter(item => {
+    const filterCultureList = useCallback(() => {
+        return allCultureList.filter(item => {
             if (selectedRealm === '전체') {
-                return true; // 모든 항목 허용
+                return true;
             } else if (selectedRealm === '전시') {
                 return item.realmName === '미술' || item.title.includes('전시');
             } else if (selectedRealm === '공연') {
@@ -47,23 +35,25 @@ function RegistStepOne({ allCultureList, filteredCultureList, updateFilteredCult
             } else {
                 return item.realmName === selectedRealm;
             }
-        });
-        updateFilteredCultureList(filteredList); // 필터링된 결과를 상태에 업데이트
-    
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedRealm]);
+        }).filter(item => selectedArea === '지역' || item.area === selectedArea);
+    }, [allCultureList, selectedRealm, selectedArea]);
 
-    // 필터 조건이 변경될 때 선택된 인덱스를 초기화
+    useEffect(() => {
+        const filteredList = filterCultureList();
+        setFilteredCultureList(filteredList);
+        updateFilteredCultureList(filteredList);
+    }, [filterCultureList, updateFilteredCultureList]);
+    
     useEffect(() => {
         setSelectedIndex(null);
     }, [selectedRealm, selectedArea]);
 
     const handlePosterClick = (index) => {
         setSelectedIndex(index);
-        const selectedGenre = filteredCultureList[index]?.realmName; // 필터링된 목록에서 선택된 포스터의 카테고리
-        const interestCode = genreMap[selectedGenre] || null; // 선택된 카테고리에 대응하는 코드
-        posterClick(index, interestCode); // posterClick 함수에 index와 interestCode 전달
-        console.log(filteredCultureList[index]);
+        const selectedGenre = filteredCultureList[index]?.realmName;
+        const interestCode = genreMap[selectedGenre] || null;
+        posterClick(index, interestCode);
+        console.log(allCultureList[index]);
     };
 
     return (
@@ -75,9 +65,9 @@ function RegistStepOne({ allCultureList, filteredCultureList, updateFilteredCult
                     ))}
                 </select>
                 <select className='select-region' value={selectedArea} onChange={(e) => setSelectedArea(e.target.value)}>
-                    <option>지역</option>
+                    <option value="지역">지역</option>
                     {uniqueAreas.map((area, index) => (
-                        <option key={index} value={area}>{area}</option>
+                        <option key={index} value={typeof area === 'string' ? area : ''}>{typeof area === 'string' ? area : ''}</option>
                     ))}
                 </select>
             </div>
