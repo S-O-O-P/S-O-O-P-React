@@ -96,18 +96,10 @@ export default function App() {
   // }, [checkLoginUser]);
 
   const { decodedToken, accessToken } = useDecodeJwtResponse();
-  const [role, setRole] = useState(null); 
-  const [signupPlatform, setSignupPlatform] = useState(null);
-  const [userCode, setUserCode] = useState(null);
 
   useEffect(() => {
-    if (decodedToken && decodedToken.userCode) {
-      setUserCode(decodedToken.userCode);
-      setRole(decodedToken.role);
-      setSignupPlatform(decodedToken.signupPlatform);
-      setLoggedInUser(decodedToken)
-    } else {
-      const decodedToken = null;
+    if (decodedToken) {
+      setLoggedInUser(decodedToken);
     }
   }, [decodedToken]);
 
