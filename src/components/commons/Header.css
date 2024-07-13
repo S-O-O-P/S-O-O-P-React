@@ -42,18 +42,26 @@
   cursor: pointer;
 }
 
+.go-to-mypage {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
 .mypage-btn {
   width: 40px;
   height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--main-color);
   margin-left: 15px;
-  cursor: pointer;
 }
 
 .mypage-btn:hover {
   width: 40px;
   height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--main-color);
   margin-left: 15px;
-  cursor: pointer;
 }
 
 .header-logo { 

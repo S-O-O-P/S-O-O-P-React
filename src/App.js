@@ -48,16 +48,16 @@ export default function App() {
     }
   }, [data]);
 
-  // useEffect(() => {
-  //   // seqList가 변경될 때마다 CultureDetailApi 호출
-  //   seqList.forEach(seq => {
-  //     CultureDetailApi({
-  //       setDetailData: detailData => {
-  //         setDetailDataList(prev => ({ ...prev, [seq]: detailData }));
-  //       }
-  //     }, seq);
-  //   });
-  // }, [seqList]);
+  useEffect(() => {
+    // seqList가 변경될 때마다 CultureDetailApi 호출
+    seqList.forEach(seq => {
+      CultureDetailApi({
+        setDetailData: detailData => {
+          setDetailDataList(prev => ({ ...prev, [seq]: detailData }));
+        }
+      }, seq);
+    });
+  }, [seqList]);
 
   // PublicRoute  = access 토큰이 있는 상태로 접근 불가 (예를 들면 로그인 페이지, 회원가입 페이지 등등)
   // PrivateRoute = access 토큰이 없는 경우 접근 불가 (예를 들면 회원가입 페이지, 마이페이지, 1:1 문의 등등)
@@ -111,6 +111,8 @@ export default function App() {
     }
   }, [decodedToken]);
 
+  console.log("앱JS 유저", loggedInUser);
+
   return (
     <>
       <GlobalStyles />
@@ -118,8 +120,8 @@ export default function App() {
         <ExpiredToken />
         <Routes>
           <Route element={<Layout user={loggedInUser} />}> {/* 레이아웃 오픈 */}
-            <Route path='/main' element={data ? <Main cultureList={JSON.stringify(data)} /> : <LoadingSpinner />} /> {/* 메인 */}
-            <Route index element={data ? <Main cultureList={JSON.stringify(data)} /> : <LoadingSpinner />} /> {/* 메인 */}
+            <Route path='/main' element={data ? <Main cultureList={JSON.stringify(data)} user={loggedInUser}/> : <LoadingSpinner />} /> {/* 메인 */}
+            <Route index element={data ? <Main cultureList={JSON.stringify(data)} user={loggedInUser}/> : <LoadingSpinner />} /> {/* 메인 */}
             <Route path='/login' element={ <LoginPage />}/> {/* 로그인 */}
             <Route path='/signup' element={<SignUpPage user={loggedInUser}/>} /> {/* 추가 정보 입력 */}
             <Route path="/cultureinfo" element={data ? <CultureInfo cultureList={JSON.stringify(data)} detailDataList={detailDataList}/> : <LoadingSpinner />}/> {/* 전시/공연 정보 */}
