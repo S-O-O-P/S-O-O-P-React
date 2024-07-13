@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';  // 중괄호 추가
 
 const ExpiredToken = () => {
     const navigate = useNavigate();
@@ -36,32 +37,38 @@ const ExpiredToken = () => {
         const checkTokenExpiration = async () => {
             const accessToken = getCookies('access');
             if (accessToken) {
-                const tokenPayload = JSON.parse(atob(accessToken.split('.')[1]));
-                const expiresAt = tokenPayload.exp * 1000;
-                const now = new Date().getTime();
-                console.log('토큰 만료 여부 확인 중...', { now, expiresAt });
-                if (now >= expiresAt) {
-                    console.log('액세스 토큰이 만료되었습니다. 갱신을 시도 중...');
-                    const newAccessToken = await refreshAccessToken();
-                    if (newAccessToken) {
-                        console.log('토큰 갱신 완료, 계속 진행 중...');
+                try {
+                    const tokenPayload = jwtDecode(accessToken);  // jwt-decode 사용
+                    const expiresAt = tokenPayload.exp * 1000;
+                    const now = new Date().getTime();
+                    console.log('토큰 만료 여부 확인 중...', { now, expiresAt });
+                    
+                    if (now >= expiresAt) {
+                        console.log('액세스 토큰이 만료되었습니다. 갱신을 시도 중...');
+                        const newAccessToken = await refreshAccessToken();
+                        if (newAccessToken) {
+                            console.log('토큰 갱신 완료, 계속 진행 중...');
+                        }
+                    } else {
+                        console.log('액세스 토큰이 아직 유효합니다.');
                     }
-                } else {
-                    console.log('액세스 토큰이 아직 유효합니다.');
+                } catch (error) {
+                    console.error('토큰 디코딩 중 오류 발생:', error);
+                    // 토큰이 유효하지 않은 경우 처리
+                    document.cookie = "access=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                    if (!['/main', '/login', '/help', '/faq', '/honeypot'].includes(location.pathname) && 
+                        !location.pathname.startsWith('/notice') &&
+                        !location.pathname.startsWith('/cultureinfo')) {
+                        navigate('/login');
+                    }
                 }
             } else {
                 console.log('저장된 액세스 토큰이 없습니다.');
-                if (![
-                    '/main',
-                    '/login',
-                    '/help',
-                    '/faq',
-                    '/honeypot'
-                ].includes(location.pathname) && 
-                !location.pathname.startsWith('/notice') &&
-                !location.pathname.startsWith('/cultureinfo')) {
-                navigate('/login');
-            }
+                if (!['/main', '/login', '/help', '/faq', '/honeypot'].includes(location.pathname) && 
+                    !location.pathname.startsWith('/notice') &&
+                    !location.pathname.startsWith('/cultureinfo')) {
+                    navigate('/login');
+                }
             }
         };
 
