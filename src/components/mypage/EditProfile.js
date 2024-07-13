@@ -119,7 +119,6 @@ function EditProfile({ loggedInUser, onProfileUpdate }) {
             setShowConfirmModal(true);
             if (onProfileUpdate) {
                 onProfileUpdate(response.data.results.updateProflie);
-                window.location.reload();
             }
         } catch (error) {
             console.error("프로필 업데이트 실패:", error.response ? error.response.data : error.message);
