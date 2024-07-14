@@ -1,5 +1,5 @@
-# Dockerfile.dev
-FROM node:14
+# Build stage
+FROM node:14 as build
 
 # Set working directory
 WORKDIR /app
@@ -16,5 +16,5 @@ COPY . .
 # Expose the port the app runs on
 EXPOSE 3000
 
-# Start the React application
+# Start the application
 CMD ["npm", "start"]
