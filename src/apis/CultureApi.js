@@ -212,7 +212,7 @@ export default function CultureApi({ setData }) {
  
  const serviceKey = '8/QFvrhFxUkbFccDXVjo2OKIiDWufUA8v2jGrIaDSWRqL499Gznzk7NYdHxvIoOvbJes6wYSeXMEgXHhyUxS9g=='; // 서비스 인증키
    const xhr = new XMLHttpRequest(); //XMLHttpRequest는 비동기로 작동
-   const url = '/api/openapi/rest/publicperformancedisplays/realm'; //기간별 공연/전시 정보 목록 조회 요청 url
+   const url = 'https://api.example.com/openapi/rest/publicperformancedisplays/realm'; //기간별 공연/전시 정보 목록 조회 요청 url
    const queryParams = new URLSearchParams({ // 조회시 요청 parameters
      serviceKey: serviceKey,
      keyword: '',
