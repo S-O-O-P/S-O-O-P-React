@@ -227,7 +227,7 @@ export default function Main(props) {
             <div className={mainStyles.honeypot_sec}>
               <div className={`${mainStyles.tit_view_more} ${mainStyles.flex_center}`}>
                 <p className={mainStyles.sec_tit}>허니팟</p>
-                <span className={`${mainStyles.view_more_btn} ${mainStyles.flex_center}`} onClick={() => navigate("/honey")}>더보기 <img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_white.png`} alt="arrow right direction icon"/></span>
+                <span className={`${mainStyles.view_more_btn} ${mainStyles.flex_center}`} onClick={() => navigate("/honeypot")}>더보기 <img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_right_white.png`} alt="arrow right direction icon"/></span>
               </div>
               <div className={`${mainStyles.honeypotCont} honeypot-list-container`}>
                 {honeypots.length > 10 ? [...Array(parseInt(10))].map((honeypot, index) => (
