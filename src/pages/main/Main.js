@@ -19,6 +19,7 @@ export default function Main(props) {
   const [loading, setLoading] = useState(true);
   const [userInterest, setUserInterest] = useState([]); // 로그인한 회원의 관심사 등록
   const [pickList, setPickList] = useState([]); // 로그인한 회원의 관심사 기준으로 필터링된 링크비 Pick 공연/전시 리스트
+  const [filteredEarlyBird, setFilteredEarlyBird] = useState([]);
   const navigate = useNavigate();
 
   console.log("메인페이지유저정보", props.user);
@@ -40,7 +41,7 @@ export default function Main(props) {
     () => {
       if(earlyBirdInfo){
          //얼리버드 공연/전시 리스트 전체 조회 api 호출
-          EarlyBirdInfoApi({setEarlyBirdInfo}, "all");   
+          EarlyBirdInfoApi({setEarlyBirdInfo}, "all");           
       }         
     },[]
   );
@@ -65,8 +66,26 @@ export default function Main(props) {
   useEffect(() => {
     console.log("userInterest.length : "+userInterest.length);
     console.log("userInterest.length : ",userInterest);
+    const filteredEb = earlyBirdInfo.map((item, index) => {
+      return {
+        seq: item.earlyBirdCode, // List내 객체 구분에 필요한 key
+        title: item.ebTitle, // 제목
+        realmName: item.interestCode === 1 ? "팝업" : item.interestCode === 2 ? "공연" : item.interestCode === 3 ? "축제" : item.interestCode === 4 ? "전시회" : "뮤지컬", // 장르
+        price: item.discountPrice, // 할인 가격  
+        regularPrice: item.regularPrice, // 일반 가격
+        place: item.place,
+        startDate: item.saleStartDate,
+        endDate: item.saleEndDate,
+        area: item.region,
+        thumbnail: item.poster,
+      }
+    });
+    const cultureList = JSON.parse(props.cultureList);
+    const addedCultureListObj = cultureList.perforList.concat(filteredEb);    
+    console.log("addedCultureListObj after concat from main : ",addedCultureListObj);
+
     if(userInterest.length > 0){ // 관심사가 등록되어있다면
-      const filteredByInterest = cultureList.perforList.filter(item => {
+      const filteredByInterest = addedCultureListObj.filter(item => {
         for (let i = 0; i < userInterest.length; i++) {
           switch (userInterest[i].interestCode) {
             case "전시회":
@@ -80,17 +99,18 @@ export default function Main(props) {
               }
               break;
             case "공연":
-              if (((item.realmName.match("음악") && (item.title.match("공연") || item.realmName.match("주회"))) || (item.realmName.match("국악") && item.title.match("공연")) || item.realmName.match("연극") || item.title.match("콘서트")) && !item.title.match("축제") && !item.title.match("페스티벌")) {
+              if (["음악", "무용", "연극", "국악"].includes(item.realmName) &&
+              !item.title.match(/페스티벌|축제/)) {
                 return true;
               }
               break;
-            case "행사":
+            case "축제":
               if (item.title.match("축제") || item.title.match("페스티벌")) {
                 return true;
               }
               break;
             case "뮤지컬":
-              if (item.title.match("뮤지컬")) {
+              if (item.realmName.match("뮤지컬") || item.title.match("뮤지컬")) {
                 return true;
               }
               break;
@@ -100,13 +120,21 @@ export default function Main(props) {
         }
         return false;
       })
-      console.log("filteredByInterest : ",filteredByInterest);
-      setPickList({...pickList , perforList : filteredByInterest});
+
+      
+      console.log("filteredByInterest from main: ",filteredByInterest);
+      console.log("filteredEb from main : ",filteredEb);
+      if(filteredByInterest.length === 0){        
+        setPickList(JSON.parse(props.cultureList));
+      }else{
+        const sortedFilteredByInterest = filteredByInterest.sort((a, b) => a.title.localeCompare(b.title, 'ko', { sensitivity: 'base' }))
+        setPickList({...pickList , perforList : sortedFilteredByInterest});
+      }      
       console.log("pickList after filtered : ", pickList);
     }else{
       setPickList(JSON.parse(props.cultureList));
     }
-  }, [userInterest, props.cultureList]);
+  }, [userInterest, props.cultureList, earlyBirdInfo]);
 
   // 스크롤시 Header 색상 변경 
   useEffect(
