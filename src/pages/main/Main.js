@@ -110,7 +110,7 @@ export default function Main(props) {
               }
               break;
             case "뮤지컬":
-              if (item.realmName.match("뮤지컬") || item.title.match("뮤지컬")) {
+              if (item.realmName.match("기타") || item.realmName.match("뮤지컬") || item.title.match("뮤지컬")) {
                 return true;
               }
               break;
@@ -129,6 +129,8 @@ export default function Main(props) {
       }else{
         const sortedFilteredByInterest = filteredByInterest.sort((a, b) => a.title.localeCompare(b.title, 'ko', { sensitivity: 'base' }))
         setPickList({...pickList , perforList : sortedFilteredByInterest});
+        console.log("pickList after filtered when interest existed : ", sortedFilteredByInterest);
+        console.log("pickList after filtered when interest existed : ", pickList.perforList);
       }      
       console.log("pickList after filtered : ", pickList);
     }else{
