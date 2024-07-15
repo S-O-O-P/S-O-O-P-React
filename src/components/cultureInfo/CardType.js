@@ -3,16 +3,6 @@ import styles from '../../pages/cultureInfo/CultureInfo.module.css';
 import LoadingSpinner from '../commons/Loading';
 
 export default function CardType({cultureList, detailDataList, earlyCheck}){
-  // console.log('Culture List:', cultureList);
-  // console.log('Detail Data List:', detailDataList);
-  // console.log('earlyCheck:', earlyCheck);
-
-  // 데이터가 로딩 중일 때 처리
-  // if (!cultureList || !cultureList.perforList || !detailDataList) {
-  //   return <LoadingSpinner />;
-  // }
-
-  // console.log("detailList from CardType.js : "+ JSON.stringify(detailDataList));
 
   const today = new Date();
   return(
@@ -49,7 +39,6 @@ export default function CardType({cultureList, detailDataList, earlyCheck}){
 
             // 얼리버드 공연/전시 가격 1000단위 ,
             const convertPriceFormat = (dPrice) => {
-              console.log("dPrice : ",dPrice);
               if (!dPrice && dPrice !== 0) { // dPrice가 유효하지 않은 경우를 처리
                 return "가격 정보 업데이트중"; // 기본 값 반환
               }
@@ -66,13 +55,7 @@ export default function CardType({cultureList, detailDataList, earlyCheck}){
 
             // detailData가 존재하고 price 속성이 있을 때 가격 표시
             const price = earlyCheck || item?.regularPrice ? convertPriceFormat(item?.discountPrice || item?.price) : detailData && detailData.price ? detailData.price : "가격 정보 없음";
-            // const detailData = detailDataList[item.seq]; // seq(공연/전시 코드)에 따른 상세 정보
-            // console.log("price from cardtype : " + JSON.stringify(detailData));
             const discountRate = earlyCheck || item?.regularPrice ? parseInt((item?.discountPrice || item?.price)/ item?.regularPrice * 100) : null;
-            // console.log("discount Rate : ", item);
-            // console.log("discount Rate : " + typeof item?.discountPrice);
-            // console.log("discount Rate : " + item?.regularPrice);
-            // console.log("discount Rate : " + (item.discountPrice / item.regularPrice * 100));
             
             return(
               <li key={index}>
@@ -92,8 +75,7 @@ export default function CardType({cultureList, detailDataList, earlyCheck}){
                 </Link>
               </li>
             );          
-          }) : <div>로딩 중입니다.</div>}
+          }) : <LoadingSpinner/>}
       </>
   );
 }
-{/* <LoadingSpinner/> */}
