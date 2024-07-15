@@ -26,9 +26,9 @@
 .ticket_shape_cont .left_shape {width: 26%; background-color: var(--main-color); font-size: 48px; font-weight: 800; text-align: center;border-radius: 20px;}
 .ticket_shape_cont .left_shape p { color: #ffffff; }
 /* .cutting_line {height: 100%; margin-left: -5px; background-color: var(--main-color); border-left: 10px dashed #ffffff;} */
-.cutting_line { margin-left: -10px; z-index: 10;}
-.cutting_line li {width: 10px; height: calc(100% / 8 - 16px); background-color: var(--main-color); border-radius:10px; margin-top: 10px;}
-.ticket_shape_cont .right_shape {position: relative; width: 74%; padding: 20px; margin-left:-4px; background-color: #fff; border: 1px solid var(--main-color); border-radius:20px; overflow: hidden;}
+.cutting_line { margin-left: -14px; z-index: 10;}
+.cutting_line li {width: 14px; height: calc(100% / 8 - 16px); background-color: var(--main-color); border-radius:10px; margin-top: 10px;}
+.ticket_shape_cont .right_shape {position: relative; width: 74%; padding: 20px; margin-left:-6px; background-color: #fff; border: 1px solid var(--main-color); border-radius:20px; overflow: hidden;}
 .right_shape .hot_list {}
 .right_shape .hot_list a {display: block; height: 320px; margin: 0 10px; border-radius:20px; border: 1px solid var(--main-color); opacity: 1;}
 .right_shape .hot_list img {width: 100%; height: 180px; object-fit: cover; object-position: top; border-radius: 19px 19px 0 0 ;}
@@ -205,8 +205,9 @@ li.right_filter .selected_filter {width: 128px;}
 .detail_null_box {height: 562px; text-align: center;}
 .detail_null_box p {padding-bottom: 20px; font-size: 20px; font-weight: var(--regular);}
 .honeypotListBox {display: flex; flex-direction: column; align-items: center;}
-.honeypotListCont {width: 100%; padding:0; padding-bottom: 60px;}
+.honeypotListBox .honeypotListCont {width: 100%; padding:0; padding-bottom: 60px; cursor:default;}
 .honeypotListCont a {width: calc((100% - 40px) / 2);}
+.honeypotListCont a hr {right: -2px;}
 .hosting_btn {display: inline-block; height: 48px; padding: 0 20px; font-size: 24px; font-weight: var(--semiBold); line-height: 48px; text-align: center; color: #ffffff; border-radius:48px; background-color: var(--main-color); transition: background-color 200ms ease-in-out; cursor: pointer;}
 .hosting_btn:hover {background-color: var(--point-color);}
 

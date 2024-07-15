@@ -96,10 +96,6 @@ export default function TableType({cultureList, detailDataList, earlyCheck}){
 
             // detailData가 존재하고 price 속성이 있을 때 가격 표시
             const price = earlyCheck || item?.regularPrice ? convertPriceFormat(item?.discountPrice || item?.price) : detailData && detailData.price ? detailData.price : "가격 정보 없음";
-
-            console.log("장르 카테고리 : "+ earlyCheck ? categoryString(earlyCheck?.interestCode) : category(item?.realmName));
-            console.log("장르 카테고리 : "+ categoryString(earlyCheck?.interestCode));
-            console.log("장르 카테고리 : "+ earlyCheck?.interestCode);
             
             return(            
                 <tr onClick={() => navigate(
