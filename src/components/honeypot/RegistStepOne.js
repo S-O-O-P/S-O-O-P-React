@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 
 function RegistStepOne({ allCultureList, updateFilteredCultureList, posterClick, uniqueAreas, user }) {
@@ -42,7 +43,7 @@ function RegistStepOne({ allCultureList, updateFilteredCultureList, posterClick,
         const filteredList = filterCultureList();
         setFilteredCultureList(filteredList);
         updateFilteredCultureList(filteredList);
-    }, [filterCultureList, updateFilteredCultureList]);
+    }, [selectedRealm, selectedArea, allCultureList]);
     
     useEffect(() => {
         setSelectedIndex(null);
@@ -53,7 +54,6 @@ function RegistStepOne({ allCultureList, updateFilteredCultureList, posterClick,
         const selectedGenre = filteredCultureList[index]?.realmName;
         const interestCode = genreMap[selectedGenre] || null;
         posterClick(index, interestCode);
-        console.log(allCultureList[index]);
     };
 
     return (
