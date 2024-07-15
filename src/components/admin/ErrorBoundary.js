@@ -95,7 +95,7 @@ class ErrorBoundary extends Component {
 
     // Check if `location.state` is null or invalid for specific routes
     if (location.pathname.startsWith('/cultureinfo/detail/')) {
-      if (!location.state || !location.state.earlyCheck) {
+      if (!location.state || location.state.earlyCheck === null) {
         return <Error404 />;
       }
     }
