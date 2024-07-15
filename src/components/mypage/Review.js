@@ -47,7 +47,7 @@ function MyComments({finishedHoneyPotList, particiMember, user, ratingCategory})
 
   const fetchEvaluationData = async () => {
     try {
-      const response = await axios.get(`http://localhost:8081/mypage/userratring`, {
+      const response = await axios.get(`http://localhost:8081/mypage/rating`, {
         params: {
           honeypotCode: selectedHoneypotCode,
           raterCode: user.userCode

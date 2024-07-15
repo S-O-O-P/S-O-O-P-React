@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function RegistStepTwo({ selectedIndex, filteredCultureList, onChange, user }) {
+function RegistStepTwo({ selectedIndex, filteredCultureList, onChange, user, onValidityChange }) {
     const [honeypotContent, setHoneypotContent] = useState('');
     const [honeypotTitle, setHoneypotTitle] = useState('');
     const [region, setRegion] = useState(filteredCultureList[selectedIndex]?.area || '');
@@ -38,6 +38,9 @@ function RegistStepTwo({ selectedIndex, filteredCultureList, onChange, user }) {
         if (selectedIndex === null) {
             return;
         }
+
+        const isValid = honeypotTitle && honeypotContent && eventDate;
+        onValidityChange(isValid);
 
         if (!honeypotTitle || !honeypotContent || !eventDate) {
             let missingFields = [];

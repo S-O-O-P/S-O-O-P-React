@@ -3,7 +3,7 @@ import './MyInquiryDetail.css';
 
 function MyInquiryDetail({ inquiry, onClose }) {
     return (
-        <div className="inquiry-detail-overlay" onClick={onClose}>
+        <div className="inquiry-detail-overlay">
                 <div className="inquiry-detail-header">
                     <p>1:1 문의 내역</p>
                 </div>

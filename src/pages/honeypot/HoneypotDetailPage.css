@@ -70,6 +70,7 @@
 .detail-manner-box img {
     width: 50px;
     height: 50px;
+    margin-right: 10px;
 }
 
 .detail-manner-text {
@@ -114,7 +115,7 @@
 .detail-introduction-container {
     margin-top: 52px;
     margin-bottom: 100px;
-    white-space: normal;
+    white-space: pre-wrap;
     word-wrap: break-word;
     word-break: break-all;
     overflow-wrap: break-word;
@@ -567,4 +568,24 @@
 
 .warning-modal-buttons3 {
     padding: 10px;
+}
+
+.warningmodal-content4 {
+    width: 360px;
+    height: 230px;
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    font-family: 'SUIT Semibold', sans-serif;
+    padding: 20px;
+}
+
+.warningmodal-content4 img {
+    width: 36px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.no-people {
+    margin-bottom: 30px;
 }
