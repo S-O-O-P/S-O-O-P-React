@@ -95,7 +95,7 @@ export default function HostDetailPage({ user, honeypotCode, detailHoneypot, all
       <div className='title-status-regdate'>
         <p className='detail-title'>{detailHoneypot.honeypotTitle}</p>
         <div className='detail-status'>{detailHoneypot.closureStatus}</div>
-        <p className='detail-regdate'>{detailHoneypot.regDate}</p>
+        <p className='detail-regdate'>작성일 : {detailHoneypot.regDate}</p>
       </div>
       <div className='detail-introduction-container'>
         <p>{detailHoneypot.honeypotContent}</p>
@@ -162,7 +162,7 @@ export default function HostDetailPage({ user, honeypotCode, detailHoneypot, all
               </div>
             ))
           ) : (
-            <p>대기 중인 신청자가 없습니다.</p>
+            <p className="no-people">대기 중인 신청자가 없습니다.</p>
           )}
         </>
       )}
@@ -170,6 +170,9 @@ export default function HostDetailPage({ user, honeypotCode, detailHoneypot, all
     </div>
   </div>
 )}
+
+
+
     </div>
   );
 }

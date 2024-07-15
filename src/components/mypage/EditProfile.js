@@ -143,7 +143,7 @@ function EditProfile({ loggedInUser, onProfileUpdate }) {
     return (
         <div className='profile-container'>
             <div className='profile-left'>
-                <p className='name'>이름</p>
+                <p className='name'>닉네임</p>
                 <input className='name-input' type='text' placeholder='닉네임을 입력하세요.' value={inputText} onChange={handleInputChange} maxLength={16}/>
                 <p className='intro'>자기소개</p>
                 <p className='limit'>{textAreaText.length}/{maxLength}</p>

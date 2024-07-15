@@ -45,6 +45,12 @@ function HoneypotPage({user}) {
                 (selectRegion === '전체' || honeypot.region === selectRegion) &&
                 honeypot.honeypotTitle.toLowerCase().includes(searchWord.toLowerCase())
             );
+        } else if (interestCode === '얼리버드') {
+            categoryFilteredData = honeypots.filter(honeypot =>
+                honeypot.seqNo < 100 &&
+                (selectRegion === '전체' || honeypot.region === selectRegion) &&
+                honeypot.honeypotTitle.toLowerCase().includes(searchWord.toLowerCase())
+            );
         } else {
             // 특정 카테고리를 선택한 경우 해당 카테고리로 필터링합니다.
             categoryFilteredData = honeypots.filter(honeypot =>
@@ -131,8 +137,10 @@ function HoneypotPage({user}) {
         행사축제: honeypots.filter(item => item.interestName === '행사/축제').length,
         전시회: honeypots.filter(item => item.interestName === '전시회').length,
         뮤지컬: honeypots.filter(item => item.interestName === '뮤지컬').length,
-        얼리버드: honeypots.filter(item => item.interestName === '얼리버드').length,
+        얼리버드: honeypots.filter(item => item.seqNo < 100).length,
     };
+
+    console.log('허니팟츠', honeypots);
 
     const uniqueRegions = [...new Set(honeypots.map(honeypot => honeypot.region))];
 

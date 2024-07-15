@@ -222,9 +222,9 @@ export default function CultureApi({ setData }) {
      CallBackURI: '',
      MsgBody: '',
      cPage: '1',
-     rows: '50', // 1페이지에 불러올 데이터 갯수
+     rows: '150', // 1페이지에 불러올 데이터 갯수
      from: '20240714', // 시작일
-     to: '20240715' // 종료일
+     to: '20240731' // 종료일
    });
 
    xhr.open('GET', `${url}?${queryParams.toString()}`, true); // get 요청

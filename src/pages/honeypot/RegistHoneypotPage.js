@@ -18,10 +18,13 @@ function RegistHoneypotPage({ cultureList, user }) {
     const [filteredCultureList, setFilteredCultureList] = useState([]);
     const [uniqueAreas, setUniqueAreas] = useState([]);
     const [uniqueRealmName, setUniqueRealmName] = useState([]);
+    const [isFormValid, setIsFormValid] = useState(false);
 
     const transformInternalData = (internalItem) => {
         const formatDate = (date) => {
-            if (typeof date === 'string') {
+            if (typeof date === 'number') {
+                return new Date(date).toISOString().split('T')[0].replace(/-/g, '');
+            } else if (typeof date === 'string') {
                 return date.split('T')[0].replace(/-/g, '');
             } else if (date instanceof Date) {
                 return date.toISOString().split('T')[0].replace(/-/g, '');
@@ -35,11 +38,11 @@ function RegistHoneypotPage({ cultureList, user }) {
             place: internalItem.place || 'Unknown Place',
             price: internalItem.regularPrice ? `${internalItem.regularPrice}원` : "상세페이지 확인",
             realmName: mapInterestCodeToRealmName(internalItem.interestCode),
-            seq: internalItem.earlyBirdCode || 'Unknown Code',
+            seq: internalItem.earlyBirdCode.toString() || 'Unknown Code',
             startDate: formatDate(internalItem.usageStartDate),
             thumbnail: internalItem.poster || "기본 이미지 URL",
             title: internalItem.ebTitle || 'Unknown Title',
-            url: internalItem.sellerLink || "#"
+            url: internalItem.sellerLink || "earlybird"
         };
     };
 
@@ -158,6 +161,10 @@ function RegistHoneypotPage({ cultureList, user }) {
         setShowWarningModal(false);
     };
 
+    const handleValidityChange = (isValid) => {
+        setIsFormValid(isValid);
+    };
+
     return (
         <div className='honeypot-regist-main-content'>
             <div className='honeypot-regist-container'>
@@ -187,6 +194,7 @@ function RegistHoneypotPage({ cultureList, user }) {
                         filteredCultureList={filteredCultureList}
                         onChange={setFormData}
                         user={user}
+                        onValidityChange={handleValidityChange}
                     />
                 )}
                 
@@ -199,7 +207,7 @@ function RegistHoneypotPage({ cultureList, user }) {
                 {registStep === 2 && (
                     <div className='regist-btn-container'>
                         <button className='regist-cancle-btn' onClick={previousBtnClick}>이전</button>
-                        <button className='regist-next-btn' onClick={registBtn}>생성</button>
+                        <button className='regist-next-btn' onClick={registBtn} disabled={!isFormValid}>생성</button>
                     </div>
                 )}
             </div>
