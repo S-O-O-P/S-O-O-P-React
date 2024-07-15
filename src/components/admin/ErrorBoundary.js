@@ -17,15 +17,20 @@ class ErrorBoundary extends Component {
   }
 
   componentDidMount() {
-    const { navigate } = this.props;
+    this.setupAxiosInterceptors();
+  }
 
-    // axios 인터셉터 설정
+  componentDidUpdate(prevProps) {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      this.resetError();
+    }
+  }
+
+  setupAxiosInterceptors = () => {
     axios.interceptors.response.use(
       response => {
-        // 응답이 성공했지만 데이터가 null이거나 results.honeypot 또는 cultureInfo가 null인 경우
         if (
-          (response.data.results && response.data.results.honeypot === null)
-
+          response.data.results && response.data.results.honeypot === null
         ) {
           if (!this.state.hasError) {
             this.setState({ hasError: true, errorStatus: 404 });
@@ -89,8 +94,10 @@ class ErrorBoundary extends Component {
     const { location } = this.props;
 
     // Check if `location.state` is null or invalid for specific routes
-    if (location.pathname.startsWith('/cultureinfo/detail/') && (!location.state || location.state.earlyCheck === null)) {
-      return <Error404 />;
+    if (location.pathname.startsWith('/cultureinfo/detail/')) {
+      if (!location.state || !location.state.earlyCheck) {
+        return <Error404 />;
+      }
     }
 
     return this.props.children;
