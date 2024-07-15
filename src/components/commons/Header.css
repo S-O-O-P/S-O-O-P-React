@@ -54,6 +54,7 @@
   border-radius: 50%;
   border: 2px solid var(--main-color);
   margin-left: 15px;
+  object-fit: cover;
 }
 
 .mypage-btn:hover {

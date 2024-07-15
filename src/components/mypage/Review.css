@@ -219,6 +219,7 @@
     height: 40px;
     border-radius: 50%;
     border: 2px solid var(--main-color);
+    object-fit: cover;
 }
 
 .one-profile p {
@@ -265,8 +266,6 @@
 
 .radio-box {
     display: inline-block;
-    *display: inline;
-    *zoom: 1;
     position: relative;
     padding-left: 25px;
     margin-right: 10px;

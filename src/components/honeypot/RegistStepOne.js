@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
+import HoneypotList from './HoneypotList';
 
 function RegistStepOne({ allCultureList, updateFilteredCultureList, posterClick, uniqueAreas, user }) {
     const [selectedRealm, setSelectedRealm] = useState('전체');
@@ -9,14 +10,15 @@ function RegistStepOne({ allCultureList, updateFilteredCultureList, posterClick,
 
     // console.log('레지스트 스텝원 Component props:', allCultureList);
 
-    const genres = ['전체', '전시', '공연', '뮤지컬', '팝업', '행사/축제'];
+    const genres = ['전체', '전시', '공연', '뮤지컬', '팝업', '행사/축제', '얼리버드'];
 
     const genreMap = {
         '팝업': 1,
         '공연': 2,
         '행사/축제': 3,
         '전시': 4,
-        '뮤지컬': 5
+        '뮤지컬': 5,
+        '얼리버드' : 6
     };
 
     const filterCultureList = useCallback(() => {
@@ -28,11 +30,13 @@ function RegistStepOne({ allCultureList, updateFilteredCultureList, posterClick,
             } else if (selectedRealm === '공연') {
                 return item.realmName === '음악' || item.realmName === '연극' || item.title.includes('음악') || item.title.includes('영화');
             } else if (selectedRealm === '뮤지컬') {
-                return item.title.includes('뮤지') || item.title.includes('뮤지컬');
+                return item.realmName === '뮤지컬' || item.title.includes('뮤지컬') || item.realmName === '기타';
             } else if (selectedRealm === '팝업') {
                 return item.realmName === '팝업';
             } else if (selectedRealm === '행사/축제') {
                 return item.title.includes('축제') || item.title.includes('페스티벌');
+            } else if (selectedRealm === '얼리버드'){
+                return item.url === 'earlybird';
             } else {
                 return item.realmName === selectedRealm;
             }
@@ -54,6 +58,7 @@ function RegistStepOne({ allCultureList, updateFilteredCultureList, posterClick,
         const selectedGenre = filteredCultureList[index]?.realmName;
         const interestCode = genreMap[selectedGenre] || null;
         posterClick(index, interestCode);
+        console.log('선택한 포스터', filteredCultureList[index]);
     };
 
     return (

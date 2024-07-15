@@ -67,7 +67,7 @@ export default function UserDetailPage({ detailHoneypot, filteredCultureList, ti
       <div className='title-status-regdate'>
         <p className='detail-title'>{detailHoneypot.honeypotTitle}</p>
         <div className='detail-status'>{detailHoneypot.closureStatus}</div>
-        <p className='detail-regdate'>{detailHoneypot.regDate}</p>
+        <p className='detail-regdate'>작성일 : {detailHoneypot.regDate}</p>
       </div>
       <div className='detail-introduction-container'>
         <p>{detailHoneypot.honeypotContent}</p>
@@ -104,8 +104,8 @@ export default function UserDetailPage({ detailHoneypot, filteredCultureList, ti
 
       {showParticipateModal && (
         <div className='modal-container'>
-          <div className='warningmodal-content'>
-            <img src={`${process.env.PUBLIC_URL}/images/commons/icon_alert.png`}/>
+          <div className='warningmodal-content4'>
+            <img src={`${process.env.PUBLIC_URL}/images/commons/icon_alert.png`} alt="경고아이콘"/>
             <p className="warning-message">참여 신청하시겠습니까?</p>
             <div className="warning-modal-buttons2">
               <button className="warning-modal-button no2" onClick={() => setShowParticipateModal(false)}>
@@ -121,8 +121,8 @@ export default function UserDetailPage({ detailHoneypot, filteredCultureList, ti
 
       {showResultModal && (
         <div className='modal-container'>
-          <div className='warningmodal-content'>
-            <img src={`${process.env.PUBLIC_URL}/images/commons/icon_confirm.png`}/>
+          <div className='warningmodal-content4'>
+            <img src={`${process.env.PUBLIC_URL}/images/commons/icon_confirm.png`} alt="경고아이콘"/>
             <p className="warning-message">{resultMessage}</p>
             <div className="warning-modal-buttons">
               <button className="warning-modal-button yes" onClick={() => setShowResultModal(false)}>

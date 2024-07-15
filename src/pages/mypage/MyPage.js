@@ -208,9 +208,9 @@ const MyPage = ({user}) => {
                     </div>
                     
                     <div className='manner-box' onClick={mannerStarClick}>
-                        <img src={`${process.env.PUBLIC_URL}/images/commons/icon_star.png`} alt="유저평점아이콘" />
+                        <img src={`${process.env.PUBLIC_URL}/images/honeypot/icon_honeypot.png`} alt="유저평점아이콘" />
                         <div className='manner-text'>
-                            <p>유저평점</p>
+                            <p>유저Brix</p>
                             <p>{myRating.averageScore > 0 ? `${myRating.averageScore} / 5` : '평가없음'}</p>
                         </div>
                     </div>
@@ -246,9 +246,9 @@ const MyPage = ({user}) => {
                             </div>
 
                             <div className='manner-modal-middle'>
-                                <p className='middle-title'>유저평점</p>
+                                <p className='middle-title'>유저Brix</p>
                                 <div className='star-point-container'>
-                                    <img src={`${process.env.PUBLIC_URL}/images/commons/icon_star.png`} alt="유저평점아이콘" />
+                                    <img src={`${process.env.PUBLIC_URL}/images/honeypot/icon_honeypot.png`} alt="유저평점아이콘" />
                                     <p>{myRating.averageScore > 0 ? `${myRating.averageScore.toFixed(1)} / 5` : '평가없음'}</p>
                                 </div>
                                 <div className='people-count-container'>
