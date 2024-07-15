@@ -65,5 +65,8 @@
 
 /* 허니팟 리스트 */
 .honeypot_sec_box {padding-bottom: 100px;}
-.honeypotCont {width: 100%; padding: 0;}
+.honeypot_sec_box .honeypotCont {width: 100%; padding: 0;}
 .honeypotCont a {width: calc((100% - 40px) / 2);}
+.honeypotCont a > div:first-of-type {width: calc(100% - 397px); padding: 10px 8px 10px 10px;}
+.honeypotCont a > div > img {width: 100%;}
+.honeypotCont a > div > hr {right: -1px;}
