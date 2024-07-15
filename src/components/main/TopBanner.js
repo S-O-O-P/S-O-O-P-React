@@ -38,7 +38,7 @@ export default function TopBanner({ pickList }) {
                 </Link>
               </div>
             ))
-            : pickList.perforList.length > 1
+            : pickList.perforList.length > 1 && pickList.perforList.length < 4
               ? [...Array(4)].map((_, index) => {
                 const item = pickList.perforList[index % pickList.perforList.length];
                 return (
