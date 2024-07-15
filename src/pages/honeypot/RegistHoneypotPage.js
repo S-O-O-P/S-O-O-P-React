@@ -20,16 +20,25 @@ function RegistHoneypotPage({ cultureList, user }) {
     const [uniqueRealmName, setUniqueRealmName] = useState([]);
 
     const transformInternalData = (internalItem) => {
+        const formatDate = (date) => {
+            if (typeof date === 'string') {
+                return date.split('T')[0].replace(/-/g, '');
+            } else if (date instanceof Date) {
+                return date.toISOString().split('T')[0].replace(/-/g, '');
+            }
+            return 'Unknown Date';
+        };
+    
         return {
-            area: internalItem.region,
-            endDate: internalItem.usageEndDate.split('T')[0].replace(/-/g, ''),
-            place: internalItem.place,
+            area: internalItem.region || 'Unknown Area',
+            endDate: formatDate(internalItem.usageEndDate),
+            place: internalItem.place || 'Unknown Place',
             price: internalItem.regularPrice ? `${internalItem.regularPrice}원` : "상세페이지 확인",
             realmName: mapInterestCodeToRealmName(internalItem.interestCode),
-            seq: internalItem.earlyBirdCode, // 적절한 고유 식별자 필요
-            startDate: internalItem.usageStartDate.split('T')[0].replace(/-/g, ''),
+            seq: internalItem.earlyBirdCode || 'Unknown Code',
+            startDate: formatDate(internalItem.usageStartDate),
             thumbnail: internalItem.poster || "기본 이미지 URL",
-            title: internalItem.ebTitle,
+            title: internalItem.ebTitle || 'Unknown Title',
             url: internalItem.sellerLink || "#"
         };
     };
@@ -48,7 +57,7 @@ function RegistHoneypotPage({ cultureList, user }) {
     useEffect(() => {
         const fetchInternalCultureList = async () => {
             try {
-                const response = await axios.get('http://localhost:8081/cultureInfo/early');
+                const response = await axios.get('http://localhost:8081/cultureinfo/early');
                 const internalCultureList = response.data.earlyBirdList;
                 // console.log('인터날', internalCultureList);
                 
