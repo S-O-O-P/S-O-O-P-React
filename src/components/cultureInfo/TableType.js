@@ -96,12 +96,17 @@ export default function TableType({cultureList, detailDataList, earlyCheck}){
 
             // detailData가 존재하고 price 속성이 있을 때 가격 표시
             const price = earlyCheck || item?.regularPrice ? convertPriceFormat(item?.discountPrice || item?.price) : detailData && detailData.price ? detailData.price : "가격 정보 없음";
+
+            console.log("장르 카테고리 : "+ earlyCheck ? categoryString(earlyCheck?.interestCode) : category(item?.realmName));
+            console.log("장르 카테고리 : "+ categoryString(earlyCheck?.interestCode));
+            console.log("장르 카테고리 : "+ earlyCheck?.interestCode);
             
             return(            
-                <tr onClick={() => navigate( earlyCheck ? `/cultureinfo/detail/${item?.earlyBirdCode}` : `/cultureinfo/detail/${item?.seq}`)} key={index}  state={{ earlyCheck: true }}>
-                  <td>{earlyCheck ? categoryString(earlyCheck?.interestCode) : category(item?.realmName)}</td>
+                <tr onClick={() => navigate(
+                  earlyCheck ? `/cultureinfo/detail/${item?.earlyBirdCode}` : `/cultureinfo/detail/${item?.seq}`,{ state: { earlyCheck: earlyCheck || item?.regularPrice ? true : false }})} key={index}>
+                  <td>{earlyCheck ? categoryString(item?.interestCode) : category(item?.realmName)}</td>
                   <td>{title}</td>
-                  <td>{price}</td>
+                  <td>{price}{earlyCheck || item?.regularPrice ? `원` : null}</td>
                   <td>{earlyCheck || item?.regularPrice ? <p className={styles.culture_date}>{formatDate(item?.saleStartDate || item?.startDate)} ~ {formatDate(item?.saleEndDate || item?.endDate)}</p> : <p className={styles.culture_date}>{convertDateFormat(item?.startDate)} ~ {convertDateFormat(item?.endDate)}</p>}</td>
                 </tr>
               

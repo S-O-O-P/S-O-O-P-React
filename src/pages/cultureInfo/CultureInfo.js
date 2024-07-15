@@ -82,7 +82,7 @@ export default function CultureInfo(props) {
 
         const addedCultureListObj = cultureListObj.perforList.concat(filteredEb);
         console.log("filteredEarlyBird : ",filteredEarlyBird);
-        console.log("concat : ",addedCultureListObj);
+        console.log("concat from CultureInfo page : ",addedCultureListObj);
 
         const totalCount = addedCultureListObj.length; // totalCount 값 가져오기
         console.log("totalCount from public api: ", totalCount);    
@@ -97,7 +97,8 @@ export default function CultureInfo(props) {
             realmCounts["전시"]++;
           } else if(titName.match("뮤지컬") || realmName.match("기타") || realmName.match("뮤지컬")){
             realmCounts["뮤지컬"]++;
-          } else if(realmName.match("음악") || titName.match("콘서트") || realmName === "연극"|| titName.match("영화") || realmName.match("공연") || titName.match("주회") || titName.match("공연")){
+          } else if(["음악", "무용", "연극", "국악"].includes(item.realmName) && !item.title.match(/페스티벌|축제/)){
+            //realmName.match("음악") || titName.match("콘서트") || realmName === "연극"|| titName.match("영화") || realmName.match("공연") || titName.match("주회") || titName.match("공연")
             realmCounts["공연"]++;
           } else if(titName.match("행사") || titName.match("축제") || titName.match("페스티벌") || realmName.match("축제") || titName.includes("페스티벌") || titName.includes("축제")){
             realmCounts["축제"]++;
@@ -115,7 +116,7 @@ export default function CultureInfo(props) {
         
         // setCultureList(JSON.parse(props.cultureList)); // JSON형태로 cultureList 저장 
         setCultureList({...cultureListObj , perforList : addedCultureListObj}); // JSON형태로 cultureList 저장 
-        setFilteredList({...cultureListObj , perforList : addedCultureListObj.sort((a,b) => {return Number(a.endDate) - Number(b.endDate)})})
+        setFilteredList({...cultureListObj , perforList : addedCultureListObj.sort((a,b) => {return Number(a.endDate) - Number(b.endDate)})}) // 필터링 초기화 적용된 리스트
         setHotList(JSON.parse(props.cultureList));          
         
         //공연/전시 대분류 카테고리 버튼
@@ -142,13 +143,15 @@ export default function CultureInfo(props) {
             // 해당 카테고리에 맞는 cultureList 필터링
             let filteredList = [];
             if (genre === "all") { // 전체
-              filteredList = cultureListObj.perforList.sort((a, b) => Number(a.endDate) - Number(b.endDate)); // 전체보기일 경우 전체 리스트 반환
+              filteredList = addedCultureListObj.sort((a, b) => Number(a.endDate) - Number(b.endDate)); // 전체보기일 경우 전체 리스트 반환
               setIsEarly(false);
             } else if(genre === "미술"){ // 전시
               filteredList = addedCultureListObj.filter(item => item.realmName === genre || item.title.match("전시") || item.realmName.match("전시")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
               setIsEarly(false);
             } else if(genre === "음악"){ // 공연
-              filteredList = addedCultureListObj.filter(item => item.realmName === genre || item.realmName === "연극" || item.title.match("음악") || item.title.match("영화") || item.realmName.match("공연") || item.title.match("콘서트") || item.title.match("연주") || item.title.match("주회")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
+              filteredList = addedCultureListObj.filter(item => ["음악", "무용", "연극", "국악"].includes(item.realmName) && !item.title.match(/페스티벌|축제/));
+              //item => item.realmName === genre || item.realmName === "연극" || item.title.match("음악") || item.title.match("영화") || item.realmName.match("공연") || item.title.match("콘서트") || item.title.match("연주") || item.title.match("주회")).sort((a, b) => Number(a.endDate) - Number(b.endDate)
+              //["음악", "무용", "연극", "국악"].includes(item.realmName) && !item.title.match(/페스티벌|축제/)
               setIsEarly(false);
             } else if(genre === "뮤지컬"){ // 뮤지컬
               filteredList = addedCultureListObj.filter(item => item.title.match("뮤지컬") || item.realmName.match("기타") || item.realmName.match("뮤지컬")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
@@ -165,7 +168,7 @@ export default function CultureInfo(props) {
             }
 
             // 필터링된 결과를 cultureList 상태에 업데이트
-            setCultureList({ ...cultureListObj, perforList: filteredList });
+            setCultureList({ ...cultureListObj, perforList: filteredList }); // 장르 카테고리 선택된 상태의 리스트로 culturelist 업데이트
             setFilteredList({ ...cultureListObj, perforList: filteredList });
             setCurrentPage(1); // 페이지를 1로 초기화
           });
@@ -188,10 +191,6 @@ export default function CultureInfo(props) {
     },[earlyCount, publicCount]
   );
   
-  // useEffect(() => {
-  //   console.log("cultureList : ", cultureList);
-  // }, [cultureList]);
-  
   
   useEffect(
     () => {
@@ -213,50 +212,54 @@ export default function CultureInfo(props) {
       // const cultureListObj = JSON.parse(props.cultureList);
       console.log("현재 클릭한 필터 : " + e.currentTarget.innerText);
       console.log("현재 선택한 카테고리 : " + category);
-
-      let filteredListCategory = [];
       let filteredListAfterSubFiltered = [];
 
-      if (category === "all") { // 전체
-        filteredListCategory = cultureListObj.perforList.sort((a, b) => Number(a.endDate) - Number(b.endDate)); // 전체보기일 경우 전체 리스트 반환
-      } else if(category === "미술"){ // 전시
-        filteredListCategory = cultureListObj.perforList.filter(item => item.realmName === category || item.title.match("전시") || item.realmName.match("전시")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
-      } else if(category === "음악"){ // 공연
-        filteredListCategory = cultureListObj.perforList.filter(item => item.realmName === category || item.realmName === "연극" || item.title.match("음악") || item.title.match("영화") || item.realmName.match("공연")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
-      } else if(category === "뮤지컬"){ // 뮤지컬
-        filteredListCategory = cultureListObj.perforList.filter(item => item.title.match("뮤지") || item.title.match("뮤지컬") || item.realmName.match("기타") || item.realmName.match("뮤지컬")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
-      } else if(category === "축제"){ // 행사 / 축제
-        filteredListCategory = cultureListObj.perforList.filter(item => item.title.match("축제") || item.title.match("페스티벌") || item.realmName.match("축제")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
-      } else if(category === "얼리버드"){ // 얼리버드
-        filteredListCategory = cultureListObj.sort((a,b) => {return Number(a.saleEndDate) - Number(b.saleEndDate)});
-      }
-
       if (e.currentTarget.innerText === "마감임박순") {
-        filteredListAfterSubFiltered = areaFilter === "전체 지역" ? filteredListCategory.sort((a, b) => Number(a.endDate) - Number(b.endDate)) : filteredListCategory.filter(item => item.area.match(areaFilter)).sort((a, b) => Number(a.endDate) - Number(b.endDate));
+        console.log("filteredList from 마감임박순 : ", filteredList.perforList);
+        filteredListAfterSubFiltered = areaFilter === "전체 지역" ? filteredList.perforList.sort((a, b) => Number(a.endDate) - Number(b.endDate)) : filteredList.perforList.filter(item => item.area.match(areaFilter)).sort((a, b) => Number(a.endDate) - Number(b.endDate));
         setSubFilter(e.currentTarget.innerText);
       } else if (e.currentTarget.innerText === "최신등록순") {
-        filteredListAfterSubFiltered = areaFilter === "전체 지역" ? filteredListCategory.sort((a, b) => Number(b.startDate) - Number(a.startDate)) : filteredListCategory.filter(item => item.area.match(areaFilter)).sort((a, b) => Number(b.startDate) - Number(a.startDate));
+        console.log("filteredList from 최신등록순: ", filteredList.perforList);
+        filteredListAfterSubFiltered = areaFilter === "전체 지역" ? filteredList.perforList.sort((a, b) => Number(b.startDate || b.saleStartDate) - Number(a.startDate || a.saleStartDate)) : filteredList.perforList.filter(item => (item.area || item.region) && typeof (item.area || item.region) === 'string' && (item.area || item.region).includes(e.currentTarget.innerText));
+        // filteredListAfterSubFiltered = areaFilter === "전체 지역" ? filteredList.perforList.sort((a, b) => Number(b.startDate) - Number(a.startDate)) : filteredList.perforList.filter(item => item.area.match(areaFilter)).sort((a, b) => Number(b.startDate) - Number(a.startDate));
         setSubFilter(e.currentTarget.innerText);
-      } else if (e.currentTarget.innerText === "가격순") {
-        filteredListAfterSubFiltered = filteredListCategory.sort((a, b) => Number(b.startDate) - Number(a.startDate));
-        setSubFilter(e.currentTarget.innerText);
-      } else if (e.currentTarget.innerText === "허니팟 많은순") {
-        setSubFilter(e.currentTarget.innerText);
-      } else if (e.currentTarget.innerText === "인기순") {
-        setSubFilter(e.currentTarget.innerText);
-      }else if (e.currentTarget.innerText === "전체 지역") {
+      }
+
+      setFilteredList({ ...cultureListObj, perforList: filteredListAfterSubFiltered });
+      // setCultureList({ ...cultureListObj, perforList: filteredListAfterSubFiltered });
+      setCurrentPage(1);
+    };
+
+    const subFilterRegionItemHandler = (e) => {
+      e.currentTarget.closest("ul").classList.remove(`.${styles.active}`);
+      const cultureListObj = cultureList;
+      // const cultureListObj = JSON.parse(props.cultureList);
+      console.log("현재 클릭한 지역 필터 : " + e.currentTarget.innerText);
+      console.log("현재 선택한 장르 카테고리 : " + category);
+      let filteredListAfterSubFiltered = [];
+
+      if (e.currentTarget.innerText === "전체 지역") {
         setAreaFilter("전체 지역");
-        filteredListAfterSubFiltered = filteredListCategory;
+        console.log("전체 지역 클릭시 filteredList : ", filteredList.perforList);
+        console.log("전체 지역 클릭시 cultureList : ", cultureList.perforList);
+        filteredListAfterSubFiltered = cultureList.perforList;
       } else {
         console.log("areaFilter : " + areaFilter);
         setAreaFilter(e.currentTarget.innerText);
         console.log("after areaFilter : " + areaFilter);
-        const areaFiltered = filteredListCategory.filter(item => item.area.match(e.currentTarget.innerText));
+        // console.log("filteredList in other area selected :",  filteredList);
+        console.log("타 지역 클릭시 filteredList : ", filteredList.perforList);
+        console.log("타 지역 클릭시 cultureList : ", cultureList.perforList);        
+        // const areaFiltered = filteredListCategory.filter(item => item.area.match(e.currentTarget.innerText));
+        const areaFiltered =  cultureList.perforList.filter(item => (item.area || item.region) && typeof (item.area || item.region) === 'string' && (item.area || item.region).includes(e.currentTarget.innerText));
+        console.log('areaFiltered after selected : ', areaFiltered);
         filteredListAfterSubFiltered = subFilter === "마감임박순" ? areaFiltered.sort((a, b) => Number(a.endDate) - Number(b.endDate)) : areaFiltered.sort((a, b) => Number(b.startDate) - Number(a.startDate));
+        console.log('filteredListAfterSubFiltered after sorted : ', filteredListAfterSubFiltered);
       }
 
       setFilteredList({ ...cultureListObj, perforList: filteredListAfterSubFiltered });
-      setCultureList({ ...cultureListObj, perforList: filteredListAfterSubFiltered });
+      // setFilteredList({ ...cultureListObj, perforList: filteredList.perforList });
+      // setCultureList({ ...cultureListObj, perforList: filteredListAfterSubFiltered });
       setCurrentPage(1);
     };
 
@@ -292,15 +295,32 @@ export default function CultureInfo(props) {
     console.log("검색할 때 참조하는 filtered리스트 : ",filteredList?.perforList);
     console.log("검색할 때 참조하는 culture리스트 : ",cultureList?.perforList);
     // console.log("현재 filteredList : ", filteredList?.perforList);
-    console.log("검색한 결과 : ", cultureList?.perforList.filter(item => (item.title.toLowerCase()).includes(searchValue.toLowerCase())))
-    const searchedListNow = cultureList?.perforList.filter(item => (item.title.toLowerCase()).match(searchValue.toLowerCase()));
+    console.log("검색한 결과 : ", filteredList?.perforList.filter(item => {
+      const title = item.title || '';
+      const ebTitle = item.ebTitle || '';
+      return title.toLowerCase().includes(searchValue.toLowerCase()) || 
+             ebTitle.toLowerCase().includes(searchValue.toLowerCase());
+    }))
+    // const searchedListNow = filteredList?.perforList.filter(item => (item.title.toLowerCase() || item.ebTitle).match(searchValue.toLowerCase()));
+    const searchedListNow = filteredList?.perforList.filter(item => {
+      const title = item.title || '';
+      const ebTitle = item.ebTitle || '';
+      return title.toLowerCase().includes(searchValue.toLowerCase()) || 
+             ebTitle.toLowerCase().includes(searchValue.toLowerCase());
+    });
     // setSearchedList(searchedListNow);
-    setFilteredList({...cultureList, perforList : searchedListNow});
-    if(searchedListNow.length === 0){ // 검색어가 없는 경우
-      setNullText(`[${searchValue}] 검색 결과가 존재하지 않습니다.`);
-    }else{
-      setNullText("현재 해당 정보가 존재하지 않습니다.");
-    }
+    if(searchValue === '' || null){ // 검색어를 입력하지 않은 경우
+      setFilteredList({...cultureList, perforList : cultureList.perforList}); // 카테고리 선택한 리스트로 초기화
+      setSubFilter("마감임박순");
+      setAreaFilter("전체 지역");
+    }else{ // 검색어를 입력한 경우
+      setFilteredList({...cultureList, perforList : searchedListNow});
+      if(searchedListNow.length === 0){ // 검색어가 없는 경우      
+        setNullText(`[${searchValue}] 검색 결과가 존재하지 않습니다.`);
+      }else{
+        setNullText(`현재 해당 정보가 존재하지 않습니다.`);
+      }
+    }    
     
     setSearchValue('') // 검색 후 검색 결과 초기화 
   }
@@ -500,31 +520,31 @@ export default function CultureInfo(props) {
                     <li data-filter="deadline" onClick={(e) => subFilterItemHandler(e)}>마감임박순</li>
                     <li data-filter="lately" onClick={(e) => subFilterItemHandler(e)}>최신등록순</li>
                     {/* <li data-filter="low">가격낮은순</li> */}
-                    <li data-filter="honeyPot" onClick={(e) => subFilterItemHandler(e)}>허니팟 많은순</li>
+                    {/* <li data-filter="honeyPot" onClick={(e) => subFilterItemHandler(e)}>허니팟 많은순</li> */}
                     {/* <li data-filter="hot">인기순</li> */}
                   </ul>
                 </li>
                 <li className={`${styles.right_filter} ${styles.region_filter}`} onClick={(e) => subFilterHandler(e)}>
                   <span className={`${styles.selected_filter} ${styles.right} ${styles.flex_between}`}><span className={`${styles.selected_option} ${styles.right_detail_selected}`}>{areaFilter}</span><img src={`${process.env.PUBLIC_URL}/images/commons/icon_arrow_bottom_main_color.png`} alt="arrow direction bottom icon" className={styles.filter_arrow_icon} /></span>
                   <ul>
-                    <li onClick={(e) => subFilterItemHandler(e)}>전체 지역</li>
-                    <li onClick={(e) => subFilterItemHandler(e)}>서울</li>
-                    <li onClick={(e) => subFilterItemHandler(e)}>인천</li>
-                    <li onClick={(e) => subFilterItemHandler(e)}>부산</li>
-                    <li onClick={(e) => subFilterItemHandler(e)}>경기</li>
-                    <li onClick={(e) => subFilterItemHandler(e)}>충북</li>
-                    <li onClick={(e) => subFilterItemHandler(e)}>충남</li>
-                    <li onClick={(e) => subFilterItemHandler(e)}>경남</li>
-                    <li onClick={(e) => subFilterItemHandler(e)}>경북</li>
-                    <li onClick={(e) => subFilterItemHandler(e)}>대구</li>
-                    <li onClick={(e) => subFilterItemHandler(e)}>대전</li>
-                    <li onClick={(e) => subFilterItemHandler(e)}>광주</li>
-                    <li onClick={(e) => subFilterItemHandler(e)}>세종</li>
-                    <li onClick={(e) => subFilterItemHandler(e)}>울산</li>
-                    <li onClick={(e) => subFilterItemHandler(e)}>강원</li>
-                    <li onClick={(e) => subFilterItemHandler(e)}>전남</li>
-                    <li onClick={(e) => subFilterItemHandler(e)}>전북</li>
-                    <li onClick={(e) => subFilterItemHandler(e)}>제주</li>
+                    <li onClick={(e) => subFilterRegionItemHandler(e)}>전체 지역</li>
+                    <li onClick={(e) => subFilterRegionItemHandler(e)}>서울</li>
+                    <li onClick={(e) => subFilterRegionItemHandler(e)}>인천</li>
+                    <li onClick={(e) => subFilterRegionItemHandler(e)}>부산</li>
+                    <li onClick={(e) => subFilterRegionItemHandler(e)}>경기</li>
+                    <li onClick={(e) => subFilterRegionItemHandler(e)}>충북</li>
+                    <li onClick={(e) => subFilterRegionItemHandler(e)}>충남</li>
+                    <li onClick={(e) => subFilterRegionItemHandler(e)}>경남</li>
+                    <li onClick={(e) => subFilterRegionItemHandler(e)}>경북</li>
+                    <li onClick={(e) => subFilterRegionItemHandler(e)}>대구</li>
+                    <li onClick={(e) => subFilterRegionItemHandler(e)}>대전</li>
+                    <li onClick={(e) => subFilterRegionItemHandler(e)}>광주</li>
+                    <li onClick={(e) => subFilterRegionItemHandler(e)}>세종</li>
+                    <li onClick={(e) => subFilterRegionItemHandler(e)}>울산</li>
+                    <li onClick={(e) => subFilterRegionItemHandler(e)}>강원</li>
+                    <li onClick={(e) => subFilterRegionItemHandler(e)}>전남</li>
+                    <li onClick={(e) => subFilterRegionItemHandler(e)}>전북</li>
+                    <li onClick={(e) => subFilterRegionItemHandler(e)}>제주</li>
                   </ul>
                 </li>
               </ul>
@@ -554,7 +574,7 @@ export default function CultureInfo(props) {
               <img src={`${process.env.PUBLIC_URL}/images/commons/logo.png`} alt="logo" />
               {/* <p>현재 해당 정보가 존재하지 않습니다.</p> */}
               <p>{nullText}</p>
-              <p>빠른 정보 업데이트로 찾아뵙겠습니다.</p>
+              <p>검색어를 다시 입력해주세요.</p>
             </div>
             :
               /* 카드 형식 */
