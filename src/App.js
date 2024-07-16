@@ -107,7 +107,7 @@ export default function App() {
     }
   }, [decodedToken]);
 
-  console.log("앱JS 유저", loggedInUser);
+  // console.log("앱JS 유저", loggedInUser);
 
   return (
     <>

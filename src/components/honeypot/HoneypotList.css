@@ -184,3 +184,23 @@
     opacity: 0.3;
     cursor: default;
 }
+
+.honeypot-null-box {
+    width: 100%;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.honeypot-null-box img {
+    margin-bottom: 20px;
+    width: 200px;
+    height: 200px;
+}
+
+.honeypot-null-txt {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
