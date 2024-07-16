@@ -22,7 +22,7 @@ export default function Main(props) {
   const [filteredEarlyBird, setFilteredEarlyBird] = useState([]);
   const navigate = useNavigate();
 
-  console.log("메인페이지유저정보", props.user);
+  // console.log("메인페이지유저정보", props.user);
 
 
   //app.js에서 전달받은 api정보 state 저장

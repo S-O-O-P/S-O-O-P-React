@@ -13,9 +13,11 @@ function MyComments({finishedHoneyPotList, particiMember, user, ratingCategory})
   const [selectedHoneypot, setSelectedHoneypot] = useState(null);
   const [participants, setParticipants] = useState([]);
   const [evaluatedMembers, setEvaluatedMembers] = useState([]);
-  const [evaluationData, setEvaluationData] = useState([]);
+  const [evaluationData, setEvaluationData] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [filteredFinishedHoneyPotList, setFilteredFinishedHoneyPotList] = useState([]);
+  const [selectedPointIndex, setSelectedPointIndex] = useState(null);
+  const [selectedRadio, setSelectedRadio] = useState(null);
 
   const isWithinSevenDays = (eventDate) => {
     const today = new Date();
@@ -24,6 +26,8 @@ function MyComments({finishedHoneyPotList, particiMember, user, ratingCategory})
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays <= 7;
   };
+
+  // console.log('참여멤버', particiMember);
 
   useEffect(() => {
     const filteredList = finishedHoneyPotList.filter(honeypot => 
@@ -47,7 +51,7 @@ function MyComments({finishedHoneyPotList, particiMember, user, ratingCategory})
 
   const fetchEvaluationData = async () => {
     try {
-      const response = await axios.get(`http://localhost:8081/mypage/rating`, {
+      const response = await axios.get(`http://localhost:8081/mypage/userrating`, {
         params: {
           honeypotCode: selectedHoneypotCode,
           raterCode: user.userCode
@@ -56,11 +60,10 @@ function MyComments({finishedHoneyPotList, particiMember, user, ratingCategory})
       
       const newEvaluationData = {};
       response.data.forEach(evaluation => {
-        if (evaluation.raterCode === user.userCode) {
-          newEvaluationData[evaluation.rateeCode] = evaluation.ratingCode;
-        }
+        newEvaluationData[evaluation.rateeCode] = evaluation.ratingCode;
       });
-      
+      // console.log('받아온 평가 데이터:', response.data);
+      // console.log('가공된 평가 데이터:', newEvaluationData);
       setEvaluationData(newEvaluationData);
     } catch (error) {
       console.error('평가 데이터를 가져오는 중 오류 발생:', error);
@@ -99,24 +102,30 @@ function MyComments({finishedHoneyPotList, particiMember, user, ratingCategory})
 
   const submitEvaluation = () => {
     if (isSubmitting) return;
+
+    const rateeCode = participants[selectedProfileIndex].userCode;
+    if (evaluationData[rateeCode]) {
+      alert("이미 평가한 멤버입니다.");
+      return;
+    }
   
     setIsSubmitting(true);
     
     const requestData = {
       honeypotCode: selectedHoneypotCode,
       raterCode: user.userCode,
-      rateeCode: selectedProfileIndex !== null ? participants[selectedProfileIndex].userCode : null,
+      rateeCode: rateeCode,
       ratingCode: selectedRadio
     };
-  
+
     axios.post('http://localhost:8081/mypage/userrating', requestData)
       .then(response => {
         setShowConfirmModal(true);
         
-        setEvaluationData(prevData => {
-          const newData = {...prevData, [requestData.rateeCode]: requestData.ratingCode};
-          return newData;
-        });
+        setEvaluationData(prevData => ({
+          ...prevData,
+          [requestData.rateeCode]: requestData.ratingCode
+        }));
         
         setSelectedProfileIndex(null);
         setSelectedPointIndex(null);
@@ -124,7 +133,11 @@ function MyComments({finishedHoneyPotList, particiMember, user, ratingCategory})
       })
       .catch(error => {
         console.error('평가 등록 중 오류 발생:', error);
-        alert("이미 평가한 멤버입니다.");
+        if (error.response && error.response.status === 400) {
+          alert("이미 평가한 멤버입니다.");
+        } else {
+          alert("평가 등록 중 오류가 발생했습니다.");
+        }
       })
       .finally(() => {
         setIsSubmitting(false);
@@ -140,18 +153,20 @@ function MyComments({finishedHoneyPotList, particiMember, user, ratingCategory})
   }
 
   const profileClick = (index) => {
-    setSelectedProfileIndex(index);
-    setSelectedPointIndex(null);
-    setSelectedRadio(null);
+    const profile = participants[index];
+    if (!evaluationData[profile.userCode]) {
+      setSelectedProfileIndex(index);
+      setSelectedPointIndex(null);
+      setSelectedRadio(null);
+    } else {
+      alert("이미 평가한 멤버입니다.");
+    }
   };
 
   const pointClick = (index) => {
     setSelectedPointIndex(index);
     setSelectedRadio(null);
   };
-
-  const [selectedPointIndex, setSelectedPointIndex] = useState(null);
-  const [selectedRadio, setSelectedRadio] = useState(null);
 
   const pointChoices = [
     { imgSrc: "/images/mypage/angryface.png", text: "못 만났어요" },
@@ -256,12 +271,12 @@ function MyComments({finishedHoneyPotList, particiMember, user, ratingCategory})
           </div>
           <div className="choice-profile">
           {participants.map((profile, index) => {
-            const isEvaluated = evaluationData.hasOwnProperty(profile.userCode);
+            const isEvaluated = evaluationData[profile.userCode] !== undefined;
             
             return (
               <div
                 className={`one-profile ${isEvaluated ? 'evaluated' : ''}`}
-                onClick={() => !isEvaluated && profileClick(index)}
+                onClick={() => profileClick(index)}
                 key={index}
                 style={{
                   opacity: isEvaluated ? 0.3 : 1,
@@ -312,8 +327,8 @@ function MyComments({finishedHoneyPotList, particiMember, user, ratingCategory})
             {choiceText()}
           </div>
 
-          {selectedRadio && (
-            <input className="send-review-btn" type="submit" value='제출' onClick={reviewSubmit} disabled={isSubmitting}/>
+          {selectedRadio && selectedProfileIndex !== null && !evaluationData[participants[selectedProfileIndex].userCode] && (
+            <input  className="send-review-btn"  type="submit"  value='제출'  onClick={reviewSubmit}  disabled={isSubmitting} />
           )}
           </div>
         )}
@@ -324,7 +339,7 @@ function MyComments({finishedHoneyPotList, particiMember, user, ratingCategory})
       {showReCheckModal && (
         <div className="modal-container">
           <div className="modal-content">
-          <img src={`${process.env.PUBLIC_URL}/images/commons/icon_alert.png`}/>
+          <img src={`${process.env.PUBLIC_URL}/images/commons/icon_alert.png`} alt="경고아이콘"/>
             <p className="modal-semibold">평가를 제출하시겠습어요?</p>
             <p className="modal-regular">제출하면 더이상 내용을 수정할 수 없어요!!</p>
             <div className="modal-buttons">
@@ -341,7 +356,7 @@ function MyComments({finishedHoneyPotList, particiMember, user, ratingCategory})
       {showConfirmModal && (
         <div className="confirm-modal-container">
           <div className="confirm-modal-content">
-          <img src={`${process.env.PUBLIC_URL}/images/commons/icon_confirm.png`}/>
+          <img src={`${process.env.PUBLIC_URL}/images/commons/icon_confirm.png`} alt="확인아이콘"/>
             <p className="confirm-modal-semibold">평가가 제출되었습니다.</p>
             <div className="confirm-modal-buttons">
               <button className="confirm-modal-button yes" onClick={confirmBtn}>
