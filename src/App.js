@@ -116,6 +116,12 @@ export default function App() {
         <ExpiredToken />
         <ErrorBoundaryWithNavigate>
         <Routes>
+
+            <Route path="error/404" element={<Error404 />} />
+            <Route path="error/500" element={<Error500 />} />
+            <Route path="error/400" element={<Error400 />} />
+            <Route path="error/403" element={<Error403 />} />
+            <Route path="*" element={<Error404 />} />
           <Route element={<Layout user={loggedInUser} />}> {/* 레이아웃 오픈 */}
             <Route path='/main' element={data ? <Main cultureList={JSON.stringify(data)} user={loggedInUser}/> : <LoadingSpinner />} /> {/* 메인 */}
             <Route index element={data ? <Main cultureList={JSON.stringify(data)} user={loggedInUser}/> : <LoadingSpinner />} /> {/* 메인 */}
@@ -134,11 +140,7 @@ export default function App() {
             <Route path='/notice' element={<Notice />} /> {/* 공지사항 */}
             <Route path='/inquiry' element={<Inquiry user={loggedInUser}/>} /> {/* 1:1문의 */}
             <Route path='/notice/:code' element={<NoticeDetailPage />} /> {/* 공지사항 상세페이지 */}
-            <Route path="error/404" element={<Error404 />} />
-            <Route path="error/500" element={<Error500 />} />
-            <Route path="error/400" element={<Error400 />} />
-            <Route path="error/403" element={<Error403 />} />
-            <Route path="*" element={<Error404 />} />
+        
           </Route> {/* 레이아웃 클로즈 */}
         </Routes>
         </ErrorBoundaryWithNavigate>

@@ -65,6 +65,7 @@ function HoneypotDetailPage({ cultureList, user }) {
         }
         await HoneypotDetailApi({allCultureList, setDetailHoneypot, setFilteredCultureList, honeypotCode, user, setIsLoading});
         await MyRatingApi({setIsLoading, setMyRating, user});
+
       } catch (error) {
         console.error("데이터 로딩 실패:", error);
         setIsLoading(false);
