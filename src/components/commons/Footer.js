@@ -38,27 +38,27 @@ function Footer() {
           </div>
           <div className="footer-links">
             <div className='test'>
-              <NavLink to='/main'>About us</NavLink>
+            <NavLink to='/aboutus' onClick={() => console.log("About us clicked")}>About us</NavLink>
               <NavLink to='/help'>고객센터</NavLink>
               <NavLink to='/notice'>공지사항</NavLink>
-              <NavLink to='/main'>개인정보처리방침</NavLink>
-              <NavLink to='/main'>이용약관</NavLink>
+              <NavLink to='/privacy'>개인정보처리방침</NavLink>
+              <NavLink to='/terms'>이용약관</NavLink>
             </div>
             <p className="text2">©2024 SOOP. ALL RIGHTS RESERVED.</p>
           </div>
           <div className='footer-icons'>
           <a href='http://www.facebook.com'>
           <img onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} className={"footer-facebook"} 
-          src={isHovering?`${process.env.PUBLIC_URL}/images/commons/icon_facebook_colored.png`:`${process.env.PUBLIC_URL}/images/commons/icon_facebook_colorwhite.png`}/>
+          src={isHovering?`${process.env.PUBLIC_URL}/images/commons/icon_facebook_colored.png`:`${process.env.PUBLIC_URL}/images/commons/icon_facebook_colorwhite.png`} alt='페이스북 아이콘'/>
           </a>
 
           <a href='http://www.instagram.com'>
           <img  onMouseOver={handleMouseOver2} onMouseOut={handleMouseOut2} className={"footer-insta"} 
-          src={isHovering2?`${process.env.PUBLIC_URL}/images/commons/icon_insta_colored.png`:`${process.env.PUBLIC_URL}/images/commons/icon_insta_colorwhite.png`}/></a>
+          src={isHovering2?`${process.env.PUBLIC_URL}/images/commons/icon_insta_colored.png`:`${process.env.PUBLIC_URL}/images/commons/icon_insta_colorwhite.png`} alt='인스타그램 아이콘'/></a>
 
           <a href='https://x.com'>
           <img onMouseOver={handleMouseOver3} onMouseOut={handleMouseOut3} className={"footer-twitter"} 
-          src={isHovering3?`${process.env.PUBLIC_URL}/images/commons/icon_twitter_colored.png`:`${process.env.PUBLIC_URL}/images/commons/icon_twitter_colorwhite.png`}/>
+          src={isHovering3?`${process.env.PUBLIC_URL}/images/commons/icon_twitter_colored.png`:`${process.env.PUBLIC_URL}/images/commons/icon_twitter_colorwhite.png`} alt='트위터 아이콘'/>
           </a>
 
           </div>
