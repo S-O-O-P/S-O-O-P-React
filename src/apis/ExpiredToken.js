@@ -56,7 +56,7 @@ const ExpiredToken = () => {
                     console.error('토큰 디코딩 중 오류 발생:', error);
                     // 토큰이 유효하지 않은 경우 처리
                     document.cookie = "access=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                    if (!['/main', '/login', '/help', '/faq', '/honeypot'].includes(location.pathname) && 
+                    if (!['/main', '/login', '/help', '/faq', '/honeypot', '/aboutus', '/privacy', '/terms'].includes(location.pathname) && 
                         !location.pathname.startsWith('/notice') &&
                         !location.pathname.startsWith('/cultureinfo')) {
                         navigate('/login');
@@ -64,7 +64,7 @@ const ExpiredToken = () => {
                 }
             } else {
                 console.log('저장된 액세스 토큰이 없습니다.');
-                if (!['/main', '/login', '/help', '/faq', '/honeypot'].includes(location.pathname) && 
+                if (!['/main', '/login', '/help', '/faq', '/honeypot', '/aboutus', '/privacy', '/terms'].includes(location.pathname) && 
                     !location.pathname.startsWith('/notice') &&
                     !location.pathname.startsWith('/cultureinfo')) {
                     navigate('/login');

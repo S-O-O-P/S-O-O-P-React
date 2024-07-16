@@ -31,6 +31,9 @@ import Error404 from './pages/Error/Error404';
 import Error500 from './pages/Error/Error500';
 import Error400 from './pages/Error/Error400';
 import Error403 from './pages/Error/Error403';
+import AboutUs from './pages/common/AboutUs';
+import Privacy from './pages/common/Privacy';
+import Terms from './pages/common/Terms';
 
 
 export default function App() {
@@ -140,7 +143,9 @@ export default function App() {
             <Route path='/notice' element={<Notice />} /> {/* 공지사항 */}
             <Route path='/inquiry' element={<Inquiry user={loggedInUser}/>} /> {/* 1:1문의 */}
             <Route path='/notice/:code' element={<NoticeDetailPage />} /> {/* 공지사항 상세페이지 */}
-        
+            <Route path='/aboutus' element={<AboutUs />} /> {/* About Us */}
+            <Route path='/privacy' element={<Privacy />} /> {/* 개인정보처리방침 */}
+            <Route path='/terms' element={<Terms />} /> {/* 이용약관 */}
           </Route> {/* 레이아웃 클로즈 */}
         </Routes>
         </ErrorBoundaryWithNavigate>

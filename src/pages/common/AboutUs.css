@@ -1,0 +1,125 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    --main-color: #FBB755;
+    --text-color: #282A29;
+    color: var(--text-color);
+}
+
+.abous-us-main-content {
+    padding-top: 80px; /* Header의 높이만큼 상단 여백을 줌 */
+    padding-bottom: 100px; /* Footer의 높이만큼 하단 여백을 줌 */
+    overflow-y: auto; /* 내용이 넘칠 경우 스크롤 생성 */
+}
+
+.about-us-container {
+    width: 1200px;
+    min-height: 400px;
+    height: 100%;
+    margin:0 auto;
+    display: flex;
+    flex-direction: column;
+
+    /* background: pink; */
+}
+
+
+.about-us-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 60px;
+}
+
+.about-us-main-title {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.about-us-header .sub-title {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 30px;
+}
+
+.header-content {
+    font-size: 20px;
+    line-height: 30px;
+}
+
+.line-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 20px;
+}
+
+.mission-section,
+.vision-section,
+.values-section,
+.story-section,
+.team-section,
+.about-us-footer {
+    width: 1200px;
+    display: flex;
+    flex-direction: column;
+    padding: 60px;
+}
+
+.image-honeypot-list {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.about-us-content {
+    font-size: 20px;
+    line-height: 30px;
+}
+
+.honeypot_members {
+    width: 80%;
+    margin: 0 auto;
+    border-radius: 40px;
+}
+
+.member img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.team-members {
+    display: flex;
+    padding: 20px;
+    justify-content: space-around;
+}
+
+.team-members .member {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.member h3 {
+    margin-bottom: 10px;
+}
+
+.go-to-linkbee-btn {
+    width: 160px;
+    height: 50px;
+    border: none;
+    border-radius: 50px;
+    background: var(--main-color);
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 auto;
+    margin-top: 40px;
+}
