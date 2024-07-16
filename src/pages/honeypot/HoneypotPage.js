@@ -140,7 +140,7 @@ function HoneypotPage({user}) {
         얼리버드: honeypots.filter(item => item.seqNo < 100).length,
     };
 
-    console.log('허니팟츠', honeypots);
+    // console.log('허니팟츠', honeypots);
 
     const uniqueRegions = [...new Set(honeypots.map(honeypot => honeypot.region))];
 

@@ -1,0 +1,118 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    --main-color: #FBB755;
+    --text-color: #282A29;
+    color: var(--text-color);
+}
+
+.terms-main-content {
+    padding-top: 80px; /* Header의 높이만큼 상단 여백을 줌 */
+    padding-bottom: 100px; /* Footer의 높이만큼 하단 여백을 줌 */
+    overflow-y: auto; /* 내용이 넘칠 경우 스크롤 생성 */
+    line-height: 1.6;
+    
+}
+
+.terms-container {
+    width: 1200px;
+    min-height: 400px;
+    height: 100%;
+    margin:0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+
+    /* background: pink; */
+}
+
+.privacy_title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.privacy_title h2 {
+  font-size: 28px;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.privacy_title small {
+  font-size: 14px;
+  color: #7f8c8d;
+}
+
+.chapter_box {
+  margin-bottom: 40px;
+}
+
+.chapter_caption {
+  font-size: 24px;
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.article_box {
+  margin-bottom: 30px;
+}
+
+.article_box h4 {
+  font-size: 20px;
+  color: #34495e;
+  margin-bottom: 15px;
+}
+
+.chapter_list {
+  padding-left: 20px;
+}
+
+.chapter_list > li {
+  margin-bottom: 15px;
+}
+
+.chapter_under_list {
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.chapter_under_list li {
+  margin-bottom: 8px;
+}
+
+.tos_start_days {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #ecf0f1;
+  border-radius: 5px;
+}
+
+.tos_start_days li {
+  margin-bottom: 10px;
+}
+
+.tos_start_days span {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .terms-container {
+    padding: 20px;
+  }
+
+  .privacy_title h2 {
+    font-size: 24px;
+  }
+
+  .chapter_caption {
+    font-size: 20px;
+  }
+
+  .article_box h4 {
+    font-size: 18px;
+  }
+}
