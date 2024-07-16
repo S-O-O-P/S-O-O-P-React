@@ -209,9 +209,6 @@ export default function CultureInfo(props) {
   const subFilterItemHandler = (e) => {
       e.currentTarget.closest("ul").classList.remove(`.${styles.active}`);
       const cultureListObj = cultureList;
-      // const cultureListObj = JSON.parse(props.cultureList);
-      console.log("현재 클릭한 필터 : " + e.currentTarget.innerText);
-      console.log("현재 선택한 카테고리 : " + category);
       let filteredListAfterSubFiltered = [];
 
       if (e.currentTarget.innerText === "마감임박순") {
@@ -221,36 +218,25 @@ export default function CultureInfo(props) {
       } else if (e.currentTarget.innerText === "최신등록순") {
         console.log("filteredList from 최신등록순: ", filteredList.perforList);
         filteredListAfterSubFiltered = areaFilter === "전체 지역" ? filteredList.perforList.sort((a, b) => Number(b.startDate || b.saleStartDate) - Number(a.startDate || a.saleStartDate)) : filteredList.perforList.filter(item => (item.area || item.region) && typeof (item.area || item.region) === 'string' && (item.area || item.region).includes(e.currentTarget.innerText));
-        // filteredListAfterSubFiltered = areaFilter === "전체 지역" ? filteredList.perforList.sort((a, b) => Number(b.startDate) - Number(a.startDate)) : filteredList.perforList.filter(item => item.area.match(areaFilter)).sort((a, b) => Number(b.startDate) - Number(a.startDate));
         setSubFilter(e.currentTarget.innerText);
       }
 
       setFilteredList({ ...cultureListObj, perforList: filteredListAfterSubFiltered });
-      // setCultureList({ ...cultureListObj, perforList: filteredListAfterSubFiltered });
       setCurrentPage(1);
     };
 
     const subFilterRegionItemHandler = (e) => {
       e.currentTarget.closest("ul").classList.remove(`.${styles.active}`);
       const cultureListObj = cultureList;
-      // const cultureListObj = JSON.parse(props.cultureList);
-      console.log("현재 클릭한 지역 필터 : " + e.currentTarget.innerText);
-      console.log("현재 선택한 장르 카테고리 : " + category);
       let filteredListAfterSubFiltered = [];
 
       if (e.currentTarget.innerText === "전체 지역") {
         setAreaFilter("전체 지역");
-        console.log("전체 지역 클릭시 filteredList : ", filteredList.perforList);
-        console.log("전체 지역 클릭시 cultureList : ", cultureList.perforList);
         filteredListAfterSubFiltered = cultureList.perforList;
       } else {
         console.log("areaFilter : " + areaFilter);
         setAreaFilter(e.currentTarget.innerText);
-        console.log("after areaFilter : " + areaFilter);
-        // console.log("filteredList in other area selected :",  filteredList);
-        console.log("타 지역 클릭시 filteredList : ", filteredList.perforList);
-        console.log("타 지역 클릭시 cultureList : ", cultureList.perforList);        
-        // const areaFiltered = filteredListCategory.filter(item => item.area.match(e.currentTarget.innerText));
+        console.log("after areaFilter : " + areaFilter); 
         const areaFiltered =  cultureList.perforList.filter(item => (item.area || item.region) && typeof (item.area || item.region) === 'string' && (item.area || item.region).includes(e.currentTarget.innerText));
         console.log('areaFiltered after selected : ', areaFiltered);
         filteredListAfterSubFiltered = subFilter === "마감임박순" ? areaFiltered.sort((a, b) => Number(a.endDate) - Number(b.endDate)) : areaFiltered.sort((a, b) => Number(b.startDate) - Number(a.startDate));
@@ -258,8 +244,6 @@ export default function CultureInfo(props) {
       }
 
       setFilteredList({ ...cultureListObj, perforList: filteredListAfterSubFiltered });
-      // setFilteredList({ ...cultureListObj, perforList: filteredList.perforList });
-      // setCultureList({ ...cultureListObj, perforList: filteredListAfterSubFiltered });
       setCurrentPage(1);
     };
 
@@ -270,7 +254,6 @@ export default function CultureInfo(props) {
       return false;
     } else { // 클릭한 버튼이 비활성화된 상태라면
       e.currentTarget.classList.add(`${styles.active}`); // 활성화 상태로 전환
-      console.log('현재 클릭한 버튼 :' + e.currentTarget.classList);
       if (e.currentTarget.classList.contains(`${styles.left_filter}`)) { // 카드 형식 버튼이 활성화라면  
         setViewControl("card");
         e.currentTarget.nextElementSibling.classList.remove(`${styles.active}`);
@@ -292,23 +275,18 @@ export default function CultureInfo(props) {
   // 검색어 입력 & 검색 결과 필터링
   const onClickSearchHandler = () => {
     console.log("입력한 검색어 : "+searchValue);
-    console.log("검색할 때 참조하는 filtered리스트 : ",filteredList?.perforList);
-    console.log("검색할 때 참조하는 culture리스트 : ",cultureList?.perforList);
-    // console.log("현재 filteredList : ", filteredList?.perforList);
     console.log("검색한 결과 : ", filteredList?.perforList.filter(item => {
       const title = item.title || '';
       const ebTitle = item.ebTitle || '';
       return title.toLowerCase().includes(searchValue.toLowerCase()) || 
              ebTitle.toLowerCase().includes(searchValue.toLowerCase());
     }))
-    // const searchedListNow = filteredList?.perforList.filter(item => (item.title.toLowerCase() || item.ebTitle).match(searchValue.toLowerCase()));
     const searchedListNow = filteredList?.perforList.filter(item => {
       const title = item.title || '';
       const ebTitle = item.ebTitle || '';
       return title.toLowerCase().includes(searchValue.toLowerCase()) || 
              ebTitle.toLowerCase().includes(searchValue.toLowerCase());
     });
-    // setSearchedList(searchedListNow);
     if(searchValue === '' || null){ // 검색어를 입력하지 않은 경우
       setFilteredList({...cultureList, perforList : cultureList.perforList}); // 카테고리 선택한 리스트로 초기화
       setSubFilter("마감임박순");
