@@ -64,7 +64,7 @@ const ExpiredToken = () => {
                 }
             } else {
                 console.log('저장된 액세스 토큰이 없습니다.');
-                if (!['/main', '/login', '/help', '/faq', '/honeypot', '/aboutus', '/privacy', '/terms'].includes(location.pathname) && 
+                if (!['/main', '/login', '/help', '/faq', '/honeypot', '/aboutus', '/privacy', '/terms','signup'].includes(location.pathname) && 
                     !location.pathname.startsWith('/notice') &&
                     !location.pathname.startsWith('/cultureinfo')) {
                     navigate('/login');

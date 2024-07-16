@@ -18,6 +18,7 @@ function SignUp({user}) {
   const { decodedToken, accessToken } = useDecodeJwtResponse();
   const [loggedInUser, setLoggedInUser] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [gender, setGender] = useState(""); 
 
 
   useEffect(() => {
@@ -72,7 +73,7 @@ useEffect(() => {
     if(modifySubmit() == true){
     try {
       const response = await axios.post('http://localhost:8081/signup', 
-        { userCode, nickName, aboutMe, signupPlatform, selectedInterests },
+        { userCode, nickName, aboutMe, signupPlatform, selectedInterests, gender },
         {
           headers: {
             "Authorization": `Bearer ${accessToken}`,
@@ -158,6 +159,39 @@ useEffect(() => {
                 />
               </div>
             </div>
+
+
+
+            <br/>
+            {decodedToken && decodedToken.signupPlatform && decodedToken.signupPlatform.startsWith('google:')
+            ? (
+              <div className='GenderBox'>
+                <div className='NickTitle'>성 별</div>
+                <div className='NickName Gender'>
+                <label className='genderlabel'>
+                  <input 
+                    type="radio" 
+                    value="남자" 
+                    checked={gender === '남자'} 
+                    onChange={(e) => setGender(e.target.value)} 
+                  /> 남 성
+                </label>
+
+                <label className='genderlabel'>
+                  <input 
+                    type="radio" 
+                    value="여자" 
+                    checked={gender === '여자'} 
+                    onChange={(e) => setGender(e.target.value)} 
+                  /> 여 성
+                </label>
+                
+                </div>
+              </div>
+            ) : null
+          }
+
+
             <p className='InterestTitle'>
               <span className='textRed'>관심사를 </span>
             
@@ -200,13 +234,14 @@ useEffect(() => {
                 #뮤지컬
               </button>
             </div>
+
             <div className='btns'>
               <NavLink to={"/main"}>
               <button className='btn1'>건 너 뛰 기</button></NavLink>
               <button 
-                className={selectedInterests.length < 1 ? 'btn2' : 'btn3'} 
+                className={selectedInterests.length < 1 || decodedToken.signupPlatform.startsWith('google:') == !gender ? 'btn2' : 'btn3'} 
                 onClick={handleSignUp}
-                disabled={selectedInterests.length < 1}
+                disabled={selectedInterests.length < 1 || decodedToken.signupPlatform.startsWith('google:') == !gender} 
               >
                 등 록
               </button>
