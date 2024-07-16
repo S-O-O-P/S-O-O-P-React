@@ -27,7 +27,10 @@ body{
     justify-content: center;
     align-items: center;
     color: white;
+    /* position: relative; */
+    /* z-index: 5; */
 }
+
 .NickName{
     border: 1px solid #FFB755;
     border-radius: 8px;
@@ -176,3 +179,55 @@ body{
     color: #ffffff;
     cursor: pointer;
   }
+
+  .GenderBox {
+    display: flex;
+    margin-top: 20px;
+    /* background-color: #FFB755; */
+    /* border: 1px solid #FFB755; */
+    padding-bottom: 20px;
+    border-radius: 10px;
+  }
+  
+  .GenderTitle {
+    margin-top: 20px;
+    display: flex;
+    margin: 0 auto;
+    background-color: #FFB755;
+    border-radius: 12px;
+    width: 160px;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  }
+  
+  .GenderBox2 {
+    display: flex;
+    border: 1px solid #FFB755;
+    border-radius: 15px;
+    height: 50px;
+    width: 520px;
+    padding: 15px;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: 1px;
+    padding-top: 15px;
+    border-left: 5px dashed #FFB755;
+    margin-left: -5px;
+    resize: none;
+    outline-style: none;
+    outline-color: #FFB755
+  }
+
+  .NickName.Gender{
+    display: flex;
+    background-color: #ffffff;
+    align-items: center;
+  }
+  .Gender label{
+    margin-left: 10px;
+    margin-right: 10px;
+      }
+
+
+  
