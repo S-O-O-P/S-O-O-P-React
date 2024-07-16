@@ -55,7 +55,7 @@ export default function CardType({cultureList, detailDataList, earlyCheck}){
 
             // detailData가 존재하고 price 속성이 있을 때 가격 표시
             const price = earlyCheck || item?.regularPrice ? convertPriceFormat(item?.discountPrice || item?.price) : detailData && detailData.price ? detailData.price : "가격 정보 없음";
-            const discountRate = earlyCheck || item?.regularPrice ? parseInt((item?.discountPrice || item?.price)/ item?.regularPrice * 100) : null;
+            const discountRate = earlyCheck || item?.regularPrice ? parseInt(((item?.regularPrice - (item?.discountPrice || item?.price))) / item?.regularPrice * 100) : null;
             
             return(
               <li key={index}>
