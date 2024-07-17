@@ -100,24 +100,24 @@ const MyPage = ({user}) => {
         });
     
         if (refreshResponse.status === 200) {
-            console.log('토큰 갱신 성공');
+            // console.log('토큰 갱신 성공');
             // 쿠키에서 새 액세스 토큰을 확인
             const newAccessToken = getCookie('access');
 
             if (newAccessToken) {
-            console.log('새 액세스 토큰이 설정되었습니다');
+            // console.log('새 액세스 토큰이 설정되었습니다');
             } else {
-            console.log('새 액세스 토큰을 찾을 수 없습니다');
+            // console.log('새 액세스 토큰을 찾을 수 없습니다');
             }
 
             window.location.reload();
 
         } else {
-            console.log('토큰 갱신 실패');
-            console.log('응답 정보:', refreshResponse);
+            // console.log('토큰 갱신 실패');
+            // console.log('응답 정보:', refreshResponse);
         }
         } catch (error) {
-        console.error('토큰 갱신 중 오류 발생:', error);
+        // console.error('토큰 갱신 중 오류 발생:', error);
         }
     };
 
@@ -141,8 +141,8 @@ const MyPage = ({user}) => {
                         }
                     }
                 );
-                console.log(`API URL: ${process.env.REACT_APP_API_URL}/mypage/profile-pic/${loggedInUser.userCode}`);
-                console.log('프로필수정 응답:', response);
+                // console.log(`API URL: ${process.env.REACT_APP_API_URL}/mypage/profile-pic/${loggedInUser.userCode}`);
+                // console.log('프로필수정 응답:', response);
                 
                 setLoggedInUser(prevUser => ({
                     ...prevUser,
@@ -157,7 +157,7 @@ const MyPage = ({user}) => {
                     console.error('응답 데이터:', error.response.data);
                     console.error('응답 상태:', error.response.status);
                     console.error('응답 헤더:', error.response.headers);
-                    console.log(`API URL: ${process.env.REACT_APP_API_URL}/mypage/profile-pic/${loggedInUser.userCode}`);
+                    // console.log(`API URL: ${process.env.REACT_APP_API_URL}/mypage/profile-pic/${loggedInUser.userCode}`);
 
                   } else if (error.request) {
                     // 요청이 이루어졌으나 응답을 받지 못한 경우

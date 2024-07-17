@@ -51,7 +51,7 @@ function ModifyHoneypotPage() {
                 closureStatus: detailHoneypot.closureStatus
             };
 
-            console.log('Updated Data:', updatedData);
+            // console.log('Updated Data:', updatedData);
 
             const response = await axios.put(`http://localhost:8081/honeypot/modify/${honeypotCode}`, updatedData);
             navigate(`/honeypot/${honeypotCode}`);

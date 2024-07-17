@@ -12,11 +12,11 @@ function MyHoneypot({ myHoneypotList }) {
     useEffect(() => {
         // myHoneypotList의 길이가 0일 때 데이터가 없는 것으로 처리
         if (myHoneypotList.length === 0) {
-            console.log('마이허니팟이존재해?', myHoneypotList)
+            // console.log('마이허니팟이존재해?', myHoneypotList)
             setHasData(false);
         } else {
             setHasData(true);
-            console.log('마이허니팟이존재해?', myHoneypotList)
+            // console.log('마이허니팟이존재해?', myHoneypotList)
             setFilteredData(myHoneypotList); // 초기 데이터 설정
         }
     }, [myHoneypotList]);
