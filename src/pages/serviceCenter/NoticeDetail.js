@@ -16,8 +16,6 @@ function NoticeDetailPage() {
                 const mainNotice = await fetchNoticeData(code);
                 setNotice(mainNotice.notice);
                 setFile(mainNotice.file.name);
-                console.log(notice.title);
-                console.log(file);
             } catch (error) {
                 console.error('공지사항 불러오기 실패.', error);
             }

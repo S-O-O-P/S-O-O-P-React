@@ -127,9 +127,6 @@ function FaqPage() {
         });
         setFilterFaqs(filtered);
         setCurrentPage(1);
-
-        console.log(select);
-        console.log(search);
     };
 
     const enterKey = (e) => {
