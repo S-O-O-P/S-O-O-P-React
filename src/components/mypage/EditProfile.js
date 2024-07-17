@@ -117,7 +117,7 @@ function EditProfile({ loggedInUser, onProfileUpdate }) {
         try {
             const response = await axios.put(`http://localhost:8081/mypage/${loggedInUser.userCode}`, updateData);
             
-            console.log("서버 응답:", response.data); // 서버 응답 로깅
+            // console.log("서버 응답:", response.data); // 서버 응답 로깅
 
             if (response.data && response.data.results && response.data.results.updateProflie) {
                 if (onProfileUpdate) {

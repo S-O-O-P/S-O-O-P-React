@@ -38,7 +38,7 @@ function Footer() {
           </div>
           <div className="footer-links">
             <div className='test'>
-            <NavLink to='/aboutus' onClick={() => console.log("About us clicked")}>About us</NavLink>
+            <NavLink to='/aboutus'>About us</NavLink>
               <NavLink to='/help'>고객센터</NavLink>
               <NavLink to='/notice'>공지사항</NavLink>
               <NavLink to='/privacy'>개인정보처리방침</NavLink>

@@ -124,9 +124,9 @@ function RegistHoneypotPage({ cultureList, user }) {
         try {
             const response = await axios.get('http://localhost:8081/honeypot/list');
             const honeypotList = response.data.results.honeypots;
-            console.log('honeypotList : ', honeypotList)
+            // console.log('honeypotList : ', honeypotList)
             const latestHoneypot = honeypotList[honeypotList.length - 1];
-            console.log('lastestHoneypot : ', latestHoneypot);
+            // console.log('lastestHoneypot : ', latestHoneypot);
             return latestHoneypot.honeypotCode;
         } catch (error) {
             console.error('연결실패', error);

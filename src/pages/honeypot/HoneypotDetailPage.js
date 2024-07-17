@@ -91,7 +91,7 @@ function HoneypotDetailPage({ cultureList, user }) {
         const response = await axios.get('http://localhost:8081/cultureinfo/early');
         const matchingEarlyBird = response.data.earlyBirdList.find(earlybird => earlybird.earlyBirdCode === detailHoneypot.seqNo);
         if (matchingEarlyBird) {
-          console.log('일치하는 얼리버드:', matchingEarlyBird);
+          // console.log('일치하는 얼리버드:', matchingEarlyBird);
           setEarlyBird(matchingEarlyBird);
         } else {
           console.log('일치하는 얼리버드가 없습니다.');

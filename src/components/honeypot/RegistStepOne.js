@@ -58,7 +58,7 @@ function RegistStepOne({ allCultureList, updateFilteredCultureList, posterClick,
         const selectedGenre = filteredCultureList[index]?.realmName;
         const interestCode = genreMap[selectedGenre] || null;
         posterClick(index, interestCode);
-        console.log('선택한 포스터', filteredCultureList[index]);
+        // console.log('선택한 포스터', filteredCultureList[index]);
     };
 
     return (
