@@ -87,8 +87,10 @@ nav ul {
 }
 
 
-nav ul li a{font-size: 16px;} 
+nav ul li a{font-size: 16px;}
+nav ul li a.active {color: #EB844A;} 
 nav ul li a span{ display: block; width: 0; height: 1px; background-color: var(--point-color); transition: width 200ms ease-in-out} 
+nav ul li a.active span{width: 100%;color: #EB844A;} 
 nav ul li a:hover {
   font-size: 16px;
   color: #ffaa00;
