@@ -118,7 +118,6 @@ function InquiryPage({ user }) {
                     </div>
                 </div>
 
-                {/* 인꽈리모달 */}
                 {modalOpen && (
                     <div className={style.back}>
                         <div className={style.modal}>
