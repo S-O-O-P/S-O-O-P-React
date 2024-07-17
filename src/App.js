@@ -131,7 +131,7 @@ export default function App() {
             <Route path='/login' element={ <LoginPage />}/> {/* 로그인 */}
             <Route path='/signup' element={<SignUpPage user={loggedInUser}/>} /> {/* 추가 정보 입력 */}
             <Route path="/cultureinfo" element={data ? <CultureInfo cultureList={JSON.stringify(data)} detailDataList={detailDataList}/> : <LoadingSpinner />}/> {/* 전시/공연 정보 */}
-            <Route path="/cultureinfo/detail/:seq" element={<CultureDetail detailDataList={detailDataList}/>}/> {/* 전시/공연 상세페이지*/}
+            <Route path="/cultureinfo/:seq" element={<CultureDetail detailDataList={detailDataList}/>}/> {/* 전시/공연 상세페이지*/}
             <Route path='/completed' element={<CompletedPage user={loggedInUser}/>} /> {/* 회원 가입 완료 */}
             <Route path='/honeypot' element={<HoneypotPage user={loggedInUser}/>}/> {/* 허니팟 페이지 */}
             <Route path='/honeypot/c' element={data ? <RegistHoneypotPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 등록 페이지 */}
