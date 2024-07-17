@@ -190,7 +190,7 @@ function HoneypotPage({user}) {
                             <input className='text-search' onChange={searchTitleWord} onKeyPress={handleKeyPress} type='text' placeholder="검색어를 입력하세요."/>
                             <button onClick={onClickSearchInput} className='submit-btn' type='button'></button>
                         </div>
-                        <button className='create-honeypot' onClick={() => navigate('/honeypot/c')}>허니팟<img src={`${process.env.PUBLIC_URL}/images/honeypot/icon_create_white.png`} alt="허니팟생성아이콘" /></button>
+                        <button className='create-honeypot' onClick={() => navigate('/beehive')}>허니팟<img src={`${process.env.PUBLIC_URL}/images/honeypot/icon_create_white.png`} alt="허니팟생성아이콘" /></button>
                     </div>
                     
                     <HoneypotList 

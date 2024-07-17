@@ -76,7 +76,7 @@ function HoneypotList({ currentPage, setCurrentPage, pageGroup, setPageGroup, ho
         <>
           {currentHoneypots.map((honeypot, index) => (
             <div key={index} className="one-honeypot-index"
-             onClick={ () => {navigate(`/honeypot/detail/${honeypot.honeypotCode}`)}}>
+             onClick={ () => {navigate(`/honeypot/${honeypot.honeypotCode}`)}}>
               <div className="honeypot-index-poster">
                 <img src={honeypot.poster} alt="포스터이미지" />
                 <hr className="honeypot-dashed" />

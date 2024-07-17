@@ -134,9 +134,9 @@ export default function App() {
             <Route path="/cultureinfo/detail/:seq" element={<CultureDetail detailDataList={detailDataList}/>}/> {/* 전시/공연 상세페이지*/}
             <Route path='/completed' element={<CompletedPage user={loggedInUser}/>} /> {/* 회원 가입 완료 */}
             <Route path='/honeypot' element={<HoneypotPage user={loggedInUser}/>}/> {/* 허니팟 페이지 */}
-            <Route path='/honeypot/c' element={data ? <RegistHoneypotPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 등록 페이지 */}
-            <Route path='/honeypot/detail/:honeypotCode' element={data ? <HoneypotDetailPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 상세 페이지 */}
-            <Route path='/honeypot/u/:honeypotCode' element={data ? <ModifyHoneypotPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 수정 페이지 */}
+            <Route path='/beehive' element={data ? <RegistHoneypotPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 등록 페이지 */}
+            <Route path='/honeypot/:honeypotCode' element={data ? <HoneypotDetailPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 상세 페이지 */}
+            <Route path='/honeyqot/:honeypotCode' element={data ? <ModifyHoneypotPage user={loggedInUser} cultureList={JSON.stringify(data)}/> : <LoadingSpinner />}/> {/* 허니팟 수정 페이지 */}
             <Route path='/mypage' element={<MyPage user={loggedInUser}/>}/> {/* 마이 페이지 */}
             <Route path='/help' element={<Cs />} /> {/* 고객 센터 */}
             <Route path='/faq' element={<Faq />} /> {/* 자주 찾는 질문 */}

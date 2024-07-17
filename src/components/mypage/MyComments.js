@@ -34,7 +34,7 @@ function MyComments({ myCommentList }) {
                             </thead>
                             <tbody>
                                 {myCommentList.map(comment => (
-                                    <tr key={comment.commentCode} className='comment-view' onClick={() => {navigate(`/honeypot/detail/${comment.honeypotCode}`)}}>
+                                    <tr key={comment.commentCode} className='comment-view' onClick={() => {navigate(`/honeypot/${comment.honeypotCode}`)}}>
                                         <td className='td-comment'>
                                             <p className='comment-title'>[{comment.honeypotTitle}]</p>
                                             <p>{comment.content}</p>

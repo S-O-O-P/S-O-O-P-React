@@ -54,14 +54,14 @@ function ModifyHoneypotPage() {
             console.log('Updated Data:', updatedData);
 
             const response = await axios.put(`http://localhost:8081/honeypot/modify/${honeypotCode}`, updatedData);
-            navigate(`/honeypot/detail/${honeypotCode}`);
+            navigate(`/honeypot/${honeypotCode}`);
         } catch (error) {
             console.error('Error:', error);
         }
     };
 
     const handleCancelClick = () => {
-        navigate(`/honeypot/detail/${honeypotCode}`);
+        navigate(`/honeypot/${honeypotCode}`);
     };
 
     return (
