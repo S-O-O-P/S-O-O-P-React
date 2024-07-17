@@ -145,7 +145,7 @@ export default function CultureDetail(props) {
               <div className={styles.summary_txt_box}>
                 <ul>
                   <li className={styles.flex_start}><p className={styles.detail_item_tit}>장소</p><p>{early === false ? detailData?.place : earlyBirdInfo?.place}</p></li>
-                  <li className={styles.flex_start}><p className={styles.detail_item_tit}>{early === false ? "기간" : "예매 기간"}</p><p>{early === false ? convertDateFormat(detailData?.startDate, null) : formatDate(earlyBirdInfo?.usageStartDate)} ~ {early === false ? convertDateFormat(detailData?.endDate, null) : formatDate(earlyBirdInfo?.usageEndDate)}</p></li>
+                  <li className={styles.flex_start}><p className={styles.detail_item_tit}>{early === false ? "기간" : "예매 기간"}</p><p>{early === false ? convertDateFormat(detailData?.startDate, null) : formatDate(earlyBirdInfo?.saleStartDate)} ~ {early === false ? convertDateFormat(detailData?.endDate, null) : formatDate(earlyBirdInfo?.saleEndDate)}</p></li>
                   {early !== false ? <li className={styles.flex_start}><p className={styles.detail_item_tit}>사용 기한</p><p>{early === false ? convertDateFormat(detailData?.startDate, null) : formatDate(earlyBirdInfo?.usageStartDate)} ~ {early === false ? convertDateFormat(detailData?.endDate, null) : formatDate(earlyBirdInfo?.usageEndDate)}</p></li> : null}
                   {early !== false ? <li className={styles.flex_start}><p className={styles.detail_item_tit}>관람 연령</p><p>{earlyBirdInfo?.ageLimit}</p></li> : null}
                   {early !== false ? <li className={styles.flex_start}>
@@ -172,7 +172,7 @@ export default function CultureDetail(props) {
                     </div> 
                     : 
                     <div className={styles.price_list}>
-                      <p>{earlyBirdInfo?.place}</p>
+                      <p>{earlyBirdInfo?.seller}</p>
                       {earlyBirdInfo?.sellerLink !== null || earlyBirdInfo?.sellerLink !== "" ? <Link to={earlyBirdInfo?.sellerLink} target="_blank" className={styles.short_cut_btn}>바로가기</Link> : <p>예매처 정보가 존재하지 않습니다.\n추후 업데이트 예정입니다.</p>}
                     </div>
                     }

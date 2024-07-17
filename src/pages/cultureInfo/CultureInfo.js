@@ -13,6 +13,7 @@ export default function CultureInfo(props) {
   //State 설정
   const [cultureList, setCultureList] = useState(null); // 공연/전시 전체 목록 
   const [filteredList, setFilteredList] = useState(null) // 필터 리스트
+  const [prevfilteredList, setPrevFilteredList] = useState(null) // 필터 리스트
   const [earlyBirdInfo, setEarlyBirdInfo] = useState([]); // 얼리버드 리스트
   const [hotList, setHotList] = useState([]); // HOT 공연/전시 정보
   const { detailDataList } = props;  // detailDataList를 props에서 가져옴
@@ -145,7 +146,7 @@ export default function CultureInfo(props) {
               filteredList = addedCultureListObj.sort((a, b) => Number(a.endDate) - Number(b.endDate)); // 전체보기일 경우 전체 리스트 반환
               setIsEarly(false);
             } else if(genre === "미술"){ // 전시
-              filteredList = addedCultureListObj.filter(item => item.realmName === genre || item.title.match("전시") || item.realmName.match("전시")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
+              filteredList = addedCultureListObj.filter(item => item.realmName === genre || item.realmName.match("전시")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
               setIsEarly(false);
             } else if(genre === "음악"){ // 공연
               filteredList = addedCultureListObj.filter(item => ["음악", "무용", "연극", "국악", "공연"].includes(item.realmName) && !item.title.match(/페스티벌|축제/));
@@ -169,6 +170,7 @@ export default function CultureInfo(props) {
             // 필터링된 결과를 cultureList 상태에 업데이트
             setCultureList({ ...cultureListObj, perforList: filteredList }); // 장르 카테고리 선택된 상태의 리스트로 culturelist 업데이트
             setFilteredList({ ...cultureListObj, perforList: filteredList });
+            setPrevFilteredList({ ...cultureListObj, perforList: filteredList });
             setCurrentPage(1); // 페이지를 1로 초기화
           });
         }); 
@@ -212,15 +214,16 @@ export default function CultureInfo(props) {
 
       if (e.currentTarget.innerText === "마감임박순") {
         console.log("filteredList from 마감임박순 : ", filteredList.perforList);
-        filteredListAfterSubFiltered = areaFilter === "전체 지역" ? filteredList.perforList.sort((a, b) => Number(a.endDate) - Number(b.endDate)) : filteredList.perforList.filter(item => item.area.match(areaFilter)).sort((a, b) => Number(a.endDate) - Number(b.endDate));
+        filteredListAfterSubFiltered = areaFilter === "전체 지역" ? filteredList.perforList.sort((a, b) => Number(a.endDate || a.saleEndDate) - Number(b.endDate || b.saleEndDate)) : filteredList.perforList.filter(item => item.area.match(areaFilter)).sort((a, b) => Number(a.endDate) - Number(b.endDate));
         setSubFilter(e.currentTarget.innerText);
       } else if (e.currentTarget.innerText === "최신등록순") {
         console.log("filteredList from 최신등록순: ", filteredList.perforList);
-        filteredListAfterSubFiltered = areaFilter === "전체 지역" ? filteredList.perforList.sort((a, b) => Number(b.startDate || b.saleStartDate) - Number(a.startDate || a.saleStartDate)) : filteredList.perforList.filter(item => (item.area || item.region) && typeof (item.area || item.region) === 'string' && (item.area || item.region).includes(e.currentTarget.innerText));
+        filteredListAfterSubFiltered = areaFilter === "전체 지역" ? filteredList.perforList.sort((a, b) => Number(b.startDate) - Number(a.startDate)) : filteredList.perforList.filter(item => (item.area || item.region) && typeof (item.area || item.region) === 'string' && (item.area || item.region).includes(e.currentTarget.innerText));
         setSubFilter(e.currentTarget.innerText);
       }
 
       setFilteredList({ ...cultureListObj, perforList: filteredListAfterSubFiltered });
+      setPrevFilteredList({ ...cultureListObj, perforList: filteredListAfterSubFiltered });
       setCurrentPage(1);
     };
 
@@ -243,6 +246,7 @@ export default function CultureInfo(props) {
       }
 
       setFilteredList({ ...cultureListObj, perforList: filteredListAfterSubFiltered });
+      setPrevFilteredList({ ...cultureListObj, perforList: filteredListAfterSubFiltered });
       setCurrentPage(1);
     };
 
@@ -280,12 +284,13 @@ export default function CultureInfo(props) {
       return title.toLowerCase().includes(searchValue.toLowerCase()) || 
              ebTitle.toLowerCase().includes(searchValue.toLowerCase());
     }))
-    const searchedListNow = filteredList?.perforList.filter(item => {
+    const searchedListNow = prevfilteredList?.perforList.filter(item => {
       const title = item.title || '';
       const ebTitle = item.ebTitle || '';
       return title.toLowerCase().includes(searchValue.toLowerCase()) || 
              ebTitle.toLowerCase().includes(searchValue.toLowerCase());
     });
+    console.log("filteredListprev : ", filteredList?.perforList);
     if(searchValue === '' || null){ // 검색어를 입력하지 않은 경우
       setFilteredList({...cultureList, perforList : cultureList.perforList}); // 카테고리 선택한 리스트로 초기화
       setSubFilter("마감임박순");
@@ -551,7 +556,7 @@ export default function CultureInfo(props) {
               <img src={`${process.env.PUBLIC_URL}/images/commons/logo.png`} alt="logo" />
               {/* <p>현재 해당 정보가 존재하지 않습니다.</p> */}
               <p>{nullText}</p>
-              <p>검색어를 다시 입력해주세요.</p>
+              <p>{nullText === "현재 해당 정보가 존재하지 않습니다." ? "추후 업데이트로 찾아뵙겠습니다." : "검색어를 다시 입력해주세요."}</p>
             </div>
             :
               /* 카드 형식 */
