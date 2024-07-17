@@ -231,8 +231,8 @@ export default function Main(props) {
               </div>
               <div className={`${mainStyles.honeypotCont} honeypot-list-container`}>
                 {honeypots.length > 10 ? [...Array(parseInt(10))].map((honeypot, index) => (
-                <Link to={`/honeypot/detail/${filteredHoneypots[index]?.honeypotCode}`} key={index} className="one-honeypot-index"
-                  onClick={ () => {navigate(`/honeypot/detail/${filteredHoneypots[index]?.honeypotCode}`)}}>
+                <Link to={`/honeypot/${filteredHoneypots[index]?.honeypotCode}`} key={index} className="one-honeypot-index"
+                  onClick={ () => {navigate(`/honeypot/${filteredHoneypots[index]?.honeypotCode}`)}}>
                     <div className="honeypot-index-poster">
                       <img src={filteredHoneypots[index]?.poster} alt="포스터이미지" />
                       <hr className="honeypot-dashed" />
@@ -255,8 +255,8 @@ export default function Main(props) {
                     </div>
                   </Link>
                 )) : honeypots.map((honeypot, index) => (
-                  <Link to={`/honeypot/detail/${filteredHoneypots[index]?.honeypotCode}`} key={index} className="one-honeypot-index"
-                    onClick={ () => {navigate(`/honeypot/detail/${filteredHoneypots[index]?.honeypotCode}`)}}>
+                  <Link to={`/honeypot/${filteredHoneypots[index]?.honeypotCode}`} key={index} className="one-honeypot-index"
+                    onClick={ () => {navigate(`/honeypot/${filteredHoneypots[index]?.honeypotCode}`)}}>
                       <div className="honeypot-index-poster">
                         <img src={filteredHoneypots[index]?.poster} alt="포스터이미지" />
                         <hr className="honeypot-dashed" />

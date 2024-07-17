@@ -115,7 +115,7 @@ function HoneypotDetailPage({ cultureList, user }) {
       setShowWarningModal(true);
       return;
     }
-    navigate(`/honeypot/u/${honeypotCode}`, {
+    navigate(`/honeyqot/${honeypotCode}`, {
       state: { detailHoneypot }
     });
   };
@@ -214,7 +214,7 @@ function HoneypotDetailPage({ cultureList, user }) {
             user={user}
           />
         )}
-        <div className='ticket-info-container' onClick={() => {navigate(`/cultureinfo/detail/${detailHoneypot.seqNo}`)}}>
+        <div className='ticket-info-container' onClick={() => {navigate(`/cultureinfo/${detailHoneypot.seqNo}`)}}>
           <div className='poster-wrapper'>
             {detailHoneypot.seqNo <= 100 ? (
               <img src={earlyBird?.poster} alt="포스터이미지" draggable="false"/>

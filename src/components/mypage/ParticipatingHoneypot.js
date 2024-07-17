@@ -84,7 +84,7 @@ function ParticipatingHoneypot({participatingHoneypotList}) {
                             </thead>
                             <tbody>
                                 {filteredData.map((item, index) => (
-                                    <tr className="one-honeypot-info" key={index} onClick={() => {navigate(`/honeypot/detail/${item.honeypotCode}`)}}>
+                                    <tr className="one-honeypot-info" key={index} onClick={() => {navigate(`/honeypot/${item.honeypotCode}`)}}>
                                         <td className='td-category'>{item.interestName}</td>
                                         <td className='td-title'>{item.honeypotTitle}</td>
                                         <td className='td-meetday'>{item.eventDate}</td>

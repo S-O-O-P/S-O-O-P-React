@@ -215,15 +215,15 @@ export default function CultureDetail(props) {
                     <img src={`${process.env.PUBLIC_URL}/images/commons/logo.png`} alt="null page" />
                     <p className={styles.null_txt}>아직 등록된 허니팟이 없어요</p>
                     <p className={styles.null_txt}>지금 바로 허니팟 호스트가 되어 주세요</p>
-                    <Link to={"/honeypot/c"} className={styles.hosting_btn}>허니팟 호스팅</Link>
+                    <Link to={"/beehive"} className={styles.hosting_btn}>허니팟 호스팅</Link>
                   </div> 
                   : 
                   <div className={styles.honeypotListBox}>
                     <div className={`${styles.honeypotListCont} honeypot-list-container`}>
                       {filteredHoneypots.length > 6 ? [...Array(parseInt(6))].map((honeypot, index) => (
                       <Link key={index} className="one-honeypot-index"
-                        to={`/honeypot/detail/${filteredHoneypots[index]?.honeypotCode}`}>
-                          {/* onClick={ () => {navigate(`/honeypot/detail/${filteredHoneypots[index]?.honeypotCode}`)}} */}
+                        to={`/honeypot/${filteredHoneypots[index]?.honeypotCode}`}>
+                          {/* onClick={ () => {navigate(`/honeypot/${filteredHoneypots[index]?.honeypotCode}`)}} */}
                           <div className="honeypot-index-poster">
                             <img src={filteredHoneypots[index]?.poster} alt="포스터이미지" />
                             <hr className="honeypot-dashed" />
@@ -247,7 +247,7 @@ export default function CultureDetail(props) {
                         </Link>
                       )) : filteredHoneypots.map((honeypot, index) => (
                         <Link key={index} className="one-honeypot-index"
-                        to={`/honeypot/detail/${filteredHoneypots[index]?.honeypotCode}`}>
+                        to={`/honeypot/${filteredHoneypots[index]?.honeypotCode}`}>
                             <div className="honeypot-index-poster">
                               <img src={filteredHoneypots[index]?.poster} alt="포스터이미지" />
                               <hr className="honeypot-dashed" />

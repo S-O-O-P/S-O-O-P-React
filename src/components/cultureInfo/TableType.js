@@ -99,7 +99,7 @@ export default function TableType({cultureList, detailDataList, earlyCheck}){
             
             return(            
                 <tr onClick={() => navigate(
-                  earlyCheck ? `/cultureinfo/detail/${item?.earlyBirdCode}` : `/cultureinfo/detail/${item?.seq}`,{ state: { earlyCheck: earlyCheck || item?.regularPrice ? true : false }})} key={index}>
+                  earlyCheck ? `/cultureinfo/${item?.earlyBirdCode}` : `/cultureinfo/${item?.seq}`,{ state: { earlyCheck: earlyCheck || item?.regularPrice ? true : false }})} key={index}>
                   <td>{earlyCheck ? categoryString(item?.interestCode) : category(item?.realmName)}</td>
                   <td>{title}</td>
                   <td>{price}{earlyCheck || item?.regularPrice ? `원` : null}</td>

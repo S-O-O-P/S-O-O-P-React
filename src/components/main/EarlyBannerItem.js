@@ -53,7 +53,7 @@ export default function EarlySlideItem({ item }) {
 
   return (
     <div className={styles.early_slide_list}>
-      <Link to={`/cultureinfo/detail/${item.earlyBirdCode}`} state={{ earlyCheck: true }} className={styles.flex_start}>
+      <Link to={`/cultureinfo/${item.earlyBirdCode}`} state={{ earlyCheck: true }} className={styles.flex_start}>
         <div className={styles.early_img}>
           <img src={item.poster === null ? `${process.env.PUBLIC_URL}/images/commons/logo.png` : item.poster} alt="early bird info" />
         </div>

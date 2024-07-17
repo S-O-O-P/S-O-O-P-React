@@ -33,7 +33,7 @@ export default function TopBanner({ pickList }) {
           pickList.perforList.length > 10
             ? pickList.perforList.slice(0, 10).map((item, index) => (
               <div className={mainStyle.centerList} key={index}>
-                <Link to={`/cultureinfo/detail/${item.seq}`} state={item.regularPrice ? { earlyCheck: true } : { earlyCheck: false }}>
+                <Link to={`/cultureinfo/${item.seq}`} state={item.regularPrice ? { earlyCheck: true } : { earlyCheck: false }}>
                   <img src={item.thumbnail} alt={`${item.title} thumbnail`} />
                 </Link>
               </div>
@@ -43,7 +43,7 @@ export default function TopBanner({ pickList }) {
                 const item = pickList.perforList[index % pickList.perforList.length];
                 return (
                   <div className={mainStyle.centerList} key={index}>
-                    <Link to={`/cultureinfo/detail/${item.seq}`} state={item.regularPrice ? { earlyCheck: true } : { earlyCheck: false }}>
+                    <Link to={`/cultureinfo/${item.seq}`} state={item.regularPrice ? { earlyCheck: true } : { earlyCheck: false }}>
                       <img src={item.thumbnail} alt={`${item.title} thumbnail`} />
                     </Link>
                   </div>
@@ -51,7 +51,7 @@ export default function TopBanner({ pickList }) {
               })
               : pickList.perforList.map((item, index) => (
                 <div className={mainStyle.centerList} key={index}>
-                  <Link to={`/cultureinfo/detail/${item.seq}`} state={item.regularPrice ? { earlyCheck: true } : { earlyCheck: false }}>
+                  <Link to={`/cultureinfo/${item.seq}`} state={item.regularPrice ? { earlyCheck: true } : { earlyCheck: false }}>
                     <img src={item.thumbnail} alt={`${item.title} thumbnail`} />
                   </Link>
                 </div>
