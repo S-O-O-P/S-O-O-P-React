@@ -85,6 +85,7 @@ class ErrorBoundary extends Component {
           return <Error500 resetError={this.resetError} />;
       }
     }
+
     return this.props.children;
   }
 }
