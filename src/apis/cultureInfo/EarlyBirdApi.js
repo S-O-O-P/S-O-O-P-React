@@ -11,6 +11,9 @@ export default function EarlyBirdInfoApi({setEarlyBirdInfo} = null, apiName, ear
         const filteredValidList = response.data.earlyBirdList.filter(item => {
           return new Date(item.saleEndDate) > today;
         });
+        filteredValidList.sort((a, b) => {
+          return new Date(a.saleEndDate) - new Date(b.saleEndDate);
+        });
         console.log("filteredValidList",filteredValidList);
         setEarlyBirdInfo(response.data.earlyBirdList || []); // EarlyBirdInfo가 null일 경우 빈 배열로 설정
         console.log('Fetched Events All:', response.data.earlyBirdList); // Log the fetched data
