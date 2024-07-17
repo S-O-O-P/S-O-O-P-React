@@ -115,7 +115,7 @@ function HoneypotDetailPage({ cultureList, user }) {
       setShowWarningModal(true);
       return;
     }
-    navigate(`/honeypot/u/${honeypotCode}`, {
+    navigate(`/honeyqot/${honeypotCode}`, {
       state: { detailHoneypot }
     });
   };

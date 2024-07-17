@@ -43,7 +43,7 @@ function RecommendHoneypot({ interestName, allCultureList, honeypotCode }) {
             </button>
                 <div className='recommend-honeypot-list'>
                     {honeypots.slice(currentIndex, currentIndex + 3).map((honeypot, index) => (
-                        <div key={index} className="one-recommend-index" onClick={() => { navigate(`/honeypot/detail/${honeypot.honeypotCode}`) }}>
+                        <div key={index} className="one-recommend-index" onClick={() => { navigate(`/honeypot/${honeypot.honeypotCode}`) }}>
                             <div className="recommend-index-poster">
                                 <img src={honeypot.poster} alt="포스터이미지" />
                             </div>

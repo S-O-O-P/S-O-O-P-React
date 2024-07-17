@@ -138,7 +138,7 @@ function RegistHoneypotPage({ cultureList, user }) {
         setShowConfirmModal(false);
         const code = await fetchHoneypotList();
         if (code) {
-            navigate(`/honeypot/detail/${code}`, { state: { newHoneypotCode: code } });
+            navigate(`/honeypot/${code}`, { state: { newHoneypotCode: code } });
         } else {
             console.error('연결실패');
         }
