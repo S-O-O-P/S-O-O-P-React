@@ -13,60 +13,60 @@ class ErrorBoundary extends Component {
   }
 
   static getDerivedStateFromError(error) {
-    let errorStatus = 500;
-    if (error.message.includes("Not found")) errorStatus = 404;
-    else if (error.message.includes("Bad request")) errorStatus = 400;
-    else if (error.message.includes("Forbidden")) errorStatus = 403;
-
-    return { hasError: true, errorStatus };
+    return { hasError: true };
   }
 
   componentDidMount() {
-    this.interceptor = axios.interceptors.response.use(
+    const { navigate } = this.props;
+
+    // axios 인터셉터 설정
+    axios.interceptors.response.use(
       response => {
-        if (response.data.results && response.data.results.honeypot === null)  {
-          this.setState({ hasError: true, errorStatus: 404 });
-          this.props.navigate('/404');
+        // 응답이 성공했지만 데이터가 null이거나 results.honeypot 또는 cultureInfo가 null인 경우
+        if (
+          (response.data.results && response.data.results.honeypot === null)
+
+        ) {
+          if (!this.state.hasError) {
+            this.setState({ hasError: true, errorStatus: 404 });
+          }
         }
         return response;
       },
       error => {
         if (error.response) {
           const status = error.response.status;
-          this.setState({ hasError: true, errorStatus: status });
-          this.navigateToErrorPage(status);
+          if (!this.state.hasError) {
+            this.setState({ hasError: true, errorStatus: status });
+          }
         }
         return Promise.reject(error);
       }
     );
   }
 
-  componentWillUnmount() {
-    axios.interceptors.response.eject(this.interceptor);
-  }
-
   componentDidCatch(error, errorInfo) {
     console.error("ErrorBoundary caught an error", error, errorInfo);
+    if (!this.state.hasError) {
+      let errorStatus = 500;
+      if (
+        error.message.includes("Not found") || 
+        error.message.includes("Cannot read properties of undefined") ||
+        error.message.includes("null")
+      ) {
+        errorStatus = 404;
+      } else if (error.message.includes("Bad request")) {
+        errorStatus = 400;
+      } else if (error.message.includes("Forbidden")) {
+        errorStatus = 403;
+      }
+
+      this.setState({ hasError: true, errorStatus });
+    }
   }
 
-  navigateToErrorPage(status) {
-    switch (status) {
-      case 404:
-        this.props.navigate('/404');
-        break;
-      case 500:
-        this.props.navigate('/500');
-        break;
-      case 400:
-        this.props.navigate('/400');
-        break;
-      case 403:
-        this.props.navigate('/403');
-        break;
-      default:
-        this.props.navigate('/500');
-        break;
-    }
+  resetError = () => {
+    this.setState({ hasError: false, errorStatus: null });
   }
 
   render() {
@@ -74,18 +74,17 @@ class ErrorBoundary extends Component {
       const { errorStatus } = this.state;
       switch (errorStatus) {
         case 404:
-          return <Error404 />;
+          return <Error404 resetError={this.resetError} />;
         case 500:
-          return <Error500 />;
+          return <Error500 resetError={this.resetError} />;
         case 400:
-          return <Error400 />;
+          return <Error400 resetError={this.resetError} />;
         case 403:
-          return <Error403 />;
+          return <Error403 resetError={this.resetError} />;
         default:
-          return <Error500 />;
+          return <Error500 resetError={this.resetError} />;
       }
     }
-
     return this.props.children;
   }
 }
