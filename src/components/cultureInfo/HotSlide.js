@@ -62,7 +62,7 @@ export default function HotSlide({cultureList}) {
 
           return(
             <div className={styles.hot_list} key={index}>
-              <Link to={`/cultureinfo/detail/${seq}`}>
+              <Link to={`/cultureinfo/${seq}`}>
                 <img src={thumbnail} alt={`${decodedTitle} thumbnail`} />
                 <div className={styles.hot_txt_box}>
                   <p className={styles.hot_tit}>{decodedTitle}</p>

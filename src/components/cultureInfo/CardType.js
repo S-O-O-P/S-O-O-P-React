@@ -59,7 +59,7 @@ export default function CardType({cultureList, detailDataList, earlyCheck}){
             
             return(
               <li key={index}>
-                <Link to={earlyCheck ? `/cultureinfo/detail/${item.earlyBirdCode}` : `/cultureinfo/detail/${item.seq}`}  state={earlyCheck || item?.regularPrice ? { earlyCheck: true } : {earlyCheck : false}}>
+                <Link to={earlyCheck ? `/cultureinfo/${item.earlyBirdCode}` : `/cultureinfo/${item.seq}`}  state={earlyCheck || item?.regularPrice ? { earlyCheck: true } : {earlyCheck : false}}>
                   <div className={styles.culture_img}>
                   <img src={earlyCheck ? item?.poster : item?.thumbnail} alt={`${title} thumbnail`}/>
                     {earlyCheck || item?.regularPrice ? ((parseInt((new Date(item?.saleEndDate) - today) / 86400000) < 7) ? <span className={styles.culture_mark}>마감임박</span> : null) : (parseInt((convertDateFormat(item?.endDate, "rest") - today) / 86400000) < 7) ? <span className={styles.culture_mark}>마감임박</span> : null}
