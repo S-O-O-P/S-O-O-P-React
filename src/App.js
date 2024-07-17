@@ -49,7 +49,7 @@ export default function App() {
   useEffect(() => {
     console.log(data); // 데이터가 변경될 때마다 로그를 출력
     if (data?.perforList) {
-      console.log("data length : " + data.perforList.length);
+      // console.log("data length : " + data.perforList.length);
       const newSeqList = data.perforList.map(perfor => perfor.seq); // seq 데이터 리스트 생성
       setSeqList(newSeqList); // seq 데이터 리스트 설정
     }

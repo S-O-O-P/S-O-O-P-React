@@ -9,7 +9,6 @@ export default function HoneypotByCultureInfoApi({setHoneypots}, {setFilteredHon
             setHoneypots(response.data);       
             const filteredHoneypot = response.data.filter(item => item.seqNo === Number(seq)).sort((a,b) => {return Number(a.endDate) - Number(b.endDate)});
             setFilteredHoneypots(filteredHoneypot); // 초기 필터링 설정 
-            // console.log("response data from api : ", response.data?.filter(item => item.seqNo === seq).sort((a,b) => {return Number(a.endDate) - Number(b.endDate)}) );
         } catch (error) {
             console.error('Error 입니다 : ', error);
         }

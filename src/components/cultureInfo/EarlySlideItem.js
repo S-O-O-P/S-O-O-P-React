@@ -17,7 +17,11 @@ function formatDate(date) {
 function timer(targetDate) {
   const now = new Date();
   const endDate = new Date(targetDate);
-  const timeRemaining = endDate - now;
+
+  endDate.setHours(23, 59, 59, 999);
+  
+  // 날짜를 UTC로 변환하여 계산
+  const timeRemaining = endDate.getTime() - now.getTime();
 
   if (timeRemaining <= 0) {
     return "얼리버드 마감";
@@ -28,7 +32,17 @@ function timer(targetDate) {
   const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
 
-  return `${days} 일 ${hours} 시간 ${minutes} 분 ${seconds} 초`;
+  let result = '';
+  
+  if (days > 0) {
+    result += `${days}일 `;
+  }
+  if (hours > 0 || days > 0) {
+    result += `${hours}시간 `;
+  }
+  result += `${minutes}분 ${seconds}초`;
+
+  return result.trim();
 }
 
 export default function EarlySlideItem({ item }) {

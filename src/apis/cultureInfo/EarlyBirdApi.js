@@ -13,7 +13,6 @@ export default function EarlyBirdInfoApi({setEarlyBirdInfo} = null, apiName, ear
         });
         console.log("filteredValidList",filteredValidList);
         setEarlyBirdInfo(response.data.earlyBirdList || []); // EarlyBirdInfo가 null일 경우 빈 배열로 설정
-        // setFilteredRows(response.data.earlyBirdList || []);
         console.log('Fetched Events All:', response.data.earlyBirdList); // Log the fetched data
       })
       .catch(error => console.error('ERROR OCCURS!', error));

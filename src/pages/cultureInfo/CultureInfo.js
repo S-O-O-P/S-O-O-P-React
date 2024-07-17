@@ -93,12 +93,11 @@ export default function CultureInfo(props) {
         addedCultureListObj.forEach(item => {
           const realmName = item.realmName;
           const titName = item.title;
-          if (realmName.match("미술") || realmName.match("전시") || titName.match("전시")) {
+          if (realmName.match("미술") || realmName.match("전시")) {
             realmCounts["전시"]++;
           } else if(titName.match("뮤지컬") || realmName.match("기타") || realmName.match("뮤지컬")){
             realmCounts["뮤지컬"]++;
-          } else if(["음악", "무용", "연극", "국악"].includes(item.realmName) && !item.title.match(/페스티벌|축제/)){
-            //realmName.match("음악") || titName.match("콘서트") || realmName === "연극"|| titName.match("영화") || realmName.match("공연") || titName.match("주회") || titName.match("공연")
+          } else if(["음악", "무용", "연극", "국악", "공연"].includes(item.realmName) && !item.title.match(/페스티벌|축제/)){
             realmCounts["공연"]++;
           } else if(titName.match("행사") || titName.match("축제") || titName.match("페스티벌") || realmName.match("축제") || titName.includes("페스티벌") || titName.includes("축제")){
             realmCounts["축제"]++;
@@ -149,7 +148,7 @@ export default function CultureInfo(props) {
               filteredList = addedCultureListObj.filter(item => item.realmName === genre || item.title.match("전시") || item.realmName.match("전시")).sort((a, b) => Number(a.endDate) - Number(b.endDate));
               setIsEarly(false);
             } else if(genre === "음악"){ // 공연
-              filteredList = addedCultureListObj.filter(item => ["음악", "무용", "연극", "국악"].includes(item.realmName) && !item.title.match(/페스티벌|축제/));
+              filteredList = addedCultureListObj.filter(item => ["음악", "무용", "연극", "국악", "공연"].includes(item.realmName) && !item.title.match(/페스티벌|축제/));
               //item => item.realmName === genre || item.realmName === "연극" || item.title.match("음악") || item.title.match("영화") || item.realmName.match("공연") || item.title.match("콘서트") || item.title.match("연주") || item.title.match("주회")).sort((a, b) => Number(a.endDate) - Number(b.endDate)
               //["음악", "무용", "연극", "국악"].includes(item.realmName) && !item.title.match(/페스티벌|축제/)
               setIsEarly(false);

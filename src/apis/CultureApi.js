@@ -44,10 +44,10 @@ export default function CultureApi({ setData }) {
    // API 호출 전 카운터 체크 및 증가
    resetCounterIfNewDay();
    const currentCount = incrementApiCallCount();
-   console.log(`API Call Start: ${url}, Count: ${currentCount}`);
+  //  console.log(`API Call Start: ${url}, Count: ${currentCount}`);
 
    xhr.onload = function () { // 요청이 완료되었을 때 실행될 함수
-     console.log(`API Call End: ${url}, Status: ${xhr.status}, Count: ${currentCount}`);
+    //  console.log(`API Call End: ${url}, Status: ${xhr.status}, Count: ${currentCount}`);
 
      if (xhr.status >= 200 && xhr.status < 300) { // HTTP 상태 코드 확인하여 요청 성공 여부 판단
        const xmlText = xhr.responseText; // response로 전달받은 xml 데이터를 텍스트 형식으로 저장
@@ -55,7 +55,7 @@ export default function CultureApi({ setData }) {
        const xmlDom = parser.parseFromString(xmlText, 'application/xml'); // XML 문자열을 XML DOM 객체로 변환
        const jsonData = xmlToJson(xmlDom); // XML 데이터를 JSON 형식으로 변환
        setData(jsonData.response.msgBody[0]); // App.js에서 전달받은 setData 함수를 호출하여 데이터 설정
-       console.log("from CultureApi : "+jsonData.response.msgBody[0]);
+      //  console.log("from CultureApi : "+jsonData.response.msgBody[0]);
      } else {
        // 오류 처리
        console.error('Network response was not ok ' + xhr.statusText);
