@@ -1,17 +1,20 @@
 .header {
   display: flex;
+  position: fixed;
   background-color: #ffffff;
-  /* padding: 20px; */
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
   width: 100vw;
-  justify-content: center
+  height: 80px;
+  justify-content: center;
+  z-index: 500;
+  transition: all 200ms ease-in-out;
 }
 
 .top-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 50px;
+  padding: 0 20px;
   width: 1200px;
   /* background-color: #ffaa00; */
 }
@@ -22,6 +25,7 @@
   padding: 10px 20px;
   cursor: pointer;
   color: white;
+  transition: all 200ms ease-in-out;
 }
 .login-btn:hover {
   background-color: #EB844A;
@@ -31,12 +35,48 @@
   cursor: pointer;
   color: white;
 }
+.logout-btn{
+  width: 36px;
+  height: 36px;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+.go-to-mypage {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.mypage-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--main-color);
+  margin-left: 15px;
+  object-fit: cover;
+}
+
+.mypage-btn:hover {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--main-color);
+  margin-left: 15px;
+}
 
 .header-logo { 
   height: 60px;
   width: 60px;
   cursor: pointer;
 }
+
+.header-logo:hover { 
+  height: 60px;
+  width: 60px;
+  cursor: pointer;
+}
+
 nav ul {
   list-style: none;
   display: flex;
@@ -46,12 +86,27 @@ nav ul {
   justify-content: flex-start;
 }
 
-nav ul li {
-  cursor: pointer;
-  font-size: 14px;
-} 
-nav ul li:hover{
-  cursor: pointer;
-  font-size: 14px;
+
+nav ul li a{font-size: 16px;}
+nav ul li a.active {color: #EB844A;} 
+nav ul li a span{ display: block; width: 0; height: 1px; background-color: var(--point-color); transition: width 200ms ease-in-out} 
+nav ul li a.active span{width: 100%;color: #EB844A;} 
+nav ul li a:hover {
+  font-size: 16px;
   color: #ffaa00;
 } 
+nav ul li a:hover span{width: 100%;} 
+nav ul li {
+  font-size: 14px;
+  cursor: pointer;
+} 
+nav ul li:hover{
+  color: #ffaa00;
+} 
+
+/* 24/06/23 main페이지 header 색상에 따른 설정 추가 */
+.header.main {background-color: var(--main-color); box-shadow: none; }
+.header.main a {color: #ffffff;}
+.header.main .login-btn {background-color: #ffffff; color:var(--main-color);}
+.header.main .login-btn:hover {background-color: #EB844A; color: white;}
+

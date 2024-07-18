@@ -1,0 +1,230 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 80px 0 60px 0;
+}
+
+.contentBox {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+.pageTitle {
+    font-size: 28px;
+    font-weight: var(--semiBold);
+    margin: 60px 0px;
+    display: flex;
+    justify-content: center;
+}
+
+/* ----- 검색 ----- */
+
+.inputBox {
+    width: 1160px;
+    height: 88px;
+    background-color: var(--main-color);
+    border-radius: 48px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+}
+
+.customSelect {
+    width: 176px;
+    height: 48px;
+    border: 0px;
+    border-radius: 48px;
+    padding: 15px;
+
+    -webkit-appearance: none;
+    background: #fff calc(100% - 5px) center no-repeat url('/public/images/commons/icon_arrow_bottom_main_color.png');
+    background-size: 25px;
+    cursor: pointer;
+}
+
+.customSelect:focus {
+    outline: none;
+}
+
+.customInput {
+    width: 924px;
+    height: 48px;
+    border: 0px;
+    border-radius: 48px;
+    padding: 15px 20px;
+}
+
+.submitBtn {
+    border: 0px;
+    background-color: #fff;
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    right: 45px;
+    top: 30px;
+    cursor: pointer;
+}
+
+/* ----- 공지사항 ---- */
+
+.notice {
+    display: flex;
+    justify-content: center;
+    padding: 60px 0 40px 0;
+
+    font-size: 20px;
+    font-weight: var(--semiBold);
+
+}
+
+.table {
+    display: flex;
+    justify-content: center;
+}
+
+.table tr {
+    display: flex;
+    justify-content: space-between;
+    width: 1160px;
+    height: 44px;
+    border-bottom: 1px solid var(--main-color);
+    align-items: center;
+}
+
+.table td {
+    font-size: 16px;
+    font-weight: var(--regular);
+    padding: 0 10px;
+}
+
+.noticeTitle {
+    width: 700px;
+    display: flex;
+    justify-content: left;
+}
+
+.table th {
+    border: solid 1px var(--main-color);
+}
+
+/* ---- 문의하기 ---- */
+
+.helpMessage {
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+
+    font-size: 18px;
+    font-weight: var(--semiBold);
+}
+
+.inquiryBoxAll {
+    display: flex;
+    justify-content: center;
+}
+
+.call {
+    width: 384px;
+    height: 150px;
+    border: 1px solid var(--main-color);
+    border-radius: 20px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.inquiryIcon {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+}
+
+.phoneInquiryTitle {
+    font-size: 18px;
+    font-weight: var(--semiBold);
+
+    display: block;
+}
+
+.number {
+    font-size: 20px;
+    font-weight: var(--semiBold);
+    padding: 20px 0;
+
+}
+
+.phoneInquiryText {
+    font-size: 12px;
+    font-weight: var(--regular);
+}
+
+.inquiry {
+    width: 384px;
+    height: 150px;
+    border: 1px solid var(--main-color);
+    border-radius: 20px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.inquiryIinkButton {
+    display: flex;
+    margin-bottom: 12px;
+}
+
+.inquiryTitle {
+    font-size: 18px;
+    font-weight: var(--semiBold);
+    margin-right: 20px;
+
+}
+
+.arrowIcon {
+    width: 20px;
+    height: 20px;
+}
+
+.inquiryText {
+    font-size: 12px;
+    font-weight: var(--regular);
+}
+
+/* ----- 페이지 네이션 ----- */
+
+.pagination {
+    margin-top: 20px;
+}
+
+.paginationList {
+    display: flex;
+    justify-content: center;
+}
+
+.paginationList li {
+    margin: 10px 10px;
+}
+
+.paginationList li button {
+    background-color: #fff;
+    color: var(--main-color);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 50px;
+}
+
+.paginationList li.activePage button {
+    background-color: var(--main-color);
+    color: #fff;
+}
+
+.disabled {
+    opacity: 0.5;
+}

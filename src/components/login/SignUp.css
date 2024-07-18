@@ -1,0 +1,233 @@
+body{
+    /* overflow-x: hidden; */
+}
+.App{
+    margin-top: 84px;
+}
+.login-container {
+    display: flex;
+    flex-direction: column;
+    /* text-align: center; */
+    align-items: center;
+    margin: 50px 0;
+    margin-top: 2%;
+  }
+
+.titles{
+    font-size: 24px;
+    color: #FFB755;
+    margin-bottom: 50px;
+}
+.NickTitle{
+    display: flex;
+    margin: 0 auto;
+    background-color: #FFB755;
+    border-radius: 8px;
+    width: 160px;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    /* position: relative; */
+    /* z-index: 5; */
+}
+
+.NickName{
+    border: 1px solid #FFB755;
+    border-radius: 8px;
+    height: 48px;
+    width: 520px;
+    padding-right: 15px;
+    font-size: 18px;
+    border-left: 3px dashed #FFB755;
+    margin-left: -5px;
+    padding-left: 15px;
+
+}
+.NickBox{
+    display: flex;
+    flex-direction: row;
+}
+
+.AboutTitle{
+    margin-top: 20px;
+    display: flex;
+    margin: 0 auto;
+    background-color: #FFB755;
+    border-radius: 12px;
+    width: 160px;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+.AboutMe{
+    border: 1px solid #FFB755;
+    border-radius: 15px;
+    height: 259px;
+    width: 520px;
+    padding: 15px;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: 1px;
+    padding-top: 15px;
+    border-left: 5px dashed #FFB755;
+    margin-left: -5px;
+    resize: none;
+    outline-style: none;
+    outline-color: #FFB755
+}
+.AboutBox{
+    margin-top: 40px;
+    display: flex;
+    flex-direction: row;
+}
+.inputBox{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.textRed{
+    color: #F27878;
+}
+.InterestTitle{
+    margin-top: 50px;
+}
+.logo-content{
+    margin-bottom: 0px;
+    padding: 20px;
+  }
+  .InterestButton{
+    margin-top: 25px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 48px;
+    font-size: 16px;
+    background-color: #ffffff;
+    color: #FFB755;
+    width: 117px;
+    height: 48px;
+    border: 1px solid #FFB755;
+    cursor: pointer;
+  }
+  .InterestButtonOn{
+    margin-top: 25px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 48px;
+    font-size: 16px;
+    background-color: #EB844A;
+    color: #ffffff;
+    width: 117px;
+    height: 48px;
+    border: 1px solid #EB844A;
+    cursor: pointer;
+  }
+
+.btns{
+    margin-top: 100px;
+    margin-bottom: 80px;
+}
+
+  .btn1{
+    width: 242px;
+    height: 48px;
+    margin-right: 10px;
+    border: 1px solid #FFB755;
+    border-radius: 48px;
+    background-color: #ffffff;
+    color: #FFB755;
+    cursor: pointer;
+  }
+
+  .btn1:hover{
+    width: 242px;
+    height: 48px;
+    margin-right: 10px;
+    border: 2px solid #FFB755;
+    border-radius: 48px;
+    background-color: #ffffff;
+    color: #FFB755;
+    cursor: pointer;
+  }
+
+  .btn2{
+    width: 242px;
+    height: 48px;
+    margin-left: 10px;
+    border: 1px solid #DCE5D7 ;
+    border-radius: 48px;
+    background-color: #ffffff;
+    color: #DCE5D7;
+    cursor: pointer;
+  }
+  .btn2:hover{
+    width: 242px;
+    height: 48px;
+    margin-left: 10px;
+    border: 2px solid #DCE5D7 ;
+    border-radius: 48px;
+    background-color: #ffffff;
+    color: #DCE5D7;
+    cursor: pointer;
+  }
+  .btn3{
+    width: 242px;
+    height: 48px;
+    margin-left: 10px;
+    border: 1px solid #FFB755 ;
+    border-radius: 48px;
+    background-color: #FFB755;
+    color: #ffffff;
+    cursor: pointer;
+  }
+
+  .GenderBox {
+    display: flex;
+    margin-top: 20px;
+    /* background-color: #FFB755; */
+    /* border: 1px solid #FFB755; */
+    padding-bottom: 20px;
+    border-radius: 10px;
+  }
+  
+  .GenderTitle {
+    margin-top: 20px;
+    display: flex;
+    margin: 0 auto;
+    background-color: #FFB755;
+    border-radius: 12px;
+    width: 160px;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  }
+  
+  .GenderBox2 {
+    display: flex;
+    border: 1px solid #FFB755;
+    border-radius: 15px;
+    height: 50px;
+    width: 520px;
+    padding: 15px;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: 1px;
+    padding-top: 15px;
+    border-left: 5px dashed #FFB755;
+    margin-left: -5px;
+    resize: none;
+    outline-style: none;
+    outline-color: #FFB755
+  }
+
+  .NickName.Gender{
+    display: flex;
+    background-color: #ffffff;
+    align-items: center;
+  }
+  .Gender label{
+    margin-left: 10px;
+    margin-right: 10px;
+      }
+
+
+  

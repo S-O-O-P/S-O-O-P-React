@@ -1,0 +1,488 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    --main-color: #FBB755;
+    --text-color: #282A29;
+    --blur-color: #9BB0A5;
+    color: var(--text-color);
+}
+
+.review-detail {
+    width: 890px;
+    height: 617px;
+    background-color: white;
+    border: 2px solid var(--main-color);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+.fin-honeypot-title {
+    width: 100%;
+    height: 85px;
+    display: flex;
+    align-items: center;
+    font-family: 'SUIT Semibold', sans-serif;
+    font-size: 20px;
+    padding-left: 40px;
+    padding-top: 20px;
+}
+
+.fin-honeypot-title p {
+    font-family: 'SUIT Semibold', sans-serif;
+}
+
+.fin-honeypot-container {
+    width: 850px;
+    height: 512px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.null-fin-honeypot-list,
+.null-fin-honeypot-member-list {
+    width: 415px;
+    height: 512px;
+    border: 1px solid var(--main-color);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    line-height: 40px;
+    font-family: 'SUIT Semibold', sans-serif;
+    font-size: 20px;
+}
+
+.null-fin-honeypot-list .blur {
+    font-size: 14px;
+    color: var(--blur-color);
+} 
+
+.fin-honeypot-list {
+    width: 415px;
+    height: 512px;
+    border: 1px solid var(--main-color);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.fin-honeypot {
+    width: 415px;
+    height: 142px;
+    display: flex;
+}
+
+.poster img {
+    width: 110px;
+    height: 142px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.25);
+}
+
+.list-contents {
+    width: 303px;
+    height: 142px;
+    display: flex;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.25);
+}
+
+.list-contents .text {
+    width: 165px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.list-contents .text .status {
+    font-family: 'SUIT Semibold', sans-serif;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.list-contents .text .honeypot-title {
+    font-family: 'SUIT Semibold', sans-serif;
+    font-size: 14px;
+    margin-bottom: 10px;
+
+}
+
+.list-contents .text .reg-date,
+.list-contents .text .participate {
+    font-family: 'SUIT Regular', sans-serif;
+    font-size: 12px;
+    color: var(--blur-color);
+    margin-bottom: 10px;
+
+}
+
+.list-contents .button {
+    width: 140px;
+    display: flex;
+    align-items: center;
+}
+
+.list-contents button {
+    width: 120px;
+    height: 48px;
+    color:white;
+    background: var(--main-color);
+    border: none;
+    border-radius: 48px;
+    font-family: 'SUIT Semibold', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.list-contents button:hover {
+    background-color: #EB844A;
+}
+
+.hide-honeypot-member-list {
+    width: 415px;
+    height: 512px;
+    border: 1px solid var(--main-color);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    line-height: 40px;
+    font-size: 20px;
+}
+
+.hide-honeypot-member-list p {
+    font-family: 'SUIT Semibold', sans-serif;
+}
+
+.fin-honeypot-member-list {
+    width: 415px;
+    height: 512px;
+    border: 1px solid var(--main-color);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'SUIT Semibold', sans-serif;
+    font-size: 20px;
+}
+
+.review-explanation {
+    height: 145px;
+    padding-top: 40px;
+
+}
+
+.review-explanation .explanation-semibold,
+.review-explanation .explanation-blur {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.review-explanation .explanation-semibold p{
+    font-family: 'SUIT Semibold', sans-serif;
+    font-size: 14px;
+}
+
+
+.review-explanation .explanation-blur p{
+    font-family: 'SUIT Regular', sans-serif;
+    font-size: 12px;
+    color: var(--blur-color);
+}
+
+.choice-profile {
+    width: 415px;
+    height: 100px;
+    background-color: rgba(255, 183, 85, 0.5);
+    display: flex;
+    justify-content: center;
+}
+
+.one-profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 20px;
+    margin-right: 20px;
+    
+}
+
+.one-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--main-color);
+    object-fit: cover;
+}
+
+.one-profile p {
+    font-family: 'SUIT Regular', sans-serif;
+    font-size: 12px;
+    color: var(--blur-color);
+    margin-top: 10px;
+}
+
+.choice-point-container {
+    width: 100%;
+    height: 102px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.choice-point {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.choice-point img {
+    width: 30px;
+    height: 30px;
+}
+
+.choice-point p {
+    font-family: 'SUIT Regular', sans-serif;
+    font-size: 10px;
+}
+
+.choice-text {
+    width: 100%;
+    height: 85px;
+    margin-bottom: 20px;
+    padding-left: 60px;
+    display: flex;
+    flex-direction: column;
+}
+
+.radio-box {
+    display: inline-block;
+    position: relative;
+    padding-left: 25px;
+    margin-right: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-family: 'SUIT Regular', sans-serif;
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+
+/* 기본 라디오 버튼 숨기기 */
+.radio-box input[type="radio"] { display: none; }
+
+/* 선택되지 않은 라디오 버튼 스타일 꾸미기 */
+.radio-btn {
+    width: 15px;
+    height: 15px;
+    background: white;
+    border: 1px solid var(--main-color);
+    border-radius: 50%;
+    position: absolute;
+    top: 0; left: 0;
+}
+
+/* 선택된 라디오 버튼 스타일 꾸미기 */
+.radio-box input[type="radio"]:checked + .radio-btn {
+    background: white;
+}
+
+.radio-btn:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.radio-box input[type="radio"]:checked + .radio-btn:after {
+    display: block;
+}
+
+.radio-btn:after {
+    width: 9px;
+    height: 9px;
+    background: var(--main-color);
+    border-radius: 50%;
+    position: absolute;
+    left: 12.5%;
+    top: 12.5%;
+}
+
+.send-review-btn {
+    width: 100px;
+    height: 40px;
+    border-radius: 48px;
+    border: none;
+    background: var(--main-color);
+    color: white;
+    font-family: 'SUIT Semibold', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.send-review-btn:hover {
+    background-color: #EB844A;
+}
+
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+      
+.modal-content {
+width: 360px;
+height: 218px;
+background-color: white;
+border-radius: 10px;
+text-align: center;
+font-family: 'SUIT Semibold', sans-serif;
+}
+
+.modal-content img {
+    width: 36px;
+    height: 36px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.modal-content .modal-semibold {
+font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.modal-content .modal-regular {
+font-family: 'SUIT Regular', sans-serif;
+font-size: 14px;
+margin-bottom: 20px;
+    
+}
+
+.modal-buttons {
+display: flex;
+justify-content: center;
+}
+
+.modal-button {
+font-size: 16px;
+}
+
+.modal-button.yes {
+    width: 140px;
+    height: 48px;
+    border-radius: 48px;
+    border: none;
+    background-color: var(--main-color);
+    color: #fff;
+    margin-left: 10px;
+}
+
+.modal-button.yes:hover {
+    background: #EB844A;
+}
+
+.modal-button.no {
+    width: 140px;
+    height: 48px;
+    border-radius: 48px;
+    border: 1px solid var(--main-color);
+    background-color: white;
+    color: var(--main-color);
+    margin-right: 10px;
+}
+
+.modal-button.no:hover {
+    background: #EB844A;
+    color: white;
+}
+
+.confirm-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.confirm-modal-content {
+    width: 360px;
+    height: 218px;
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    font-family: 'SUIT Semibold', sans-serif;
+}
+
+.confirm-modal-content img {
+    width: 36px;
+    height: 36px;
+    margin-top: 20px;
+    margin-bottom: 36px;
+}
+
+.confirm-modal-content .confirm-modal-semibold {
+    font-size: 18px;
+    margin-bottom: 36px;
+}
+
+.confirm-modal-buttons {
+display: flex;
+justify-content: center;
+}
+
+.confirm-modal-button {
+font-size: 16px;
+}
+
+.confirm-modal-button.yes {
+    width: 140px;
+    height: 48px;
+    border-radius: 48px;
+    border: none;
+    background-color: var(--main-color);
+    color: #fff;
+    margin-left: 10px;
+}
+
+.confirm-modal-button.yes:hover {
+    background: #EB844A;
+}
+
+.one-profile.evaluated {
+    pointer-events: none;
+}
+
+.evaluated-text {
+    font-size: 10px;
+    color: #999;
+}
+
+
+
+
+
+
+

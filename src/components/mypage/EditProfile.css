@@ -1,0 +1,195 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    --main-color: #FBB755;
+    --text-color: #282A29;
+    color: var(--text-color);
+}
+
+.empty {
+    font-family: 'SUIT Regular', sans-serif;
+}
+
+.profile-container {
+    width: 890px;
+    height: 617px;
+    background-color: white;
+    border: 2px solid var(--main-color);
+    border-radius: 12px;
+    display: flex;
+    font-family: 'SUIT Semibold', sans-serif;
+}
+
+.profile-container .divide-line {
+    width: 0;
+    height: 90%;
+    border: 0.25px solid var(--main-color);
+    align-self: center;
+}
+
+.profile-left {
+    /* background-color: pink; */
+    width: 445px;
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+}
+
+.profile-left .name {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.profile-left .name-input {
+    margin-bottom: 20px;
+    height: 48px;
+    border: 1px solid var(--main-color);
+    border-radius: 10px;
+    padding-left: 20px;
+    font-family: 'SUIT Regular', sans-serif;
+
+}
+
+.profile-left .name-input:focus,
+.profile-left .intro-textarea:focus {
+    outline: none;
+}
+
+.profile-left .name-input::placeholder {
+    font-family: 'SUIT Regular', sans-serif;
+    font-size: 16px;
+}
+
+.profile-left .intro {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.profile-left .limit {
+    font-family: 'SUIT Regular', sans-serif;
+    font-size: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    color: rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
+}
+
+.profile-left .intro-textarea {
+    resize: none;
+    height: 150px;
+    border: 1px solid var(--main-color);
+    border-radius: 10px;
+    display: flex;
+    padding: 20px;
+    font-family: 'SUIT Regular', sans-serif;
+    overflow-y: auto;
+}
+
+  /*스크롤바 수정*/
+.profile-left .intro-textarea::-webkit-scrollbar {
+    width: 10px;  
+}
+
+.profile-left .intro-textarea::-webkit-scrollbar-thumb {
+    background: var(--main-color);
+    border-radius: 10px;
+}
+
+.profile-left .intro-textarea::-webkit-scrollbar-track {
+    background: rgba(255, 183, 85, 0.4);
+}
+
+
+
+.profile-left .intro-textarea::placeholder {
+    font-family: 'SUIT Regular', sans-serif;
+    font-size: 12px;
+}
+
+
+
+.profile-right {
+    /* background-color: yellowgreen; */
+    width: 445px;
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+}
+
+.profile-right p {
+    font-size: 20px;
+}
+
+.interest-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.interest-wrapper button {
+    height: 48px;
+    background: white;
+    border: 1px solid var(--main-color);
+    border-radius: 48px;
+    color: var(--text-color);
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;;
+    font-family: 'SUIT Regular', sans-serif;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.interest-wrapper button:hover {
+    background: #EB844A;
+    color: white;
+}
+
+
+
+.interest-wrapper button.selected {
+    height: 48px;
+    background: var(--main-color);
+    border: 1px solid var(--main-color);
+    border-radius: 48px;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;;
+    font-family: 'SUIT Regular', sans-serif;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.modify-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+.modify-btn {
+    width: 120px;
+    height: 48px;
+    background: var(--main-color);
+    border: none;
+    border-radius: 48px;
+    color: white;
+    font-family: 'SUIT Regular', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.modify-btn:hover {
+    background: #EB844A;
+}

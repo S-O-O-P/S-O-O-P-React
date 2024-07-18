@@ -1,0 +1,171 @@
+.wrapper {
+    margin: 80px 0 60px 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.contentBox {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+.pageTitle {
+    font-size: 28px;
+    font-weight: var(--semiBold);
+    margin: 60px 0px;
+    display: flex;
+    justify-content: center;
+}
+
+.listBoxAll {
+    display: flex;
+}
+
+.box {
+    width: 570px;
+    height: 300px;
+
+    margin-right: 20px;
+}
+
+.beeImg {
+    width: 20px;
+}
+
+.subTitleBox {
+    display: flex;
+    width: 570px;
+    margin-bottom: 6px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.subTitle {
+    font-size: 20px;
+    font-weight: var(--semiBold);
+}
+
+.linkButton {
+    font-size: 14px;
+    font-weight: var(--regular);
+}
+
+.listBox {
+    width: 570px;
+    height: 270px;
+    border: 1px solid var(--main-color);
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.faq {
+    display: flex;
+    align-items: center;
+}
+
+.faqContent {
+    padding: 0 4px;
+    display: inline;
+}
+
+.faqBeeImg {
+    width: 20px;
+    height: 20px;
+}
+
+.hrLine {
+    margin: 15px 0;
+    height: 1px;
+    border: 0px;
+    background-color: var(--main-color);
+    width: 100%;
+}
+
+/* ---- 문의하기 ---- */
+
+.helpMessage {
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+
+    font-size: 18px;
+    font-weight: var(--semiBold);
+}
+
+.inquiryBoxAll {
+    display: flex;
+    justify-content: center;
+}
+
+.call {
+    width: 384px;
+    height: 150px;
+    border: 1px solid var(--main-color);
+    border-radius: 20px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.inquiryIcon {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+}
+
+.phoneInquiryTitle {
+    font-size: 18px;
+    font-weight: var(--semiBold);
+
+    display: block;
+}
+
+.number {
+    font-size: 20px;
+    font-weight: var(--semiBold);
+    padding: 20px 0;
+
+}
+
+.phoneInquiryText {
+    font-size: 12px;
+    font-weight: var(--regular);
+}
+
+.inquiry {
+    width: 384px;
+    height: 150px;
+    border: 1px solid var(--main-color);
+    border-radius: 20px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.inquiryIinkButton {
+    display: flex;
+    margin-bottom: 12px;
+}
+
+.inquiryTitle {
+    font-size: 18px;
+    font-weight: var(--semiBold);
+    margin-right: 20px;
+
+}
+
+.arrowIcon {
+    width: 20px;
+    height: 20px;
+}
+
+.inquiryText {
+    font-size: 12px;
+    font-weight: var(--regular);
+}
