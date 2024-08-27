@@ -203,19 +203,19 @@ useEffect(() => {
             <br/>
               <button
                 onClick={() => onClickHandler(1)}
-                className={selectedInterests.includes(1) ? 'InterestButtonOn' : 'InterestButton'}
+                className={selectedInterests.includes(1) ? 'InterestButtonOn' : 'InterestButtonOff'}
               >
                 #팝업
               </button>
               <button
                 onClick={() => onClickHandler(2)}
-                className={selectedInterests.includes(2) ? 'InterestButtonOn' : 'InterestButton'}
+                className={selectedInterests.includes(2) ? 'InterestButtonOn' : 'InterestButtonOff'}
               >
                 #공연
               </button>
               <button
                 onClick={() => onClickHandler(3)}
-                className={selectedInterests.includes(3) ? 'InterestButtonOn' : 'InterestButton'}
+                className={selectedInterests.includes(3) ? 'InterestButtonOn' : 'InterestButtonOff'}
               >
                 #행사/축제
               </button>
@@ -223,13 +223,13 @@ useEffect(() => {
             <div>
               <button
                 onClick={() => onClickHandler(4)}
-                className={selectedInterests.includes(4) ? 'InterestButtonOn' : 'InterestButton'}
+                className={selectedInterests.includes(4) ? 'InterestButtonOn' : 'InterestButtonOff'}
               >
                 #전시
               </button>
               <button
                 onClick={() => onClickHandler(5)}
-                className={selectedInterests.includes(5) ? 'InterestButtonOn' : 'InterestButton'}
+                className={selectedInterests.includes(5) ? 'InterestButtonOn' : 'InterestButtonOff'}
               >
                 #뮤지컬
               </button>
